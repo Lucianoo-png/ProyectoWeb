@@ -16,7 +16,7 @@
         <div class="container d-flex justify-content-between">
             <div>
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> contacto@gmail.com</span>
+                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="91f2feffe5f0f2e5fed1f6fcf0f8fdbff2fefc">[email&#160;protected]</a></span>
             </div>
             <div>
                 <a href="#" class="me-3">Rastrear Pedido</a>
@@ -83,18 +83,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function togglePassword() {
-            const input = document.getElementById('password');
-            const icon  = document.getElementById('eyeIcon');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-    </script>
+    <script src="../../js/scripts.js"></script>
 </body>
 </html>

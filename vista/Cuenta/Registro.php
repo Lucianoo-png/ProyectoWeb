@@ -7,119 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
     <link rel="stylesheet" href="../../estilos/styles.css">
-    <style>
-        /* ── Tarjeta de registro ── */
-        .register-wrapper {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 3rem 1rem;
-        }
-
-        .register-card {
-            background: #fff;
-            border-radius: .75rem;
-            box-shadow: 0 4px 30px rgba(0, 35, 102, .12);
-            width: 100%;
-            max-width: 640px;
-            overflow: hidden;
-        }
-
-        /* Encabezado de la tarjeta */
-        .register-card-header {
-            background-color: #d6e4f0;
-            padding: .85rem 1.75rem;
-            border-bottom: 1px solid #c3d8eb;
-        }
-        .register-card-header h5 {
-            font-size: .9rem;
-            font-weight: 600;
-            color: #002366;
-            margin: 0;
-            letter-spacing: .03em;
-        }
-
-        /* Cuerpo */
-        .register-card-body {
-            padding: 1.75rem 2rem 2rem;
-        }
-
-        .section-label {
-            font-size: .68rem;
-            font-weight: 700;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: #555;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #e8eef6;
-            padding-bottom: .35rem;
-        }
-
-        .form-label {
-            font-size: .8rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: .25rem;
-        }
-
-        .form-control {
-            border-color: #c8d3e8;
-            border-radius: .4rem;
-            font-size: .88rem;
-            padding: .5rem .75rem;
-            transition: border-color .2s, box-shadow .2s;
-        }
-        .form-control:focus {
-            border-color: var(--btn-color);
-            box-shadow: 0 0 0 3px rgba(0, 140, 168, .15);
-        }
-
-        textarea.form-control { resize: none; }
-
-        .btn-register {
-            background-color: var(--btn-color);
-            border: none;
-            color: #fff;
-            font-weight: 600;
-            letter-spacing: .05em;
-            padding: .65rem 3rem;
-            border-radius: .4rem;
-            transition: background .2s, transform .1s;
-            cursor: pointer;
-        }
-        .btn-register:hover {
-            background-color: var(--btn-hover);
-            transform: translateY(-1px);
-        }
-        .btn-register:active { transform: translateY(0); }
-
-        .login-redirect {
-            font-size: .82rem;
-            color: #555;
-            text-align: center;
-            margin-top: 1rem;
-        }
-        .login-redirect a {
-            color: var(--btn-color);
-            font-weight: 600;
-            text-decoration: none;
-        }
-        .login-redirect a:hover { text-decoration: underline; }
-
-        /* Toggle contraseña */
-        .pw-wrapper { position: relative; }
-        .pw-toggle {
-            position: absolute;
-            right: .75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #888;
-            font-size: .82rem;
-        }
-        .pw-toggle:hover { color: var(--btn-color); }
-    </style>
 </head>
 <body>
 
@@ -128,7 +15,7 @@
         <div class="container d-flex justify-content-between">
             <div>
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> contacto@gmail.com</span>
+                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c4a7abaab0a5a7b0ab84a3a9a5ada8eaa7aba9">[email&#160;protected]</a></span>
             </div>
             <div>
                 <a href="#" class="me-3">Rastrear Pedido</a>
@@ -245,18 +132,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function togglePw(inputId, iconId) {
-            const input = document.getElementById(inputId);
-            const icon  = document.getElementById(iconId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-    </script>
+    <script src="../../js/scripts.js"></script>
 </body>
 </html>
