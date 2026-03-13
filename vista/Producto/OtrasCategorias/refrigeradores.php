@@ -141,7 +141,6 @@
                             <p class="product-name">Despachador de agua con fábrica de hielo</p>
                             <span class="product-price-old">$8,599.00</span>
                             <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WK0260B" class="btn-mas-info">Más información</a>
                     </div>
@@ -171,7 +170,6 @@
                             <p class="product-name">Refrigerador Top Mount 18 pies acero inoxidable</p>
                             <span class="product-price-old">$12,499.00</span>
                             <div class="product-price-row"><span class="product-price">$9,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WRT518SZFM" class="btn-mas-info">Más información</a>
                     </div>

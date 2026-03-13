@@ -115,7 +115,6 @@
                         <p class="product-name">Estufa de gas 6 quemadores con horno convección acero inoxidable</p>
                         <span class="product-price-old">$12,499.00</span>
                         <div class="product-price-row"><span class="product-price">$9,799.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=MGH765RDS" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
@@ -125,7 +124,6 @@
                         <p class="product-name">Estufa empotrable 4 quemadores de gas vidrio templado negro</p>
                         <span class="product-price-old">$7,499.00</span>
                         <div class="product-price-row"><span class="product-price">$5,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=EM7624GXS" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
@@ -135,7 +133,6 @@
                         <p class="product-name">Estufa de inducción 4 zonas con control táctil y temporizador</p>
                         <span class="product-price-old">$9,999.00</span>
                         <div class="product-price-row"><span class="product-price">$7,499.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=NCI614TB" class="btn-mas-info">Más información</a>
                 </div></div>        </div>
@@ -148,7 +145,6 @@
                         <p class="product-name">Horno eléctrico empotrable 30" con convección y limpieza automática</p>
                         <span class="product-price-old">$19,499.00</span>
                         <div class="product-price-row"><span class="product-price">$14,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WOS51EC7HB" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
@@ -158,7 +154,6 @@
                         <p class="product-name">Horno a gas empotrable 30" con quemador de infrarrojo y 5 funciones</p>
                         <span class="product-price-old">$16,999.00</span>
                         <div class="product-price-row"><span class="product-price">$12,499.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WGGF3036RF" class="btn-mas-info">Más información</a>
                 </div></div>        </div>
@@ -171,7 +166,6 @@
                         <p class="product-name">Microondas de mesa con función AirFry y 4 modos en 1 (1CuFt)</p>
                         <span class="product-price-old">$5,999.00</span>
                         <div class="product-price-row"><span class="product-price">$4,599.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
@@ -181,7 +175,6 @@
                         <p class="product-name">Microondas sobre rango 1.7 pies con extractora acero inoxidable</p>
                         <span class="product-price-old">$8,999.00</span>
                         <div class="product-price-row"><span class="product-price">$6,799.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WMH31017HZ" class="btn-mas-info">Más información</a>
                 </div></div>        </div>
@@ -194,7 +187,6 @@
                         <p class="product-name">Lavavajillas empotrable 24" ciclo de alta temperatura acero inox</p>
                         <span class="product-price-old">$9,499.00</span>
                         <div class="product-price-row"><span class="product-price">$7,299.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WDF520PADM" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
@@ -204,7 +196,6 @@
                         <p class="product-name">Lavavajillas compacto 18" capacidad 8 cubiertos WiFi integrado</p>
                         <span class="product-price-old">$7,999.00</span>
                         <div class="product-price-row"><span class="product-price">$5,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=SPE53B55UC" class="btn-mas-info">Más información</a>
                 </div></div>        </div>

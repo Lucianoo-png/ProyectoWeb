@@ -157,7 +157,6 @@ $cat_file = ['blanca'=>'linea_blanca.php','marron'=>'linea_marron.php','cocina'=
                         <hr class="my-3">
                         <div class="detail-envio-box mb-3">
                             <i class="fas fa-truck me-2" style="color:var(--btn-color)"></i>
-                            <span>Envío gratis*<br><small class="text-muted">Recíbelo entre 3 y 10 días hábiles</small></span>
                         </div>
                         <a href="carrito.php?sku=<?= urlencode($p['No_Producto']) ?>&nombre=<?= urlencode($p['Nombre']) ?>&precio=$<?= urlencode(number_format($p['Precio_Venta'], 2)) ?>&imagen=<?= urlencode($p['Imagen']) ?>"
                            class="btn-agregar-carrito">

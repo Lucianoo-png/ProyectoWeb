@@ -126,7 +126,6 @@
                             <p class="product-name">Lavasecadora de carga frontal 24" 2.3 pies cúbicos blanca</p>
                             <span class="product-price-old">$22,499.00</span>
                             <div class="product-price-row"><span class="product-price">$18,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WET4024HW" class="btn-mas-info">Más información</a>
                     </div>

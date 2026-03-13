@@ -6,7 +6,6 @@
     <title>ElectroPendejo | Iniciar Sesión</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <!-- ✅ Ruta desde: PROYECTOWEB/vista/Cuenta/ → sube 2 niveles -->
     <link rel="stylesheet" href="../../estilos/styles.css">
 </head>
 <body>
@@ -65,8 +64,8 @@
                 </div>
             </div>
 
-            <a href="#" class="forgot-link">¿Haz olvidado la contraseña?</a>
-
+            <!-- <a href="#" class="forgot-link">¿Haz olvidado la contraseña?</a>-->
+            <a href="../Cuenta/recuperar_cuenta.php" class="forgot-link" target="_blank" ...>¿Haz olvidado la contraseña?</a>
             <button class="btn-login mt-3">Enviar</button>
 
             <div class="login-divider"></div>

@@ -52,23 +52,23 @@
                         <div class="row g-3">
                             <div class="col-6 category-col">
                                 <h6>Lavado</h6>
-                                <a class="dropdown-item" href="/vista/Producto/lavadoras.php"><i class="fas fa-tshirt"></i> Lavadoras</a>
-                                <a class="dropdown-item" href="/vista/Producto/secadoras.php"><i class="fas fa-wind"></i> Secadoras</a>
-                                <a class="dropdown-item" href="/vista/Producto/lavasecadoras.php"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/lavadoras.php"><i class="fas fa-tshirt"></i> Lavadoras</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/secadoras.php"><i class="fas fa-wind"></i> Secadoras</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/lavasecadoras.php"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
                                 <h6 class="mt-3">Refrigeración</h6>
-                                <a class="dropdown-item" href="vista/Producto/refrigeradores.php"><i class="fas fa-snowflake"></i> Refrigeradores</a>
-                                <a class="dropdown-item" href="vista/Producto/congeladores.php"><i class="fas fa-cube"></i> Congeladores</a>
-                                <a class="dropdown-item" href="vista/Producto/frigobar.php"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/refrigeradores.php"><i class="fas fa-snowflake"></i> Refrigeradores</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/congeladores.php"><i class="fas fa-cube"></i> Congeladores</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/frigobar.php"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
                             </div>
                             <div class="col-6 category-col">
                                 <h6>Cocina</h6>
-                                <a class="dropdown-item" href="vista/Producto/hornos.php"><i class="fas fa-fire"></i> Hornos</a>
-                                <a class="dropdown-item" href="vista/Producto/estufas.php"><i class="fas fa-burn"></i> Estufas</a>
-                                <a class="dropdown-item" href="vista/Producto/microondas.php"><i class="fas fa-blender"></i> Microondas</a>
-                                <a class="dropdown-item" href="vista/Producto/lavavajillas.php"><i class="fas fa-utensils"></i> Lavavajillas</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/hornos.php"><i class="fas fa-fire"></i> Hornos</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/estufas.php"><i class="fas fa-burn"></i> Estufas</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/microondas.php"><i class="fas fa-blender"></i> Microondas</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/lavavajillas.php"><i class="fas fa-utensils"></i> Lavavajillas</a>
                                 <h6 class="mt-3">Bienestar</h6>
-                                <a class="dropdown-item" href="vista/Producto/cuidado_hogar.php"><i class="fas fa-home"></i> Cuidado del Hogar</a>
-                                <a class="dropdown-item" href="vista/Producto/cuidado_personal.php"><i class="fas fa-spa"></i> Cuidado Personal</a>
+                                <a class="dropdown-item" href="vista/Producto/OtrasCategorias/cuidado_hogar.php"><i class="fas fa-home"></i> Cuidado del Hogar</a>
+                                <a class="dropdown-item" href="vvista/Producto/OtrasCategorias/cuidado_personal.php"><i class="fas fa-spa"></i> Cuidado Personal</a>
                             </div>
                         </div>
                     </div>
@@ -131,7 +131,6 @@
                         <p class="product-name">Microondas de mesa con función AirFry y 4 modos en 1 (1CuFt)</p>
                         <span class="product-price-old">$5,999.00</span>
                         <div class="product-price-row"><span class="product-price">$4,599.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="vista/Producto/detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                 </div></div>
@@ -142,7 +141,6 @@
                         <p class="product-name">Lavadora 20kg Carga Superior Xpert System Blanca Agitador</p>
                         <span class="product-price-old">$14,699.00</span>
                         <div class="product-price-row"><span class="product-price">$9,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="vista/Producto/detalle.php?sku=8MWTW2024WJM" class="btn-mas-info">Más información</a>
                 </div></div>
@@ -153,7 +151,6 @@
                         <p class="product-name">Despachador de agua con fábrica de hielo</p>
                         <span class="product-price-old">$8,599.00</span>
                         <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="vista/Producto/detalle.php?sku=WK0260B" class="btn-mas-info">Más información</a>
                 </div></div>
@@ -164,7 +161,6 @@
                         <p class="product-name">Refrigerador Side by Side 25 pies con despachador de agua y hielo</p>
                         <span class="product-price-old">$28,999.00</span>
                         <div class="product-price-row"><span class="product-price">$22,499.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                     </div>
                     <a href="vista/Producto/detalle.php?sku=WRS315SNHM" class="btn-mas-info">Más información</a>
                 </div></div>

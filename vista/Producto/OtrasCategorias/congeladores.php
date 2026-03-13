@@ -156,7 +156,6 @@
                             <p class="product-name">Congelador horizontal tipo cofre 14 pies cúbicos blanco</p>
                             <span class="product-price-old">$8,499.00</span>
                             <div class="product-price-row"><span class="product-price">$6,799.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=CHH14E0W" class="btn-mas-info">Más información</a>
                     </div>
@@ -171,7 +170,6 @@
                             <p class="product-name">Congelador horizontal 7 pies cúbicos blanco compacto</p>
                             <span class="product-price-old">$5,999.00</span>
                             <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=GFC07EBNWW" class="btn-mas-info">Más información</a>
                     </div>

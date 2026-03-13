@@ -137,7 +137,6 @@
                         <p class="product-name">Lavadora 20kg Carga Superior Xpert System Blanca Agitador</p>
                         <span class="product-price-old">$14,699.00</span>
                         <div class="product-price-row"><span class="product-price">$9,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=8MWTW2024WJM" class="btn-mas-info">Más información</a>
                 </div></div>
@@ -148,7 +147,6 @@
                         <p class="product-name">Lavadora de carga frontal 4.5 pies cúbicos alta eficiencia</p>
                         <span class="product-price-old">$16,999.00</span>
                         <div class="product-price-row"><span class="product-price">$12,499.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WFW5000HW" class="btn-mas-info">Más información</a>
                 </div></div>
@@ -159,7 +157,6 @@
                         <p class="product-name">Lavasecadora de carga frontal 24" 2.3 pies cúbicos blanca</p>
                         <span class="product-price-old">$22,499.00</span>
                         <div class="product-price-row"><span class="product-price">$18,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WET4024HW" class="btn-mas-info">Más información</a>
                 </div></div>
@@ -174,7 +171,6 @@
                         <p class="product-name">Secadora eléctrica de carga frontal 7.0 pies cúbicos blanca</p>
                         <span class="product-price-old">$10,299.00</span>
                         <div class="product-price-row"><span class="product-price">$7,899.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WED5000DW" class="btn-mas-info">Más información</a>
                 </div></div>
@@ -185,7 +181,6 @@
                         <p class="product-name">Secadora a gas de carga frontal 7.0 pies cúbicos blanca</p>
                         <span class="product-price-old">$11,499.00</span>
                         <div class="product-price-row"><span class="product-price">$8,799.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WGD5000DW" class="btn-mas-info">Más información</a>
                 </div></div>
@@ -200,7 +195,7 @@
                         <p class="product-name">Refrigerador Side by Side 25 pies con despachador de agua y hielo</p>
                         <span class="product-price-old">$28,999.00</span>
                         <div class="product-price-row"><span class="product-price">$22,499.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
+
                     </div>
                     <a href="detalle.php?sku=WRS315SNHM" class="btn-mas-info">Más información</a>
                 </div></div>
@@ -211,7 +206,6 @@
                         <p class="product-name">Despachador de agua con fábrica de hielo</p>
                         <span class="product-price-old">$8,599.00</span>
                         <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WK0260B" class="btn-mas-info">Más información</a>
                 </div></div>
@@ -222,7 +216,6 @@
                         <p class="product-name">Frigobar 9 pies con congelador y acabado acero inoxidable</p>
                         <span class="product-price-old">$5,999.00</span>
                         <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WQ09X" class="btn-mas-info">Más información</a>
                 </div></div>

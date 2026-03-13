@@ -126,7 +126,6 @@
                             <p class="product-name">Aspiradora robot Wi-Fi con mapeo inteligente y autodescarga</p>
                             <span class="product-price-old">$12,999.00</span>
                             <div class="product-price-row"><span class="product-price">$9,799.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WVC15M2JCW" class="btn-mas-info">Más información</a>
                     </div>

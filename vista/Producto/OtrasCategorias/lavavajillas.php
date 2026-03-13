@@ -126,7 +126,6 @@
                             <p class="product-name">Lavavajillas empotrable 24" con ciclo de alta temperatura acero inox</p>
                             <span class="product-price-old">$9,499.00</span>
                             <div class="product-price-row"><span class="product-price">$7,299.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WDF520PADM" class="btn-mas-info">Más información</a>
                     </div>
@@ -141,7 +140,6 @@
                             <p class="product-name">Lavavajillas compacto 18" capacidad 8 cubiertos WiFi integrado</p>
                             <span class="product-price-old">$7,999.00</span>
                             <div class="product-price-row"><span class="product-price">$5,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=SPE53B55UC" class="btn-mas-info">Más información</a>
                     </div>
@@ -171,7 +169,6 @@
                             <p class="product-name">Lavavajillas 24" con punta tercera rejilla y control panel oculto</p>
                             <span class="product-price-old">$11,499.00</span>
                             <div class="product-price-row"><span class="product-price">$8,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WDTA50SAKZ" class="btn-mas-info">Más información</a>
                     </div>

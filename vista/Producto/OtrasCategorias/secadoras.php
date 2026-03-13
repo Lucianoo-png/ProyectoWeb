@@ -126,7 +126,6 @@
                             <p class="product-name">Secadora eléctrica de carga frontal 7.0 pies cúbicos blanca</p>
                             <span class="product-price-old">$10,299.00</span>
                             <div class="product-price-row"><span class="product-price">$7,899.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WED5000DW" class="btn-mas-info">Más información</a>
                     </div>
@@ -141,7 +140,6 @@
                             <p class="product-name">Secadora a gas de carga frontal 7.0 pies cúbicos blanca</p>
                             <span class="product-price-old">$11,499.00</span>
                             <div class="product-price-row"><span class="product-price">$8,799.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WGD5000DW" class="btn-mas-info">Más información</a>
                     </div>
@@ -156,7 +154,6 @@
                             <p class="product-name">Secadora a gas 7.4 pies cúbicos con sensor de humedad avanzado</p>
                             <span class="product-price-old">$12,499.00</span>
                             <div class="product-price-row"><span class="product-price">$9,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=MGD6630HW" class="btn-mas-info">Más información</a>
                     </div>
@@ -171,7 +168,6 @@
                             <p class="product-name">Secadora eléctrica 7.4 pies cúbicos con ciclo a vapor</p>
                             <span class="product-price-old">$13,999.00</span>
                             <div class="product-price-row"><span class="product-price">$10,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=YMED7230HW" class="btn-mas-info">Más información</a>
                     </div>

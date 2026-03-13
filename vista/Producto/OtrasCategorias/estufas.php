@@ -126,7 +126,6 @@
                             <p class="product-name">Estufa de gas 6 quemadores con horno convección acero inoxidable</p>
                             <span class="product-price-old">$12,499.00</span>
                             <div class="product-price-row"><span class="product-price">$9,799.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=MGH765RDS" class="btn-mas-info">Más información</a>
                     </div>
@@ -141,7 +140,6 @@
                             <p class="product-name">Estufa empotrable 4 quemadores de gas vidrio templado negro</p>
                             <span class="product-price-old">$7,499.00</span>
                             <div class="product-price-row"><span class="product-price">$5,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=EM7624GXS" class="btn-mas-info">Más información</a>
                     </div>
@@ -156,7 +154,6 @@
                             <p class="product-name">Estufa de inducción 4 zonas con control táctil y temporizador</p>
                             <span class="product-price-old">$9,999.00</span>
                             <div class="product-price-row"><span class="product-price">$7,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=NCI614TB" class="btn-mas-info">Más información</a>
                     </div>
@@ -171,7 +168,6 @@
                             <p class="product-name">Estufa eléctrica 30" 5 elementos vitrocerámica gris plata</p>
                             <span class="product-price-old">$13,999.00</span>
                             <div class="product-price-row"><span class="product-price">$10,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WEE510SOFS" class="btn-mas-info">Más información</a>
                     </div>

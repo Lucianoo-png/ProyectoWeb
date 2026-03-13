@@ -115,7 +115,6 @@
                         <p class="product-name">Televisor Smart TV 55" 4K UHD Crystal Display con Alexa</p>
                         <span class="product-price-old">$18,999.00</span>
                         <div class="product-price-row"><span class="product-price">$13,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=UN55TU8000" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
@@ -125,7 +124,6 @@
                         <p class="product-name">Televisor OLED 65" 4K Smart TV con procesador α9 Gen4</p>
                         <span class="product-price-old">$54,999.00</span>
                         <div class="product-price-row"><span class="product-price">$42,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=OLED65C1PSA" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
@@ -135,7 +133,6 @@
                         <p class="product-name">Televisor Smart TV 43" Full HD con Saphi OS y HDR10+</p>
                         <span class="product-price-old">$9,499.00</span>
                         <div class="product-price-row"><span class="product-price">$6,999.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=43PFS6805" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
@@ -145,7 +142,6 @@
                         <p class="product-name">Televisor Smart TV 32" HD con webOS 4.5 y control mágico</p>
                         <span class="product-price-old">$6,299.00</span>
                         <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=32LM630BPUA" class="btn-mas-info">Más información</a>
                 </div></div>        </div>
@@ -158,7 +154,6 @@
                         <p class="product-name">Soundbar 5.1ch 360W con Dolby Digital y DTS Virtual:X</p>
                         <span class="product-price-old">$8,999.00</span>
                         <div class="product-price-row"><span class="product-price">$6,499.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=HW-Q60T" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
@@ -168,7 +163,6 @@
                         <p class="product-name">Bocina inalámbrica 360° 120W omnidireccional resistente al agua</p>
                         <span class="product-price-old">$4,299.00</span>
                         <div class="product-price-row"><span class="product-price">$3,199.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=XBOOM360" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
@@ -178,7 +172,6 @@
                         <p class="product-name">Audífonos inalámbricos con cancelación de ruido Industry-Leading</p>
                         <span class="product-price-old">$9,999.00</span>
                         <div class="product-price-row"><span class="product-price">$7,499.00</span></div>
-                        <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                     </div>
                     <a href="detalle.php?sku=WH1000XM5" class="btn-mas-info">Más información</a>
                 </div></div>        </div>

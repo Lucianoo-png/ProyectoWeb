@@ -126,7 +126,6 @@
                             <p class="product-name">Microondas de mesa con función AirFry y 4 modos en 1 (1CuFt)</p>
                             <span class="product-price-old">$5,999.00</span>
                             <div class="product-price-row"><span class="product-price">$4,599.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
@@ -141,7 +140,6 @@
                             <p class="product-name">Microondas sobre rango 1.7 pies con extractora acero inoxidable</p>
                             <span class="product-price-old">$8,999.00</span>
                             <div class="product-price-row"><span class="product-price">$6,799.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WMH31017HZ" class="btn-mas-info">Más información</a>
                     </div>
@@ -156,7 +154,6 @@
                             <p class="product-name">Microondas empotrado 2.2 pies acero inoxidable pantalla LCD</p>
                             <span class="product-price-old">$11,499.00</span>
                             <div class="product-price-row"><span class="product-price">$8,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WMB55511KS" class="btn-mas-info">Más información</a>
                     </div>
@@ -171,7 +168,6 @@
                             <p class="product-name">Microondas de encimera 2.2 pies 1,200W acero inoxidable</p>
                             <span class="product-price-old">$6,999.00</span>
                             <div class="product-price-row"><span class="product-price">$5,199.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WMC50522HV" class="btn-mas-info">Más información</a>
                     </div>

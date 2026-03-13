@@ -156,7 +156,6 @@
                             <p class="product-name">Cava de vinos 30 botellas con control de temperatura dual</p>
                             <span class="product-price-old">$14,999.00</span>
                             <div class="product-price-row"><span class="product-price">$11,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=GRWF3056F" class="btn-mas-info">Más información</a>
                     </div>
@@ -171,7 +170,6 @@
                             <p class="product-name">Cava de vinos 18 botellas luz LED azul acero inoxidable</p>
                             <span class="product-price-old">$8,499.00</span>
                             <div class="product-price-row"><span class="product-price">$6,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WV18B" class="btn-mas-info">Más información</a>
                     </div>

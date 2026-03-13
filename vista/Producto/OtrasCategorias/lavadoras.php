@@ -126,7 +126,6 @@
                             <p class="product-name">Lavadora 20kg Carga Superior Xpert System Blanca Agitador</p>
                             <span class="product-price-old">$14,699.00</span>
                             <div class="product-price-row"><span class="product-price">$9,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=8MWTW2024WJM" class="btn-mas-info">Más información</a>
                     </div>
@@ -156,7 +155,6 @@
                             <p class="product-name">Lavadora de carga superior 4.7 pies cúbicos con dispensador automático</p>
                             <span class="product-price-old">$11,499.00</span>
                             <div class="product-price-row"><span class="product-price">$8,699.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=WTW4955HW" class="btn-mas-info">Más información</a>
                     </div>
@@ -171,7 +169,6 @@
                             <p class="product-name">Lavadora carga superior 5.0 pies cúbicos con sensor de carga</p>
                             <span class="product-price-old">$13,999.00</span>
                             <div class="product-price-row"><span class="product-price">$10,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 12 meses sin intereses</p>
                         </div>
                         <a href="detalle.php?sku=MVW6230HW" class="btn-mas-info">Más información</a>
                     </div>
