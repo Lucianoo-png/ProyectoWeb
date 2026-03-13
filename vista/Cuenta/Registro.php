@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ElectroPendejo | Crear Cuenta</title>
+    <title>LuchanosCorp | Crear Cuenta</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
     <link rel="stylesheet" href="../../estilos/styles.css">
@@ -28,7 +28,7 @@
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
             <a href="../../index.php" class="brand-logo me-3">
-                <span class="electro">ELECTRO</span><span class="pendejo">Pendejo</span>
+                <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
 
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -128,7 +128,7 @@
 
     <!-- Footer -->
     <footer class="site-footer-minimal">
-        © 2026 ElectroPendejo S.A. Todos los derechos reservados.
+        © 2026 LuchanosCorp S.A. Todos los derechos reservados.
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
