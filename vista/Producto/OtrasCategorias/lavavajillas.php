@@ -126,7 +126,7 @@
                             <p class="product-name">Lavavajillas empotrable 24" con ciclo de alta temperatura acero inox</p>
                             <div class="product-price-row"><span class="product-price">$7,299.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WDF520PADM" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WDF520PADM" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -139,7 +139,7 @@
                             <p class="product-name">Lavavajillas compacto 18" capacidad 8 cubiertos WiFi integrado</p>
                             <div class="product-price-row"><span class="product-price">$5,999.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=SPE53B55UC" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=SPE53B55UC" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -151,9 +151,8 @@
                             <span class="product-sku">KDTM604KPS</span>
                             <p class="product-name">Lavavajillas empotrable 44 dB ultra silencioso 3 rejillas ajustables</p>
                             <div class="product-price-row"><span class="product-price">$13,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=KDTM604KPS" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=KDTM604KPS" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -166,7 +165,7 @@
                             <p class="product-name">Lavavajillas 24" con punta tercera rejilla y control panel oculto</p>
                             <div class="product-price-row"><span class="product-price">$8,999.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WDTA50SAKZ" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WDTA50SAKZ" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
             </div>

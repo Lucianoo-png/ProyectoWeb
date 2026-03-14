@@ -125,9 +125,8 @@
                             <span class="product-sku">WRS315SNHM</span>
                             <p class="product-name">Refrigerador Side by Side 25 pies con despachador de agua y hielo</p>
                             <div class="product-price-row"><span class="product-price">$22,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=WRS315SNHM" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WRS315SNHM" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -140,7 +139,7 @@
                             <p class="product-name">Despachador de agua con fábrica de hielo</p>
                             <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WK0260B" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WK0260B" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -152,9 +151,8 @@
                             <span class="product-sku">WRF535SWHZ</span>
                             <p class="product-name">Refrigerador French Door 25 pies 5 puertas acero inoxidable</p>
                             <div class="product-price-row"><span class="product-price">$31,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=WRF535SWHZ" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WRF535SWHZ" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -167,7 +165,7 @@
                             <p class="product-name">Refrigerador Top Mount 18 pies acero inoxidable</p>
                             <div class="product-price-row"><span class="product-price">$9,499.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WRT518SZFM" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WRT518SZFM" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
             </div>

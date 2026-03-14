@@ -126,7 +126,7 @@
                             <p class="product-name">Lavadora 20kg Carga Superior Xpert System Blanca Agitador</p>
                             <div class="product-price-row"><span class="product-price">$9,999.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=8MWTW2024WJM" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -138,9 +138,8 @@
                             <span class="product-sku">WFW5000HW</span>
                             <p class="product-name">Lavadora de carga frontal 4.5 pies cúbicos alta eficiencia</p>
                             <div class="product-price-row"><span class="product-price">$12,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=WFW5000HW" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -153,7 +152,7 @@
                             <p class="product-name">Lavadora de carga superior 4.7 pies cúbicos con dispensador automático</p>
                             <div class="product-price-row"><span class="product-price">$8,699.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WTW4955HW" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -166,7 +165,7 @@
                             <p class="product-name">Lavadora carga superior 5.0 pies cúbicos con sensor de carga</p>
                             <div class="product-price-row"><span class="product-price">$10,499.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=MVW6230HW" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
             </div>

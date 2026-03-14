@@ -125,9 +125,8 @@
                             <span class="product-sku">EFU20MWRFS</span>
                             <p class="product-name">Congelador vertical 20 pies cúbicos acero inoxidable</p>
                             <div class="product-price-row"><span class="product-price">$15,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=EFU20MWRFS" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -139,9 +138,8 @@
                             <span class="product-sku">WZF31430DZ</span>
                             <p class="product-name">Congelador vertical 31 pies cúbicos acero inoxidable No Frost</p>
                             <div class="product-price-row"><span class="product-price">$23,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=WZF31430DZ" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911DZ" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -154,7 +152,7 @@
                             <p class="product-name">Congelador horizontal tipo cofre 14 pies cúbicos blanco</p>
                             <div class="product-price-row"><span class="product-price">$6,799.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=CHH14E0W" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -167,7 +165,7 @@
                             <p class="product-name">Congelador horizontal 7 pies cúbicos blanco compacto</p>
                             <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=GFC07EBNWW" class="btn-mas-info">Más información</a>
+                        <a href="./../.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
             </div>

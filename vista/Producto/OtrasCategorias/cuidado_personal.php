@@ -126,7 +126,7 @@
                             <p class="product-name">Aspiradora robot Wi-Fi con mapeo inteligente y autodescarga</p>
                             <div class="product-price-row"><span class="product-price">$9,799.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WVC15M2JCW" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -138,9 +138,8 @@
                             <span class="product-sku">WFH321LW</span>
                             <p class="product-name">Purificador de aire HEPA True 360° para espacios hasta 50 m²</p>
                             <div class="product-price-row"><span class="product-price">$4,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=WFH321LW" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -152,9 +151,8 @@
                             <span class="product-sku">DW03X</span>
                             <p class="product-name">Deshumidificador 30 pintas con control automático de humedad</p>
                             <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=DW03X" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -166,9 +164,8 @@
                             <span class="product-sku">WAS24B</span>
                             <p class="product-name">Aspiradora vertical sin cable 24V con múltiples accesorios</p>
                             <div class="product-price-row"><span class="product-price">$3,799.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=WAS24B" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
             </div>

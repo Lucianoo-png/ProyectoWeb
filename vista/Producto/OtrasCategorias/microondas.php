@@ -126,7 +126,7 @@
                             <p class="product-name">Microondas de mesa con función AirFry y 4 modos en 1 (1CuFt)</p>
                             <div class="product-price-row"><span class="product-price">$4,599.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -139,7 +139,7 @@
                             <p class="product-name">Microondas sobre rango 1.7 pies con extractora acero inoxidable</p>
                             <div class="product-price-row"><span class="product-price">$6,799.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WMH31017HZ" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WMH31017HZ" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -152,7 +152,7 @@
                             <p class="product-name">Microondas empotrado 2.2 pies acero inoxidable pantalla LCD</p>
                             <div class="product-price-row"><span class="product-price">$8,999.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WMB55511KS" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WMB55511KS" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -165,7 +165,7 @@
                             <p class="product-name">Microondas de encimera 2.2 pies 1,200W acero inoxidable</p>
                             <div class="product-price-row"><span class="product-price">$5,199.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WMC50522HV" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WMC50522HV" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
             </div>

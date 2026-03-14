@@ -126,7 +126,7 @@
                             <p class="product-name">Lavasecadora de carga frontal 24" 2.3 pies cúbicos blanca</p>
                             <div class="product-price-row"><span class="product-price">$18,999.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WET4024HW" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WET4024HW" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -138,9 +138,8 @@
                             <span class="product-sku">WFC315S0JW</span>
                             <p class="product-name">Lavasecadora apilable 4.5/7.4 pies cúbicos blanca</p>
                             <div class="product-price-row"><span class="product-price">$23,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=WFC315S0JW" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WFC315S0JW" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -152,9 +151,8 @@
                             <span class="product-sku">MHW8630HW</span>
                             <p class="product-name">Lavasecadora todo en uno 4.5 pies cúbicos acero inoxidable</p>
                             <div class="product-price-row"><span class="product-price">$27,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=MHW8630HW" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=MHW8630HW" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
             </div>

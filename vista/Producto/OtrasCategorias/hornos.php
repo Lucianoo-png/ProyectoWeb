@@ -125,9 +125,8 @@
                             <span class="product-sku">WQ09X</span>
                             <p class="product-name">Frigobar 9 pies con congelador y acabado acero inoxidable</p>
                             <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=WQ09X" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WQ09X" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -139,9 +138,8 @@
                             <span class="product-sku">WHA31FB2</span>
                             <p class="product-name">Frigobar 3.1 pies cúbicos negro con congelador</p>
                             <div class="product-price-row"><span class="product-price">$3,999.00</span></div>
-                            <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                         </div>
-                        <a href="detalle.php?sku=WHA31FB2" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WHA31FB2" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -154,7 +152,7 @@
                             <p class="product-name">Cava de vinos 30 botellas con control de temperatura dual</p>
                             <div class="product-price-row"><span class="product-price">$11,999.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=GRWF3056F" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=GRWF3056F" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -167,7 +165,7 @@
                             <p class="product-name">Cava de vinos 18 botellas luz LED azul acero inoxidable</p>
                             <div class="product-price-row"><span class="product-price">$6,999.00</span></div>
                         </div>
-                        <a href="detalle.php?sku=WV18B" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WV18B" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
             </div>

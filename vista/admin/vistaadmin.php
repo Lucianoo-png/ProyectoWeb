@@ -67,7 +67,6 @@
                 <div class="info-rows">
                     <p><span class="label">Nombre</span><br><span class="value">Administrador del Sistema</span></p>
                     <p><span class="label">Usuario</span><br><span class="value">ADMIN01 — Administrador</span></p>
-                    <p><span class="label">Turno de atención</span><br><span class="value">Matutino</span></p>
                 </div>
             </div>
 
