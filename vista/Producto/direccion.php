@@ -76,8 +76,7 @@
             <div class="dir-address-card" id="dir-card-1">
                 <div class="dir-address-name" id="dir-nombre-display">Carlos Ivan Luciano Cruz</div>
                 <div class="dir-address-detail" id="dir-detalle-display">
-                    Rafael Murillo Vidal 485 485, Tienda con fachada de Coca Cola<br>
-                    VERACRUZ, Vías Ferreas<br>
+                    XXXXXXXXXXXXXXXXXXXX
                     Veracruz, 91713, México<br>
                     Teléfono: 2294832504
                 </div>
