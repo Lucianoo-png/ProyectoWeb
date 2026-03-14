@@ -6,7 +6,7 @@
     <title>LuchanosCorp | Lavadoras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
+    <link rel="stylesheet" href="../../../estilos/styles.css">
 </head>
 <body>
 
@@ -22,7 +22,7 @@
 
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="../../../index.php" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -82,7 +82,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="../../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Lavadoras</li>
                 </ol>
@@ -124,7 +124,6 @@
                         <div class="product-body">
                             <span class="product-sku">8MWTW2024WJM</span>
                             <p class="product-name">Lavadora 20kg Carga Superior Xpert System Blanca Agitador</p>
-                            <span class="product-price-old">$14,699.00</span>
                             <div class="product-price-row"><span class="product-price">$9,999.00</span></div>
                         </div>
                         <a href="detalle.php?sku=8MWTW2024WJM" class="btn-mas-info">Más información</a>
@@ -138,7 +137,6 @@
                         <div class="product-body">
                             <span class="product-sku">WFW5000HW</span>
                             <p class="product-name">Lavadora de carga frontal 4.5 pies cúbicos alta eficiencia</p>
-                            <span class="product-price-old">$16,999.00</span>
                             <div class="product-price-row"><span class="product-price">$12,499.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
@@ -153,7 +151,6 @@
                         <div class="product-body">
                             <span class="product-sku">WTW4955HW</span>
                             <p class="product-name">Lavadora de carga superior 4.7 pies cúbicos con dispensador automático</p>
-                            <span class="product-price-old">$11,499.00</span>
                             <div class="product-price-row"><span class="product-price">$8,699.00</span></div>
                         </div>
                         <a href="detalle.php?sku=WTW4955HW" class="btn-mas-info">Más información</a>
@@ -167,7 +164,6 @@
                         <div class="product-body">
                             <span class="product-sku">MVW6230HW</span>
                             <p class="product-name">Lavadora carga superior 5.0 pies cúbicos con sensor de carga</p>
-                            <span class="product-price-old">$13,999.00</span>
                             <div class="product-price-row"><span class="product-price">$10,499.00</span></div>
                         </div>
                         <a href="detalle.php?sku=MVW6230HW" class="btn-mas-info">Más información</a>

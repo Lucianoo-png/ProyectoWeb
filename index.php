@@ -129,7 +129,6 @@
                     <div class="product-body">
                         <span class="product-sku">WM3911D</span>
                         <p class="product-name">Microondas de mesa con función AirFry y 4 modos en 1 (1CuFt)</p>
-                        <span class="product-price-old">$5,999.00</span>
                         <div class="product-price-row"><span class="product-price">$4,599.00</span></div>
                     </div>
                     <a href="vista/Producto/detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
@@ -139,7 +138,6 @@
                     <div class="product-body">
                         <span class="product-sku">8MWTW2024WJM</span>
                         <p class="product-name">Lavadora 20kg Carga Superior Xpert System Blanca Agitador</p>
-                        <span class="product-price-old">$14,699.00</span>
                         <div class="product-price-row"><span class="product-price">$9,999.00</span></div>
                     </div>
                     <a href="vista/Producto/detalle.php?sku=8MWTW2024WJM" class="btn-mas-info">Más información</a>
@@ -149,7 +147,6 @@
                     <div class="product-body">
                         <span class="product-sku">WK0260B</span>
                         <p class="product-name">Despachador de agua con fábrica de hielo</p>
-                        <span class="product-price-old">$8,599.00</span>
                         <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
                     </div>
                     <a href="vista/Producto/detalle.php?sku=WK0260B" class="btn-mas-info">Más información</a>
@@ -159,7 +156,6 @@
                     <div class="product-body">
                         <span class="product-sku">WRS315SNHM</span>
                         <p class="product-name">Refrigerador Side by Side 25 pies con despachador de agua y hielo</p>
-                        <span class="product-price-old">$28,999.00</span>
                         <div class="product-price-row"><span class="product-price">$22,499.00</span></div>
                     </div>
                     <a href="vista/Producto/detalle.php?sku=WRS315SNHM" class="btn-mas-info">Más información</a>

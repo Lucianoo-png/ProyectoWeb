@@ -6,7 +6,7 @@
     <title>LuchanosCorp | Frigobar / Cava de Vinos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
+    <link rel="stylesheet" href="../../../estilos/styles.css">
 </head>
 <body>
 
@@ -22,7 +22,7 @@
 
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="../../../index.php" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -82,7 +82,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="../../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Frigobar / Cava de Vinos</li>
                 </ol>
@@ -124,7 +124,6 @@
                         <div class="product-body">
                             <span class="product-sku">WQ09X</span>
                             <p class="product-name">Frigobar 9 pies con congelador y acabado acero inoxidable</p>
-                            <span class="product-price-old">$5,999.00</span>
                             <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                         </div>
@@ -139,7 +138,6 @@
                         <div class="product-body">
                             <span class="product-sku">WHA31FB2</span>
                             <p class="product-name">Frigobar 3.1 pies cúbicos negro con congelador</p>
-                            <span class="product-price-old">$5,299.00</span>
                             <div class="product-price-row"><span class="product-price">$3,999.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                         </div>
@@ -154,7 +152,6 @@
                         <div class="product-body">
                             <span class="product-sku">GRWF3056F</span>
                             <p class="product-name">Cava de vinos 30 botellas con control de temperatura dual</p>
-                            <span class="product-price-old">$14,999.00</span>
                             <div class="product-price-row"><span class="product-price">$11,999.00</span></div>
                         </div>
                         <a href="detalle.php?sku=GRWF3056F" class="btn-mas-info">Más información</a>
@@ -168,7 +165,6 @@
                         <div class="product-body">
                             <span class="product-sku">WV18B</span>
                             <p class="product-name">Cava de vinos 18 botellas luz LED azul acero inoxidable</p>
-                            <span class="product-price-old">$8,499.00</span>
                             <div class="product-price-row"><span class="product-price">$6,999.00</span></div>
                         </div>
                         <a href="detalle.php?sku=WV18B" class="btn-mas-info">Más información</a>

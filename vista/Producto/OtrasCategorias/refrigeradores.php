@@ -6,7 +6,7 @@
     <title>LuchanosCorp | Refrigeradores</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
+    <link rel="stylesheet" href="../../../estilos/styles.css">
 </head>
 <body>
 
@@ -22,7 +22,7 @@
 
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="../../../index.php" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -82,7 +82,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="../../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Refrigeradores</li>
                 </ol>
@@ -124,7 +124,6 @@
                         <div class="product-body">
                             <span class="product-sku">WRS315SNHM</span>
                             <p class="product-name">Refrigerador Side by Side 25 pies con despachador de agua y hielo</p>
-                            <span class="product-price-old">$28,999.00</span>
                             <div class="product-price-row"><span class="product-price">$22,499.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
@@ -139,7 +138,6 @@
                         <div class="product-body">
                             <span class="product-sku">WK0260B</span>
                             <p class="product-name">Despachador de agua con fábrica de hielo</p>
-                            <span class="product-price-old">$8,599.00</span>
                             <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
                         </div>
                         <a href="detalle.php?sku=WK0260B" class="btn-mas-info">Más información</a>
@@ -153,7 +151,6 @@
                         <div class="product-body">
                             <span class="product-sku">WRF535SWHZ</span>
                             <p class="product-name">Refrigerador French Door 25 pies 5 puertas acero inoxidable</p>
-                            <span class="product-price-old">$39,999.00</span>
                             <div class="product-price-row"><span class="product-price">$31,499.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
@@ -168,7 +165,6 @@
                         <div class="product-body">
                             <span class="product-sku">WRT518SZFM</span>
                             <p class="product-name">Refrigerador Top Mount 18 pies acero inoxidable</p>
-                            <span class="product-price-old">$12,499.00</span>
                             <div class="product-price-row"><span class="product-price">$9,499.00</span></div>
                         </div>
                         <a href="detalle.php?sku=WRT518SZFM" class="btn-mas-info">Más información</a>

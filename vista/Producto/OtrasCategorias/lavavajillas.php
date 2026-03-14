@@ -6,7 +6,7 @@
     <title>LuchanosCorp | Lavavajillas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
+    <link rel="stylesheet" href="../../../estilos/styles.css">
 </head>
 <body>
 
@@ -22,7 +22,7 @@
 
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="../../../index.php" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -82,7 +82,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="../../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Lavavajillas</li>
                 </ol>
@@ -124,7 +124,6 @@
                         <div class="product-body">
                             <span class="product-sku">WDF520PADM</span>
                             <p class="product-name">Lavavajillas empotrable 24" con ciclo de alta temperatura acero inox</p>
-                            <span class="product-price-old">$9,499.00</span>
                             <div class="product-price-row"><span class="product-price">$7,299.00</span></div>
                         </div>
                         <a href="detalle.php?sku=WDF520PADM" class="btn-mas-info">Más información</a>
@@ -138,7 +137,6 @@
                         <div class="product-body">
                             <span class="product-sku">SPE53B55UC</span>
                             <p class="product-name">Lavavajillas compacto 18" capacidad 8 cubiertos WiFi integrado</p>
-                            <span class="product-price-old">$7,999.00</span>
                             <div class="product-price-row"><span class="product-price">$5,999.00</span></div>
                         </div>
                         <a href="detalle.php?sku=SPE53B55UC" class="btn-mas-info">Más información</a>
@@ -152,7 +150,6 @@
                         <div class="product-body">
                             <span class="product-sku">KDTM604KPS</span>
                             <p class="product-name">Lavavajillas empotrable 44 dB ultra silencioso 3 rejillas ajustables</p>
-                            <span class="product-price-old">$17,999.00</span>
                             <div class="product-price-row"><span class="product-price">$13,999.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
@@ -167,7 +164,6 @@
                         <div class="product-body">
                             <span class="product-sku">WDTA50SAKZ</span>
                             <p class="product-name">Lavavajillas 24" con punta tercera rejilla y control panel oculto</p>
-                            <span class="product-price-old">$11,499.00</span>
                             <div class="product-price-row"><span class="product-price">$8,999.00</span></div>
                         </div>
                         <a href="detalle.php?sku=WDTA50SAKZ" class="btn-mas-info">Más información</a>

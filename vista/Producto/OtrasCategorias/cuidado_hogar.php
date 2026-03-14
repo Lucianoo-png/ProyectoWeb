@@ -6,7 +6,7 @@
     <title>LuchanosCorp | Cuidado del Hogar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
+    <link rel="stylesheet" href="../../../estilos/styles.css">
 </head>
 <body>
 
@@ -22,7 +22,7 @@
 
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="../../../index.php" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -82,7 +82,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="../../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Cuidado del Hogar</li>
                 </ol>
@@ -124,7 +124,6 @@
                         <div class="product-body">
                             <span class="product-sku">WVC15M2JCW</span>
                             <p class="product-name">Aspiradora robot Wi-Fi con mapeo inteligente y autodescarga</p>
-                            <span class="product-price-old">$12,999.00</span>
                             <div class="product-price-row"><span class="product-price">$9,799.00</span></div>
                         </div>
                         <a href="detalle.php?sku=WVC15M2JCW" class="btn-mas-info">Más información</a>
@@ -138,7 +137,6 @@
                         <div class="product-body">
                             <span class="product-sku">WFH321LW</span>
                             <p class="product-name">Purificador de aire HEPA True 360° para espacios hasta 50 m²</p>
-                            <span class="product-price-old">$6,499.00</span>
                             <div class="product-price-row"><span class="product-price">$4,999.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                         </div>
@@ -153,7 +151,6 @@
                         <div class="product-body">
                             <span class="product-sku">DW03X</span>
                             <p class="product-name">Deshumidificador 30 pintas con control automático de humedad</p>
-                            <span class="product-price-old">$5,999.00</span>
                             <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                         </div>
@@ -168,7 +165,6 @@
                         <div class="product-body">
                             <span class="product-sku">WAS24B</span>
                             <p class="product-name">Aspiradora vertical sin cable 24V con múltiples accesorios</p>
-                            <span class="product-price-old">$4,999.00</span>
                             <div class="product-price-row"><span class="product-price">$3,799.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 6 meses sin intereses</p>
                         </div>

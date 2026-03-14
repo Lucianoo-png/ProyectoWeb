@@ -6,7 +6,8 @@
     <title>LuchanosCorp | Secadoras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
+   <!-- <link rel="stylesheet" href="../../estilos/styles.css">-->
+    <link rel="stylesheet" href="../../../estilos/styles.css">
 </head>
 <body>
 
@@ -22,7 +23,7 @@
 
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="../../../index.php" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -82,7 +83,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="../../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Secadoras</li>
                 </ol>
@@ -124,7 +125,6 @@
                         <div class="product-body">
                             <span class="product-sku">WED5000DW</span>
                             <p class="product-name">Secadora eléctrica de carga frontal 7.0 pies cúbicos blanca</p>
-                            <span class="product-price-old">$10,299.00</span>
                             <div class="product-price-row"><span class="product-price">$7,899.00</span></div>
                         </div>
                         <a href="detalle.php?sku=WED5000DW" class="btn-mas-info">Más información</a>
@@ -138,7 +138,6 @@
                         <div class="product-body">
                             <span class="product-sku">WGD5000DW</span>
                             <p class="product-name">Secadora a gas de carga frontal 7.0 pies cúbicos blanca</p>
-                            <span class="product-price-old">$11,499.00</span>
                             <div class="product-price-row"><span class="product-price">$8,799.00</span></div>
                         </div>
                         <a href="detalle.php?sku=WGD5000DW" class="btn-mas-info">Más información</a>
@@ -152,7 +151,6 @@
                         <div class="product-body">
                             <span class="product-sku">MGD6630HW</span>
                             <p class="product-name">Secadora a gas 7.4 pies cúbicos con sensor de humedad avanzado</p>
-                            <span class="product-price-old">$12,499.00</span>
                             <div class="product-price-row"><span class="product-price">$9,499.00</span></div>
                         </div>
                         <a href="detalle.php?sku=MGD6630HW" class="btn-mas-info">Más información</a>
@@ -166,7 +164,6 @@
                         <div class="product-body">
                             <span class="product-sku">YMED7230HW</span>
                             <p class="product-name">Secadora eléctrica 7.4 pies cúbicos con ciclo a vapor</p>
-                            <span class="product-price-old">$13,999.00</span>
                             <div class="product-price-row"><span class="product-price">$10,999.00</span></div>
                         </div>
                         <a href="detalle.php?sku=YMED7230HW" class="btn-mas-info">Más información</a>

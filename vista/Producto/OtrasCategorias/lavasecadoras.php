@@ -6,7 +6,7 @@
     <title>LuchanosCorp | Lavasecadoras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
+    <link rel="stylesheet" href="../../../estilos/styles.css">
 </head>
 <body>
 
@@ -22,7 +22,7 @@
 
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="../../../index.php" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -82,7 +82,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="../../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Lavasecadoras</li>
                 </ol>
@@ -124,7 +124,6 @@
                         <div class="product-body">
                             <span class="product-sku">WET4024HW</span>
                             <p class="product-name">Lavasecadora de carga frontal 24" 2.3 pies cúbicos blanca</p>
-                            <span class="product-price-old">$22,499.00</span>
                             <div class="product-price-row"><span class="product-price">$18,999.00</span></div>
                         </div>
                         <a href="detalle.php?sku=WET4024HW" class="btn-mas-info">Más información</a>
@@ -138,7 +137,6 @@
                         <div class="product-body">
                             <span class="product-sku">WFC315S0JW</span>
                             <p class="product-name">Lavasecadora apilable 4.5/7.4 pies cúbicos blanca</p>
-                            <span class="product-price-old">$28,999.00</span>
                             <div class="product-price-row"><span class="product-price">$23,499.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>
@@ -153,7 +151,6 @@
                         <div class="product-body">
                             <span class="product-sku">MHW8630HW</span>
                             <p class="product-name">Lavasecadora todo en uno 4.5 pies cúbicos acero inoxidable</p>
-                            <span class="product-price-old">$34,999.00</span>
                             <div class="product-price-row"><span class="product-price">$27,999.00</span></div>
                             <p class="product-msi"><i class="fas fa-credit-card"></i> hasta 18 meses sin intereses</p>
                         </div>

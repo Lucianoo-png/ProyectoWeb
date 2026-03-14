@@ -501,11 +501,11 @@ main { flex: 1; }
     line-height: 1.35;
     flex: 1;
 }
-.product-card .product-price-old {
+/*.product-card .product-price-old {
     font-size: .78rem;
     color: var(--precio-tachado);
     text-decoration: line-through;
-}
+}*/
 .product-card .product-price-row {
     display: flex;
     align-items: center;
