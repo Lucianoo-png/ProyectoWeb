@@ -39,9 +39,9 @@
     <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
         <div class="container">
             <ul class="nav nav-categories justify-content-center">
-                <li class="nav-item"><a class="nav-link" href="linea_blanca.php">Línea Blanca</a></li>
-                <li class="nav-item"><a class="nav-link" href="linea_marron.php">Línea Marrón</a></li>
-                <li class="nav-item"><a class="nav-link" href="cocina.php">Cocina</a></li>
+                <li class="nav-item"><a class="nav-link" href="./../linea_blanca.php">Línea Blanca</a></li>
+                <li class="nav-item"><a class="nav-link" href="./../linea_marron.php">Línea Marrón</a></li>
+                <li class="nav-item"><a class="nav-link" href="./../cocina.php">Cocina</a></li>
                 <li class="nav-item dropdown mega-dropdown">
                     <a class="nav-link dropdown-toggle active d-flex align-items-center gap-1"
                        href="#" id="megaDropdown" role="button"

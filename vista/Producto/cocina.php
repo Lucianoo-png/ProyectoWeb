@@ -49,23 +49,23 @@
                         <div class="row g-3">
                             <div class="col-6 category-col">
                                 <h6>Lavado</h6>
-                                <a class="dropdown-item" href="lavadoras.php"><i class="fas fa-tshirt"></i> Lavadoras</a>
-                                <a class="dropdown-item" href="secadoras.php"><i class="fas fa-wind"></i> Secadoras</a>
-                                <a class="dropdown-item" href="lavasecadoras.php"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
+                                <a class="dropdown-item" href="OtrasCategorias/lavadoras.php"><i class="fas fa-tshirt"></i> Lavadoras</a>
+                                <a class="dropdown-item" href="OtrasCategorias/secadoras.php"><i class="fas fa-wind"></i> Secadoras</a>
+                                <a class="dropdown-item" href="OtrasCategorias/lavasecadoras.php"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
                                 <h6 class="mt-3">Refrigeración</h6>
-                                <a class="dropdown-item" href="refrigeradores.php"><i class="fas fa-snowflake"></i> Refrigeradores</a>
-                                <a class="dropdown-item" href="congeladores.php"><i class="fas fa-cube"></i> Congeladores</a>
-                                <a class="dropdown-item" href="frigobar.php"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
+                                <a class="dropdown-item" href="OtrasCategorias/refrigeradores.php"><i class="fas fa-snowflake"></i> Refrigeradores</a>
+                                <a class="dropdown-item" href="OtrasCategorias/congeladores.php"><i class="fas fa-cube"></i> Congeladores</a>
+                                <a class="dropdown-item" href="OtrasCategorias/frigobar.php"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
                             </div>
                             <div class="col-6 category-col">
                                 <h6>Cocina</h6>
-                                <a class="dropdown-item" href="hornos.php"><i class="fas fa-fire"></i> Hornos</a>
-                                <a class="dropdown-item" href="estufas.php"><i class="fas fa-burn"></i> Estufas</a>
-                                <a class="dropdown-item" href="microondas.php"><i class="fas fa-blender"></i> Microondas</a>
-                                <a class="dropdown-item" href="lavavajillas.php"><i class="fas fa-utensils"></i> Lavavajillas</a>
+                                <a class="dropdown-item" href="OtrasCategorias/hornos.php"><i class="fas fa-fire"></i> Hornos</a>
+                                <a class="dropdown-item" href="OtrasCategorias/estufas.php"><i class="fas fa-burn"></i> Estufas</a>
+                                <a class="dropdown-item" href="OtrasCategorias/microondas.php"><i class="fas fa-blender"></i> Microondas</a>
+                                <a class="dropdown-item" href="OtrasCategorias/lavavajillas.php"><i class="fas fa-utensils"></i> Lavavajillas</a>
                                 <h6 class="mt-3">Bienestar</h6>
-                                <a class="dropdown-item" href="cuidado_hogar.php"><i class="fas fa-home"></i> Cuidado del Hogar</a>
-                                <a class="dropdown-item" href="cuidado_personal.php"><i class="fas fa-spa"></i> Cuidado Personal</a>
+                                <a class="dropdown-item" href="OtrasCategorias/cuidado_hogar.php"><i class="fas fa-home"></i> Cuidado del Hogar</a>
+                                <a class="dropdown-item" href="OtrasCategorias/cuidado_personal.php"><i class="fas fa-spa"></i> Cuidado Personal</a>
                             </div>
                         </div>
                     </div>
@@ -113,7 +113,6 @@
                     <div class="product-body">
                         <span class="product-sku">MGH765RDS</span>
                         <p class="product-name">Estufa de gas 6 quemadores con horno convección acero inoxidable</p>
-                        <span class="product-price-old">$12,499.00</span>
                         <div class="product-price-row"><span class="product-price">$9,799.00</span></div>
                     </div>
                     <a href="detalle.php?sku=MGH765RDS" class="btn-mas-info">Más información</a>
@@ -122,16 +121,15 @@
                     <div class="product-body">
                         <span class="product-sku">EM7624GXS</span>
                         <p class="product-name">Estufa empotrable 4 quemadores de gas vidrio templado negro</p>
-                        <span class="product-price-old">$7,499.00</span>
                         <div class="product-price-row"><span class="product-price">$5,999.00</span></div>
                     </div>
                     <a href="detalle.php?sku=EM7624GXS" class="btn-mas-info">Más información</a>
-                </div></div>                <div class="col"><div class="product-card">
+                </div></div>            
+                    <div class="col"><div class="product-card">
                     <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=NCI614TB" alt="NCI614TB" onerror="this.src='https://placehold.co/300x250?text=NCI614TB'"></div>
                     <div class="product-body">
                         <span class="product-sku">NCI614TB</span>
                         <p class="product-name">Estufa de inducción 4 zonas con control táctil y temporizador</p>
-                        <span class="product-price-old">$9,999.00</span>
                         <div class="product-price-row"><span class="product-price">$7,499.00</span></div>
                     </div>
                     <a href="detalle.php?sku=NCI614TB" class="btn-mas-info">Más información</a>
@@ -143,7 +141,6 @@
                     <div class="product-body">
                         <span class="product-sku">WOS51EC7HB</span>
                         <p class="product-name">Horno eléctrico empotrable 30" con convección y limpieza automática</p>
-                        <span class="product-price-old">$19,499.00</span>
                         <div class="product-price-row"><span class="product-price">$14,999.00</span></div>
                     </div>
                     <a href="detalle.php?sku=WOS51EC7HB" class="btn-mas-info">Más información</a>
@@ -152,7 +149,6 @@
                     <div class="product-body">
                         <span class="product-sku">WGGF3036RF</span>
                         <p class="product-name">Horno a gas empotrable 30" con quemador de infrarrojo y 5 funciones</p>
-                        <span class="product-price-old">$16,999.00</span>
                         <div class="product-price-row"><span class="product-price">$12,499.00</span></div>
                     </div>
                     <a href="detalle.php?sku=WGGF3036RF" class="btn-mas-info">Más información</a>
@@ -164,7 +160,6 @@
                     <div class="product-body">
                         <span class="product-sku">WM3911D</span>
                         <p class="product-name">Microondas de mesa con función AirFry y 4 modos en 1 (1CuFt)</p>
-                        <span class="product-price-old">$5,999.00</span>
                         <div class="product-price-row"><span class="product-price">$4,599.00</span></div>
                     </div>
                     <a href="detalle.php?sku=WM3911D" class="btn-mas-info">Más información</a>
@@ -173,7 +168,6 @@
                     <div class="product-body">
                         <span class="product-sku">WMH31017HZ</span>
                         <p class="product-name">Microondas sobre rango 1.7 pies con extractora acero inoxidable</p>
-                        <span class="product-price-old">$8,999.00</span>
                         <div class="product-price-row"><span class="product-price">$6,799.00</span></div>
                     </div>
                     <a href="detalle.php?sku=WMH31017HZ" class="btn-mas-info">Más información</a>
@@ -185,7 +179,6 @@
                     <div class="product-body">
                         <span class="product-sku">WDF520PADM</span>
                         <p class="product-name">Lavavajillas empotrable 24" ciclo de alta temperatura acero inox</p>
-                        <span class="product-price-old">$9,499.00</span>
                         <div class="product-price-row"><span class="product-price">$7,299.00</span></div>
                     </div>
                     <a href="detalle.php?sku=WDF520PADM" class="btn-mas-info">Más información</a>
@@ -194,7 +187,6 @@
                     <div class="product-body">
                         <span class="product-sku">SPE53B55UC</span>
                         <p class="product-name">Lavavajillas compacto 18" capacidad 8 cubiertos WiFi integrado</p>
-                        <span class="product-price-old">$7,999.00</span>
                         <div class="product-price-row"><span class="product-price">$5,999.00</span></div>
                     </div>
                     <a href="detalle.php?sku=SPE53B55UC" class="btn-mas-info">Más información</a>

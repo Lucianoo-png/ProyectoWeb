@@ -49,23 +49,23 @@
                         <div class="row g-3">
                             <div class="col-6 category-col">
                                 <h6>Lavado</h6>
-                                <a class="dropdown-item" href="lavadoras.php"><i class="fas fa-tshirt"></i> Lavadoras</a>
-                                <a class="dropdown-item" href="secadoras.php"><i class="fas fa-wind"></i> Secadoras</a>
-                                <a class="dropdown-item" href="lavasecadoras.php"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
+                                <a class="dropdown-item" href="OtrasCategorias/lavadoras.php"><i class="fas fa-tshirt"></i> Lavadoras</a>
+                                <a class="dropdown-item" href="OtrasCategorias/secadoras.php"><i class="fas fa-wind"></i> Secadoras</a>
+                                <a class="dropdown-item" href="OtrasCategorias/lavasecadoras.php"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
                                 <h6 class="mt-3">Refrigeración</h6>
-                                <a class="dropdown-item" href="refrigeradores.php"><i class="fas fa-snowflake"></i> Refrigeradores</a>
-                                <a class="dropdown-item" href="congeladores.php"><i class="fas fa-cube"></i> Congeladores</a>
-                                <a class="dropdown-item" href="frigobar.php"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
+                                <a class="dropdown-item" href="OtrasCategorias/refrigeradores.php"><i class="fas fa-snowflake"></i> Refrigeradores</a>
+                                <a class="dropdown-item" href="OtrasCategorias/congeladores.php"><i class="fas fa-cube"></i> Congeladores</a>
+                                <a class="dropdown-item" href="OtrasCategorias/frigobar.php"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
                             </div>
                             <div class="col-6 category-col">
                                 <h6>Cocina</h6>
-                                <a class="dropdown-item" href="hornos.php"><i class="fas fa-fire"></i> Hornos</a>
-                                <a class="dropdown-item" href="estufas.php"><i class="fas fa-burn"></i> Estufas</a>
-                                <a class="dropdown-item" href="microondas.php"><i class="fas fa-blender"></i> Microondas</a>
-                                <a class="dropdown-item" href="lavavajillas.php"><i class="fas fa-utensils"></i> Lavavajillas</a>
+                                <a class="dropdown-item" href="OtrasCategorias/hornos.php"><i class="fas fa-fire"></i> Hornos</a>
+                                <a class="dropdown-item" href="OtrasCategorias/estufas.php"><i class="fas fa-burn"></i> Estufas</a>
+                                <a class="dropdown-item" href="OtrasCategorias/microondas.php"><i class="fas fa-blender"></i> Microondas</a>
+                                <a class="dropdown-item" href="OtrasCategorias/lavavajillas.php"><i class="fas fa-utensils"></i> Lavavajillas</a>
                                 <h6 class="mt-3">Bienestar</h6>
-                                <a class="dropdown-item" href="cuidado_hogar.php"><i class="fas fa-home"></i> Cuidado del Hogar</a>
-                                <a class="dropdown-item" href="cuidado_personal.php"><i class="fas fa-spa"></i> Cuidado Personal</a>
+                                <a class="dropdown-item" href="OtrasCategorias/cuidado_hogar.php"><i class="fas fa-home"></i> Cuidado del Hogar</a>
+                                <a class="dropdown-item" href="OtrasCategorias/cuidado_personal.php"><i class="fas fa-spa"></i> Cuidado Personal</a>
                             </div>
                         </div>
                     </div>
