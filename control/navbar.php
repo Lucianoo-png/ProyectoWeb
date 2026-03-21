@@ -56,9 +56,11 @@ $r = [
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-        <div>
-            <a href="#" class="me-3">Rastrear Pedido</a>
-            <a href="#">Ayuda</a>
+        <div class="d-flex gap-3">
+            <a href="./vista/rastrear_pedido.php" class="topbar-link-track">
+                <i class="fas fa-truck me-1"></i> Rastrear Pedido
+            </a>
+            <a href="#" class="topbar-link-muted">Ayuda</a>
         </div>
     </div>
 </div>

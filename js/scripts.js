@@ -398,4 +398,87 @@ document.addEventListener('DOMContentLoaded', function () {
         cerrarModal();
         cerrarEditar();
     });
+
+    /* Rastrear pedido */
+    initRastrearPedido();
 });
+/* ============================================================
+   RASTREAR PEDIDO — vista/rastrear_pedido.php
+   ============================================================ */
+function initRastrearPedido() {
+    const form      = document.getElementById('trackForm');
+    const inputRef  = document.getElementById('noReferencia');
+    const btn       = document.getElementById('btnRastrear');
+    const resultBox = document.getElementById('trackResult');
+    if (!form || !inputRef || !btn || !resultBox) return;
+
+    /* Mayúsculas automáticas */
+    inputRef.addEventListener('input', function () {
+        const pos = this.selectionStart;
+        this.value = this.value.toUpperCase();
+        this.setSelectionRange(pos, pos);
+        this.classList.remove('is-invalid');
+        resultBox.style.display = 'none';
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const ref = inputRef.value.trim();
+
+        if (!ref) {
+            inputRef.classList.add('is-invalid');
+            inputRef.focus();
+            mostrarResultadoRastreo('error',
+                '<i class="fas fa-exclamation-circle me-2"></i>' +
+                'Por favor ingresa el número de referencia de tu pedido.');
+            return;
+        }
+        inputRef.classList.remove('is-invalid');
+
+        /* Estado cargando */
+        btn.classList.add('loading');
+        btn.textContent = ' Buscando pedido...';
+        resultBox.style.display = 'none';
+
+        /*
+         * ── Reemplazar el setTimeout por fetch real al backend:
+         * fetch(`accion/rastrear_pedido_action.php?ref=${encodeURIComponent(ref)}`)
+         *   .then(r => r.json())
+         *   .then(data => {
+         *       btn.classList.remove('loading');
+         *       btn.innerHTML = '<i class="fas fa-truck"></i> Rastrear pedido';
+         *       if (data.encontrado) {
+         *           mostrarResultadoRastreo('success', `...`);
+         *       } else {
+         *           mostrarResultadoRastreo('error', `...`);
+         *       }
+         *   })
+         *   .catch(() => mostrarResultadoRastreo('error', 'Error de conexión.'));
+         */
+
+        /* Simulación demo — eliminar cuando conectes el backend */
+        setTimeout(function () {
+            btn.classList.remove('loading');
+            btn.innerHTML = '<i class="fas fa-truck"></i> Rastrear pedido';
+
+            if (ref.startsWith('LC-') || ref.length >= 10) {
+                mostrarResultadoRastreo('success',
+                    '<strong><i class="fas fa-check-circle me-2"></i>¡Pedido encontrado!</strong><br>' +
+                    'Referencia: <code>' + ref + '</code><br>' +
+                    'Estado: <strong>En camino</strong> — Tu paquete llegará en 1–3 días hábiles.');
+            } else {
+                mostrarResultadoRastreo('error',
+                    '<i class="fas fa-search me-2"></i>' +
+                    'No encontramos ningún pedido con esa referencia. Verifica el número e inténtalo de nuevo.');
+            }
+        }, 1800);
+    });
+}
+
+function mostrarResultadoRastreo(tipo, html) {
+    const box = document.getElementById('trackResult');
+    if (!box) return;
+    box.className = 'track-result ' + tipo;
+    box.innerHTML = html;
+    box.style.display = 'block';
+}

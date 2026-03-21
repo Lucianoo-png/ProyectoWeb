@@ -10,15 +10,22 @@
 </head>
 <body>
 
-    <div class="topbar">
-        <div class="container d-flex justify-content-between">
-            <div>
-                <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com</span>
-            </div>
-            <div><a href="#" class="me-3">Rastrear Pedido</a><a href="#">Ayuda</a></div>
+   <div class="topbar">
+    <div class="container d-flex justify-content-between">
+        <div>
+            <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
+            <span class="d-none d-md-inline">
+                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
+            </span>
+        </div>
+        <div class="d-flex gap-3">
+            <a href="../../vista/rastrear_pedido.php" class="topbar-link-track">
+                <i class="fas fa-truck me-1"></i> Rastrear Pedido
+            </a>
+            <a href="#" class="topbar-link-muted">Ayuda</a>
         </div>
     </div>
+</div>
 
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
