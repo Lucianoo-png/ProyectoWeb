@@ -382,3 +382,170 @@ function mostrarResultadoRastreo(tipo, html) {
     box.innerHTML = html;
     box.style.display = 'block';
 }
+/* ══════════════════════════════════════════════════════════════
+   MI CUENTA — mi_cuenta.php
+   ══════════════════════════════════════════════════════════════ */
+/* ── Mi Cuenta: navegación lateral ─────────────────────────── */
+function switchPanel(id, btn) {
+    document.querySelectorAll('.cuenta-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.cuenta-nav-link').forEach(b => b.classList.remove('active'));
+    document.getElementById(id)?.classList.add('active');
+    btn?.classList.add('active');
+}
+
+/* ── Datos personales: toggle edición ──────────────────────── */
+function toggleEditDatos() {
+    document.getElementById('vistaData').style.display = 'none';
+    document.getElementById('formData').style.display  = 'block';
+}
+function cancelarEditDatos() {
+    document.getElementById('vistaData').style.display = 'block';
+    document.getElementById('formData').style.display  = 'none';
+}
+function guardarDatos() {
+    const n  = document.getElementById('eNombre').value.trim();
+    const t  = document.getElementById('eTel').value.trim();
+    const e  = document.getElementById('eEmail').value.trim();
+    const f  = document.getElementById('eFecha').value;
+
+    if (!n || !t || !e) { alert('Por favor completa todos los campos obligatorios.'); return; }
+
+    // Actualizar vista
+    document.getElementById('vNombre').textContent = n;
+    document.getElementById('vTel').textContent    = t;
+    document.getElementById('vEmail').textContent  = e;
+    if (f) {
+        const [y, m, d] = f.split('-');
+        const meses = ['enero','febrero','marzo','abril','mayo','junio',
+                       'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+        document.getElementById('vFecha').textContent = `${parseInt(d)} de ${meses[parseInt(m)-1]} de ${y}`;
+    }
+    // Actualizar sidebar
+    document.querySelector('.cuenta-sidebar-name').textContent  = n;
+    document.querySelector('.cuenta-sidebar-email').textContent = e;
+    const initials = n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+    document.querySelector('.cuenta-avatar').textContent = initials;
+
+    cancelarEditDatos();
+    alert('✅ Datos actualizados correctamente.');
+}
+
+/* ── Contraseña ─────────────────────────────────────────────── */
+function cambiarPassword() {
+    const a = document.getElementById('pwActual').value;
+    const n = document.getElementById('pwNueva').value;
+    const c = document.getElementById('pwConfirm').value;
+    if (!a || !n || !c) { alert('Completa todos los campos.'); return; }
+    if (n !== c) { alert('Las contraseñas nuevas no coinciden.'); return; }
+    if (n.length < 8) { alert('La contraseña debe tener al menos 8 caracteres.'); return; }
+    alert('✅ Contraseña actualizada.\n\n(En producción se guardará en la base de datos.)');
+    document.getElementById('pwActual').value = '';
+    document.getElementById('pwNueva').value  = '';
+    document.getElementById('pwConfirm').value= '';
+}
+
+/* ── Direcciones ────────────────────────────────────────────── */
+let _editandoDir = null;
+const DIRS = [
+    { id: 1, nombre: 'Carlos Ivan Luciano Cruz',
+      calle: 'Rafael Murillo Vidal 485', colonia: 'Vías Férreas',
+      ciudad: 'Veracruz', cp: '91713', estado: 'VERACRUZ',
+      pais: 'México', tel: '229-483-2504' }
+];
+
+function renderDirecciones() {
+    const cont = document.getElementById('listaDirecciones');
+    cont.innerHTML = DIRS.map(d => `
+        <div class="dir-item" id="dir-item-${d.id}">
+            <div class="dir-item-name">${d.nombre}</div>
+            <div class="dir-item-detail">
+                ${d.calle}, Col. ${d.colonia}<br>
+                ${d.ciudad}, ${d.estado} ${d.cp} · ${d.pais}<br>
+                Teléfono: ${d.tel}
+            </div>
+            <div class="dir-item-actions">
+                <button class="btn-dir-sec" onclick="editarDireccion(${d.id})">
+                    <i class="fas fa-edit me-1"></i>Editar
+                </button>
+                <button class="btn-dir-sec" style="color:#dc3545;border-color:#f5c2c2"
+                        onclick="eliminarDireccion(${d.id})">
+                    <i class="fas fa-trash me-1"></i>Eliminar
+                </button>
+            </div>
+        </div>`).join('');
+}
+
+function toggleFormDir() {
+    _editandoDir = null;
+    document.getElementById('formDirTitle').innerHTML = '<i class="fas fa-plus-circle me-2"></i>Nueva dirección';
+    ['dNombre','dTel','dCalle','dColonia','dCiudad','dCP','dEstado'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('dPais').value = 'México';
+    const fw = document.getElementById('formDirWrapper');
+    fw.style.display = fw.style.display === 'none' ? 'block' : 'none';
+}
+
+function editarDireccion(id) {
+    const d = DIRS.find(x => x.id === id);
+    if (!d) return;
+    _editandoDir = id;
+    document.getElementById('formDirTitle').innerHTML = '<i class="fas fa-edit me-2"></i>Editar dirección';
+    document.getElementById('dNombre').value  = d.nombre;
+    document.getElementById('dTel').value     = d.tel;
+    document.getElementById('dCalle').value   = d.calle;
+    document.getElementById('dColonia').value = d.colonia;
+    document.getElementById('dCiudad').value  = d.ciudad;
+    document.getElementById('dCP').value      = d.cp;
+    document.getElementById('dEstado').value  = d.estado;
+    document.getElementById('dPais').value    = d.pais;
+    document.getElementById('formDirWrapper').style.display = 'block';
+    document.getElementById('formDirWrapper').scrollIntoView({ behavior: 'smooth' });
+}
+
+function eliminarDireccion(id) {
+    if (!confirm('¿Deseas eliminar esta dirección?')) return;
+    const idx = DIRS.findIndex(d => d.id === id);
+    if (idx !== -1) DIRS.splice(idx, 1);
+    renderDirecciones();
+}
+
+function guardarDireccion() {
+    const vals = {
+        nombre:  document.getElementById('dNombre').value.trim(),
+        tel:     document.getElementById('dTel').value.trim(),
+        calle:   document.getElementById('dCalle').value.trim(),
+        colonia: document.getElementById('dColonia').value.trim(),
+        ciudad:  document.getElementById('dCiudad').value.trim(),
+        cp:      document.getElementById('dCP').value.trim(),
+        estado:  document.getElementById('dEstado').value.trim().toUpperCase(),
+        pais:    document.getElementById('dPais').value.trim(),
+    };
+    if (!vals.nombre || !vals.calle || !vals.ciudad || !vals.cp) {
+        alert('Completa los campos obligatorios: nombre, calle, ciudad y C.P.');
+        return;
+    }
+    if (_editandoDir) {
+        const d = DIRS.find(x => x.id === _editandoDir);
+        if (d) Object.assign(d, vals);
+    } else {
+        vals.id = Date.now();
+        DIRS.push(vals);
+    }
+    renderDirecciones();
+    cancelarDir();
+    alert('✅ Dirección guardada correctamente.');
+}
+
+function cancelarDir() {
+    document.getElementById('formDirWrapper').style.display = 'none';
+    _editandoDir = null;
+}
+
+/* ── Tabs de pedidos ────────────────────────────────────────── */
+function switchPedidoTab(id, btn) {
+    document.querySelectorAll('.pedido-tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.pedido-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id)?.classList.add('active');
+    btn?.classList.add('active');
+}

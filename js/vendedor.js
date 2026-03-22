@@ -816,3 +816,100 @@ function initClienteWidget() {
         input.focus();
     });
 }
+
+
+/* ══════════════════════════════════════════════════════════════
+   REPARTIDOR — inicio_repartidor.php
+   ══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   REPARTIDOR — Lógica de actualización de estado
+═══════════════════════════════════════════════════ */
+
+const ESTADOS = [
+    { key: 'recibido',    label: 'Pedido recibido', icon: 'fa-check',  badge: 'badge-recibido'    },
+    { key: 'preparacion', label: 'En preparación',  icon: 'fa-box',    badge: 'badge-preparacion' },
+    { key: 'ruta',        label: 'Salió a ruta',    icon: 'fa-truck',  badge: 'badge-ruta'        },
+    { key: 'entregado',   label: 'Entregado',        icon: 'fa-home',   badge: 'badge-entregado'   },
+];
+
+// Estado actual (0-indexed) — arranca en 2 = "Salió a ruta"
+let estadoActual = 2;
+
+function renderTracking() {
+    ESTADOS.forEach((e, i) => {
+        const step = document.getElementById(`rStep${i}`);
+        const line = document.getElementById(`rLine${i}`);
+        if (!step) return;
+
+        // Clases del step
+        step.className = 'rep-step';
+        if (i < estadoActual)  step.classList.add('done');
+        if (i === estadoActual) step.classList.add('current');
+
+        // Icono actualizado
+        const circle = step.querySelector('.rep-step-circle');
+        circle.innerHTML = i < estadoActual
+            ? '<i class="fas fa-check"></i>'
+            : `<i class="fas ${e.icon}"></i>`;
+
+        // Línea
+        if (line) {
+            line.className = 'rep-line';
+            if (i < estadoActual) line.classList.add('done');
+        }
+    });
+
+    // Badge y etiqueta
+    const badge = document.getElementById('badgeEstado');
+    badge.textContent = ESTADOS[estadoActual].label;
+    badge.className   = `badge-estado ${ESTADOS[estadoActual].badge}`;
+
+    // Texto estado
+    document.getElementById('lblEstadoActual').textContent = ESTADOS[estadoActual].label;
+
+    // Siguiente paso y botón
+    const btn = document.getElementById('btnAvanzar');
+    const lblSig = document.getElementById('lblSigEstado');
+    const esUltimo = estadoActual >= ESTADOS.length - 1;
+
+    if (esUltimo) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-check-double me-1"></i> Pedido entregado';
+        lblSig.textContent = '✓ Proceso completado';
+    } else {
+        const siguiente = ESTADOS[estadoActual + 1];
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-check-circle me-1"></i> Marcar como "${siguiente.label}"`;
+        lblSig.textContent = `Siguiente paso: ${siguiente.label}`;
+    }
+}
+
+function avanzarEstado() {
+    if (estadoActual >= ESTADOS.length - 1) return;
+
+    // Si el siguiente estado es "Entregado", mostrar formulario de confirmación
+    if (estadoActual + 1 === ESTADOS.length - 1) {
+        document.getElementById('confirmEntregaBox').style.display = 'block';
+        document.getElementById('confirmEntregaBox').scrollIntoView({ behavior: 'smooth' });
+        return;
+    }
+
+    estadoActual++;
+    renderTracking();
+    alert(`✅ Estado actualizado a: "${ESTADOS[estadoActual].label}"\n\n(En producción se registrará en la base de datos.)`);
+}
+
+function confirmarEntrega() {
+    const receptor = document.getElementById('receptorNombre').value.trim();
+    if (!receptor) {
+        alert('Por favor escribe el nombre de quien recibió el pedido.');
+        return;
+    }
+    estadoActual = ESTADOS.length - 1; // → Entregado
+    renderTracking();
+    document.getElementById('confirmEntregaBox').style.display = 'none';
+    alert(`✅ Entrega confirmada exitosamente.\n\nRecibió: ${receptor}\n\n(En producción se cerrará el pedido en la base de datos.)`);
+}
+
+// Inicializar al cargar
+document.addEventListener('DOMContentLoaded', renderTracking);
