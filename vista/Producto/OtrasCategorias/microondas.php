@@ -19,7 +19,7 @@
             </span>
         </div>
         <div class="d-flex gap-3">
-            <a href="../../vista/rastrear_pedido.php" class="topbar-link-track">
+            <a href="../../rastrear_pedido.php" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
             <a href="#" class="topbar-link-muted">Ayuda</a>
@@ -37,7 +37,7 @@
                 <button class="btn px-4"><i class="fas fa-search"></i></button>
             </div>
             <div class="d-flex align-items-center gap-3 ms-2">
-                <a href="carrito.php" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
+                <a href="../carrito.php" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
                 <a href="../../Cuenta/login.php" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
             </div>
         </div>
