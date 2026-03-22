@@ -99,12 +99,12 @@
             </form>
 
             <hr class="track-divider">
-
+<!--
             <div class="track-footer-links">
                 <a href="terminos.php"><i class="fas fa-file-alt"></i> Términos y Condiciones</a>
                 <a href="privacidad.php"><i class="fas fa-shield-alt"></i> Aviso de Privacidad</a>
                 <a href="Cuenta/login.php"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
-            </div>
+            </div>-->
 
             <p class="track-copyright">
                 © <?= date('Y') ?> LuchanosCorp S.A. Todos los derechos reservados.

@@ -136,7 +136,9 @@ function registrarVenta() {
         alert('Agrega al menos un producto a la venta.');
         return;
     }
-    const cliente = document.getElementById('selectCliente')?.value || 'En mostrador';
+    const cliente = document.getElementById('clienteValor')?.value ||
+                    document.getElementById('selectCliente')?.value ||
+                    'En mostrador';
     const pago    = document.getElementById('selectPago')?.value    || 'Efectivo';
     const total   = (ventaItems.reduce((s, i) => s + i.precio * i.qty, 0) * 1.16)
                         .toLocaleString('es-MX', { minimumFractionDigits: 2 });
@@ -470,3 +472,204 @@ function enviarNuevaSolicitud() {
     document.getElementById('nAsunto').value  = '';
     document.getElementById('nDesc').value    = '';
 }
+
+/* ════════════════════════════════════════════════════
+   WIDGET DE BÚSQUEDA/SELECCIÓN DE CLIENTE (ventas.php)
+   Permite:
+     1. Buscar/seleccionar cliente existente por nombre
+     2. Escribir un nombre libre (cliente nuevo / mostrador)
+════════════════════════════════════════════════════ */
+
+/** Lista de clientes registrados (en producción vendría de la BD vía PHP/AJAX) */
+const CLIENTES_REGISTRADOS = [
+    { id: 'C001', nombre: 'Ana Torres Vega' },
+    { id: 'C002', nombre: 'Luis Ramírez' },
+    { id: 'C003', nombre: 'Roberto Méndez' },
+    { id: 'C004', nombre: 'Claudia Soto' },
+    { id: 'C005', nombre: 'Juan Pérez' },
+    { id: 'C006', nombre: 'María García' },
+];
+
+/** Estado interno del widget */
+const clienteWidget = {
+    valor: '',       // nombre final (registrado o libre)
+    esNuevo: false,  // true cuando el nombre no existe en la lista
+};
+
+/**
+ * Inicializa el widget de cliente.
+ * Llama a esta función en DOMContentLoaded cuando la página sea ventas.php
+ */
+function initClienteWidget() {
+    const input     = document.getElementById('clienteInput');
+    const dropdown  = document.getElementById('clienteDropdown');
+    const pill      = document.getElementById('clienteSeleccionado');
+    const pillNombre= document.getElementById('clientePillNombre');
+    const btnCambiar= document.getElementById('btnCambiarCliente');
+    const hidden    = document.getElementById('clienteValor');
+
+    if (!input) return;   // No estamos en ventas.php
+
+    /** Renderiza el dropdown según el texto del input */
+    function renderDropdown(q) {
+        dropdown.innerHTML = '';
+        const texto = q.trim().toLowerCase();
+
+        // ── Clientes registrados que coincidan ──────────────────
+        const coincidentes = CLIENTES_REGISTRADOS.filter(c =>
+            c.nombre.toLowerCase().includes(texto) ||
+            c.id.toLowerCase().includes(texto)
+        );
+
+        if (coincidentes.length > 0) {
+            const g = document.createElement('div');
+            g.className = 'cliente-option-group';
+            g.textContent = 'Clientes registrados';
+            dropdown.appendChild(g);
+
+            coincidentes.forEach(c => {
+                const opt = document.createElement('div');
+                opt.className = 'cliente-option';
+                opt.innerHTML = `<i class="fas fa-user"></i>
+                    <span>${resaltar(c.nombre, texto)}</span>
+                    <span style="margin-left:auto;font-size:.72rem;color:#aaa">${c.id}</span>`;
+                opt.addEventListener('mousedown', e => {
+                    e.preventDefault();
+                    seleccionarCliente(c.nombre, false);
+                });
+                dropdown.appendChild(opt);
+            });
+        }
+
+        // ── Opción: usar el texto como nombre libre ─────────────
+        if (texto.length >= 2) {
+            const g2 = document.createElement('div');
+            g2.className = 'cliente-option-group';
+            g2.textContent = 'O continuar con:';
+            dropdown.appendChild(g2);
+
+            const libre = document.createElement('div');
+            libre.className = 'cliente-option option-nuevo';
+            libre.innerHTML = `<i class="fas fa-user-plus"></i>
+                <span>Usar "<strong>${escHTML(q.trim())}</strong>" como nombre</span>`;
+            libre.addEventListener('mousedown', e => {
+                e.preventDefault();
+                seleccionarCliente(q.trim(), true);
+            });
+            dropdown.appendChild(libre);
+        }
+
+        // ── Sin texto: mostrar todos los registrados ────────────
+        if (texto === '') {
+            const g0 = document.createElement('div');
+            g0.className = 'cliente-option-group';
+            g0.textContent = 'Clientes registrados';
+            dropdown.appendChild(g0);
+
+            CLIENTES_REGISTRADOS.forEach(c => {
+                const opt = document.createElement('div');
+                opt.className = 'cliente-option';
+                opt.innerHTML = `<i class="fas fa-user"></i>
+                    <span>${c.nombre}</span>
+                    <span style="margin-left:auto;font-size:.72rem;color:#aaa">${c.id}</span>`;
+                opt.addEventListener('mousedown', e => {
+                    e.preventDefault();
+                    seleccionarCliente(c.nombre, false);
+                });
+                dropdown.appendChild(opt);
+            });
+
+            const gMostr = document.createElement('div');
+            gMostr.className = 'cliente-option-group';
+            gMostr.textContent = 'Opciones rápidas';
+            dropdown.appendChild(gMostr);
+
+            const mostrador = document.createElement('div');
+            mostrador.className = 'cliente-option option-nuevo';
+            mostrador.innerHTML = `<i class="fas fa-store"></i><span>— Cliente en mostrador —</span>`;
+            mostrador.addEventListener('mousedown', e => {
+                e.preventDefault();
+                seleccionarCliente('— Cliente en mostrador —', false);
+            });
+            dropdown.appendChild(mostrador);
+        }
+    }
+
+    /** Selecciona un cliente (registrado o nombre libre) */
+    function seleccionarCliente(nombre, esNuevo) {
+        clienteWidget.valor  = nombre;
+        clienteWidget.esNuevo = esNuevo;
+        hidden.value = nombre;
+
+        // Actualizar pill
+        let html = `<i class="fas fa-${esNuevo ? 'user-plus' : 'user'}"></i>
+                    <span>${escHTML(nombre)}</span>`;
+        if (esNuevo) {
+            html += `<span class="badge-nuevo-cliente">Nuevo</span>`;
+        }
+        pillNombre.innerHTML = html;
+        pill.classList.add('visible');
+
+        // Ocultar input y dropdown
+        input.style.display = 'none';
+        dropdown.classList.remove('open');
+        document.querySelector('.cliente-hint')?.classList.add('js-hidden');
+    }
+
+    /** Resalta coincidencias en el texto */
+    function resaltar(texto, q) {
+        if (!q) return escHTML(texto);
+        const re = new RegExp(`(${escRE(q)})`, 'gi');
+        return escHTML(texto).replace(re, '<strong>$1</strong>');
+    }
+
+    function escHTML(s) {
+        return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function escRE(s) {
+        return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    // ── Eventos del input ──────────────────────────────────────
+    input.addEventListener('focus', () => {
+        renderDropdown(input.value);
+        dropdown.classList.add('open');
+    });
+
+    input.addEventListener('input', () => {
+        renderDropdown(input.value);
+        dropdown.classList.add('open');
+        // Resetear selección al escribir
+        clienteWidget.valor = '';
+        hidden.value = '';
+    });
+
+    input.addEventListener('blur', () => {
+        // Pequeño delay para que mousedown en opciones se ejecute antes
+        setTimeout(() => {
+            dropdown.classList.remove('open');
+            // Si el usuario escribió algo pero no seleccionó → usar texto libre
+            if (input.value.trim().length >= 2 && !clienteWidget.valor) {
+                seleccionarCliente(input.value.trim(), true);
+            }
+        }, 180);
+    });
+
+    // ── Botón "Cambiar" en la pill ─────────────────────────────
+    btnCambiar.addEventListener('click', () => {
+        clienteWidget.valor   = '';
+        clienteWidget.esNuevo = false;
+        hidden.value = '';
+        pill.classList.remove('visible');
+        input.style.display = '';
+        document.querySelector('.cliente-hint')?.classList.remove('js-hidden');
+        input.value = '';
+        input.focus();
+    });
+}
+
+// Agregar initClienteWidget al DOMContentLoaded existente
+// (se llama condicionalmente: solo si existe el elemento)
+document.addEventListener('DOMContentLoaded', () => {
+    initClienteWidget();
+});

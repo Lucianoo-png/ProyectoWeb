@@ -1,4 +1,13 @@
 /* ============================================================
+   LuchanosCorp — Estilos Globales / Tienda Pública
+   Ruta: estilos/styles.css
+   Incluye: variables, base, topbar, navbar, footer,
+            login/registro, carrusel, productos, carrito,
+            checkout (pasos, dirección), rastrear pedido.
+   Panel admin/vendedor → ver: estilos/panel.css
+   ============================================================ */
+
+/* ============================================================
    ElectroPendejo — Estilos Globales
    Ruta para referenciar: estilos/styles.css
    ============================================================ */
@@ -910,787 +919,6 @@ main { flex: 1; }
     align-items: center;
     justify-content: center;
 }
-/* ═══════════════════════════════════════════════════════════════
-   PANEL ADMINISTRADOR — vista/Admin/
-   ═══════════════════════════════════════════════════════════════ */
-
-/* ── Layout ─────────────────────────────────────────────────── */
-.admin-layout {
-    display: flex;
-    min-height: calc(100vh - 104px);
-}
-
-/* ── Sidebar ────────────────────────────────────────────────── */
-.admin-sidebar {
-    width: 230px;
-    min-width: 230px;
-    background-color: var(--azul-marino);
-    padding: 1.5rem 0;
-    display: flex;
-    flex-direction: column;
-}
-.admin-sidebar .sidebar-title {
-    font-size: .65rem;
-    font-weight: 700;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.4);
-    padding: 0 1.25rem .6rem;
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    margin-bottom: .5rem;
-}
-.admin-sidebar .nav-link {
-    color: rgba(255,255,255,.75);
-    font-size: .86rem;
-    font-weight: 500;
-    padding: .6rem 1.25rem;
-    border-left: 3px solid transparent;
-    transition: all .2s;
-    display: flex;
-    align-items: center;
-    gap: .65rem;
-}
-.admin-sidebar .nav-link:hover,
-.admin-sidebar .nav-link.active {
-    color: #fff;
-    background: rgba(255,255,255,.08);
-    border-left-color: var(--btn-color);
-}
-.admin-sidebar .nav-link i {
-    width: 16px;
-    text-align: center;
-    color: var(--btn-color);
-}
-.admin-sidebar .sidebar-divider {
-    border-color: rgba(255,255,255,.1);
-    margin: .75rem 1.25rem;
-}
-.admin-sidebar .btn-cerrar {
-    margin: auto 1.25rem 0;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.15);
-    color: rgba(255,255,255,.8);
-    font-size: .82rem;
-    padding: .5rem .75rem;
-    border-radius: .4rem;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    transition: background .2s;
-}
-.admin-sidebar .btn-cerrar:hover { background: rgba(255,255,255,.15); color: #fff; }
-
-/* ── Contenido principal ────────────────────────────────────── */
-.admin-content {
-    flex: 1;
-    background: var(--fondo);
-    padding: 2rem;
-    overflow-y: auto;
-}
-
-/* ── Encabezados de página ──────────────────────────────────── */
-.page-header-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--azul-marino);
-}
-.page-header-sub {
-    font-size: .83rem;
-    color: #6c757d;
-}
-
-/* ── Tarjeta de info del admin (dashboard) ──────────────────── */
-.admin-info-card {
-    background: var(--azul-marino);
-    border-radius: .75rem;
-    padding: 1.75rem 2rem;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    box-shadow: var(--sombra-card);
-    margin-bottom: 1.75rem;
-}
-.admin-info-card .info-avatar {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: var(--btn-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    flex-shrink: 0;
-}
-.admin-info-card .info-rows p {
-    margin: 0;
-    font-size: .87rem;
-    line-height: 1.9;
-}
-.admin-info-card .info-rows .label {
-    font-weight: 700;
-    color: rgba(255,255,255,.6);
-    font-size: .72rem;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-}
-.admin-info-card .info-rows .value {
-    font-weight: 600;
-    color: #fff;
-}
-
-/* ── Tarjetas estadísticas (dashboard) ──────────────────────── */
-.stat-card {
-    background: #fff;
-    border: 1px solid #e8eef6;
-    border-radius: .75rem;
-    padding: 1.5rem;
-    box-shadow: var(--sombra-card);
-    text-align: center;
-    transition: box-shadow .25s, transform .25s;
-    text-decoration: none;
-    display: block;
-    color: inherit;
-}
-.stat-card:hover {
-    box-shadow: 0 8px 28px rgba(0,35,102,.14);
-    transform: translateY(-3px);
-    color: inherit;
-}
-.stat-card .stat-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: #e6f6f8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto .9rem;
-    font-size: 1.4rem;
-    color: var(--btn-color);
-}
-.stat-card .stat-num {
-    font-size: 1.9rem;
-    font-weight: 800;
-    color: var(--azul-marino);
-    line-height: 1;
-    margin-bottom: .2rem;
-}
-.stat-card .stat-label {
-    font-size: .83rem;
-    font-weight: 600;
-    color: #555;
-}
-
-/* ── Accesos rápidos (dashboard) ────────────────────────────── */
-.quick-link {
-    background: #fff;
-    border: 1px solid #e8eef6;
-    border-radius: .65rem;
-    padding: 1.1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: .85rem;
-    text-decoration: none;
-    color: #1a1a2e;
-    font-size: .88rem;
-    font-weight: 600;
-    box-shadow: var(--sombra-card);
-    transition: all .2s;
-}
-.quick-link i {
-    font-size: 1.1rem;
-    color: var(--btn-color);
-    width: 22px;
-    text-align: center;
-}
-.quick-link:hover {
-    border-color: var(--btn-color);
-    color: var(--btn-color);
-    background: #e6f6f8;
-}
-
-/* ── Formularios de admin (crear usuario / agregar producto) ── */
-.admin-form-card {
-    background: #fff;
-    border: 1px solid #e0e7f0;
-    border-radius: .75rem;
-    box-shadow: var(--sombra-card);
-    overflow: hidden;
-    max-width: 860px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.admin-form-header {
-    background: var(--azul-marino);
-    color: #fff;
-    padding: 1rem 1.75rem;
-    font-size: .95rem;
-    font-weight: 700;
-    letter-spacing: .04em;
-    display: flex;
-    align-items: center;
-    gap: .6rem;
-}
-.admin-form-header i { color: var(--btn-color); }
-
-.admin-form-body { padding: 1.75rem 2rem 2rem; }
-
-/* Separador de sección dentro del formulario */
-.form-section-label {
-    font-size: .68rem;
-    font-weight: 700;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--azul-marino);
-    border-bottom: 2px solid var(--btn-color);
-    padding-bottom: .35rem;
-    margin-bottom: 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-}
-.form-section-label i { color: var(--btn-color); font-size: .9rem; }
-
-/* Labels e inputs de los formularios admin */
-.admin-form-body .form-label {
-    font-size: .8rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: .25rem;
-}
-.admin-form-body .form-control,
-.admin-form-body .form-select {
-    border-color: #c8d3e8;
-    border-radius: .4rem;
-    font-size: .88rem;
-    padding: .5rem .75rem;
-    transition: border-color .2s, box-shadow .2s;
-}
-.admin-form-body .form-control:focus,
-.admin-form-body .form-select:focus {
-    border-color: var(--btn-color);
-    box-shadow: 0 0 0 3px rgba(0,140,168,.15);
-}
-.admin-form-body textarea.form-control { resize: vertical; min-height: 90px; }
-
-/* Divisor en formulario */
-.admin-form-divider { border-color: #e0e7f0; }
-
-/* Botones del formulario */
-.btn-admin-primary {
-    background-color: var(--btn-color);
-    border: none;
-    color: #fff;
-    font-weight: 600;
-    font-size: .92rem;
-    padding: .6rem 2.5rem;
-    border-radius: .4rem;
-    cursor: pointer;
-    transition: background .2s, transform .1s;
-    display: inline-flex;
-    align-items: center;
-    gap: .4rem;
-    text-decoration: none;
-}
-.btn-admin-primary:hover {
-    background-color: var(--btn-hover);
-    color: #fff;
-    transform: translateY(-1px);
-}
-.btn-admin-primary:active { transform: translateY(0); }
-
-.btn-admin-secondary {
-    background-color: transparent;
-    border: 1.5px solid #c8d3e8;
-    color: #555;
-    font-weight: 600;
-    font-size: .92rem;
-    padding: .6rem 2rem;
-    border-radius: .4rem;
-    cursor: pointer;
-    transition: border-color .2s, color .2s;
-    display: inline-flex;
-    align-items: center;
-    gap: .4rem;
-    text-decoration: none;
-}
-.btn-admin-secondary:hover { border-color: var(--btn-color); color: var(--btn-color); }
-
-/* ── Upload boxes (admin_productos) ─────────────────────────── */
-.upload-box {
-    border: 2px dashed #c8d3e8;
-    border-radius: .5rem;
-    padding: 1.5rem 1rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color .2s, background .2s;
-    background: #fafbff;
-}
-.upload-box:hover { border-color: var(--btn-color); background: #e6f6f8; }
-.upload-box i { font-size: 1.5rem; color: var(--btn-color); display: block; margin-bottom: .4rem; }
-.upload-box span { font-size: .78rem; color: #666; display: block; }
-.upload-box .upload-hint { font-size: .7rem; color: #999; margin-top: .2rem; }
-
-/* ── Toggle de estado (admin_productos) ─────────────────────── */
-.toggle-estado {
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-    margin-top: .3rem;
-}
-.toggle-estado .toggle-label { font-size: .82rem; color: #555; margin: 0; }
-.form-check-input:checked { background-color: var(--btn-color); border-color: var(--btn-color); }
-
-/* ── Preview de imagen subida ───────────────────────────────── */
-.img-preview {
-    display: none;
-    margin-top: .6rem;
-    max-height: 80px;
-    border-radius: .4rem;
-    border: 1px solid #e0e7f0;
-}
-
-/* ── Responsive sidebar ─────────────────────────────────────── */
-@media (max-width: 768px) {
-    .admin-sidebar { display: none; }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   ADMIN — Tabs Registro / Consulta
-   ═══════════════════════════════════════════════════════════════ */
-.admin-tabs {
-    display: flex;
-    justify-content: center;
-    gap: .65rem;
-    margin-bottom: 1.75rem;
-}
-.admin-tab-btn {
-    background: #fff;
-    border: 1.5px solid #c8d3e8;
-    border-radius: 2rem;
-    padding: .5rem 2rem;
-    font-size: .9rem;
-    font-weight: 600;
-    color: #555;
-    cursor: pointer;
-    transition: all .2s;
-    display: inline-flex;
-    align-items: center;
-    gap: .45rem;
-    text-align: center;
-}
-.admin-tab-btn:hover {
-    border-color: var(--btn-color);
-    color: var(--btn-color);
-}
-.admin-tab-btn.active {
-    background: var(--btn-color);
-    border-color: var(--btn-color);
-    color: #fff;
-}
-.admin-tab-panel { display: none; }
-.admin-tab-panel.active { display: block; }
-
-/* ═══════════════════════════════════════════════════════════════
-   ADMIN — Tabla de consulta
-   ═══════════════════════════════════════════════════════════════ */
-.admin-search-bar {
-    display: flex;
-    gap: .75rem;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-}
-.admin-search-bar .form-control,
-.admin-search-bar .form-select {
-    border-color: #c8d3e8;
-    border-radius: .4rem;
-    font-size: .88rem;
-    padding: .45rem .75rem;
-    transition: border-color .2s, box-shadow .2s;
-}
-.admin-search-bar .form-control:focus,
-.admin-search-bar .form-select:focus {
-    border-color: var(--btn-color);
-    box-shadow: 0 0 0 3px rgba(0,140,168,.15);
-}
-.admin-search-bar .btn-buscar {
-    background-color: var(--azul-marino);
-    border: none;
-    color: #fff;
-    font-weight: 600;
-    font-size: .88rem;
-    padding: .45rem 1.5rem;
-    border-radius: .4rem;
-    cursor: pointer;
-    transition: background .2s;
-    display: inline-flex;
-    align-items: center;
-    gap: .4rem;
-}
-.admin-search-bar .btn-buscar:hover { background-color: var(--azul-claro); }
-
-.admin-table-wrap {
-    overflow-x: auto;
-    border-radius: .5rem;
-    border: 1px solid #e0e7f0;
-}
-.admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: .83rem;
-}
-.admin-table thead th {
-    background: var(--azul-marino);
-    color: #fff;
-    font-weight: 700;
-    font-size: .75rem;
-    letter-spacing: .05em;
-    text-transform: uppercase;
-    padding: .65rem .85rem;
-    white-space: nowrap;
-    text-align: center;
-}
-.admin-table tbody tr {
-    border-bottom: 1px solid #e8eef6;
-    transition: background .15s;
-}
-.admin-table tbody tr:nth-child(even) { background: #f5f7fb; }
-.admin-table tbody tr:hover { background: #e6f6f8; }
-.admin-table tbody td {
-    padding: .6rem .85rem;
-    color: #333;
-    vertical-align: middle;
-    text-align: center;
-}
-.admin-table tbody td.td-name {
-    text-align: left;
-    font-weight: 600;
-    color: var(--azul-marino);
-}
-.admin-table tbody td.td-sub {
-    font-size: .75rem;
-    color: #888;
-    font-weight: 400;
-}
-
-/* Botones inline de tabla */
-.btn-tbl-edit {
-    background: transparent;
-    border: none;
-    color: var(--btn-color);
-    font-size: 1rem;
-    cursor: pointer;
-    padding: .25rem .4rem;
-    border-radius: .3rem;
-    transition: background .15s;
-}
-.btn-tbl-edit:hover { background: #e6f6f8; }
-
-.btn-tbl-delete {
-    background: #e8003d;
-    border: none;
-    color: #fff;
-    font-size: .8rem;
-    cursor: pointer;
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background .15s, transform .1s;
-}
-.btn-tbl-delete:hover { background: #b8002e; transform: scale(1.1); }
-
-/* Badge activo/inactivo */
-.badge-activo {
-    background: #d1fae5;
-    color: #065f46;
-    font-size: .7rem;
-    font-weight: 700;
-    padding: .2rem .6rem;
-    border-radius: 2rem;
-}
-.badge-inactivo {
-    background: #fee2e2;
-    color: #991b1b;
-    font-size: .7rem;
-    font-weight: 700;
-    padding: .2rem .6rem;
-    border-radius: 2rem;
-}
-
-/* Paginación */
-.admin-pagination {
-    display: flex;
-    align-items: center;
-    gap: .3rem;
-    justify-content: center;
-    margin-top: 1rem;
-}
-.admin-pagination .page-info {
-    font-size: .8rem;
-    color: #666;
-    margin-right: .5rem;
-}
-.admin-pagination .pg-btn {
-    width: 2rem;
-    height: 2rem;
-    border: 1.5px solid #c8d3e8;
-    background: #fff;
-    border-radius: .35rem;
-    font-size: .8rem;
-    font-weight: 600;
-    color: #555;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all .15s;
-}
-.admin-pagination .pg-btn:hover,
-.admin-pagination .pg-btn.active {
-    background: var(--azul-marino);
-    border-color: var(--azul-marino);
-    color: #fff;
-}
-
-/* Contador de página */
-.table-page-info {
-    font-size: .78rem;
-    color: #888;
-    text-align: center;
-    margin-bottom: .5rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   ADMIN — Modal de confirmación de eliminación
-   ═══════════════════════════════════════════════════════════════ */
-.confirm-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.45);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-}
-.confirm-overlay.show { display: flex; }
-
-.confirm-box {
-    background: #fff;
-    border-radius: .85rem;
-    padding: 2.5rem 2rem 2rem;
-    max-width: 440px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 16px 48px rgba(0,0,0,.22);
-    animation: confirmIn .2s ease;
-}
-@keyframes confirmIn {
-    from { transform: scale(.92); opacity: 0; }
-    to   { transform: scale(1);   opacity: 1; }
-}
-.confirm-icon {
-    width: 68px;
-    height: 68px;
-    border-radius: 50%;
-    border: 3px solid var(--btn-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.25rem;
-    font-size: 1.8rem;
-    color: var(--btn-color);
-}
-.confirm-icon.danger {
-    border-color: #e8003d;
-    color: #e8003d;
-}
-.confirm-box h5 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--azul-marino);
-    margin-bottom: .6rem;
-}
-.confirm-box p {
-    font-size: .88rem;
-    color: #555;
-    margin-bottom: 1.75rem;
-    line-height: 1.6;
-}
-.confirm-box .confirm-actions {
-    display: flex;
-    justify-content: center;
-    gap: .75rem;
-}
-.btn-confirm-yes {
-    background: #e8003d;
-    border: none;
-    color: #fff;
-    font-weight: 700;
-    font-size: .9rem;
-    padding: .6rem 1.75rem;
-    border-radius: .4rem;
-    cursor: pointer;
-    transition: background .2s;
-}
-.btn-confirm-yes:hover { background: #b8002e; }
-
-.btn-confirm-no {
-    background: #6c757d;
-    border: none;
-    color: #fff;
-    font-weight: 600;
-    font-size: .9rem;
-    padding: .6rem 1.75rem;
-    border-radius: .4rem;
-    cursor: pointer;
-    transition: background .2s;
-}
-.btn-confirm-no:hover { background: #555; }
-
-/* ═══════════════════════════════════════════════════════════════
-   ADMIN — Reportes (Ventas / Compras)
-   ═══════════════════════════════════════════════════════════════ */
-.report-tabs {
-    display: flex;
-    border-bottom: 2px solid #e0e7f0;
-    gap: 0;
-    margin-bottom: 1.5rem;
-}
-.report-tab-btn {
-    background: none;
-    border: none;
-    font-size: .9rem;
-    font-weight: 600;
-    color: #888;
-    padding: .65rem 1.75rem;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    transition: color .2s, border-color .2s;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-}
-.report-tab-btn:hover { color: var(--btn-color); }
-.report-tab-btn.active {
-    color: var(--azul-marino);
-    border-bottom-color: var(--btn-color);
-}
-.report-tab-btn i { color: var(--btn-color); }
-
-.report-form-card {
-    background: #fff;
-    border: 1px solid #e0e7f0;
-    border-radius: .75rem;
-    padding: 2rem;
-    box-shadow: var(--sombra-card);
-    max-width: 860px;
-    margin: 0 auto;
-}
-.report-form-card h5 {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--azul-marino);
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-.report-form-card .form-label {
-    font-size: .8rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: .25rem;
-}
-.report-form-card .form-control,
-.report-form-card .form-select {
-    border-color: #c8d3e8;
-    border-radius: .4rem;
-    font-size: .88rem;
-    padding: .5rem .75rem;
-    transition: border-color .2s, box-shadow .2s;
-}
-.report-form-card .form-control:focus,
-.report-form-card .form-select:focus {
-    border-color: var(--btn-color);
-    box-shadow: 0 0 0 3px rgba(0,140,168,.15);
-}
-.btn-generar-pdf {
-    background-color: var(--btn-color);
-    border: none;
-    color: #fff;
-    font-weight: 700;
-    font-size: .92rem;
-    padding: .65rem 2.25rem;
-    border-radius: .4rem;
-    cursor: pointer;
-    transition: background .2s, transform .1s;
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-}
-.btn-generar-pdf:hover { background-color: var(--btn-hover); transform: translateY(-1px); }
-
-/* ============================================================
-   CHECKOUT — Pasos (carrito.php, direccion.php)
-   ============================================================ */
-body.checkout-bg {
-    background: #f4f6f9;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-body.checkout-bg .cart-layout { flex: 1; }
-
-.checkout-steps {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    padding: 32px 20px 24px;
-}
-.step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    position: relative;
-}
-.step-circle {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    background: #ddd;
-    color: #888;
-    transition: background .2s, color .2s;
-}
-.step.active .step-circle,
-.step.done   .step-circle { background: var(--btn-color); color: #fff; }
-.step-label {
-    font-size: .78rem;
-    color: #888;
-    font-weight: 500;
-    white-space: nowrap;
-}
-.step.active .step-label,
-.step.done   .step-label  { color: var(--btn-color); font-weight: 700; }
-.step-line {
-    flex: 1;
-    height: 2px;
-    background: #ddd;
-    min-width: 60px;
-    max-width: 120px;
-    margin-bottom: 26px;
-}
-.step-line.done { background: var(--btn-color); }
-
 /* ── Badge del ícono de carrito en navbar ──────────────────── */
 .cart-badge {
     position: absolute;
@@ -1706,6 +934,77 @@ body.checkout-bg .cart-layout { flex: 1; }
     justify-content: center;
 }
 .nav-icon { position: relative; }
+
+/* ============================================================
+   CHECKOUT — Barra de pasos (carrito.php, direccion.php)
+   ============================================================ */
+body.checkout-bg {
+    background: #f0f4fa;
+}
+
+.checkout-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.1rem 1rem;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .3rem;
+    min-width: 90px;
+}
+
+.step-circle {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: #e0e7f0;
+    color: #aab4c4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+    transition: background .2s, color .2s;
+}
+.step.active .step-circle {
+    background: var(--btn-color);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(0,140,168,.18);
+}
+.step.done .step-circle {
+    background: var(--azul-marino);
+    color: #fff;
+}
+
+.step-label {
+    font-size: .72rem;
+    font-weight: 600;
+    color: #aab4c4;
+    text-align: center;
+    white-space: nowrap;
+}
+.step.active .step-label { color: var(--btn-color); }
+.step.done   .step-label { color: var(--azul-marino); }
+
+.step-line {
+    flex: 1;
+    height: 2px;
+    background: #e0e7f0;
+    max-width: 80px;
+    margin-bottom: 22px;
+    transition: background .2s;
+}
+.step-line.done { background: var(--azul-marino); }
+
+@media (max-width: 768px) {
+    .checkout-steps { padding: .85rem .5rem; }
+    .step { min-width: 60px; }
+    .step-label { font-size: .64rem; }
+    .step-line { max-width: 40px; }
+}
 
 /* ============================================================
    CARRITO.PHP
@@ -2405,131 +1704,3 @@ body.checkout-bg .cart-layout { flex: 1; }
     .track-right-caption h3 { font-size: 1.15rem; }
 }
 /* ═══════════════════════════════════════════════════════════════
-   CATÁLOGO VENDEDOR — catalogo.php
-   ═══════════════════════════════════════════════════════════════ */
-.catalogo-card {
-    background: #f0f4fa;
-    border: 1.5px solid #d8e3f0;
-    border-radius: .75rem;
-    overflow: hidden;
-    transition: box-shadow .2s, transform .15s;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-.catalogo-card:hover {
-    box-shadow: 0 6px 24px rgba(0,35,102,.13);
-    transform: translateY(-3px);
-}
-.catalogo-img-wrap {
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 160px;
-    overflow: hidden;
-    border-bottom: 1px solid #e0e7f0;
-}
-.catalogo-img-wrap img {
-    max-height: 145px;
-    max-width: 90%;
-    object-fit: contain;
-}
-.catalogo-body {
-    padding: 1rem;
-    text-align: center;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: .2rem;
-}
-.catalogo-name  { font-size:.88rem; font-weight:700; color:var(--azul-marino); margin:0; line-height:1.3; }
-.catalogo-meta  { font-size:.75rem; color:#888; margin:0; }
-.catalogo-cat   { font-size:.78rem; color:var(--btn-color); margin:0; font-style:italic; }
-.catalogo-price { font-size:1rem; font-weight:700; color:var(--azul-marino); margin:.25rem 0 .5rem; }
-
-/* ═══════════════════════════════════════════════════════════════
-   MODAL SOLICITUDES — solicitudes.php
-   ═══════════════════════════════════════════════════════════════ */
-.modal-sol-box {
-    background: #fff;
-    border-radius: .85rem;
-    padding: 2rem;
-    max-width: 580px;
-    width: 92%;
-    box-shadow: 0 16px 48px rgba(0,0,0,.22);
-    animation: confirmIn .2s ease;
-}
-.modal-sol-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.25rem;
-    padding-bottom: .75rem;
-    border-bottom: 1px solid #e8eef5;
-}
-.modal-sol-header h5 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--azul-marino);
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-}
-.modal-sol-header h5 i { color: var(--btn-color); }
-.modal-sol-label {
-    font-size: .75rem;
-    font-weight: 700;
-    color: var(--azul-marino);
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    margin-bottom: .2rem;
-    display: block;
-}
-.modal-sol-value {
-    font-size: .88rem;
-    color: #333;
-    margin: 0 0 .75rem;
-}
-.modal-sol-value.mono { font-family: 'Courier New', monospace; font-weight: 700; }
-.modal-sol-divider {
-    border: none;
-    border-top: 1px solid #e8eef5;
-    margin: 1rem 0;
-}
-.badge-pending {
-    background: #fff3cd;
-    color: #856404;
-    font-size: .7rem;
-    font-weight: 700;
-    padding: .2rem .6rem;
-    border-radius: 2rem;
-}
-.badge-proceso {
-    background: #cfe2ff;
-    color: #084298;
-    font-size: .7rem;
-    font-weight: 700;
-    padding: .2rem .6rem;
-    border-radius: 2rem;
-}
-/* Tab badge counter */
-.tab-badge {
-    background: #dc3545;
-    color: #fff;
-    font-size: .62rem;
-    font-weight: 700;
-    padding: .1rem .45rem;
-    border-radius: 2rem;
-    margin-left: .3rem;
-    vertical-align: middle;
-}
-/* Admin-tabs left-align variant */
-.admin-tabs-left {
-    justify-content: flex-start;
-}
-
-.link-btn { color: var(--btn-color); text-decoration: none; }
-.link-btn:hover { text-decoration: underline; }

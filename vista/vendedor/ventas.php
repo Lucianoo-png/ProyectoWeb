@@ -16,7 +16,7 @@
         <div>
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
             <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
+                <i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b0c3dfc0dfc2c4d5f0fcc5d3d8d1dedfc3f3dfc2c09ed3dfdd">[email&#160;protected]</a>
             </span>
         </div>
         <div><span><i class="fas fa-user-tie me-1"></i> Panel Vendedor</span></div>
@@ -166,14 +166,38 @@
                     <div class="admin-form-body">
                         <div class="mb-3">
                             <label class="form-label">Cliente:</label>
-                            <select class="form-select" id="selectCliente">
-                                <option value="">— Seleccionar cliente —</option>
-                                <option>Ana Torres Vega</option>
-                                <option>Luis Ramírez</option>
-                                <option>Roberto Méndez</option>
-                                <option>Claudia Soto</option>
-                                <option>— Cliente en mostrador —</option>
-                            </select>
+
+                            <!-- Widget búsqueda/selección/nombre libre -->
+                            <div class="cliente-widget">
+
+                                <!-- Input de búsqueda -->
+                                <input type="text"
+                                       id="clienteInput"
+                                       class="cliente-input"
+                                       placeholder="Buscar por nombre o escribir uno nuevo…"
+                                       autocomplete="off">
+
+                                <!-- Dropdown de sugerencias (generado por vendedor.js) -->
+                                <div id="clienteDropdown" class="cliente-dropdown"></div>
+
+                                <!-- Pill: cliente seleccionado (visible tras elegir) -->
+                                <div id="clienteSeleccionado" class="cliente-seleccionado">
+                                    <span id="clientePillNombre"></span>
+                                    <button type="button" id="btnCambiarCliente"
+                                            class="btn-cliente-cambiar"
+                                            title="Cambiar cliente">
+                                        <i class="fas fa-times"></i> Cambiar
+                                    </button>
+                                </div>
+
+                                <!-- Campo hidden que guarda el valor final -->
+                                <input type="hidden" id="clienteValor" name="cliente">
+
+                                <p class="cliente-hint">
+                                    <i class="fas fa-info-circle"></i>
+                                    Selecciona un cliente registrado o escribe un nombre para continuar.
+                                </p>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Tipo de Pago:</label>

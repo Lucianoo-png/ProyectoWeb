@@ -6,7 +6,8 @@
     <title>LuchanosCorp | Admin — Reporte de Compras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
+    <!-- <link rel="stylesheet" href="../../estilos/styles.css">-->
+    <link rel="stylesheet" href="../../estilos/vendedor.css">
 </head>
 <body>
     <div class="topbar">
