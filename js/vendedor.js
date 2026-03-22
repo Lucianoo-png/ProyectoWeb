@@ -1,7 +1,107 @@
 /* ============================================================
-   LuchanosCorp — Panel Vendedor  |  vendedor.js
-   Funciones compartidas por todas las páginas del vendedor.
-============================================================ */
+   LuchanosCorp — Scripts Panel Admin + Vendedor
+   Ruta: js/panel.js
+   Extiende: js/scripts.js  (debe cargarse ANTES)
+   Páginas: vista/Admin/*.php  |  vista/Vendedor/*.php
+   ============================================================ */
+
+function previewImagen(input) {
+    const label   = document.getElementById('imagen-label');
+    const preview = document.getElementById('img-preview');
+    if (!input.files || !input.files[0]) return;
+    if (label) label.textContent = input.files[0].name;
+    const reader = new FileReader();
+    reader.onload = e => {
+        if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
+    };
+    reader.readAsDataURL(input.files[0]);
+}
+
+/* ── Toggle de estado activo/inactivo ───────────────────────── */
+function initToggleEstado() {
+    const toggle = document.getElementById('estado');
+    const label  = document.getElementById('estadoLabel');
+    if (!toggle || !label) return;
+    toggle.addEventListener('change', function () {
+        label.textContent = this.checked ? 'Activo' : 'Inactivo';
+    });
+}
+
+/* ── Validación de formulario con confirmación de contraseña ── */
+function initAdminFormValidation() {
+    const form = document.querySelector('.needs-validation');
+    if (!form) return;
+    form.addEventListener('submit', e => {
+        const pw  = document.getElementById('contrasena');
+        const cpw = document.getElementById('confirmar');
+        const fb  = document.getElementById('confirmar-feedback');
+        if (pw && cpw) {
+            if (pw.value !== cpw.value) {
+                cpw.setCustomValidity('No coinciden');
+                if (fb) fb.textContent = 'Las contraseñas no coinciden.';
+            } else {
+                cpw.setCustomValidity('');
+            }
+        }
+        if (!form.checkValidity()) { e.preventDefault(); e.stopPropagation(); }
+        form.classList.add('was-validated');
+    }, false);
+    const confirmar = document.getElementById('confirmar');
+    if (confirmar) confirmar.addEventListener('input', () => confirmar.setCustomValidity(''));
+}
+
+/* ── Tabs del panel admin ───────────────────────────────────── */
+function initAdminTabs() {
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const group = this.closest('[data-tab-group]')?.dataset.tabGroup || 'default';
+            document.querySelectorAll(`.admin-tab-btn[data-tab-group="${group}"]`).forEach(b => b.classList.remove('active'));
+            document.querySelectorAll(`.admin-tab-panel[data-tab-group="${group}"]`).forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            const target = document.getElementById(this.dataset.target);
+            if (target) target.classList.add('active');
+        });
+    });
+}
+
+/* ── Modal de confirmación de eliminación ───────────────────── */
+function confirmDelete(type, name, id) {
+    const overlay = document.getElementById('confirmOverlay');
+    const msgEl   = document.getElementById('confirmMsg');
+    const yesBtn  = document.getElementById('confirmYes');
+    if (!overlay || !msgEl || !yesBtn) return;
+    const labels = { producto: 'el producto', usuario: 'el usuario', personal: 'al personal' };
+    msgEl.textContent = `¿Estás seguro de eliminar ${labels[type] || 'el registro'} "${name}"? Esta acción no se puede deshacer.`;
+    overlay.classList.add('show');
+    const newBtn = yesBtn.cloneNode(true);
+    yesBtn.parentNode.replaceChild(newBtn, yesBtn);
+    newBtn.addEventListener('click', function () {
+        overlay.classList.remove('show');
+        console.log(`Eliminar ${type} id=${id}`);
+    });
+}
+
+function closeConfirm() {
+    const overlay = document.getElementById('confirmOverlay');
+    if (overlay) overlay.classList.remove('show');
+}
+
+/* ── Tabs de reportes ───────────────────────────────────────── */
+function initReportTabs() {
+    document.querySelectorAll('.report-tab-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.report-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.report-tab-panel').forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            const target = document.getElementById(this.dataset.target);
+            if (target) target.classList.add('active');
+        });
+    });
+}
+
+/* ── Init ───────────────────────────────────────────────────── */
+
+
 
 /* ════════════════════════════════════════════════════
    UTILIDADES
@@ -205,22 +305,33 @@ function renderDetalleVentas(data) {
 
 /** Filtra las ventas según los campos del formulario */
 function filtrarVentas() {
-    const folio = document.getElementById('fFolio')?.value.trim();
-    const desde = document.getElementById('fDesde')?.value;
-    const hasta = document.getElementById('fHasta')?.value;
+    const folio   = document.getElementById('fFolio')?.value.trim()    || '';
+    const desde   = document.getElementById('fDesde')?.value            || '';
+    const hasta   = document.getElementById('fHasta')?.value            || '';
+    const cliente = document.getElementById('fCliente')?.value.trim().toLowerCase() || '';
 
     let resultado = VENTAS_DEMO;
-    if (folio)  resultado = resultado.filter(v => String(v.folio) === folio);
-    if (desde)  resultado = resultado.filter(v => v.fecha >= convertirFecha(desde));
-    if (hasta)  resultado = resultado.filter(v => v.fecha <= convertirFecha(hasta));
+    if (folio)   resultado = resultado.filter(v => String(v.folio) === folio);
+    if (desde)   resultado = resultado.filter(v => convertirFecha(v.fecha) >= desde);
+    if (hasta)   resultado = resultado.filter(v => convertirFecha(v.fecha) <= hasta);
+    if (cliente) resultado = resultado.filter(v => v.cliente.toLowerCase().includes(cliente));
 
+    const el = document.getElementById('totalRegistros');
+    if (el) el.textContent = resultado.length;
     renderDetalleVentas(resultado);
 }
 
-function convertirFecha(iso) {
-    if (!iso) return '';
-    const [y, m, d] = iso.split('-');
-    return `${d}/${m}/${y}`;
+/** Convierte fecha ISO (yyyy-mm-dd) a dd/mm/yyyy y viceversa */
+function convertirFecha(str) {
+    if (!str) return '';
+    if (str.includes('-')) {
+        // ISO → dd/mm/yyyy
+        const [y, m, d] = str.split('-');
+        return `${d}/${m}/${y}`;
+    }
+    // dd/mm/yyyy → yyyy-mm-dd (para comparar con input[type=date])
+    const [d, m, y] = str.split('/');
+    return `${y}-${m}-${d}`;
 }
 
 /**
@@ -362,21 +473,7 @@ function filtrarCatalogo() {
    Modal para atender solicitudes + initAdminTabs
 ════════════════════════════════════════════════════ */
 
-/** Inicializa el sistema de tabs basado en data-tab-group y data-target */
-function initAdminTabs() {
-    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const group = this.dataset.tabGroup || 'default';
-            document.querySelectorAll(`.admin-tab-btn[data-tab-group="${group}"]`)
-                    .forEach(b => b.classList.remove('active'));
-            document.querySelectorAll(`.admin-tab-panel[data-tab-group="${group}"]`)
-                    .forEach(p => p.classList.remove('active'));
-            this.classList.add('active');
-            const target = document.getElementById(this.dataset.target);
-            if (target) target.classList.add('active');
-        });
-    });
-}
+
 
 /** Abre el modal de solicitud con los datos del botón pulsado */
 function initSolicitudesModal() {
@@ -424,23 +521,75 @@ function initSolicitudesModal() {
     }
 }
 
+
+/* ════════════════════════════════════════════════════
+   PÁGINA: solicitudes.php
+   Filtro de tabla (DOM-based, datos PHP-rendered)
+════════════════════════════════════════════════════ */
+
+/**
+ * Filtra las filas de la tabla del tab activo en solicitudes.php
+ * Lee los inputs #solBuscar y #solTipo del tab activo
+ */
+function filtrarSolicitudes() {
+    // Buscar el tab-panel activo
+    const activePanel = document.querySelector('.admin-tab-panel.active');
+    if (!activePanel) return;
+
+    const q    = (activePanel.querySelector('.sol-filter-input')?.value  || '').toLowerCase().trim();
+    const tipo = (activePanel.querySelector('.sol-filter-select')?.value || '').toLowerCase().trim();
+
+    const filas = activePanel.querySelectorAll('tbody tr');
+    let visibles = 0;
+
+    filas.forEach(tr => {
+        const texto = tr.textContent.toLowerCase();
+        // Col 1=ref, Col 3=cliente, Col 4=tipo (índice 0-based)
+        const tipoCell = tr.cells[4]?.textContent.toLowerCase() || '';
+
+        const matchQ    = !q    || texto.includes(q);
+        const matchTipo = !tipo || tipoCell.includes(tipo);
+
+        const mostrar = matchQ && matchTipo;
+        tr.style.display = mostrar ? '' : 'none';
+        if (mostrar) visibles++;
+    });
+
+    // Actualizar contador si existe
+    const counter = activePanel.querySelector('.table-toolbar-count span');
+    if (counter) counter.textContent = visibles;
+}
+
 /* ════════════════════════════════════════════════════
    INICIALIZACIÓN GLOBAL
 ════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-    // ventas.php
-    initVentas();
 
-    // detalle_ventas.php
+    /* ── Admin ─────────────────────────────────────── */
+    initToggleEstado();
+    initAdminFormValidation();
+    initReportTabs();
+    const confirmOverlay = document.getElementById('confirmOverlay');
+    if (confirmOverlay) {
+        confirmOverlay.addEventListener('click', e => {
+            if (e.target === confirmOverlay) closeConfirm();
+        });
+    }
+
+    /* ── Vendedor: ventas.php ──────────────────────── */
+    initVentas();
+    initClienteWidget();
+
+    /* ── Vendedor: detalle_ventas.php ─────────────── */
     renderDetalleVentas();
 
-    // inventario.php
+    /* ── Vendedor: inventario.php ─────────────────── */
     renderInventario();
 
-    // catalogo.php
+    /* ── Vendedor: catalogo.php ───────────────────── */
     renderCatalogo();
 
-    // solicitudes.php
+    /* ── Vendedor: solicitudes.php ────────────────── */
     initAdminTabs();
     initSolicitudesModal();
 });
@@ -667,9 +816,3 @@ function initClienteWidget() {
         input.focus();
     });
 }
-
-// Agregar initClienteWidget al DOMContentLoaded existente
-// (se llama condicionalmente: solo si existe el elemento)
-document.addEventListener('DOMContentLoaded', () => {
-    initClienteWidget();
-});

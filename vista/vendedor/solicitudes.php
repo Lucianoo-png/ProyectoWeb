@@ -84,7 +84,7 @@
         <div>
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
             <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
+                <i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="91e2fee1fee3e5f4d1dde4f2f9f0fffee2d2fee3e1bff2fefc">[email&#160;protected]</a>
             </span>
         </div>
         <div><span><i class="fas fa-user-tie me-1"></i> Panel Vendedor</span></div>
@@ -178,16 +178,20 @@
                 <div class="admin-form-body pb-0">
                     <div class="admin-search-bar">
                         <input type="text" class="form-control sol-filter-input"
-                               placeholder="No. referencia o cliente…">
-                        <select class="form-select sol-filter-select">
+                               id="solBuscar"
+                               placeholder="No. referencia o cliente…"
+                               oninput="filtrarSolicitudes()">
+                        <select class="form-select sol-filter-select"
+                                id="solTipo"
+                                onchange="filtrarSolicitudes()">
                             <option value="">Todos los tipos</option>
-                            <option>Garantía</option>
-                            <option>Devolución</option>
-                            <option>Información</option>
-                            <option>Queja</option>
-                            <option>Soporte técnico</option>
+                            <option value="Garantía">Garantía</option>
+                            <option value="Devolución">Devolución</option>
+                            <option value="Información">Información</option>
+                            <option value="Queja">Queja</option>
+                            <option value="Soporte técnico">Soporte técnico</option>
                         </select>
-                        <button class="btn-buscar">
+                        <button class="btn-buscar" onclick="filtrarSolicitudes()">
                             <i class="fas fa-search"></i> Buscar
                         </button>
                     </div>

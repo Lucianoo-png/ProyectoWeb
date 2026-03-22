@@ -16,7 +16,7 @@
         <div>
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
             <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
+                <i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7e0d110e110c0a1b3e320b1d161f10110d3d110c0e501d1113">[email&#160;protected]</a>
             </span>
         </div>
         <div><span><i class="fas fa-user-tie me-1"></i> Panel Vendedor</span></div>

@@ -6,6 +6,7 @@
     <title>LuchanosCorp | Admin — Reporte de Ventas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <!--<script src="../../js/vendedor.js"></script>-->
    <!-- <link rel="stylesheet" href="../../estilos/styles.css">-->
     <link rel="stylesheet" href="../../estilos/vendedor.css">
 </head>
@@ -157,5 +158,8 @@
         </main>
     </div>
 
-    <footer class="site-footer-minimal">© 2026 LuchanosCorp  S.A. Todos los derechos reservados.</footer>
-    <script data-cfasync="false" src="/c
+   <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/vendedor.js"></script>
+</body>
+</html>

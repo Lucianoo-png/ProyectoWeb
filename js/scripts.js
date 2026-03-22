@@ -30,98 +30,6 @@ function cambiarCantidad(delta) {
 }
 
 /* ============================================================
-   ADMIN
-   ============================================================ */
-function previewImagen(input) {
-    const label   = document.getElementById('imagen-label');
-    const preview = document.getElementById('img-preview');
-    if (!input.files || !input.files[0]) return;
-    if (label) label.textContent = input.files[0].name;
-    const reader = new FileReader();
-    reader.onload = e => {
-        if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
-    };
-    reader.readAsDataURL(input.files[0]);
-}
-
-function initToggleEstado() {
-    const toggle = document.getElementById('estado');
-    const label  = document.getElementById('estadoLabel');
-    if (!toggle || !label) return;
-    toggle.addEventListener('change', function () {
-        label.textContent = this.checked ? 'Activo' : 'Inactivo';
-    });
-}
-
-function initAdminFormValidation() {
-    const form = document.querySelector('.needs-validation');
-    if (!form) return;
-    form.addEventListener('submit', e => {
-        const pw  = document.getElementById('contrasena');
-        const cpw = document.getElementById('confirmar');
-        const fb  = document.getElementById('confirmar-feedback');
-        if (pw && cpw) {
-            if (pw.value !== cpw.value) {
-                cpw.setCustomValidity('No coinciden');
-                if (fb) fb.textContent = 'Las contraseñas no coinciden.';
-            } else {
-                cpw.setCustomValidity('');
-            }
-        }
-        if (!form.checkValidity()) { e.preventDefault(); e.stopPropagation(); }
-        form.classList.add('was-validated');
-    }, false);
-    const confirmar = document.getElementById('confirmar');
-    if (confirmar) confirmar.addEventListener('input', () => confirmar.setCustomValidity(''));
-}
-
-function initAdminTabs() {
-    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const group = this.closest('[data-tab-group]')?.dataset.tabGroup || 'default';
-            document.querySelectorAll(`.admin-tab-btn[data-tab-group="${group}"]`).forEach(b => b.classList.remove('active'));
-            document.querySelectorAll(`.admin-tab-panel[data-tab-group="${group}"]`).forEach(p => p.classList.remove('active'));
-            this.classList.add('active');
-            const target = document.getElementById(this.dataset.target);
-            if (target) target.classList.add('active');
-        });
-    });
-}
-
-function confirmDelete(type, name, id) {
-    const overlay = document.getElementById('confirmOverlay');
-    const msgEl   = document.getElementById('confirmMsg');
-    const yesBtn  = document.getElementById('confirmYes');
-    if (!overlay || !msgEl || !yesBtn) return;
-    const labels = { producto: 'el producto', usuario: 'el usuario', personal: 'al personal' };
-    msgEl.textContent = `¿Estás seguro de eliminar ${labels[type] || 'el registro'} "${name}"? Esta acción no se puede deshacer.`;
-    overlay.classList.add('show');
-    const newBtn = yesBtn.cloneNode(true);
-    yesBtn.parentNode.replaceChild(newBtn, yesBtn);
-    newBtn.addEventListener('click', function () {
-        overlay.classList.remove('show');
-        console.log(`Eliminar ${type} id=${id}`);
-    });
-}
-
-function closeConfirm() {
-    const overlay = document.getElementById('confirmOverlay');
-    if (overlay) overlay.classList.remove('show');
-}
-
-function initReportTabs() {
-    document.querySelectorAll('.report-tab-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            document.querySelectorAll('.report-tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.report-tab-panel').forEach(p => p.classList.remove('active'));
-            this.classList.add('active');
-            const target = document.getElementById(this.dataset.target);
-            if (target) target.classList.add('active');
-        });
-    });
-}
-
-/* ============================================================
    CARRITO — localStorage con expiración de 15 minutos
    ============================================================ */
 const CARRITO_TTL = 15 * 60 * 1000;
@@ -368,14 +276,6 @@ document.addEventListener('DOMContentLoaded', function () {
     /* Dropdown mega-menú */
     const megaDrop = document.getElementById('megaDropdown');
     if (megaDrop) new bootstrap.Dropdown(megaDrop);
-
-    /* Admin */
-    initToggleEstado();
-    initAdminFormValidation();
-    initAdminTabs();
-    initReportTabs();
-    const confirmOverlay = document.getElementById('confirmOverlay');
-    if (confirmOverlay) confirmOverlay.addEventListener('click', e => { if (e.target === confirmOverlay) closeConfirm(); });
 
     /* Badge carrito en todas las páginas */
     actualizarBadge();
