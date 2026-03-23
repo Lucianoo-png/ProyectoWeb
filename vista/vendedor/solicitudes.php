@@ -19,7 +19,6 @@
                 <i class="fas fa-times"></i>
             </button>
         </div>
-
         <div class="row g-2">
             <div class="col-6">
                 <span class="modal-sol-label">No. Referencia</span>
@@ -42,7 +41,7 @@
                 <p id="modal-asunto" class="modal-sol-value"></p>
             </div>
             <div class="col-12">
-                <span class="modal-sol-label">Descripción</span>
+                <span class="modal-sol-label">Descripción del cliente</span>
                 <p id="modal-desc" class="modal-sol-value modal-desc-box"></p>
             </div>
             <div class="col-12">
@@ -50,9 +49,7 @@
                 <p id="modal-evidencia" class="modal-sol-value"></p>
             </div>
         </div>
-
         <hr class="modal-sol-divider">
-
         <div class="mb-3">
             <label class="modal-sol-label" for="modal-respuesta">Respuesta / Resolución:</label>
             <textarea id="modal-respuesta" class="form-control resize-v" rows="3"
@@ -66,7 +63,6 @@
                 <option value="cancelado">Cancelado</option>
             </select>
         </div>
-
         <div class="confirm-actions">
             <button class="btn-confirm-yes" id="btnGuardarSol">
                 <i class="fas fa-save me-1"></i> Guardar Respuesta
@@ -84,7 +80,7 @@
         <div>
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
             <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="91e2fee1fee3e5f4d1dde4f2f9f0fffee2d2fee3e1bff2fefc">[email&#160;protected]</a>
+                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
         <div><span><i class="fas fa-user-tie me-1"></i> Panel Vendedor</span></div>
@@ -131,7 +127,7 @@
         <p class="sidebar-title">Atención</p>
         <a href="solicitudes.php" class="nav-link active">
             <i class="fas fa-headset"></i> Solicitudes
-            <span class="tab-badge">4</span>
+            <span class="tab-badge">2</span>
         </a>
         <a href="../../vista/Cuenta/login.php" class="btn-cerrar">
             <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
@@ -152,14 +148,16 @@
 
         <div class="mb-4">
             <h1 class="page-header-title mb-0">Solicitudes de Clientes</h1>
-            <p class="page-header-sub">Atiende, responde y gestiona las solicitudes enviadas por los clientes.</p>
+            <p class="page-header-sub">
+                Verifica y gestiona las solicitudes de garantía y devolución enviadas por los clientes.
+            </p>
         </div>
 
-        <!-- Tabs -->
+        <!-- Tabs: Pendientes / En Proceso / Resueltas (sin Nueva Solicitud) -->
         <div class="admin-tabs admin-tabs-left mb-4">
             <button class="admin-tab-btn active" data-tab-group="sol" data-target="tab-pendientes">
                 <i class="fas fa-clock me-1"></i> Pendientes
-                <span class="tab-badge">4</span>
+                <span class="tab-badge">2</span>
             </button>
             <button class="admin-tab-btn" data-tab-group="sol" data-target="tab-proceso">
                 <i class="fas fa-spinner me-1"></i> En Proceso
@@ -167,17 +165,15 @@
             <button class="admin-tab-btn" data-tab-group="sol" data-target="tab-resueltas">
                 <i class="fas fa-check-circle me-1"></i> Resueltas
             </button>
-            <button class="admin-tab-btn" data-tab-group="sol" data-target="tab-nueva">
-                <i class="fas fa-plus-circle me-1"></i> Nueva Solicitud
-            </button>
         </div>
 
-        <!-- TAB: PENDIENTES -->
+        <!-- ══ TAB: PENDIENTES ══════════════════════════════════ -->
         <div class="admin-tab-panel active" id="tab-pendientes" data-tab-group="sol">
             <div class="admin-form-card">
                 <div class="admin-form-body pb-0">
                     <div class="admin-search-bar">
-                        <input type="text" class="form-control sol-filter-input"
+                        <input type="text"
+                               class="form-control sol-filter-input"
                                id="solBuscar"
                                placeholder="No. referencia o cliente…"
                                oninput="filtrarSolicitudes()">
@@ -187,9 +183,6 @@
                             <option value="">Todos los tipos</option>
                             <option value="Garantía">Garantía</option>
                             <option value="Devolución">Devolución</option>
-                            <option value="Información">Información</option>
-                            <option value="Queja">Queja</option>
-                            <option value="Soporte técnico">Soporte técnico</option>
                         </select>
                         <button class="btn-buscar" onclick="filtrarSolicitudes()">
                             <i class="fas fa-search"></i> Buscar
@@ -214,18 +207,14 @@
                             <tbody>
                                 <?php
                                 $pendientes = [
-                                    ['LC-SOL-240001','21/03/2026 09:15','Ana Torres',    'Garantía',       'Lavadora no enciende tras instalación',
-                                     'El cliente reporta que la lavadora adquirida el 14/03/2026 no enciende al conectarla. El panel no responde. Solicita revisión técnica.',
+                                    ['LC-SOL-240001','21/03/2026 09:15','Ana Torres',   'Garantía',
+                                     'Lavadora no enciende tras instalación',
+                                     'La lavadora adquirida el 14/03/2026 no enciende al conectarla. El panel no responde. Solicita revisión técnica.',
                                      'foto_lavadora.jpg'],
-                                    ['LC-SOL-240002','21/03/2026 10:02','Luis Ramírez',  'Devolución',     'Refrigerador llegó con golpe en la puerta',
-                                     'El cliente reporta daño físico evidente en la puerta del refrigerador al momento de la entrega. Solicita reposición o descuento.',
+                                    ['LC-SOL-240002','21/03/2026 10:02','Luis Ramírez', 'Devolución',
+                                     'Refrigerador llegó con golpe en la puerta',
+                                     'Daño físico evidente en la puerta del refrigerador al momento de la entrega. Solicita reposición o descuento.',
                                      'foto_golpe.jpg'],
-                                    ['LC-SOL-240003','21/03/2026 11:47','Roberto Méndez','Soporte técnico','Microondas hace ruido al girar el plato',
-                                     'El plato giratorio del microondas WM3911D produce un ruido inusual desde el primer uso. No afecta el funcionamiento pero el cliente desea revisión.',
-                                     'video_ruido.mp4'],
-                                    ['LC-SOL-240004','21/03/2026 12:30','Claudia Soto',  'Información',    '¿Tienen repuestos para estufa MGH765RDS?',
-                                     'El cliente pregunta si la tienda dispone de repuestos para la estufa MGH765RDS, en particular parrillas y quemadores.',
-                                     null],
                                 ];
                                 foreach ($pendientes as $i => $s):
                                     $data = htmlspecialchars(json_encode([
@@ -262,7 +251,7 @@
             </div>
         </div><!-- /tab-pendientes -->
 
-        <!-- TAB: EN PROCESO -->
+        <!-- ══ TAB: EN PROCESO ══════════════════════════════════ -->
         <div class="admin-tab-panel" id="tab-proceso" data-tab-group="sol">
             <div class="admin-form-card">
                 <div class="admin-form-body">
@@ -283,16 +272,19 @@
                             <tbody>
                                 <?php
                                 $enProceso = [
-                                    ['LC-SOL-230098','19/03/2026 14:20','Ana Torres',  'Queja',   'Demora en entrega de refrigerador',
-                                     'Se coordinó con logística para nueva fecha de entrega. Pendiente confirmación del cliente.'],
-                                    ['LC-SOL-230099','20/03/2026 08:55','Luis Ramírez','Garantía','Lavadora deja ropa húmeda',
+                                    ['LC-SOL-230098','19/03/2026 14:20','Ana Torres',  'Garantía',
+                                     'Lavadora deja ropa húmeda',
                                      'Técnico enviado al domicilio el 21/03/2026. Revisión en curso.'],
+                                    ['LC-SOL-230099','20/03/2026 08:55','Luis Ramírez','Devolución',
+                                     'Refrigerador Samsung con puerta abollada',
+                                     'Se coordinó con almacén para reposición. Pendiente confirmación del cliente.'],
                                 ];
                                 foreach ($enProceso as $i => $s):
                                     $data = htmlspecialchars(json_encode([
-                                        'ref'       => $s[0], 'cliente' => $s[2], 'tipo' => $s[3],
-                                        'fecha'     => $s[1], 'asunto'  => $s[4],
-                                        'desc'      => $s[5], 'evidencia' => null,
+                                        'ref'       => $s[0], 'cliente' => $s[2],
+                                        'tipo'      => $s[3], 'fecha'   => $s[1],
+                                        'asunto'    => $s[4], 'desc'    => $s[5],
+                                        'evidencia' => null,
                                     ]), ENT_QUOTES);
                                 ?>
                                 <tr>
@@ -317,7 +309,7 @@
             </div>
         </div><!-- /tab-proceso -->
 
-        <!-- TAB: RESUELTAS -->
+        <!-- ══ TAB: RESUELTAS ═══════════════════════════════════ -->
         <div class="admin-tab-panel" id="tab-resueltas" data-tab-group="sol">
             <div class="admin-form-card">
                 <div class="admin-form-body">
@@ -337,10 +329,10 @@
                             <tbody>
                                 <?php
                                 $resueltas = [
-                                    ['LC-SOL-230050','10/03/2026','Roberto Méndez','Devolución', 'Cambio de microondas por unidad defectuosa'],
-                                    ['LC-SOL-230051','12/03/2026','Claudia Soto',  'Información','Consulta sobre garantía de lavadora'],
-                                    ['LC-SOL-230052','15/03/2026','Ana Torres',    'Soporte',    'Configuración de aire acondicionado'],
-                                    ['LC-SOL-230053','17/03/2026','Luis Ramírez',  'Garantía',   'Reparación de estufa dentro de garantía'],
+                                    ['LC-SOL-230050','10/03/2026','Roberto Méndez','Devolución',
+                                     'Cambio de microondas por unidad defectuosa'],
+                                    ['LC-SOL-230053','17/03/2026','Luis Ramírez',  'Garantía',
+                                     'Reparación de estufa dentro de garantía'],
                                 ];
                                 foreach ($resueltas as $i => $s): ?>
                                 <tr>
@@ -359,84 +351,6 @@
                 </div>
             </div>
         </div><!-- /tab-resueltas -->
-
-        <!-- TAB: NUEVA SOLICITUD -->
-        <div class="admin-tab-panel" id="tab-nueva" data-tab-group="sol">
-            <div class="admin-form-card form-card-max">
-                <div class="admin-form-header">
-                    <i class="fas fa-plus-circle"></i> Registrar Nueva Solicitud de Cliente
-                </div>
-                <div class="admin-form-body">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold small">Cliente</label>
-                            <select class="form-select" id="nCliente">
-                                <option value="">— Seleccionar cliente —</option>
-                                <option>Ana Torres</option>
-                                <option>Luis Ramírez</option>
-                                <option>Roberto Méndez</option>
-                                <option>Claudia Soto</option>
-                                <option>— Cliente en mostrador —</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold small">Teléfono de contacto</label>
-                            <input type="tel" class="form-control" placeholder="Ej: 229-000-0000">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold small">Tipo de solicitud</label>
-                            <select class="form-select" id="nTipo">
-                                <option value="">— Seleccionar tipo —</option>
-                                <option value="garantia">Garantía</option>
-                                <option value="devolucion">Devolución</option>
-                                <option value="queja">Queja / Reclamo</option>
-                                <option value="soporte">Soporte técnico</option>
-                                <option value="informacion">Información</option>
-                                <option value="otro">Otro</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold small">Producto relacionado (SKU)</label>
-                            <select class="form-select">
-                                <option value="">— Opcional —</option>
-                                <option>WM3911D — Microondas AirFry</option>
-                                <option>8MWTW2024WJM — Lavadora 20kg</option>
-                                <option>WK0260B — Despachador de agua</option>
-                                <option>WRS315SNHM — Refrigerador Side by Side</option>
-                                <option>MGH765RDS — Estufa 6 quemadores</option>
-                                <option>WED5000DW — Secadora eléctrica</option>
-                                <option>WHP-AC1234 — Aire Acondicionado</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fw-semibold small">Asunto</label>
-                            <input type="text" class="form-control" id="nAsunto"
-                                   placeholder="Resumen breve de la solicitud…">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fw-semibold small">Descripción detallada</label>
-                            <textarea class="form-control resize-v" rows="4" id="nDesc"
-                                      placeholder="Describe el problema o consulta con el mayor detalle posible…"></textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold small">Evidencia / Adjunto</label>
-                            <input type="file" class="form-control" accept="image/*,.pdf">
-                            <small class="text-muted filter-hint">Imagen o PDF. Máx. 5 MB.</small>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold small">No. de referencia de compra (opcional)</label>
-                            <input type="text" class="form-control"
-                                   placeholder="Ej: VENTA-2026-0031">
-                        </div>
-                        <div class="col-12 text-end">
-                            <button class="btn-admin-primary" onclick="enviarNuevaSolicitud()">
-                                <i class="fas fa-paper-plane me-1"></i> Enviar Solicitud
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><!-- /tab-nueva -->
 
     </main>
 </div>
