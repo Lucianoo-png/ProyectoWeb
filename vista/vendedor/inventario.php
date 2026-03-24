@@ -12,16 +12,21 @@
 
 <!-- Topbar -->
 <div class="topbar">
-    <div class="container-fluid d-flex justify-content-between px-3">
+    <div class="container d-flex justify-content-between">
         <div>
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
             <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="85f6eaf5eaf7f1e0c5c9f0e6ede4ebeaf6c6eaf7f5abe6eae8">[email&#160;protected]</a>
+                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-        <div><span><i class="fas fa-user-tie me-1"></i> Panel Vendedor</span></div>
+        <div class="d-flex gap-3">
+            <a href="../rastrear_pedido.php" class="topbar-link-track">
+                <i class="fas fa-truck me-1"></i> Rastrear Pedido
+            </a>
+            <a href="#" class="topbar-link-muted">Ayuda</a>
+          </div>
+        </div>
     </div>
-</div>
 
 <!-- Navbar -->
 <div class="main-nav">
