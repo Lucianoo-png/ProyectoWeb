@@ -104,7 +104,7 @@
             <!-- Subcategorías -->
             <div class="row g-3 mb-5">
                 <div class="col-6 col-md-3">
-                    <a href="lavadoras.php" class="text-decoration-none">
+                    <a href="OtrasCategorias/lavadoras.php" class="text-decoration-none">
                         <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                             <i class="fas fa-tshirt fa-2x mb-2" style="color:var(--btn-color)"></i>
                             <p class="mb-0 small fw-semibold">Lavadoras</p>
@@ -112,7 +112,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="secadoras.php" class="text-decoration-none">
+                    <a href="OtrasCategorias/secadoras.php" class="text-decoration-none">
                         <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                             <i class="fas fa-wind fa-2x mb-2" style="color:var(--btn-color)"></i>
                             <p class="mb-0 small fw-semibold">Secadoras</p>
@@ -120,7 +120,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="refrigeradores.php" class="text-decoration-none">
+                    <a href="OtrasCategorias/refrigeradores.php" class="text-decoration-none">
                         <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                             <i class="fas fa-snowflake fa-2x mb-2" style="color:var(--btn-color)"></i>
                             <p class="mb-0 small fw-semibold">Refrigeradores</p>
@@ -128,7 +128,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="congeladores.php" class="text-decoration-none">
+                    <a href="OtrasCategorias/congeladores.php" class="text-decoration-none">
                         <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                             <i class="fas fa-cube fa-2x mb-2" style="color:var(--btn-color)"></i>
                             <p class="mb-0 small fw-semibold">Congeladores</p>

@@ -98,19 +98,19 @@
             <p class="text-muted small">Estufas, hornos, microondas, lavavajillas y accesorios para tu cocina.</p><hr>
         </div>
         <div class="row g-3 mb-5">
-            <div class="col-6 col-md-3"><a href="estufas.php" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="OtrasCategorias/estufas.php" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-burn fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Estufas</p>
                 </div></a></div>
-            <div class="col-6 col-md-3"><a href="hornos.php" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="OtrasCategorias/hornos.php" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-fire fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Hornos</p>
                 </div></a></div>
-            <div class="col-6 col-md-3"><a href="microondas.php" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="OtrasCategorias/microondas.php" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-blender fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Microondas</p>
                 </div></a></div>
-            <div class="col-6 col-md-3"><a href="lavavajillas.php" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="OtrasCategorias/lavavajillas.php" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-utensils fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Lavavajillas</p>
                 </div></a></div>

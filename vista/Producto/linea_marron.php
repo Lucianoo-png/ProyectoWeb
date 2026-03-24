@@ -97,19 +97,19 @@
             <p class="text-muted small">Televisores, audio, video y electrónica de entretenimiento.</p><hr>
         </div>
         <div class="row g-3 mb-5">
-            <div class="col-6 col-md-3"><a href="#televisores" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="OtrasCategorias/televisores" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-tv fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Televisores</p>
                 </div></a></div>
-            <div class="col-6 col-md-3"><a href="#audio" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="OtrasCategorias/audio" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-volume-up fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Audio</p>
                 </div></a></div>
-            <div class="col-6 col-md-3"><a href="#proyectores" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="OtrasCategorias/proyectores" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-film fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Proyectores</p>
                 </div></a></div>
-            <div class="col-6 col-md-3"><a href="#videojuegos" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="OtrasCategorias/videojuegos" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-gamepad fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Videojuegos</p>
                 </div></a></div>
