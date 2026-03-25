@@ -115,14 +115,13 @@ include 'includes/../control/navbar.php';
             <div class="col-md-2">
                 <h6 class="text-uppercase fw-bold mb-4">Productos</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="#">Lavadoras</a></li>
-                    <li class="mb-2"><a href="#">Estufas</a></li>
+                    <li class="mb-2"><a href="Vista/Producto/OtrasCategorias/lavadoras.php">Lavadoras</a></li>
+                    <li class="mb-2"><a href="Vista/Producto/OtrasCategorias/estufas.php">Estufas</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <h6 class="text-uppercase fw-bold mb-4">Soporte</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="#">Garantías</a></li>
                     <li class="mb-2"><a href="#">Contacto</a></li>
                 </ul>
             </div>
