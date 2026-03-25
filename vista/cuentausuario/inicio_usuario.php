@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
     <link rel="stylesheet" href="../../estilos/styles.css">
+    
 </head>
 <body>
 
@@ -23,9 +24,9 @@
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
             <a href="#" class="topbar-link-muted">Ayuda</a>
+          </div>
         </div>
     </div>
-</div>
 
 <div class="main-nav">
     <div class="container d-flex align-items-center gap-3">
@@ -106,7 +107,7 @@
                             <div class="col-md-6">
                                 <div class="perfil-campo">
                                     <div class="perfil-label">Correo electrónico</div>
-                                    <div class="perfil-valor" id="vEmail">carlosluciano260@gmail.com</div>
+                                   <p class="cuenta-sidebar-email">carlosluciano260@gmail.com</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -400,71 +401,12 @@
                         Envía y consulta tus solicitudes de garantía o devolución.
                     </p>
                 </div>
-                <button class="btn-dir-add" onclick="toggleFormSolicitud()">
+                <a href="nueva_solicitud.php" class="btn-dir-add">
                     <i class="fas fa-plus"></i> Nueva solicitud
-                </button>
+                </a>
             </div>
-
-            <!-- Formulario nueva solicitud -->
-            <div id="formSolicitudWrapper" style="display:none">
-                <div class="cuenta-card mb-3">
-                    <div class="cuenta-card-header">
-                        <span><i class="fas fa-plus-circle"></i> Nueva Solicitud</span>
-                    </div>
-                    <div class="cuenta-card-body">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">Tipo de solicitud <span class="text-danger">*</span></label>
-                                <select class="form-select" id="solClienteTipo">
-                                    <option value="">— Seleccionar tipo —</option>
-                                    <option value="Garantía">Garantía</option>
-                                    <option value="Devolución">Devolución</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">Producto relacionado (SKU) <span class="text-danger">*</span></label>
-                                <select class="form-select" id="solClienteSku">
-                                    <option value="">— Seleccionar producto —</option>
-                                    <option value="WM3911D">WM3911D — Microondas AirFry</option>
-                                    <option value="8MWTW2024WJM">8MWTW2024WJM — Lavadora 20kg</option>
-                                    <option value="WK0260B">WK0260B — Despachador de agua</option>
-                                    <option value="WRS315SNHM">WRS315SNHM — Refrigerador Side by Side</option>
-                                    <option value="MGH765RDS">MGH765RDS — Estufa 6 quemadores</option>
-                                    <option value="WED5000DW">WED5000DW — Secadora eléctrica</option>
-                                    <option value="WHP-AC1234">WHP-AC1234 — Aire Acondicionado</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-semibold small">Asunto <span class="text-danger">*</span></label>
-                                <input type="text" id="solClienteAsunto" class="form-control"
-                                       placeholder="Resumen breve del problema…">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-semibold small">Descripción detallada <span class="text-danger">*</span></label>
-                                <textarea id="solClienteDesc" class="form-control" rows="4" style="resize:vertical"
-                                          placeholder="Describe el problema con el mayor detalle posible: cuándo ocurrió, qué síntomas presenta, etc."></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">Evidencia / Adjunto</label>
-                                <input type="file" class="form-control" id="solClienteEvidencia" accept="image/*,.pdf">
-                                <small class="text-muted" style="font-size:.72rem">Imagen o PDF. Máx. 5 MB.</small>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">No. de referencia de compra (opcional)</label>
-                                <input type="text" id="solClienteRef" class="form-control" placeholder="Ej: LC-2026-0041">
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2 mt-3">
-                            <button class="btn-cuenta-save" onclick="enviarSolicitudCliente()">
-                                <i class="fas fa-paper-plane me-1"></i> Enviar solicitud
-                            </button>
-                            <button class="btn-cuenta-cancel" onclick="cancelarFormSolicitud()">Cancelar</button>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- /formSolicitudWrapper -->
-
             <!-- Historial -->
+
             <div id="listaSolicitudes">
 
                 <div class="cuenta-card mb-3">
@@ -524,7 +466,7 @@
                     </div>
                 </div>
 
-            </div><!-- /listaSolicitudes -->
+            </div><!-- /listaS
 
         </div><!-- /panel-solicitudes -->
 

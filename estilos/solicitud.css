@@ -1,0 +1,292 @@
+/* ============================================================
+   LuchanosCorp — nueva_solicitud.css
+   Estilos exclusivos de la página nueva_solicitud.php
+   Depende de: estilos/styles.css (variables y base)
+   ============================================================ */
+
+/* ── Breadcrumb ─────────────────────────────────────────────── */
+.sol-breadcrumb {
+    font-size: .8rem;
+    color: #8a9bb5;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+.sol-breadcrumb a {
+    color: var(--btn-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+.sol-breadcrumb a:hover { text-decoration: underline; }
+.sol-breadcrumb i { font-size: .65rem; color: #c0ccda; }
+
+/* ── Encabezado de página ───────────────────────────────────── */
+.sol-page-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--azul-marino);
+    margin: 0 0 .25rem;
+}
+.sol-page-sub {
+    font-size: .83rem;
+    color: #6c757d;
+    margin: 0 0 1.75rem;
+}
+
+/* ── Nota de campos requeridos ──────────────────────────────── */
+.sol-required-note {
+    font-size: .75rem;
+    color: #8a9bb5;
+    margin-bottom: 1.25rem;
+}
+.sol-required-note span { color: #dc3545; font-weight: 700; }
+
+/* ── Separadores de sección ─────────────────────────────────── */
+.sol-section-title {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: #8a9bb5;
+    border-bottom: 1.5px solid #eaeff5;
+    padding-bottom: .4rem;
+    margin: 1.5rem 0 1rem;
+}
+.sol-section-title:first-of-type { margin-top: 0; }
+
+/* ── Zona de carga de evidencia (dropzone) ──────────────────── */
+.sol-dropzone {
+    border: 2px dashed #c8d6e8;
+    border-radius: .6rem;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    background: #f8fafc;
+    position: relative;
+}
+.sol-dropzone:hover,
+.sol-dropzone.dragover {
+    border-color: var(--btn-color);
+    background: #eef7fa;
+}
+.sol-dropzone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+.sol-dropzone-icon {
+    font-size: 1.8rem;
+    color: #c0ccda;
+    display: block;
+    margin-bottom: .5rem;
+}
+.sol-dropzone-label {
+    font-size: .84rem;
+    color: #6c757d;
+}
+.sol-dropzone-label strong { color: var(--btn-color); }
+.sol-dropzone-hint {
+    font-size: .72rem;
+    color: #aab4c4;
+    margin-top: .3rem;
+}
+
+/* ── Preview del archivo seleccionado ───────────────────────── */
+.sol-file-preview {
+    display: none;
+    align-items: center;
+    gap: .75rem;
+    padding: .6rem .85rem;
+    background: #eef7fa;
+    border: 1.5px solid var(--btn-color);
+    border-radius: .5rem;
+    margin-top: .75rem;
+    font-size: .82rem;
+    color: #333;
+}
+.sol-file-preview.visible { display: flex; }
+.sol-file-preview i { font-size: 1.1rem; }
+.sol-file-preview .sol-file-pdf  { color: #dc3545; }
+.sol-file-preview .sol-file-img  { color: var(--btn-color); }
+.sol-file-remove {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: .8rem;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    font-weight: 600;
+    transition: opacity .15s;
+}
+.sol-file-remove:hover { opacity: .75; }
+
+/* ── Botones de acción ──────────────────────────────────────── */
+.sol-actions {
+    display: flex;
+    gap: .75rem;
+    margin-top: 1.75rem;
+    flex-wrap: wrap;
+}
+
+.btn-sol-enviar {
+    background: var(--btn-color);
+    border: none;
+    color: #fff;
+    border-radius: .45rem;
+    padding: .6rem 1.6rem;
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    transition: background .2s, transform .1s;
+}
+.btn-sol-enviar:hover            { background: var(--btn-hover); transform: translateY(-1px); }
+.btn-sol-enviar:disabled         { background: #adb5bd; cursor: not-allowed; transform: none; }
+
+.btn-sol-cancelar {
+    background: #f1f5f9;
+    border: 1.5px solid #dde3ec;
+    color: #555;
+    border-radius: .45rem;
+    padding: .58rem 1.2rem;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+.btn-sol-cancelar:hover { background: #e2e8f0; color: #333; }
+
+/* ── Toast de confirmación ──────────────────────────────────── */
+.sol-toast {
+    display: none;
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 9999;
+    background: #fff;
+    border-radius: .65rem;
+    box-shadow: 0 6px 28px rgba(0, 35, 102, .15);
+    padding: 1rem 1.35rem;
+    min-width: 300px;
+    max-width: 380px;
+    border-left: 4px solid #10b981;
+    animation: solSlideIn .3s ease;
+}
+.sol-toast.visible { display: flex; align-items: flex-start; gap: .8rem; }
+.sol-toast-icon  { font-size: 1.4rem; color: #10b981; flex-shrink: 0; }
+.sol-toast-title { font-size: .9rem; font-weight: 700; color: #065f46; margin: 0 0 .2rem; }
+.sol-toast-msg   { font-size: .8rem; color: #444; margin: 0; }
+.sol-toast-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #aab4c4;
+    cursor: pointer;
+    font-size: .85rem;
+    align-self: flex-start;
+    padding: 0;
+    transition: color .15s;
+}
+.sol-toast-close:hover { color: #555; }
+
+@keyframes solSlideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Tarjeta lateral de resumen ─────────────────────────────── */
+.sol-sidebar-card {
+    background: #fff;
+    border-radius: .75rem;
+    box-shadow: var(--sombra-card);
+    overflow: hidden;
+    position: sticky;
+    top: 1.5rem;
+}
+.sol-sidebar-header {
+    background: var(--azul-marino);
+    color: #fff;
+    padding: .85rem 1.1rem;
+    font-size: .84rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+.sol-sidebar-body { padding: 1rem 1.1rem; }
+
+.sol-info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: .65rem;
+    padding: .55rem 0;
+    border-bottom: 1px solid #eaeff5;
+    font-size: .8rem;
+}
+.sol-info-row:last-child { border-bottom: none; }
+.sol-info-row > i {
+    color: var(--btn-color);
+    width: 1rem;
+    text-align: center;
+    flex-shrink: 0;
+    margin-top: .1rem;
+}
+.sol-info-row-text { color: #444; line-height: 1.45; min-width: 0; }
+.sol-info-row-text strong {
+    display: block;
+    color: var(--azul-marino);
+    font-size: .78rem;
+    margin-bottom: .1rem;
+}
+.sol-info-row-text span {
+    word-break: break-word;
+}
+
+/* ── Badges de tipo en el resumen ───────────────────────────── */
+.sol-tipo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    font-size: .78rem;
+    font-weight: 700;
+    padding: .25rem .75rem;
+    border-radius: 2rem;
+    margin-top: .25rem;
+}
+.sol-tipo-badge.garantia   { background: #dbeafe; color: #1e40af; }
+.sol-tipo-badge.devolucion { background: #fce7f3; color: #9d174d; }
+.sol-tipo-badge.none       { background: #f1f5f9; color: #8a9bb5; }
+
+/* ── Tarjeta de ayuda ───────────────────────────────────────── */
+.sol-help-card {
+    font-size: .79rem;
+    color: #555;
+    line-height: 1.6;
+}
+.sol-help-card .sol-help-title {
+    font-weight: 700;
+    color: var(--azul-marino);
+    margin-bottom: .35rem;
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 991px) {
+    .sol-sidebar-card { position: static; margin-top: 0; }
+}
