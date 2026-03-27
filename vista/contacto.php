@@ -193,121 +193,74 @@
             </div>
 
         </div>
-
-        <!-- ═══════════════════════════════════════════
+<!--
+         ═══════════════════════════════════════════
              FORMULARIO + INFO EXTRA
         ════════════════════════════════════════════ -->
         <div class="row g-4">
 
-            <!-- FORMULARIO DE CONTACTO -->
-            <div class="col-lg-7">
-                <div class="contact-form-card">
-                    <h4><i class="fas fa-paper-plane me-2" style="color:var(--btn-color)"></i>Envíanos un mensaje</h4>
+         
+        <!-- INFO EXTRA: Horarios + Redes + Mapa -->
+        <!-- Agregamos 'mx-auto' para centrar toda la columna -->
+        <div class="col-lg-5 d-flex flex-column gap-3 mx-auto">
 
-                    <div id="contacto-ok" class="alert alert-success d-flex align-items-center gap-2 mb-3" role="alert">
-                        <i class="fas fa-check-circle"></i>
-                        <div>¡Mensaje enviado! Te contactaremos en menos de 24 horas.</div>
-                    </div>
+            <!-- Horarios de atención (Tarjeta separada) -->
+            <div class="contact-info-card text-center">
+                <h6><i class="fas fa-clock me-2" style="color:var(--btn-color)"></i>Horarios de Atención</h6>
+                <table class="horario-table w-100 mt-2">
+                    <tr>
+                        <td>Lunes – Viernes</td>
+                        <td>9:00 am – 7:00 pm <span class="badge-abierto">Abierto</span></td>
+                    </tr>
+                    <tr>
+                        <td>Sábado</td>
+                        <td>10:00 am – 5:00 pm <span class="badge-abierto">Abierto</span></td>
+                    </tr>
+                    <tr>
+                        <td>Domingo</td>
+                        <td style="color:#dc2626;font-weight:600">Cerrado</td>
+                    </tr>
+                    <tr>
+                        <td>Días festivos</td>
+                        <td style="color:#d97706;font-weight:600">Horario especial</td>
+                    </tr>
+                </table>
+                <p class="mt-2 mb-0" style="font-size:.78rem;color:#9ca3af">
+                    <i class="fas fa-headset me-1"></i> Soporte vía correo disponible 24/7.
+                </p>
+            </div>
 
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Nombre completo <span class="text-danger">*</span></label>
-                            <input type="text" id="ctNombre" class="form-control" placeholder="Carlos Luciano">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Correo electrónico <span class="text-danger">*</span></label>
-                            <input type="email" id="ctEmail" class="form-control" placeholder="correo@ejemplo.com">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Teléfono</label>
-                            <input type="tel" id="ctTel" class="form-control" placeholder="229 000 0000">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Motivo <span class="text-danger">*</span></label>
-                            <select id="ctMotivo" class="form-select">
-                                <option value="">— Seleccionar —</option>
-                                <option>Información de productos</option>
-                                <option>Soporte técnico</option>
-                                <option>Garantía / Devolución</option>
-                                <option>Facturación</option>
-                                <option>Ventas corporativas</option>
-                                <option>Otro</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Asunto <span class="text-danger">*</span></label>
-                            <input type="text" id="ctAsunto" class="form-control" placeholder="Resumen breve de tu consulta…">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Mensaje <span class="text-danger">*</span></label>
-                            <textarea id="ctMensaje" class="form-control" rows="5" style="resize:vertical"
-                                      placeholder="Cuéntanos con detalle en qué podemos ayudarte…"></textarea>
-                        </div>
-                        <div class="col-12">
-                            <button class="btn-enviar-contacto" onclick="enviarContacto()">
-                                <i class="fas fa-paper-plane me-2"></i> Enviar mensaje
-                            </button>
-                        </div>
-                    </div>
+            <!-- Síguenos en Redes (Tarjeta separada) -->
+            <div class="contact-info-card text-center">
+                <h6><i class="fas fa-share-alt me-2" style="color:var(--btn-color)"></i>Síguenos en Redes</h6>
+                <p style="font-size:.83rem;color:#6b7280;margin-bottom:.85rem">
+                    Mantente al tanto de ofertas y novedades.
+                </p>
+                <div class="social-grid">
+                    <a href="https://www.facebook.com/LuchanosCorp" target="_blank" class="social-btn facebook">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </a>
+                    <a href="https://www.instagram.com/LuchanosCorp" target="_blank" class="social-btn instagram">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </a>
+                    <a href="https://twitter.com/LuchanosCorp" target="_blank" class="social-btn twitter">
+                        <i class="fab fa-twitter"></i> X / Twitter
+                    </a>
+                    <a href="https://www.youtube.com/@LuchanosCorp" target="_blank" class="social-btn youtube">
+                        <i class="fab fa-youtube"></i> YouTube
+                    </a>
+                    <a href="https://wa.me/522291234567" target="_blank" class="social-btn whatsapp">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="https://www.tiktok.com/@LuchanosCorp" target="_blank" class="social-btn tiktok">
+                        <i class="fab fa-tiktok"></i> TikTok
+                    </a>
                 </div>
             </div>
 
-            <!-- INFO EXTRA: Horarios + Redes + Mapa -->
-            <div class="col-lg-5 d-flex flex-column gap-3">
+            <!-- Mapa -->
 
-                <!-- Horarios de atención -->
-                <div class="contact-info-card">
-                    <h6><i class="fas fa-clock me-2" style="color:var(--btn-color)"></i>Horarios de Atención</h6>
-                    <table class="horario-table w-100 mt-2">
-                        <tr>
-                            <td>Lunes – Viernes</td>
-                            <td>9:00 am – 7:00 pm <span class="badge-abierto">Abierto</span></td>
-                        </tr>
-                        <tr>
-                            <td>Sábado</td>
-                            <td>10:00 am – 5:00 pm <span class="badge-abierto">Abierto</span></td>
-                        </tr>
-                        <tr>
-                            <td>Domingo</td>
-                            <td style="color:#dc2626;font-weight:600">Cerrado</td>
-                        </tr>
-                        <tr>
-                            <td>Días festivos</td>
-                            <td style="color:#d97706;font-weight:600">Horario especial</td>
-                        </tr>
-                    </table>
-                    <p class="mt-2 mb-0" style="font-size:.78rem;color:#9ca3af">
-                        <i class="fas fa-headset me-1"></i> Soporte vía correo disponible 24/7.
-                    </p>
-                </div>
-
-                <!-- Redes sociales -->
-                <div class="contact-info-card">
-                    <h6><i class="fas fa-share-alt me-2" style="color:var(--btn-color)"></i>Síguenos en Redes</h6>
-                    <p style="font-size:.83rem;color:#6b7280;margin-bottom:.85rem">
-                        Mantente al tanto de ofertas, novedades y atención en nuestras redes.
-                    </p>
-                    <div class="social-grid">
-                        <a href="https://www.facebook.com/LuchanosCorp" target="_blank" class="social-btn facebook">
-                            <i class="fab fa-facebook-f"></i> Facebook
-                        </a>
-                        <a href="https://www.instagram.com/LuchanosCorp" target="_blank" class="social-btn instagram">
-                            <i class="fab fa-instagram"></i> Instagram
-                        </a>
-                        <a href="https://twitter.com/LuchanosCorp" target="_blank" class="social-btn twitter">
-                            <i class="fab fa-twitter"></i> X / Twitter
-                        </a>
-                        <a href="https://www.youtube.com/@LuchanosCorp" target="_blank" class="social-btn youtube">
-                            <i class="fab fa-youtube"></i> YouTube
-                        </a>
-                        <a href="https://wa.me/522291234567" target="_blank" class="social-btn whatsapp">
-                            <i class="fab fa-whatsapp"></i> WhatsApp
-                        </a>
-                        <a href="https://www.tiktok.com/@LuchanosCorp" target="_blank" class="social-btn tiktok">
-                            <i class="fab fa-tiktok"></i> TikTok
-                        </a>
-                    </div>
-                </div>
+        </div>
 
                 <!-- Mapa -->
                 <div class="map-wrap">
