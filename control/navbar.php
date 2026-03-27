@@ -42,6 +42,7 @@ $r = [
     'lavavajillas' => $pathBase . 'vista/Producto/OtrasCategorias/lavavajillas.php',
     'cuidado_hogar'=> $pathBase . 'vista/Producto/OtrasCategorias/cuidado_hogar.php',
     'cuidado_personal'=> $pathBase . 'vista/Producto/OtrasCategorias/cuidado_personal.php',
+    'ayuda' => $pathBase . 'vista/cuentausuario/ayuda.php'
 ];
 ?>
 
@@ -60,7 +61,7 @@ $r = [
             <a href="./vista/rastrear_pedido.php" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
-            <a href="#" class="topbar-link-muted">Ayuda</a>
+            <!--<a href="<?= $r['ayuda'] ?>" class="topbar-link-muted">Ayuda</a>-->
         </div>
     </div>
 </div>

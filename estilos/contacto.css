@@ -1,0 +1,175 @@
+/* ═══════════════════════════════════════════════════════
+   LuchanosCorp - Página de Contacto
+   Archivo CSS separado para contacto.php
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Hero de contacto ── */
+.contact-hero {
+    background: linear-gradient(135deg, var(--dark-blue, #002366) 0%, #1a3a8f 100%);
+    color: #fff;
+    padding: 3rem 0 2.5rem;
+    margin-bottom: 2.5rem;
+}
+.contact-hero h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -.5px;
+}
+.contact-hero p {
+    font-size: .95rem;
+    opacity: .82;
+    margin-bottom: 0;
+}
+
+/* ── Tarjetas de info de contacto ── */
+.contact-info-card {
+    border: 1px solid #e2e8f0;
+    border-radius: .75rem;
+    padding: 1.75rem 1.5rem;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    height: 100%;
+    transition: box-shadow .2s, transform .2s;
+}
+.contact-info-card:hover {
+    box-shadow: 0 6px 20px rgba(0,35,102,.12);
+    transform: translateY(-3px);
+}
+.contact-info-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    background: rgba(0,35,102,.08);
+    color: var(--btn-color, #008CA8);
+}
+.contact-info-card h6 {
+    font-weight: 700;
+    color: var(--dark-blue, #002366);
+    margin-bottom: .35rem;
+    font-size: .92rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+.contact-info-card p,
+.contact-info-card a {
+    font-size: .88rem;
+    color: #4a5568;
+    text-decoration: none;
+    line-height: 1.6;
+}
+.contact-info-card a:hover { color: var(--btn-color, #008CA8); }
+
+/* ── Sección redes sociales ── */
+.social-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+}
+.social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .55rem 1.1rem;
+    border-radius: 2rem;
+    font-size: .85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity .2s, transform .15s;
+    color: #fff;
+}
+.social-btn:hover { opacity: .88; transform: translateY(-2px); color: #fff; }
+.social-btn.facebook  { background: #1877f2; }
+.social-btn.instagram { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+.social-btn.twitter   { background: #000; }
+.social-btn.youtube   { background: #ff0000; }
+.social-btn.whatsapp  { background: #25d366; }
+.social-btn.tiktok    { background: #010101; }
+
+/* ── Formulario de contacto ── */
+.contact-form-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: .75rem;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+.contact-form-card h4 {
+    font-weight: 700;
+    color: var(--dark-blue, #002366);
+    margin-bottom: 1.25rem;
+    font-size: 1.15rem;
+}
+.contact-form-card .form-label {
+    font-size: .83rem;
+    font-weight: 600;
+    color: #374151;
+}
+.contact-form-card .form-control,
+.contact-form-card .form-select {
+    font-size: .88rem;
+    border-radius: .5rem;
+    border-color: #d1d5db;
+}
+.contact-form-card .form-control:focus,
+.contact-form-card .form-select:focus {
+    border-color: var(--btn-color, #008CA8);
+    box-shadow: 0 0 0 .2rem rgba(0,140,168,.15);
+}
+.btn-enviar-contacto {
+    background: var(--btn-color, #008CA8);
+    color: #fff;
+    border: none;
+    border-radius: .5rem;
+    padding: .65rem 2rem;
+    font-weight: 600;
+    font-size: .9rem;
+    transition: background .2s, transform .15s;
+    cursor: pointer;
+}
+.btn-enviar-contacto:hover {
+    background: var(--dark-blue, #002366);
+    transform: translateY(-1px);
+}
+
+/* ── Horarios ── */
+.horario-table td {
+    font-size: .85rem;
+    padding: .35rem .1rem;
+    color: #4a5568;
+}
+.horario-table td:first-child {
+    font-weight: 600;
+    color: var(--dark-blue, #002366);
+    width: 55%;
+}
+.badge-abierto {
+    display: inline-block;
+    background: #dcfce7;
+    color: #15803d;
+    font-size: .72rem;
+    font-weight: 700;
+    padding: .15rem .55rem;
+    border-radius: 2rem;
+}
+
+/* ── Mapa placeholder ── */
+.map-wrap {
+    border-radius: .75rem;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+.map-wrap iframe {
+    width: 100%;
+    height: 280px;
+    border: none;
+    display: block;
+}
+
+/* ── Alerta de éxito ── */
+#contacto-ok { display: none; }

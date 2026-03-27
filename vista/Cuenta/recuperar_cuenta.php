@@ -17,7 +17,7 @@
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
                 <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com</span>
             </div>
-            <div><a href="#" class="me-3">Rastrear Pedido</a><a href="#">Ayuda</a></div>
+                <!-- <a href="#" class="topbar-link-muted">Ayuda</a>-->
         </div>
     </div>
 

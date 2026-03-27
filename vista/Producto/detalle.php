@@ -115,7 +115,7 @@ $prod_js = json_encode([
             <a href="../rastrear_pedido.php" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
-            <a href="#" class="topbar-link-muted">Ayuda</a>
+              <!-- <a href="#" class="topbar-link-muted">Ayuda</a>-->
         </div>
     </div>
 </div>
