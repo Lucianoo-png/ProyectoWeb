@@ -1,40 +1,57 @@
-/* ============================================================
-   LuchanosCorp — Scripts Panel Admin + Vendedor
-   Ruta: js/panel.js
-   Extiende: js/scripts.js  (debe cargarse ANTES)
-   Páginas: vista/Admin/*.php  |  vista/Vendedor/*.php
-   ============================================================ */
+/* ════════════════════════════════════════════════════════════
+   LuchanosCorp — Scripts Panel Admin + Vendedor + Repartidor
+   Ruta: js/vendedor.js
+   ════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════════
+   UTILIDADES GLOBALES
+   ════════════════════════════════════════════════════════════ */
+
+/** Formatea número como moneda MXN: $1,234.56 */
+function fmt(n) {
+    return '$' + parseFloat(n).toLocaleString('es-MX', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+/* ════════════════════════════════════════════════════════════
+   ADMIN — Funciones Generales
+   ════════════════════════════════════════════════════════════ */
 
 function previewImagen(input) {
-    const label   = document.getElementById('imagen-label');
+    const label = document.getElementById('imagen-label');
     const preview = document.getElementById('img-preview');
     if (!input.files || !input.files[0]) return;
     if (label) label.textContent = input.files[0].name;
     const reader = new FileReader();
     reader.onload = e => {
-        if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
+        if (preview) { 
+            preview.src = e.target.result; 
+            preview.style.display = 'block'; 
+        }
     };
     reader.readAsDataURL(input.files[0]);
 }
 
-/* ── Toggle de estado activo/inactivo ───────────────────────── */
+/* Toggle de estado activo/inactivo */
 function initToggleEstado() {
     const toggle = document.getElementById('estado');
-    const label  = document.getElementById('estadoLabel');
+    const label = document.getElementById('estadoLabel');
     if (!toggle || !label) return;
     toggle.addEventListener('change', function () {
         label.textContent = this.checked ? 'Activo' : 'Inactivo';
     });
 }
 
-/* ── Validación de formulario con confirmación de contraseña ── */
+/* Validación de formulario */
 function initAdminFormValidation() {
     const form = document.querySelector('.needs-validation');
     if (!form) return;
     form.addEventListener('submit', e => {
-        const pw  = document.getElementById('contrasena');
+        const pw = document.getElementById('contrasena');
         const cpw = document.getElementById('confirmar');
-        const fb  = document.getElementById('confirmar-feedback');
+        const fb = document.getElementById('confirmar-feedback');
         if (pw && cpw) {
             if (pw.value !== cpw.value) {
                 cpw.setCustomValidity('No coinciden');
@@ -50,7 +67,7 @@ function initAdminFormValidation() {
     if (confirmar) confirmar.addEventListener('input', () => confirmar.setCustomValidity(''));
 }
 
-/* ── Tabs del panel admin ───────────────────────────────────── */
+/* Tabs del panel admin */
 function initAdminTabs() {
     document.querySelectorAll('.admin-tab-btn').forEach(btn => {
         btn.addEventListener('click', function () {
@@ -64,11 +81,11 @@ function initAdminTabs() {
     });
 }
 
-/* ── Modal de confirmación de eliminación ───────────────────── */
+/* Modal de confirmación de eliminación */
 function confirmDelete(type, name, id) {
     const overlay = document.getElementById('confirmOverlay');
-    const msgEl   = document.getElementById('confirmMsg');
-    const yesBtn  = document.getElementById('confirmYes');
+    const msgEl = document.getElementById('confirmMsg');
+    const yesBtn = document.getElementById('confirmYes');
     if (!overlay || !msgEl || !yesBtn) return;
     const labels = { producto: 'el producto', usuario: 'el usuario', personal: 'al personal' };
     msgEl.textContent = `¿Estás seguro de eliminar ${labels[type] || 'el registro'} "${name}"? Esta acción no se puede deshacer.`;
@@ -86,7 +103,7 @@ function closeConfirm() {
     if (overlay) overlay.classList.remove('show');
 }
 
-/* ── Tabs de reportes ───────────────────────────────────────── */
+/* Tabs de reportes */
 function initReportTabs() {
     document.querySelectorAll('.report-tab-btn').forEach(btn => {
         btn.addEventListener('click', function () {
@@ -99,54 +116,28 @@ function initReportTabs() {
     });
 }
 
-/* ── Init ───────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════
+   VENDEDOR — Punto de Venta (ventas.php)
+   ════════════════════════════════════════════════════════════ */
 
-
-
-/* ════════════════════════════════════════════════════
-   UTILIDADES
-════════════════════════════════════════════════════ */
-
-/** Formatea número como moneda MXN: $1,234.56 */
-function fmt(n) {
-    return '$' + parseFloat(n).toLocaleString('es-MX', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
-}
-
-/* ════════════════════════════════════════════════════
-   PÁGINA: ventas.php
-   Punto de venta — tabla de items + cálculo de pago
-════════════════════════════════════════════════════ */
-
-let ventaItems   = [];
+let ventaItems = [];
 let ventaCounter = 0;
 
-/**
- * Maneja el submit del formulario de agregar producto.
- * Agrega el producto seleccionado a ventaItems y re-renderiza.
- */
 function initVentas() {
     const form = document.getElementById('formAgregarProducto');
     if (!form) return;
-
     form.addEventListener('submit', function (e) {
         e.preventDefault();
-
         const sel = document.getElementById('selectProducto');
         const qty = parseInt(document.getElementById('inputCantidad').value) || 1;
-
         if (!sel.value) {
             sel.classList.add('is-invalid');
             return;
         }
         sel.classList.remove('is-invalid');
-
         const precio = parseFloat(sel.options[sel.selectedIndex].dataset.precio);
-        const sku    = sel.value;
-        const nombre = sel.options[sel.selectedIndex].text.split(' (')[0];   // Nombre limpio
-
+        const sku = sel.value;
+        const nombre = sel.options[sel.selectedIndex].text.split(' (')[0];
         const exist = ventaItems.find(i => i.sku === sku);
         if (exist) {
             exist.qty += qty;
@@ -154,20 +145,16 @@ function initVentas() {
             ventaCounter++;
             ventaItems.push({ id: ventaCounter, sku, nombre, precio, qty });
         }
-
         renderTablaVenta();
         sel.selectedIndex = 0;
         document.getElementById('inputCantidad').value = 1;
     });
 }
 
-/** Reconstruye el tbody de ventas y muestra/oculta la sección de pago. */
 function renderTablaVenta() {
-    const tbody     = document.getElementById('tbodyVenta');
-    const secPago   = document.getElementById('seccionPago');
-    const trVacio   = document.getElementById('tr-vacio');
+    const tbody = document.getElementById('tbodyVenta');
+    const secPago = document.getElementById('seccionPago');
     if (!tbody) return;
-
     if (ventaItems.length === 0) {
         tbody.innerHTML = `
             <tr id="tr-vacio">
@@ -178,7 +165,6 @@ function renderTablaVenta() {
         if (secPago) secPago.classList.add('js-hidden');
         return;
     }
-
     tbody.innerHTML = ventaItems.map((item, idx) => `
         <tr>
             <td>${idx + 1}</td>
@@ -193,58 +179,47 @@ function renderTablaVenta() {
                 </button>
             </td>
         </tr>`).join('');
-
     if (secPago) secPago.classList.remove('js-hidden');
     actualizarTotalesVenta();
 }
 
-/**
- * Elimina una fila de la venta.
- * @param {number} id
- */
 function eliminarFilaVenta(id) {
     ventaItems = ventaItems.filter(i => i.id !== id);
     renderTablaVenta();
 }
 
-/** Actualiza subtotal, IVA y total en la sección de pago. */
 function actualizarTotalesVenta() {
     const sub = ventaItems.reduce((s, i) => s + i.precio * i.qty, 0);
     const iva = sub * 0.16;
-    const el  = (id) => document.getElementById(id);
-
+    const el = (id) => document.getElementById(id);
     if (el('lblSubtotal')) el('lblSubtotal').textContent = fmt(sub);
-    if (el('lblIva'))      el('lblIva').textContent      = fmt(iva);
-    if (el('lblTotal'))    el('lblTotal').textContent    = fmt(sub + iva);
+    if (el('lblIva')) el('lblIva').textContent = fmt(iva);
+    if (el('lblTotal')) el('lblTotal').textContent = fmt(sub + iva);
 }
 
-/** Calcula el cambio según el monto ingresado. */
 function calcularCambio() {
-    const sub    = ventaItems.reduce((s, i) => s + i.precio * i.qty, 0);
-    const total  = sub * 1.16;
-    const rec    = parseFloat(document.getElementById('inputRecibido')?.value) || 0;
-    const campo  = document.getElementById('inputCambio');
+    const sub = ventaItems.reduce((s, i) => s + i.precio * i.qty, 0);
+    const total = sub * 1.16;
+    const rec = parseFloat(document.getElementById('inputRecibido')?.value) || 0;
+    const campo = document.getElementById('inputCambio');
     if (!campo) return;
     const cambio = rec - total;
-    campo.value  = cambio >= 0 ? fmt(cambio) : '⚠ Monto insuficiente';
+    campo.value = cambio >= 0 ? fmt(cambio) : '⚠ Monto insuficiente';
     campo.style.color = cambio >= 0 ? '#065f46' : '#dc3545';
 }
 
-/** Registra la venta (simulado) y limpia el formulario. */
 function registrarVenta() {
     if (ventaItems.length === 0) {
         alert('Agrega al menos un producto a la venta.');
         return;
     }
     const cliente = document.getElementById('clienteValor')?.value ||
-                    document.getElementById('selectCliente')?.value ||
-                    'En mostrador';
-    const pago    = document.getElementById('selectPago')?.value    || 'Efectivo';
-    const total   = (ventaItems.reduce((s, i) => s + i.precio * i.qty, 0) * 1.16)
-                        .toLocaleString('es-MX', { minimumFractionDigits: 2 });
-
+        document.getElementById('selectCliente')?.value ||
+        'En mostrador';
+    const pago = document.getElementById('selectPago')?.value || 'Efectivo';
+    const total = (ventaItems.reduce((s, i) => s + i.precio * i.qty, 0) * 1.16)
+        .toLocaleString('es-MX', { minimumFractionDigits: 2 });
     alert(`✅ Venta registrada exitosamente.\n\nCliente: ${cliente}\nPago: ${pago}\nTotal: $${total}\n\nSe puede imprimir el ticket.`);
-
     ventaItems = [];
     renderTablaVenta();
     const inp = document.getElementById('inputRecibido');
@@ -253,34 +228,151 @@ function registrarVenta() {
     if (cam) { cam.value = ''; cam.style.color = ''; }
 }
 
-/* ════════════════════════════════════════════════════
-   PÁGINA: detalle_ventas.php
-   Historial filtrable + botón de ticket
-════════════════════════════════════════════════════ */
-
-/** Datos de muestra para detalle de ventas */
-const VENTAS_DEMO = [
-    { folio: 1, fecha: '21/03/2026', hora: '10:23:51', cliente: 'Ana Torres',     sku: 'WRS315SNHM',   desc: 'Refrigerador Side by Side 25 pies',   qty: 1, precio: 22499, pago: 'Tarjeta'       },
-    { folio: 1, fecha: '21/03/2026', hora: '10:23:51', cliente: 'Ana Torres',     sku: 'WM3911D',      desc: 'Microondas AirFry 4 en 1',             qty: 2, precio: 4599,  pago: 'Tarjeta'       },
-    { folio: 2, fecha: '20/03/2026', hora: '14:05:30', cliente: 'Luis Ramírez',   sku: '8MWTW2024WJM', desc: 'Lavadora 20kg Carga Superior',         qty: 1, precio: 9999,  pago: 'Efectivo'      },
-    { folio: 3, fecha: '20/03/2026', hora: '16:40:12', cliente: 'Roberto Méndez', sku: 'MGH765RDS',    desc: 'Estufa 6 quemadores convección',       qty: 1, precio: 9799,  pago: 'Crédito'       },
-    { folio: 4, fecha: '19/03/2026', hora: '09:55:00', cliente: 'Claudia Soto',   sku: 'LG-WM3500CW',  desc: 'Lavadora LG 22kg TurboWash',           qty: 1, precio: 11499, pago: 'Transferencia' },
-    { folio: 5, fecha: '18/03/2026', hora: '11:30:45', cliente: 'Ana Torres',     sku: 'WHP-AC1234',   desc: 'Aire Acondicionado 12,000 BTU',        qty: 2, precio: 8299,  pago: 'Efectivo'      },
-    { folio: 6, fecha: '17/03/2026', hora: '13:15:22', cliente: 'Luis Ramírez',   sku: 'WK0260B',      desc: 'Despachador de agua c/hielo',          qty: 1, precio: 7999,  pago: 'Tarjeta'       },
-    { folio: 7, fecha: '15/03/2026', hora: '10:00:00', cliente: 'Roberto Méndez', sku: 'SAM-RF28T',    desc: 'Refrigerador Samsung French Door 28p', qty: 1, precio: 28999, pago: 'Crédito'       },
+/* Widget de búsqueda de cliente */
+const CLIENTES_REGISTRADOS = [
+    { id: 'C001', nombre: 'Ana Torres Vega' },
+    { id: 'C002', nombre: 'Luis Ramírez' },
+    { id: 'C003', nombre: 'Roberto Méndez' },
+    { id: 'C004', nombre: 'Claudia Soto' },
+    { id: 'C005', nombre: 'Juan Pérez' },
+    { id: 'C006', nombre: 'María García' },
 ];
 
-/** Renderiza la tabla de detalle de ventas */
+function initClienteWidget() {
+    const input = document.getElementById('clienteInput');
+    const dropdown = document.getElementById('clienteDropdown');
+    const pill = document.getElementById('clienteSeleccionado');
+    const pillNombre = document.getElementById('clientePillNombre');
+    const btnCambiar = document.getElementById('btnCambiarCliente');
+    const hidden = document.getElementById('clienteValor');
+    if (!input) return;
+
+    function renderDropdown(q) {
+        dropdown.innerHTML = '';
+        const texto = q.trim().toLowerCase();
+        const coincidentes = CLIENTES_REGISTRADOS.filter(c =>
+            c.nombre.toLowerCase().includes(texto) ||
+            c.id.toLowerCase().includes(texto)
+        );
+        if (coincidentes.length > 0) {
+            const g = document.createElement('div');
+            g.className = 'cliente-option-group';
+            g.textContent = 'Clientes registrados';
+            dropdown.appendChild(g);
+            coincidentes.forEach(c => {
+                const opt = document.createElement('div');
+                opt.className = 'cliente-option';
+                opt.innerHTML = `<i class="fas fa-user"></i>
+                    <span>${resaltar(c.nombre, texto)}</span>
+                    <span style="margin-left:auto;font-size:.72rem;color:#aaa">${c.id}</span>`;
+                opt.addEventListener('mousedown', e => {
+                    e.preventDefault();
+                    seleccionarCliente(c.nombre, false);
+                });
+                dropdown.appendChild(opt);
+            });
+        }
+        if (texto.length >= 2) {
+            const g2 = document.createElement('div');
+            g2.className = 'cliente-option-group';
+            g2.textContent = 'O continuar con:';
+            dropdown.appendChild(g2);
+            const libre = document.createElement('div');
+            libre.className = 'cliente-option option-nuevo';
+            libre.innerHTML = `<i class="fas fa-user-plus"></i>
+                <span>Usar "<strong>${escHTML(q.trim())}</strong>" como nombre</span>`;
+            libre.addEventListener('mousedown', e => {
+                e.preventDefault();
+                seleccionarCliente(q.trim(), true);
+            });
+            dropdown.appendChild(libre);
+        }
+        if (texto === '') {
+            const g0 = document.createElement('div');
+            g0.className = 'cliente-option-group';
+            g0.textContent = 'Clientes registrados';
+            dropdown.appendChild(g0);
+            CLIENTES_REGISTRADOS.forEach(c => {
+                const opt = document.createElement('div');
+                opt.className = 'cliente-option';
+                opt.innerHTML = `<i class="fas fa-user"></i>
+                    <span>${c.nombre}</span>
+                    <span style="margin-left:auto;font-size:.72rem;color:#aaa">${c.id}</span>`;
+                opt.addEventListener('mousedown', e => {
+                    e.preventDefault();
+                    seleccionarCliente(c.nombre, false);
+                });
+                dropdown.appendChild(opt);
+            });
+        }
+    }
+
+    function seleccionarCliente(nombre, esNuevo) {
+        hidden.value = nombre;
+        let html = `<i class="fas fa-${esNuevo ? 'user-plus' : 'user'}"></i>
+                    <span>${escHTML(nombre)}</span>`;
+        if (esNuevo) html += `<span class="badge-nuevo-cliente">Nuevo</span>`;
+        pillNombre.innerHTML = html;
+        pill.classList.add('visible');
+        input.style.display = 'none';
+        dropdown.classList.remove('open');
+    }
+
+    function resaltar(texto, q) {
+        if (!q) return escHTML(texto);
+        const re = new RegExp(`(${escRE(q)})`, 'gi');
+        return escHTML(texto).replace(re, '<strong>$1</strong>');
+    }
+
+    function escHTML(s) {
+        return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function escRE(s) {
+        return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    input.addEventListener('focus', () => {
+        renderDropdown(input.value);
+        dropdown.classList.add('open');
+    });
+    input.addEventListener('input', () => {
+        renderDropdown(input.value);
+        dropdown.classList.add('open');
+    });
+    input.addEventListener('blur', () => {
+        setTimeout(() => {
+            dropdown.classList.remove('open');
+        }, 180);
+    });
+    btnCambiar.addEventListener('click', () => {
+        hidden.value = '';
+        pill.classList.remove('visible');
+        input.style.display = '';
+        input.value = '';
+        input.focus();
+    });
+}
+
+/* ════════════════════════════════════════════════════════════
+   VENDEDOR — Detalle de Ventas (detalle_ventas.php)
+   ════════════════════════════════════════════════════════════ */
+
+const VENTAS_DEMO = [
+    { folio: 1, fecha: '21/03/2026', hora: '10:23:51', cliente: 'Ana Torres', sku: 'WRS315SNHM', desc: 'Refrigerador Side by Side 25 pies', qty: 1, precio: 22499, pago: 'Tarjeta' },
+    { folio: 1, fecha: '21/03/2026', hora: '10:23:51', cliente: 'Ana Torres', sku: 'WM3911D', desc: 'Microondas AirFry 4 en 1', qty: 2, precio: 4599, pago: 'Tarjeta' },
+    { folio: 2, fecha: '20/03/2026', hora: '14:05:30', cliente: 'Luis Ramírez', sku: '8MWTW2024WJM', desc: 'Lavadora 20kg Carga Superior', qty: 1, precio: 9999, pago: 'Efectivo' },
+    { folio: 3, fecha: '20/03/2026', hora: '16:40:12', cliente: 'Roberto Méndez', sku: 'MGH765RDS', desc: 'Estufa 6 quemadores convección', qty: 1, precio: 9799, pago: 'Crédito' },
+    { folio: 4, fecha: '19/03/2026', hora: '09:55:00', cliente: 'Claudia Soto', sku: 'LG-WM3500CW', desc: 'Lavadora LG 22kg TurboWash', qty: 1, precio: 11499, pago: 'Transferencia' },
+];
+
 function renderDetalleVentas(data) {
     const tbody = document.getElementById('tbodyDetalle');
     if (!tbody) return;
     const rows = data || VENTAS_DEMO;
-
     if (rows.length === 0) {
         tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4">No se encontraron ventas.</td></tr>`;
         return;
     }
-
     tbody.innerHTML = rows.map((v, i) => `
         <tr>
             <td>${i + 1}</td>
@@ -303,82 +395,66 @@ function renderDetalleVentas(data) {
         </tr>`).join('');
 }
 
-/** Filtra las ventas según los campos del formulario */
 function filtrarVentas() {
-    const folio   = document.getElementById('fFolio')?.value.trim()    || '';
-    const desde   = document.getElementById('fDesde')?.value            || '';
-    const hasta   = document.getElementById('fHasta')?.value            || '';
+    const folio = document.getElementById('fFolio')?.value.trim() || '';
+    const desde = document.getElementById('fDesde')?.value || '';
+    const hasta = document.getElementById('fHasta')?.value || '';
     const cliente = document.getElementById('fCliente')?.value.trim().toLowerCase() || '';
-
     let resultado = VENTAS_DEMO;
-    if (folio)   resultado = resultado.filter(v => String(v.folio) === folio);
-    if (desde)   resultado = resultado.filter(v => convertirFecha(v.fecha) >= desde);
-    if (hasta)   resultado = resultado.filter(v => convertirFecha(v.fecha) <= hasta);
+    if (folio) resultado = resultado.filter(v => String(v.folio) === folio);
+    if (desde) resultado = resultado.filter(v => convertirFecha(v.fecha) >= desde);
+    if (hasta) resultado = resultado.filter(v => convertirFecha(v.fecha) <= hasta);
     if (cliente) resultado = resultado.filter(v => v.cliente.toLowerCase().includes(cliente));
-
     const el = document.getElementById('totalRegistros');
     if (el) el.textContent = resultado.length;
     renderDetalleVentas(resultado);
 }
 
-/** Convierte fecha ISO (yyyy-mm-dd) a dd/mm/yyyy y viceversa */
 function convertirFecha(str) {
     if (!str) return '';
     if (str.includes('-')) {
-        // ISO → dd/mm/yyyy
         const [y, m, d] = str.split('-');
         return `${d}/${m}/${y}`;
     }
-    // dd/mm/yyyy → yyyy-mm-dd (para comparar con input[type=date])
     const [d, m, y] = str.split('/');
     return `${y}-${m}-${d}`;
 }
 
-/**
- * Simula la generación de un ticket PDF.
- * @param {number} folio
- */
 function generarTicket(folio) {
     alert(`🖨️ Generando ticket para el Folio #${folio}...\n\n(En producción descargará el PDF del ticket de venta.)`);
 }
 
-/* ════════════════════════════════════════════════════
-   PÁGINA: inventario.php
-   Tabla de stock con filtro
-════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════
+   VENDEDOR — Inventario (inventario.php)
+   ════════════════════════════════════════════════════════════ */
 
 const INVENTARIO_DEMO = [
-    { sku: 'WM3911D',      nombre: 'Microondas AirFry 4 en 1 (1CuFt)',             marca: 'Whirlpool', categoria: 'Cocina',        precio: 4599,  stock: 45 },
-    { sku: '8MWTW2024WJM', nombre: 'Lavadora 20kg Carga Superior Agitador',        marca: 'Whirlpool', categoria: 'Lavado',        precio: 9999,  stock: 18 },
-    { sku: 'WK0260B',      nombre: 'Despachador de agua con fábrica de hielo',     marca: 'Whirlpool', categoria: 'Refrigeración', precio: 7999,  stock: 7  },
-    { sku: 'WRS315SNHM',   nombre: 'Refrigerador Side by Side 25 pies',            marca: 'Whirlpool', categoria: 'Refrigeración', precio: 22499, stock: 4  },
-    { sku: 'MGH765RDS',    nombre: 'Estufa 6 quemadores con convección',           marca: 'Whirlpool', categoria: 'Cocina',        precio: 9799,  stock: 12 },
-    { sku: 'LG-WM3500CW',  nombre: 'Lavadora LG 22kg TurboWash 360',              marca: 'LG',        categoria: 'Lavado',        precio: 11499, stock: 0  },
-    { sku: 'SAM-RF28T',    nombre: 'Refrigerador Samsung French Door 28 pies',     marca: 'Samsung',   categoria: 'Refrigeración', precio: 28999, stock: 3  },
-    { sku: 'WHP-AC1234',   nombre: 'Aire Acondicionado 12,000 BTU Inverter',       marca: 'Whirlpool', categoria: 'Climatización', precio: 8299,  stock: 9  },
-    { sku: 'WED5000DW',    nombre: 'Secadora eléctrica de carga frontal 7.0 pies', marca: 'Whirlpool', categoria: 'Lavado',        precio: 7899,  stock: 11 },
-    { sku: 'WFW5000HW',    nombre: 'Lavadora carga frontal 4.5 pies alta efic.',   marca: 'Whirlpool', categoria: 'Lavado',        precio: 12499, stock: 0  },
+    { sku: 'WM3911D', nombre: 'Microondas AirFry 4 en 1 (1CuFt)', marca: 'Whirlpool', categoria: 'Cocina', precio: 4599, stock: 45 },
+    { sku: '8MWTW2024WJM', nombre: 'Lavadora 20kg Carga Superior Agitador', marca: 'Whirlpool', categoria: 'Lavado', precio: 9999, stock: 18 },
+    { sku: 'WK0260B', nombre: 'Despachador de agua con fábrica de hielo', marca: 'Whirlpool', categoria: 'Refrigeración', precio: 7999, stock: 7 },
+    { sku: 'WRS315SNHM', nombre: 'Refrigerador Side by Side 25 pies', marca: 'Whirlpool', categoria: 'Refrigeración', precio: 22499, stock: 4 },
+    { sku: 'MGH765RDS', nombre: 'Estufa 6 quemadores con convección', marca: 'Whirlpool', categoria: 'Cocina', precio: 9799, stock: 12 },
+    { sku: 'LG-WM3500CW', nombre: 'Lavadora LG 22kg TurboWash 360', marca: 'LG', categoria: 'Lavado', precio: 11499, stock: 0 },
+    { sku: 'SAM-RF28T', nombre: 'Refrigerador Samsung French Door 28 pies', marca: 'Samsung', categoria: 'Refrigeración', precio: 28999, stock: 3 },
 ];
 
-/** Renderiza la tabla de inventario */
 function renderInventario(data) {
     const tbody = document.getElementById('tbodyInventario');
     if (!tbody) return;
     const rows = data || INVENTARIO_DEMO;
-
     tbody.innerHTML = rows.map((p, i) => {
         let badge, obs, color;
         if (p.stock === 0) {
             badge = '<span class="badge-out">Agotado</span>';
-            obs   = 'No disponible para venta';
+            obs = 'No disponible para venta';
             color = '#dc3545';
         } else if (p.stock <= 5) {
             badge = '<span class="badge-warn">Bajo stock</span>';
-            obs   = 'Próximo a agotarse — Reabastecer';
+            obs = 'Próximo a agotarse — Reabastecer';
             color = '#d97706';
         } else {
             badge = '<span class="badge-activo">Disponible</span>';
-            obs   = 'Disponible para venta';
+            obs = 'Disponible para venta';
             color = '#065f46';
         }
         return `
@@ -397,40 +473,33 @@ function renderInventario(data) {
     }).join('');
 }
 
-/** Filtra el inventario por texto y categoría */
 function filtrarInventario() {
-    const q   = document.getElementById('invBuscar')?.value.toLowerCase() || '';
+    const q = document.getElementById('invBuscar')?.value.toLowerCase() || '';
     const cat = document.getElementById('invCat')?.value || '';
-
     const resultado = INVENTARIO_DEMO.filter(p =>
-        (!q   || p.nombre.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q)) &&
+        (!q || p.nombre.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q)) &&
         (!cat || p.categoria === cat)
     );
     renderInventario(resultado);
 }
 
-/* ════════════════════════════════════════════════════
-   PÁGINA: catalogo.php
-   Grid de tarjetas de productos
-════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════
+   VENDEDOR — Catálogo (catalogo.php)
+   ════════════════════════════════════════════════════════════ */
 
-/** Construye el grid de catálogo a partir de INVENTARIO_DEMO */
 function renderCatalogo(data) {
     const grid = document.getElementById('catalogoGrid');
     if (!grid) return;
     const rows = data || INVENTARIO_DEMO;
-
     if (rows.length === 0) {
         grid.innerHTML = `<p class="text-muted text-center py-4">No se encontraron productos.</p>`;
         return;
     }
-
     grid.innerHTML = rows.map(p => {
         let stockEl;
-        if      (p.stock === 0) stockEl = `<span class="cat-stock-out">✕ Agotado</span>`;
-        else if (p.stock <= 5)  stockEl = `<span class="cat-stock-low">⚠ Últimas ${p.stock} unidades</span>`;
-        else                    stockEl = `<span class="cat-stock-ok">✓ En stock</span>`;
-
+        if (p.stock === 0) stockEl = `<span class="cat-stock-out">✕ Agotado</span>`;
+        else if (p.stock <= 5) stockEl = `<span class="cat-stock-low">⚠ Últimas ${p.stock} unidades</span>`;
+        else stockEl = `<span class="cat-stock-ok">✓ En stock</span>`;
         return `
             <div class="cat-card">
                 <div class="cat-img">
@@ -450,63 +519,52 @@ function renderCatalogo(data) {
     }).join('');
 }
 
-/** Filtra el catálogo por texto, categoría y rango de precio */
 function filtrarCatalogo() {
-    const q      = document.getElementById('catBuscar')?.value.toLowerCase()  || '';
-    const cat    = document.getElementById('catCategoria')?.value             || '';
-    const precio = document.getElementById('catPrecio')?.value                || '';
-
+    const q = document.getElementById('catBuscar')?.value.toLowerCase() || '';
+    const cat = document.getElementById('catCategoria')?.value || '';
+    const precio = document.getElementById('catPrecio')?.value || '';
     let resultado = INVENTARIO_DEMO.filter(p =>
-        (!q   || p.nombre.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q)) &&
+        (!q || p.nombre.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q)) &&
         (!cat || p.categoria === cat)
     );
-
-    if      (precio === '0-5000')   resultado = resultado.filter(p => p.precio < 5000);
+    if (precio === '0-5000') resultado = resultado.filter(p => p.precio < 5000);
     else if (precio === '5000-15000') resultado = resultado.filter(p => p.precio >= 5000 && p.precio <= 15000);
-    else if (precio === '15000+')   resultado = resultado.filter(p => p.precio > 15000);
-
+    else if (precio === '15000+') resultado = resultado.filter(p => p.precio > 15000);
     renderCatalogo(resultado);
 }
 
-/* ════════════════════════════════════════════════════
-   PÁGINA: solicitudes.php
-   Modal para atender solicitudes + initAdminTabs
-════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════
+   VENDEDOR — Solicitudes (solicitudes.php)
+   ════════════════════════════════════════════════════════════ */
 
-
-
-/** Abre el modal de solicitud con los datos del botón pulsado */
 function initSolicitudesModal() {
-    const overlay    = document.getElementById('modalSolicitud');
-    const btnCerrar  = document.getElementById('btnCerrarModal');
-    const btnCancelar= document.getElementById('btnCancelarSol');
+    const overlay = document.getElementById('modalSolicitud');
+    const btnCerrar = document.getElementById('btnCerrarModal');
+    const btnCancelar = document.getElementById('btnCancelarSol');
     const btnGuardar = document.getElementById('btnGuardarSol');
     if (!overlay) return;
 
-    // Abrir modal
     document.querySelectorAll('.js-atender').forEach(btn => {
         btn.addEventListener('click', function () {
             const sol = JSON.parse(this.dataset.sol);
-            document.getElementById('modal-ref').textContent       = sol.ref       || '—';
-            document.getElementById('modal-cliente').textContent   = sol.cliente   || '—';
-            document.getElementById('modal-tipo').textContent      = sol.tipo      || '—';
-            document.getElementById('modal-fecha').textContent     = sol.fecha     || '—';
-            document.getElementById('modal-asunto').textContent    = sol.asunto    || '—';
-            document.getElementById('modal-desc').textContent      = sol.desc      || '—';
+            document.getElementById('modal-ref').textContent = sol.ref || '—';
+            document.getElementById('modal-cliente').textContent = sol.cliente || '—';
+            document.getElementById('modal-tipo').textContent = sol.tipo || '—';
+            document.getElementById('modal-fecha').textContent = sol.fecha || '—';
+            document.getElementById('modal-asunto').textContent = sol.asunto || '—';
+            document.getElementById('modal-desc').textContent = sol.desc || '—';
             document.getElementById('modal-evidencia').textContent = sol.evidencia || 'Sin adjunto';
-            document.getElementById('modal-respuesta').value       = '';
-            document.getElementById('modal-estado').value          = 'en_proceso';
+            document.getElementById('modal-respuesta').value = '';
+            document.getElementById('modal-estado').value = 'en_proceso';
             overlay.classList.add('show');
         });
     });
 
-    // Cerrar modal
     const cerrar = () => overlay.classList.remove('show');
-    if (btnCerrar)   btnCerrar.addEventListener('click', cerrar);
+    if (btnCerrar) btnCerrar.addEventListener('click', cerrar);
     if (btnCancelar) btnCancelar.addEventListener('click', cerrar);
     overlay.addEventListener('click', e => { if (e.target === overlay) cerrar(); });
 
-    // Guardar respuesta
     if (btnGuardar) {
         btnGuardar.addEventListener('click', function () {
             const respuesta = document.getElementById('modal-respuesta').value.trim();
@@ -521,465 +579,447 @@ function initSolicitudesModal() {
     }
 }
 
-
-/* ════════════════════════════════════════════════════
-   PÁGINA: solicitudes.php
-   Filtro de tabla (DOM-based, datos PHP-rendered)
-════════════════════════════════════════════════════ */
-
-/**
- * Filtra las filas de la tabla del tab activo en solicitudes.php
- * Lee los inputs #solBuscar y #solTipo del tab activo
- */
 function filtrarSolicitudes() {
-    // Buscar el tab-panel activo
     const activePanel = document.querySelector('.admin-tab-panel.active');
     if (!activePanel) return;
-
-    const q    = (activePanel.querySelector('.sol-filter-input')?.value  || '').toLowerCase().trim();
+    const q = (activePanel.querySelector('.sol-filter-input')?.value || '').toLowerCase().trim();
     const tipo = (activePanel.querySelector('.sol-filter-select')?.value || '').toLowerCase().trim();
-
     const filas = activePanel.querySelectorAll('tbody tr');
     let visibles = 0;
-
     filas.forEach(tr => {
         const texto = tr.textContent.toLowerCase();
-        // Col 1=ref, Col 3=cliente, Col 4=tipo (índice 0-based)
         const tipoCell = tr.cells[4]?.textContent.toLowerCase() || '';
-
-        const matchQ    = !q    || texto.includes(q);
+        const matchQ = !q || texto.includes(q);
         const matchTipo = !tipo || tipoCell.includes(tipo);
-
         const mostrar = matchQ && matchTipo;
         tr.style.display = mostrar ? '' : 'none';
         if (mostrar) visibles++;
     });
-
-    // Actualizar contador si existe
     const counter = activePanel.querySelector('.table-toolbar-count span');
     if (counter) counter.textContent = visibles;
 }
 
-/* ════════════════════════════════════════════════════
-   INICIALIZACIÓN GLOBAL
-════════════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-
-    /* ── Admin ─────────────────────────────────────── */
-    initToggleEstado();
-    initAdminFormValidation();
-    initReportTabs();
-    const confirmOverlay = document.getElementById('confirmOverlay');
-    if (confirmOverlay) {
-        confirmOverlay.addEventListener('click', e => {
-            if (e.target === confirmOverlay) closeConfirm();
-        });
-    }
-
-    /* ── Vendedor: ventas.php ──────────────────────── */
-    initVentas();
-    initClienteWidget();
-
-    /* ── Vendedor: detalle_ventas.php ─────────────── */
-    renderDetalleVentas();
-
-    /* ── Vendedor: inventario.php ─────────────────── */
-    renderInventario();
-
-    /* ── Vendedor: catalogo.php ───────────────────── */
-    renderCatalogo();
-
-    /* ── Vendedor: solicitudes.php ────────────────── */
-    initAdminTabs();
-    initSolicitudesModal();
-});
-
-/* ════════════════════════════════════════════════════
-   PÁGINA: solicitudes.php — Nueva Solicitud
-════════════════════════════════════════════════════ */
-
-/**
- * Valida y simula el envío del formulario de nueva solicitud
- * en solicitudes.php (tab-nueva).
- */
 function enviarNuevaSolicitud() {
     const cliente = document.getElementById('nCliente')?.value;
-    const tipo    = document.getElementById('nTipo')?.value;
-    const asunto  = document.getElementById('nAsunto')?.value.trim();
-    const desc    = document.getElementById('nDesc')?.value.trim();
-
+    const tipo = document.getElementById('nTipo')?.value;
+    const asunto = document.getElementById('nAsunto')?.value.trim();
+    const desc = document.getElementById('nDesc')?.value.trim();
     if (!cliente || !tipo || !asunto || !desc) {
         alert('Por favor completa todos los campos obligatorios (Cliente, Tipo, Asunto y Descripción).');
         return;
     }
-
     alert('✅ Solicitud registrada exitosamente.\n\nSe ha generado un número de referencia y se notificará al cliente.');
-
-    // Limpiar formulario
     document.getElementById('nCliente').value = '';
-    document.getElementById('nTipo').value    = '';
-    document.getElementById('nAsunto').value  = '';
-    document.getElementById('nDesc').value    = '';
+    document.getElementById('nTipo').value = '';
+    document.getElementById('nAsunto').value = '';
+    document.getElementById('nDesc').value = '';
 }
 
-/* ════════════════════════════════════════════════════
-   WIDGET DE BÚSQUEDA/SELECCIÓN DE CLIENTE (ventas.php)
-   Permite:
-     1. Buscar/seleccionar cliente existente por nombre
-     2. Escribir un nombre libre (cliente nuevo / mostrador)
-════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════
+   REPARTIDOR — Funciones del Panel de Entregas
+   ════════════════════════════════════════════════════════════ */
 
-/** Lista de clientes registrados (en producción vendría de la BD vía PHP/AJAX) */
-const CLIENTES_REGISTRADOS = [
-    { id: 'C001', nombre: 'Ana Torres Vega' },
-    { id: 'C002', nombre: 'Luis Ramírez' },
-    { id: 'C003', nombre: 'Roberto Méndez' },
-    { id: 'C004', nombre: 'Claudia Soto' },
-    { id: 'C005', nombre: 'Juan Pérez' },
-    { id: 'C006', nombre: 'María García' },
+const ESTADOS_REPARTIDOR = [
+    { label: 'Pedido recibido',  icon: 'fa-inbox',              badge: 'badge-recibido'   },
+    { label: 'En preparación',   icon: 'fa-box-open',           badge: 'badge-preparando' },
+    { label: 'Salió a ruta',     icon: 'fa-truck',              badge: 'badge-ruta'       },
+    { label: 'Entregado',        icon: 'fa-home',               badge: 'badge-entregado'  },
+    { label: 'Problema',         icon: 'fa-exclamation-triangle',badge: 'badge-problema'  }
 ];
 
-/** Estado interno del widget */
-const clienteWidget = {
-    valor: '',       // nombre final (registrado o libre)
-    esNuevo: false,  // true cuando el nombre no existe en la lista
-};
+let estadoRepartidorActual = 2; // Salió a ruta
+let histFiltrado = [];
+let histPagina = 1;
+const HIST_POR_PAG = 5;
 
-/**
- * Inicializa el widget de cliente.
- * Llama a esta función en DOMContentLoaded cuando la página sea ventas.php
- */
-function initClienteWidget() {
-    const input     = document.getElementById('clienteInput');
-    const dropdown  = document.getElementById('clienteDropdown');
-    const pill      = document.getElementById('clienteSeleccionado');
-    const pillNombre= document.getElementById('clientePillNombre');
-    const btnCambiar= document.getElementById('btnCambiarCliente');
-    const hidden    = document.getElementById('clienteValor');
+// Datos demo para historial
+const HISTORIAL_REPARTIDOR = [
+    { folio:'LC-2026-0038', cliente:'Carlos Ivan Luciano Cruz', producto:'Microondas AirFry 4 en 1', asignado:'22/03/2026', entrega:'—', total:'$4,599.00', estado:'Salió a ruta', mes:'marzo' },
+    { folio:'LC-2026-0035', cliente:'María Fernández López', producto:'Refrigerador NoFrost 18 pi', asignado:'18/03/2026', entrega:'19/03/2026', total:'$9,299.00', estado:'Entregado', mes:'marzo' },
+    { folio:'LC-2026-0031', cliente:'Roberto Sánchez Gómez', producto:'Lavadora Automática 17 kg', asignado:'12/03/2026', entrega:'13/03/2026', total:'$7,499.00', estado:'Entregado', mes:'marzo' },
+    { folio:'LC-2026-0027', cliente:'Ana Paula Torres Ríos', producto:'Smart TV 55" 4K UHD', asignado:'05/03/2026', entrega:'06/03/2026', total:'$11,999.00', estado:'Entregado', mes:'marzo' },
+    { folio:'LC-2026-0024', cliente:'Pedro Martínez Vega', producto:'Aire Acondicionado 18000 BTU', asignado:'28/02/2026', entrega:'—', total:'$8,799.00', estado:'Problema', mes:'febrero' },
+    { folio:'LC-2026-0020', cliente:'Sofía Ramírez Castro', producto:'Lavavajillas 12 servicios', asignado:'20/02/2026', entrega:'21/02/2026', total:'$5,299.00', estado:'Entregado', mes:'febrero' },
+    { folio:'LC-2026-0014', cliente:'Jorge Luis Herrera Paz', producto:'Horno de Convección 60 cm', asignado:'10/01/2026', entrega:'11/01/2026', total:'$6,149.00', estado:'Entregado', mes:'enero' },
+    { folio:'LC-2026-0008', cliente:'Laura González Méndez', producto:'Freidora de Aire XL 6.5L', asignado:'04/01/2026', entrega:'05/01/2026', total:'$2,899.00', estado:'Entregado', mes:'enero' }
+];
 
-    if (!input) return;   // No estamos en ventas.php
-
-    /** Renderiza el dropdown según el texto del input */
-    function renderDropdown(q) {
-        dropdown.innerHTML = '';
-        const texto = q.trim().toLowerCase();
-
-        // ── Clientes registrados que coincidan ──────────────────
-        const coincidentes = CLIENTES_REGISTRADOS.filter(c =>
-            c.nombre.toLowerCase().includes(texto) ||
-            c.id.toLowerCase().includes(texto)
-        );
-
-        if (coincidentes.length > 0) {
-            const g = document.createElement('div');
-            g.className = 'cliente-option-group';
-            g.textContent = 'Clientes registrados';
-            dropdown.appendChild(g);
-
-            coincidentes.forEach(c => {
-                const opt = document.createElement('div');
-                opt.className = 'cliente-option';
-                opt.innerHTML = `<i class="fas fa-user"></i>
-                    <span>${resaltar(c.nombre, texto)}</span>
-                    <span style="margin-left:auto;font-size:.72rem;color:#aaa">${c.id}</span>`;
-                opt.addEventListener('mousedown', e => {
-                    e.preventDefault();
-                    seleccionarCliente(c.nombre, false);
-                });
-                dropdown.appendChild(opt);
-            });
-        }
-
-        // ── Opción: usar el texto como nombre libre ─────────────
-        if (texto.length >= 2) {
-            const g2 = document.createElement('div');
-            g2.className = 'cliente-option-group';
-            g2.textContent = 'O continuar con:';
-            dropdown.appendChild(g2);
-
-            const libre = document.createElement('div');
-            libre.className = 'cliente-option option-nuevo';
-            libre.innerHTML = `<i class="fas fa-user-plus"></i>
-                <span>Usar "<strong>${escHTML(q.trim())}</strong>" como nombre</span>`;
-            libre.addEventListener('mousedown', e => {
-                e.preventDefault();
-                seleccionarCliente(q.trim(), true);
-            });
-            dropdown.appendChild(libre);
-        }
-
-        // ── Sin texto: mostrar todos los registrados ────────────
-        if (texto === '') {
-            const g0 = document.createElement('div');
-            g0.className = 'cliente-option-group';
-            g0.textContent = 'Clientes registrados';
-            dropdown.appendChild(g0);
-
-            CLIENTES_REGISTRADOS.forEach(c => {
-                const opt = document.createElement('div');
-                opt.className = 'cliente-option';
-                opt.innerHTML = `<i class="fas fa-user"></i>
-                    <span>${c.nombre}</span>
-                    <span style="margin-left:auto;font-size:.72rem;color:#aaa">${c.id}</span>`;
-                opt.addEventListener('mousedown', e => {
-                    e.preventDefault();
-                    seleccionarCliente(c.nombre, false);
-                });
-                dropdown.appendChild(opt);
-            });
-
-            const gMostr = document.createElement('div');
-            gMostr.className = 'cliente-option-group';
-            gMostr.textContent = 'Opciones rápidas';
-            dropdown.appendChild(gMostr);
-
-            const mostrador = document.createElement('div');
-            mostrador.className = 'cliente-option option-nuevo';
-            mostrador.innerHTML = `<i class="fas fa-store"></i><span>— Cliente en mostrador —</span>`;
-            mostrador.addEventListener('mousedown', e => {
-                e.preventDefault();
-                seleccionarCliente('— Cliente en mostrador —', false);
-            });
-            dropdown.appendChild(mostrador);
-        }
-    }
-
-    /** Selecciona un cliente (registrado o nombre libre) */
-    function seleccionarCliente(nombre, esNuevo) {
-        clienteWidget.valor  = nombre;
-        clienteWidget.esNuevo = esNuevo;
-        hidden.value = nombre;
-
-        // Actualizar pill
-        let html = `<i class="fas fa-${esNuevo ? 'user-plus' : 'user'}"></i>
-                    <span>${escHTML(nombre)}</span>`;
-        if (esNuevo) {
-            html += `<span class="badge-nuevo-cliente">Nuevo</span>`;
-        }
-        pillNombre.innerHTML = html;
-        pill.classList.add('visible');
-
-        // Ocultar input y dropdown
-        input.style.display = 'none';
-        dropdown.classList.remove('open');
-        document.querySelector('.cliente-hint')?.classList.add('js-hidden');
-    }
-
-    /** Resalta coincidencias en el texto */
-    function resaltar(texto, q) {
-        if (!q) return escHTML(texto);
-        const re = new RegExp(`(${escRE(q)})`, 'gi');
-        return escHTML(texto).replace(re, '<strong>$1</strong>');
-    }
-
-    function escHTML(s) {
-        return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-    function escRE(s) {
-        return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }
-
-    // ── Eventos del input ──────────────────────────────────────
-    input.addEventListener('focus', () => {
-        renderDropdown(input.value);
-        dropdown.classList.add('open');
-    });
-
-    input.addEventListener('input', () => {
-        renderDropdown(input.value);
-        dropdown.classList.add('open');
-        // Resetear selección al escribir
-        clienteWidget.valor = '';
-        hidden.value = '';
-    });
-
-    input.addEventListener('blur', () => {
-        // Pequeño delay para que mousedown en opciones se ejecute antes
-        setTimeout(() => {
-            dropdown.classList.remove('open');
-            // Si el usuario escribió algo pero no seleccionó → usar texto libre
-            if (input.value.trim().length >= 2 && !clienteWidget.valor) {
-                seleccionarCliente(input.value.trim(), true);
-            }
-        }, 180);
-    });
-
-    // ── Botón "Cambiar" en la pill ─────────────────────────────
-    btnCambiar.addEventListener('click', () => {
-        clienteWidget.valor   = '';
-        clienteWidget.esNuevo = false;
-        hidden.value = '';
-        pill.classList.remove('visible');
-        input.style.display = '';
-        document.querySelector('.cliente-hint')?.classList.remove('js-hidden');
-        input.value = '';
-        input.focus();
-    });
+/* Toast del repartidor */
+function mostrarToastRepartidor(msg, color) {
+    const t = document.getElementById('repToast');
+    if(!t) return;
+    document.getElementById('repToastMsg').textContent = msg;
+    t.style.background = color || '#065f46';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
 }
 
+/* Tabs del repartidor */
+function switchTab(tabId, btnEl) {
+    document.querySelectorAll('.rep-nav-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.rep-nav-btn, .admin-sidebar .nav-link').forEach(b => b.classList.remove('active'));
 
-/* ══════════════════════════════════════════════════════════════
-   REPARTIDOR — inicio_repartidor.php
-   ══════════════════════════════════════════════════════════════ */
-/* ═══════════════════════════════════════════════════
-   REPARTIDOR — Lógica de actualización de estado
-═══════════════════════════════════════════════════ */
+    const panel = document.getElementById(tabId);
+    if (panel) panel.classList.add('active');
 
-const ESTADOS = [
-    { key: 'recibido',    label: 'Pedido recibido', icon: 'fa-check',  badge: 'badge-recibido'    },
-    { key: 'preparacion', label: 'En preparación',  icon: 'fa-box',    badge: 'badge-preparacion' },
-    { key: 'ruta',        label: 'Salió a ruta',    icon: 'fa-truck',  badge: 'badge-ruta'        },
-    { key: 'entregado',   label: 'Entregado',        icon: 'fa-home',   badge: 'badge-entregado'   },
-];
+    const navBtnId = 'btn-' + tabId;
+    const navBtn = document.getElementById(navBtnId);
+    if (navBtn) navBtn.classList.add('active');
 
-// Estado actual (0-indexed) — arranca en 2 = "Salió a ruta"
-let estadoActual = 2;
+    if (btnEl) btnEl.classList.add('active');
+    else {
+        document.querySelectorAll('.admin-sidebar .nav-link').forEach(b => {
+            if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId))
+                b.classList.add('active');
+        });
+    }
+}
 
-function renderTracking() {
-    ESTADOS.forEach((e, i) => {
-        const step = document.getElementById(`rStep${i}`);
-        const line = document.getElementById(`rLine${i}`);
-        if (!step) return;
+/* Notificación */
+function cerrarNotif() {
+    const n = document.getElementById('notifAdminBox');
+    if(!n) return;
+    n.style.opacity = '0';
+    n.style.transform = 'translateY(-10px)';
+    n.style.transition = 'all .3s ease';
+    setTimeout(() => n.style.display = 'none', 300);
+}
 
-        // Clases del step
+/* Tracking visual */
+function renderTrackingRepartidor() {
+    const totalSteps = ESTADOS_REPARTIDOR.length;
+    for (let i = 0; i < totalSteps; i++) {
+        const step = document.getElementById('rStep' + i);
+        const line = document.getElementById('rLine' + i);
+        if (!step) continue;
+
+        const e = ESTADOS_REPARTIDOR[i];
         step.className = 'rep-step';
-        if (i < estadoActual)  step.classList.add('done');
-        if (i === estadoActual) step.classList.add('current');
+        if (estadoRepartidorActual === 4 && i === 4) step.classList.add('problema');
+        else if (i < estadoRepartidorActual) step.classList.add('done');
+        else if (i === estadoRepartidorActual) step.classList.add('current');
 
-        // Icono actualizado
         const circle = step.querySelector('.rep-step-circle');
-        circle.innerHTML = i < estadoActual
-            ? '<i class="fas fa-check"></i>'
-            : `<i class="fas ${e.icon}"></i>`;
+        if (i < estadoRepartidorActual && estadoRepartidorActual !== 4) {
+            circle.innerHTML = '<i class="fas fa-check"></i>';
+        } else {
+            circle.innerHTML = `<i class="fas ${e.icon}"></i>`;
+        }
 
-        // Línea
         if (line) {
             line.className = 'rep-line';
-            if (i < estadoActual) line.classList.add('done');
+            if (i < estadoRepartidorActual && estadoRepartidorActual !== 4) line.classList.add('done');
         }
-    });
+    }
 
-    // Badge y etiqueta
     const badge = document.getElementById('badgeEstado');
-    badge.textContent = ESTADOS[estadoActual].label;
-    badge.className   = `badge-estado ${ESTADOS[estadoActual].badge}`;
+    if (badge) {
+        badge.textContent = ESTADOS_REPARTIDOR[estadoRepartidorActual].label;
+        badge.className = `badge-estado ${ESTADOS_REPARTIDOR[estadoRepartidorActual].badge}`;
+    }
 
-    // Texto estado
-    document.getElementById('lblEstadoActual').textContent = ESTADOS[estadoActual].label;
+    const lbl = document.getElementById('lblEstadoActual');
+    if (lbl) lbl.textContent = ESTADOS_REPARTIDOR[estadoRepartidorActual].label;
 
-    // Siguiente paso y botón
-    const btn = document.getElementById('btnAvanzar');
-    const lblSig = document.getElementById('lblSigEstado');
-    const esUltimo = estadoActual >= ESTADOS.length - 1;
+    const sel = document.getElementById('selectorEstado');
+    if (sel) sel.value = estadoRepartidorActual;
+}
 
-    if (esUltimo) {
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-check-double me-1"></i> Pedido entregado';
-        lblSig.textContent = '✓ Proceso completado';
+function previsualizarEstado() {
+    const sel = document.getElementById('selectorEstado');
+    const lbl = document.getElementById('lblSigEstado');
+    if (!sel || !lbl) return;
+    const nuevo = parseInt(sel.value);
+    if (nuevo === estadoRepartidorActual) {
+        lbl.textContent = 'Sin cambios';
     } else {
-        const siguiente = ESTADOS[estadoActual + 1];
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fas fa-check-circle me-1"></i> Marcar como "${siguiente.label}"`;
-        lblSig.textContent = `Siguiente paso: ${siguiente.label}`;
+        lbl.innerHTML = `Cambiar a: <strong>${ESTADOS_REPARTIDOR[nuevo].label}</strong>`;
     }
 }
 
-function avanzarEstado() {
-    if (estadoActual >= ESTADOS.length - 1) return;
-
-    // Si el siguiente estado es "Entregado", mostrar formulario de confirmación
-    if (estadoActual + 1 === ESTADOS.length - 1) {
-        document.getElementById('confirmEntregaBox').style.display = 'block';
-        document.getElementById('confirmEntregaBox').scrollIntoView({ behavior: 'smooth' });
+function guardarEstado() {
+    const sel = document.getElementById('selectorEstado');
+    if(!sel) return;
+    const nuevo = parseInt(sel.value);
+    if (nuevo === estadoRepartidorActual) {
+        mostrarToastRepartidor('Ya está en ese estado.', '#6c757d');
         return;
     }
 
-    estadoActual++;
-    renderTracking();
-    alert(`✅ Estado actualizado a: "${ESTADOS[estadoActual].label}"\n\n(En producción se registrará en la base de datos.)`);
+    if (nuevo === 3) {
+        const confirmBox = document.getElementById('confirmEntregaBox');
+        if(confirmBox) {
+            confirmBox.style.display = 'block';
+            confirmBox.scrollIntoView({ behavior: 'smooth' });
+        }
+        return;
+    }
+
+    estadoRepartidorActual = nuevo;
+    renderTrackingRepartidor();
+    mostrarToastRepartidor(`✅ Estado actualizado a: "${ESTADOS_REPARTIDOR[estadoRepartidorActual].label}"`);
+    
+    const lblSig = document.getElementById('lblSigEstado');
+    if(lblSig) lblSig.textContent = 'Selecciona el nuevo estado y guarda';
+
+    if (estadoRepartidorActual === 3) {
+        const badgeSidebar = document.getElementById('badgeSidebar');
+        if(badgeSidebar) badgeSidebar.style.display = 'none';
+    }
 }
 
 function confirmarEntrega() {
-    const receptor = document.getElementById('receptorNombre').value.trim();
+    const receptor = document.getElementById('receptorNombre')?.value.trim();
     if (!receptor) {
-        alert('Por favor escribe el nombre de quien recibió el pedido.');
+        mostrarToastRepartidor('Escribe el nombre de quien recibió.', '#dc3545');
         return;
     }
-    estadoActual = ESTADOS.length - 1; // → Entregado
-    renderTracking();
-    document.getElementById('confirmEntregaBox').style.display = 'none';
-    alert(`✅ Entrega confirmada exitosamente.\n\nRecibió: ${receptor}\n\n(En producción se cerrará el pedido en la base de datos.)`);
+    estadoRepartidorActual = 3;
+    renderTrackingRepartidor();
+    const confirmBox = document.getElementById('confirmEntregaBox');
+    if(confirmBox) confirmBox.style.display = 'none';
+    
+    const badgeSidebar = document.getElementById('badgeSidebar');
+    if(badgeSidebar) badgeSidebar.style.display = 'none';
+    
+    mostrarToastRepartidor(`✅ Entrega confirmada. Recibió: ${receptor}`);
 }
 
-// Inicializar al cargar
-document.addEventListener('DOMContentLoaded', renderTracking);
+/* Historial */
+function badgeEstadoHtml(estado) {
+    const map = {
+        'Entregado': 'badge-entregado',
+        'Salió a ruta': 'badge-ruta',
+        'En preparación': 'badge-preparando',
+        'Problema': 'badge-problema',
+        'Pedido recibido': 'badge-recibido'
+    };
+    const cls = map[estado] || 'badge-recibido';
+    return `<span class="badge-estado ${cls}">${estado}</span>`;
+}
 
-/* ══════════════════════════════════════════════════════════════
-   RASTREAR PEDIDO — rastrear_pedido.php
-   Redirige a inicio_usuario.php?panel=pedidos&ref=<referencia>
-   ══════════════════════════════════════════════════════════════ */
+function renderHistorialRepartidor() {
+    const tbody = document.getElementById('historialTbody');
+    const pag = document.getElementById('histPaginacion');
+    if (!tbody) return;
+
+    const inicio = (histPagina - 1) * HIST_POR_PAG;
+    const items = histFiltrado.slice(inicio, inicio + HIST_POR_PAG);
+    const total = histFiltrado.length;
+    const paginas = Math.ceil(total / HIST_POR_PAG);
+
+    if (items.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted py-4">
+            <i class="fas fa-search me-2"></i>No se encontraron pedidos con esos filtros.
+        </td></tr>`;
+        if(pag) pag.innerHTML = '';
+        return;
+    }
+
+    tbody.innerHTML = items.map((p, idx) => `
+        <tr>
+            <td>${inicio + idx + 1}</td>
+            <td class="hist-folio">${p.folio}</td>
+            <td class="td-name" style="text-align:left">${p.cliente}</td>
+            <td style="text-align:left;font-size:.8rem">${p.producto}</td>
+            <td class="td-fecha">${p.asignado}</td>
+            <td class="td-fecha">${p.entrega}</td>
+            <td style="font-weight:700;color:var(--btn-color)">${p.total}</td>
+            <td>${badgeEstadoHtml(p.estado)}</td>
+            <td>
+                <button class="btn-tbl-edit" title="Cambiar estado"
+                        onclick="abrirModalEstado('${p.folio}', ${obtenerIndexEstadoRep(p.estado)})">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+            </td>
+        </tr>`).join('');
+
+    if(!pag) return;
+    let pgHtml = '';
+    for (let i = 1; i <= paginas; i++) {
+        pgHtml += `<button class="page-btn ${i === histPagina ? 'active' : ''}"
+                           onclick="cambiarPagHistRep(${i})">${i}</button>`;
+    }
+    pag.innerHTML = pgHtml;
+}
+
+function obtenerIndexEstadoRep(label) {
+    return ESTADOS_REPARTIDOR.findIndex(e => e.label === label) ?? 0;
+}
+
+function filtrarHistorial() {
+    const folio = document.getElementById('filtroFolio')?.value.toLowerCase() || '';
+    const estado = document.getElementById('filtroEstado')?.value || '';
+    const mes = document.getElementById('filtroMes')?.value || '';
+
+    histFiltrado = HISTORIAL_REPARTIDOR.filter(p => {
+        const okFolio = !folio || p.folio.toLowerCase().includes(folio);
+        const okEstado = !estado || p.estado === estado;
+        const okMes = !mes || p.mes === mes;
+        return okFolio && okEstado && okMes;
+    });
+    histPagina = 1;
+    renderHistorialRepartidor();
+}
+
+function limpiarFiltros() {
+    if(document.getElementById('filtroFolio')) document.getElementById('filtroFolio').value = '';
+    if(document.getElementById('filtroEstado')) document.getElementById('filtroEstado').value = '';
+    if(document.getElementById('filtroMes')) document.getElementById('filtroMes').value = 'marzo';
+    
+    histFiltrado = [...HISTORIAL_REPARTIDOR];
+    histPagina = 1;
+    renderHistorialRepartidor();
+}
+
+function cambiarPagHistRep(n) {
+    histPagina = n;
+    renderHistorialRepartidor();
+}
+
+/* Modal de estado */
+let folioEnEdicion = null;
+let idxEnEdicion = -1;
+
+function abrirModalEstado(folio, idx) {
+    folioEnEdicion = folio;
+    idxEnEdicion = HISTORIAL_REPARTIDOR.findIndex(p => p.folio === folio);
+    if(document.getElementById('modalFolio')) document.getElementById('modalFolio').textContent = folio;
+    if(document.getElementById('modalSelectEstado')) document.getElementById('modalSelectEstado').value = idx;
+    if(document.getElementById('modalObs')) document.getElementById('modalObs').value = '';
+    const overlay = document.getElementById('modalEstadoOverlay');
+    if(overlay) overlay.classList.add('show');
+}
+
+function cerrarModalEstado() {
+    const overlay = document.getElementById('modalEstadoOverlay');
+    if(overlay) overlay.classList.remove('show');
+}
+
+function guardarEstadoModal() {
+    const modalSelect = document.getElementById('modalSelectEstado');
+    if(!modalSelect || idxEnEdicion < 0) return;
+    
+    const nuevo = parseInt(modalSelect.value);
+    HISTORIAL_REPARTIDOR[idxEnEdicion].estado = ESTADOS_REPARTIDOR[nuevo].label;
+    
+    if (nuevo === 3 && HISTORIAL_REPARTIDOR[idxEnEdicion].entrega === '—') {
+        const hoy = new Date();
+        HISTORIAL_REPARTIDOR[idxEnEdicion].entrega = hoy.toLocaleDateString('es-MX', { day:'2-digit', month:'2-digit', year:'numeric' });
+    }
+    histFiltrado = [...HISTORIAL_REPARTIDOR];
+    renderHistorialRepartidor();
+    cerrarModalEstado();
+    mostrarToastRepartidor(`Estado de ${folioEnEdicion} actualizado a "${ESTADOS_REPARTIDOR[nuevo].label}"`);
+}
+
+/* Perfil repartidor */
+const PERFIL_REP_INICIAL = {
+    nombre: 'Juan', apellidos: 'Hernández Pérez',
+    telefono: '229-741-0000', correo: 'juan.hernandez@luchanoscorp.mx',
+    direccion: 'Calle Reforma 123, Col. Centro, Veracruz, Ver.',
+    turno: 'Matutino', zona: 'Veracruz Norte', vehiculo: 'Motocicleta'
+};
+
+function guardarPerfil() {
+    const nombre = document.getElementById('pNombre')?.value.trim();
+    const apellidos = document.getElementById('pApellidos')?.value.trim();
+    if (!nombre || !apellidos) {
+        mostrarToastRepartidor('Nombre y apellidos son obligatorios.', '#dc3545');
+        return;
+    }
+    mostrarToastRepartidor(`✅ Perfil guardado: ${nombre} ${apellidos}`);
+}
+
+function resetPerfil() {
+    const campos = {
+        'pNombre': PERFIL_REP_INICIAL.nombre,
+        'pApellidos': PERFIL_REP_INICIAL.apellidos,
+        'pTelefono': PERFIL_REP_INICIAL.telefono,
+        'pCorreo': PERFIL_REP_INICIAL.correo,
+        'pDireccion': PERFIL_REP_INICIAL.direccion,
+        'pTurno': PERFIL_REP_INICIAL.turno,
+        'pZona': PERFIL_REP_INICIAL.zona,
+        'pVehiculo': PERFIL_REP_INICIAL.vehiculo
+    };
+    for(const [id, valor] of Object.entries(campos)) {
+        const el = document.getElementById(id);
+        if(el) el.value = valor;
+    }
+    mostrarToastRepartidor('Datos restaurados.', '#6c757d');
+}
+
+function cambiarContrasena() {
+    const actual = document.getElementById('pwActual')?.value;
+    const nueva = document.getElementById('pwNueva')?.value;
+    const confirmar = document.getElementById('pwConfirmar')?.value;
+    const fb = document.getElementById('pwFeedback');
+
+    if(fb) fb.textContent = '';
+    if (!actual || !nueva || !confirmar) {
+        if(fb) fb.textContent = 'Completa todos los campos de contraseña.';
+        return;
+    }
+    if (nueva.length < 8) {
+        if(fb) fb.textContent = 'La nueva contraseña debe tener al menos 8 caracteres.';
+        return;
+    }
+    if (nueva !== confirmar) {
+        if(fb) fb.textContent = 'Las contraseñas no coinciden.';
+        return;
+    }
+    
+    if(document.getElementById('pwActual')) document.getElementById('pwActual').value = '';
+    if(document.getElementById('pwNueva')) document.getElementById('pwNueva').value = '';
+    if(document.getElementById('pwConfirmar')) document.getElementById('pwConfirmar').value = '';
+    
+    mostrarToastRepartidor('✅ Contraseña actualizada correctamente.');
+}
+
+/* ════════════════════════════════════════════════════════════
+   RASTREO DE PEDIDOS (Cliente)
+   ════════════════════════════════════════════════════════════ */
 
 function initRastrearPedido() {
     const form = document.getElementById('trackForm');
     if (!form) return;
-
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        const ref    = document.getElementById('noReferencia').value.trim();
+        const ref = document.getElementById('noReferencia').value.trim();
         const result = document.getElementById('trackResult');
-
         if (!ref) {
-            result.innerHTML =
-                '<div class="track-error-msg">' +
-                    '<i class="fas fa-exclamation-triangle"></i>' +
-                    ' Por favor ingresa tu número de referencia.' +
-                '</div>';
+            if(result) result.innerHTML = '<div class="track-error-msg">' +
+                '<i class="fas fa-exclamation-triangle"></i> Por favor ingresa tu número de referencia.</div>';
             return;
         }
-
-        /* Limpia mensaje anterior */
-        result.innerHTML = '';
-
-        /* Redirige a Mis Pedidos pasando la referencia como parámetro */
-        const destino = 'Cuenta/inicio_usuario.php'
-                      + '?panel=pedidos'
-                      + '&ref=' + encodeURIComponent(ref);
+        if(result) result.innerHTML = '';
+        const destino = 'Cuenta/inicio_usuario.php?panel=pedidos&ref=' + encodeURIComponent(ref);
         window.location.href = destino;
     });
 }
 
-
-/* ══════════════════════════════════════════════════════════════
-   INICIO USUARIO — inicio_usuario.php
-   Detecta parámetros URL de rastrear_pedido y activa el panel
-   y pestaña correspondiente al número de referencia buscado.
-   ══════════════════════════════════════════════════════════════ */
-
 function initRastreoDesdeURL() {
     const params = new URLSearchParams(window.location.search);
-    const panel  = params.get('panel');
-    const ref    = params.get('ref');
-
+    const panel = params.get('panel');
+    const ref = params.get('ref');
     if (panel !== 'pedidos') return;
 
-    /* 1 · Activar panel Mis Pedidos en el sidebar */
-    document.querySelectorAll('.cuenta-nav-link').forEach(function(b) { b.classList.remove('active'); });
-    document.querySelectorAll('.cuenta-panel').forEach(function(p)    { p.classList.remove('active'); });
+    document.querySelectorAll('.cuenta-nav-link').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.cuenta-panel').forEach(p => p.classList.remove('active'));
 
-    var btnPedidos   = document.querySelector('[onclick="switchPanel(\'panel-pedidos\',this)"]');
-    var panelPedidos = document.getElementById('panel-pedidos');
-    if (btnPedidos)   btnPedidos.classList.add('active');
+    const btnPedidos = document.querySelector('[onclick="switchPanel(\'panel-pedidos\',this)"]');
+    const panelPedidos = document.getElementById('panel-pedidos');
+    if (btnPedidos) btnPedidos.classList.add('active');
     if (panelPedidos) panelPedidos.classList.add('active');
 
     if (!ref) return;
 
-    var refUpper     = ref.toUpperCase();
-    var pedidoProceso = 'LC-2026-0041';
-    var pedidoEnvio   = 'LC-2026-0038';
-
-    var enProceso  = refUpper.includes(pedidoProceso);
-    var enEnvio    = refUpper.includes(pedidoEnvio);
-    var histCard   = document.getElementById('hist-' + refUpper.replace('#', ''));
+    const refUpper = ref.toUpperCase();
+    const pedidoProceso = 'LC-2026-0041';
+    const pedidoEnvio = 'LC-2026-0038';
+    const enProceso = refUpper.includes(pedidoProceso);
+    const enEnvio = refUpper.includes(pedidoEnvio);
+    const histCard = document.getElementById('hist-' + refUpper.replace('#', ''));
 
     if (enProceso) {
         activarTabPedido('btn-tab-proceso', 'tab-proceso');
@@ -990,10 +1030,10 @@ function initRastreoDesdeURL() {
     } else if (histCard) {
         activarTabPedido('btn-tab-historial', 'tab-historial');
         mostrarAlertaRastreo(ref, 'historial');
-        setTimeout(function() {
+        setTimeout(() => {
             histCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
             histCard.classList.add('pedido-card--highlight');
-            setTimeout(function() { histCard.classList.remove('pedido-card--highlight'); }, 2500);
+            setTimeout(() => histCard.classList.remove('pedido-card--highlight'), 2500);
         }, 350);
     } else {
         activarTabPedido('btn-tab-proceso', 'tab-proceso');
@@ -1002,38 +1042,64 @@ function initRastreoDesdeURL() {
 }
 
 function activarTabPedido(btnId, tabId) {
-    document.querySelectorAll('.pedido-tab-btn').forEach(function(b)   { b.classList.remove('active'); });
-    document.querySelectorAll('.pedido-tab-panel').forEach(function(p) { p.classList.remove('active'); });
-    var btn = document.getElementById(btnId);
-    var tab = document.getElementById(tabId);
+    document.querySelectorAll('.pedido-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.pedido-tab-panel').forEach(p => p.classList.remove('active'));
+    const btn = document.getElementById(btnId);
+    const tab = document.getElementById(tabId);
     if (btn) btn.classList.add('active');
     if (tab) tab.classList.add('active');
 }
 
 function mostrarAlertaRastreo(ref, estado) {
-    var alertEl = document.getElementById('refAlert');
-    var txtEl   = document.getElementById('refAlertText');
+    const alertEl = document.getElementById('refAlert');
+    const txtEl = document.getElementById('refAlertText');
     if (!alertEl || !txtEl) return;
 
-    var msgs = {
-        proceso  : 'Pedido <strong>' + ref + '</strong> encontrado — actualmente <strong>En Proceso</strong>.',
-        envio    : 'Pedido <strong>' + ref + '</strong> encontrado — actualmente <strong>En Envío</strong>.',
-        historial: 'Pedido <strong>' + ref + '</strong> encontrado en el historial — ya fue <strong>Entregado</strong>.',
-        notfound : 'No encontramos el pedido <strong>' + ref + '</strong> en tu cuenta. Verifica el número.'
+    const msgs = {
+        proceso: `Pedido <strong>${ref}</strong> encontrado — actualmente <strong>En Proceso</strong>.`,
+        envio: `Pedido <strong>${ref}</strong> encontrado — actualmente <strong>En Envío</strong>.`,
+        historial: `Pedido <strong>${ref}</strong> encontrado en el historial — ya fue <strong>Entregado</strong>.`,
+        notfound: `No encontramos el pedido <strong>${ref}</strong> en tu cuenta. Verifica el número.`
     };
 
-    txtEl.innerHTML  = msgs[estado] || msgs.notfound;
+    txtEl.innerHTML = msgs[estado] || msgs.notfound;
     alertEl.classList.add('ref-alert--visible');
     if (estado === 'notfound') alertEl.classList.add('ref-alert--warn');
 
-    /* Mover el alert al inicio del tab activo */
-    var activeTab = document.querySelector('.pedido-tab-panel.active');
+    const activeTab = document.querySelector('.pedido-tab-panel.active');
     if (activeTab) activeTab.prepend(alertEl);
 }
 
+/* ════════════════════════════════════════════════════════════
+   INICIALIZACIÓN GLOBAL
+   ════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    /* Admin */
+    initToggleEstado();
+    initAdminFormValidation();
+    initAdminTabs();
+    initReportTabs();
+    const confirmOverlay = document.getElementById('confirmOverlay');
+    if (confirmOverlay) {
+        confirmOverlay.addEventListener('click', e => {
+            if (e.target === confirmOverlay) closeConfirm();
+        });
+    }
 
-/* ── DOMContentLoaded: inicializa todas las funciones de página ── */
-document.addEventListener('DOMContentLoaded', function() {
-    initRastrearPedido();   /* rastrear_pedido.php  */
-    initRastreoDesdeURL();  /* inicio_usuario.php   */
+    /* Vendedor */
+    initVentas();
+    initClienteWidget();
+    renderDetalleVentas();
+    renderInventario();
+    renderCatalogo();
+    initSolicitudesModal();
+
+    /* Repartidor */
+    histFiltrado = [...HISTORIAL_REPARTIDOR];
+    renderTrackingRepartidor();
+    renderHistorialRepartidor();
+
+    /* Rastreo */
+    initRastrearPedido();
+    initRastreoDesdeURL();
 });
