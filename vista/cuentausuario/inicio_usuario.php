@@ -10,8 +10,7 @@
     
 </head>
 <body>
-
-<div class="topbar">
+   <div class="topbar">
     <div class="container d-flex justify-content-between">
         <div>
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
@@ -55,7 +54,7 @@
         <div class="cuenta-sidebar-header">
             <div class="cuenta-avatar">CL</div>
             <p class="cuenta-sidebar-name">Carlos Ivan Luciano</p>
-            <p class="cuenta-sidebar-email">carlosluciano260@gmail.com</p>
+            <p class="cuenta-sidebar-email"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
         </div>
         <nav class="cuenta-nav">
             <button class="cuenta-nav-link active" onclick="switchPanel('panel-datos',this)">
@@ -72,7 +71,7 @@
                 <i class="fas fa-headset"></i> Mis Solicitudes
             </button>
             <hr class="cuenta-nav-divider">
-            <a href="login.php" class="cuenta-nav-link" style="color:#dc3545">
+            <a href="../Cuenta/login.php" class="cuenta-nav-link" style="color:#dc3545">
                 <i class="fas fa-sign-out-alt" style="color:#dc3545"></i> Cerrar Sesión
             </a>
         </nav>
@@ -107,7 +106,7 @@
                             <div class="col-md-6">
                                 <div class="perfil-campo">
                                     <div class="perfil-label">Correo electrónico</div>
-                                   <p class="cuenta-sidebar-email">carlosluciano260@gmail.com</p>
+                                   <p class="cuenta-sidebar-email"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -273,11 +272,14 @@
             </div>
 
             <div class="pedido-tabs">
-                <button class="pedido-tab-btn active" onclick="switchPedidoTab('tab-proceso',this)">
+                <button class="pedido-tab-btn active" id="btn-tab-proceso" onclick="switchPedidoTab('tab-proceso',this)">
                     <i class="fas fa-cog"></i> En Proceso <span class="tab-badge ms-1">1</span>
                 </button>
-                <button class="pedido-tab-btn" onclick="switchPedidoTab('tab-envio',this)">
+                <button class="pedido-tab-btn" id="btn-tab-envio" onclick="switchPedidoTab('tab-envio',this)">
                     <i class="fas fa-truck"></i> En Envío <span class="tab-badge ms-1">1</span>
+                </button>
+                <button class="pedido-tab-btn" id="btn-tab-historial" onclick="switchPedidoTab('tab-historial',this)">
+                    <i class="fas fa-history"></i> Historial <span class="tab-badge ms-1">3</span>
                 </button>
             </div>
 
@@ -388,6 +390,188 @@
                 </div>
             </div><!-- /tab-envio -->
 
+            <!-- Historial -->
+            <div class="pedido-tab-panel" id="tab-historial">
+
+                <!-- Alerta de referencia buscada (se muestra solo si viene de rastrear_pedido) -->
+                <div id="refAlert" class="ref-alert">
+                    <i class="fas fa-search"></i>
+                    <span id="refAlertText"></span>
+                </div>
+
+                <!-- Pedido entregado 1 -->
+                <div class="pedido-card" id="hist-LC-2026-0035">
+                    <div class="pedido-card-header" style="background:#065f46">
+                        <div>
+                            <div class="pedido-num">Pedido <strong>#LC-2026-0035</strong></div>
+                            <div class="pedido-fecha">Realizado el 5 de marzo de 2026</div>
+                        </div>
+                        <div class="pedido-total" style="display:flex;align-items:center;gap:.5rem">
+                            <span style="background:rgba(255,255,255,.2);color:#fff;font-size:.72rem;
+                                  padding:.2rem .65rem;border-radius:2rem;font-weight:700">
+                                <i class="fas fa-check-circle me-1"></i>Entregado
+                            </span>
+                            $2,799.00
+                        </div>
+                    </div>
+                    <div class="pedido-body">
+                        <div class="pedido-item">
+                            <div class="pedido-item-img">
+                                <img src="https://placehold.co/56x56/e8f4fb/002366?text=TV" alt="Televisor">
+                            </div>
+                            <div>
+                                <div class="pedido-item-name">Televisor LED Smart 32" HD</div>
+                                <div class="pedido-item-sku">SKU: TV32SMART · Cant: 1</div>
+                            </div>
+                            <div class="pedido-item-price">$2,799.00</div>
+                        </div>
+                    </div>
+                    <div class="pedido-tracking">
+                        <div class="pedido-tracking-title"><i class="fas fa-map-marker-alt me-1"></i> Estado del pedido</div>
+                        <div class="tracking-steps">
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
+                                <div class="tracking-step-label">Pedido recibido</div>
+                                <div class="tracking-step-date">5 mar</div>
+                            </div>
+                            <div class="tracking-line done"></div>
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
+                                <div class="tracking-step-label">En preparación</div>
+                                <div class="tracking-step-date">6 mar</div>
+                            </div>
+                            <div class="tracking-line done"></div>
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
+                                <div class="tracking-step-label">Salió a ruta</div>
+                                <div class="tracking-step-date">8 mar</div>
+                            </div>
+                            <div class="tracking-line done"></div>
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-home"></i></div>
+                                <div class="tracking-step-label">Entregado</div>
+                                <div class="tracking-step-date">9 mar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pedido entregado 2 -->
+                <div class="pedido-card" id="hist-LC-2026-0021">
+                    <div class="pedido-card-header" style="background:#065f46">
+                        <div>
+                            <div class="pedido-num">Pedido <strong>#LC-2026-0021</strong></div>
+                            <div class="pedido-fecha">Realizado el 12 de febrero de 2026</div>
+                        </div>
+                        <div class="pedido-total" style="display:flex;align-items:center;gap:.5rem">
+                            <span style="background:rgba(255,255,255,.2);color:#fff;font-size:.72rem;
+                                  padding:.2rem .65rem;border-radius:2rem;font-weight:700">
+                                <i class="fas fa-check-circle me-1"></i>Entregado
+                            </span>
+                            $1,349.00
+                        </div>
+                    </div>
+                    <div class="pedido-body">
+                        <div class="pedido-item">
+                            <div class="pedido-item-img">
+                                <img src="https://placehold.co/56x56/e8f4fb/002366?text=LIC" alt="Licuadora">
+                            </div>
+                            <div>
+                                <div class="pedido-item-name">Licuadora de Alto Rendimiento 2L</div>
+                                <div class="pedido-item-sku">SKU: LIC2L900W · Cant: 1</div>
+                            </div>
+                            <div class="pedido-item-price">$1,349.00</div>
+                        </div>
+                    </div>
+                    <div class="pedido-tracking">
+                        <div class="pedido-tracking-title"><i class="fas fa-map-marker-alt me-1"></i> Estado del pedido</div>
+                        <div class="tracking-steps">
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
+                                <div class="tracking-step-label">Pedido recibido</div>
+                                <div class="tracking-step-date">12 feb</div>
+                            </div>
+                            <div class="tracking-line done"></div>
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
+                                <div class="tracking-step-label">En preparación</div>
+                                <div class="tracking-step-date">13 feb</div>
+                            </div>
+                            <div class="tracking-line done"></div>
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
+                                <div class="tracking-step-label">Salió a ruta</div>
+                                <div class="tracking-step-date">15 feb</div>
+                            </div>
+                            <div class="tracking-line done"></div>
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-home"></i></div>
+                                <div class="tracking-step-label">Entregado</div>
+                                <div class="tracking-step-date">16 feb</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pedido entregado 3 -->
+                <div class="pedido-card" id="hist-LC-2025-0198">
+                    <div class="pedido-card-header" style="background:#065f46">
+                        <div>
+                            <div class="pedido-num">Pedido <strong>#LC-2025-0198</strong></div>
+                            <div class="pedido-fecha">Realizado el 3 de diciembre de 2025</div>
+                        </div>
+                        <div class="pedido-total" style="display:flex;align-items:center;gap:.5rem">
+                            <span style="background:rgba(255,255,255,.2);color:#fff;font-size:.72rem;
+                                  padding:.2rem .65rem;border-radius:2rem;font-weight:700">
+                                <i class="fas fa-check-circle me-1"></i>Entregado
+                            </span>
+                            $6,499.00
+                        </div>
+                    </div>
+                    <div class="pedido-body">
+                        <div class="pedido-item">
+                            <div class="pedido-item-img">
+                                <img src="https://placehold.co/56x56/e8f4fb/002366?text=REF" alt="Refrigerador">
+                            </div>
+                            <div>
+                                <div class="pedido-item-name">Refrigerador Top Mount 14 pies³</div>
+                                <div class="pedido-item-sku">SKU: RT14AXMX · Cant: 1</div>
+                            </div>
+                            <div class="pedido-item-price">$6,499.00</div>
+                        </div>
+                    </div>
+                    <div class="pedido-tracking">
+                        <div class="pedido-tracking-title"><i class="fas fa-map-marker-alt me-1"></i> Estado del pedido</div>
+                        <div class="tracking-steps">
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
+                                <div class="tracking-step-label">Pedido recibido</div>
+                                <div class="tracking-step-date">3 dic</div>
+                            </div>
+                            <div class="tracking-line done"></div>
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
+                                <div class="tracking-step-label">En preparación</div>
+                                <div class="tracking-step-date">4 dic</div>
+                            </div>
+                            <div class="tracking-line done"></div>
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
+                                <div class="tracking-step-label">Salió a ruta</div>
+                                <div class="tracking-step-date">6 dic</div>
+                            </div>
+                            <div class="tracking-line done"></div>
+                            <div class="tracking-step done">
+                                <div class="tracking-step-circle"><i class="fas fa-home"></i></div>
+                                <div class="tracking-step-label">Entregado</div>
+                                <div class="tracking-step-date">7 dic</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /tab-historial -->
+
         </div><!-- /panel-pedidos -->
 
 
@@ -466,15 +650,14 @@
                     </div>
                 </div>
 
-            </div><!-- /listaS
-
+                        </div><!-- /listaSolicitudes -->
         </div><!-- /panel-solicitudes -->
 
     </main>
 </div><!-- /cuenta-layout -->
 
 <footer class="site-footer-minimal">
-    © 2026 LuchanosCorp S.A. Todos los derechos reservados.
+    © <?= date('Y') ?> LuchanosCorp S.A. Todos los derechos reservados.
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

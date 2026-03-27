@@ -16,7 +16,7 @@
             <div>
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
                 <span class="d-none d-md-inline">
-                    <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
+                    <i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2e5d415e415c5a4b6e625b4d464f40415d6d415c5e004d4143">[email&#160;protected]</a>
                 </span>
             </div>
             <div class="d-flex gap-3">
@@ -93,7 +93,7 @@
                     Rastrear pedido
                 </button>
 
-                <!-- Resultado gestionado por scripts.js → mostrarResultadoRastreo() -->
+                <!-- Mensaje de error si el campo está vacío -->
                 <div class="track-result" id="trackResult"></div>
 
             </form>

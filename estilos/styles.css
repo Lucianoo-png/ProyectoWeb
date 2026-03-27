@@ -2169,3 +2169,43 @@ body.checkout-bg {
     cursor: not-allowed;
     transform: none;
 }
+/* ── Alerta de rastreo (panel Mis Pedidos ← rastrear_pedido) ─── */
+.ref-alert {
+    display: none;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: 1rem;
+    padding: .85rem 1rem;
+    background: #e8f4fb;
+    border: 1px solid #008CA8;
+    border-radius: 10px;
+    color: #004f6d;
+    font-size: .88rem;
+}
+.ref-alert--visible { display: flex; }
+.ref-alert--warn {
+    background: #fff3cd;
+    border-color: #ffc107;
+    color: #856404;
+}
+
+/* Resaltado temporal de tarjeta encontrada en historial */
+.pedido-card--highlight {
+    outline: 2px solid #008CA8;
+    border-radius: 12px;
+    transition: outline .3s;
+}
+
+/* ── Mensaje de error en rastrear_pedido.php ──────────────────── */
+.track-error-msg {
+    margin-top: 1rem;
+    padding: .85rem 1rem;
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 10px;
+    color: #856404;
+    font-size: .9rem;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}

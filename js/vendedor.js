@@ -913,3 +913,127 @@ function confirmarEntrega() {
 
 // Inicializar al cargar
 document.addEventListener('DOMContentLoaded', renderTracking);
+
+/* ══════════════════════════════════════════════════════════════
+   RASTREAR PEDIDO — rastrear_pedido.php
+   Redirige a inicio_usuario.php?panel=pedidos&ref=<referencia>
+   ══════════════════════════════════════════════════════════════ */
+
+function initRastrearPedido() {
+    const form = document.getElementById('trackForm');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const ref    = document.getElementById('noReferencia').value.trim();
+        const result = document.getElementById('trackResult');
+
+        if (!ref) {
+            result.innerHTML =
+                '<div class="track-error-msg">' +
+                    '<i class="fas fa-exclamation-triangle"></i>' +
+                    ' Por favor ingresa tu número de referencia.' +
+                '</div>';
+            return;
+        }
+
+        /* Limpia mensaje anterior */
+        result.innerHTML = '';
+
+        /* Redirige a Mis Pedidos pasando la referencia como parámetro */
+        const destino = 'Cuenta/inicio_usuario.php'
+                      + '?panel=pedidos'
+                      + '&ref=' + encodeURIComponent(ref);
+        window.location.href = destino;
+    });
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   INICIO USUARIO — inicio_usuario.php
+   Detecta parámetros URL de rastrear_pedido y activa el panel
+   y pestaña correspondiente al número de referencia buscado.
+   ══════════════════════════════════════════════════════════════ */
+
+function initRastreoDesdeURL() {
+    const params = new URLSearchParams(window.location.search);
+    const panel  = params.get('panel');
+    const ref    = params.get('ref');
+
+    if (panel !== 'pedidos') return;
+
+    /* 1 · Activar panel Mis Pedidos en el sidebar */
+    document.querySelectorAll('.cuenta-nav-link').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.cuenta-panel').forEach(function(p)    { p.classList.remove('active'); });
+
+    var btnPedidos   = document.querySelector('[onclick="switchPanel(\'panel-pedidos\',this)"]');
+    var panelPedidos = document.getElementById('panel-pedidos');
+    if (btnPedidos)   btnPedidos.classList.add('active');
+    if (panelPedidos) panelPedidos.classList.add('active');
+
+    if (!ref) return;
+
+    var refUpper     = ref.toUpperCase();
+    var pedidoProceso = 'LC-2026-0041';
+    var pedidoEnvio   = 'LC-2026-0038';
+
+    var enProceso  = refUpper.includes(pedidoProceso);
+    var enEnvio    = refUpper.includes(pedidoEnvio);
+    var histCard   = document.getElementById('hist-' + refUpper.replace('#', ''));
+
+    if (enProceso) {
+        activarTabPedido('btn-tab-proceso', 'tab-proceso');
+        mostrarAlertaRastreo(ref, 'proceso');
+    } else if (enEnvio) {
+        activarTabPedido('btn-tab-envio', 'tab-envio');
+        mostrarAlertaRastreo(ref, 'envio');
+    } else if (histCard) {
+        activarTabPedido('btn-tab-historial', 'tab-historial');
+        mostrarAlertaRastreo(ref, 'historial');
+        setTimeout(function() {
+            histCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            histCard.classList.add('pedido-card--highlight');
+            setTimeout(function() { histCard.classList.remove('pedido-card--highlight'); }, 2500);
+        }, 350);
+    } else {
+        activarTabPedido('btn-tab-proceso', 'tab-proceso');
+        mostrarAlertaRastreo(ref, 'notfound');
+    }
+}
+
+function activarTabPedido(btnId, tabId) {
+    document.querySelectorAll('.pedido-tab-btn').forEach(function(b)   { b.classList.remove('active'); });
+    document.querySelectorAll('.pedido-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    var btn = document.getElementById(btnId);
+    var tab = document.getElementById(tabId);
+    if (btn) btn.classList.add('active');
+    if (tab) tab.classList.add('active');
+}
+
+function mostrarAlertaRastreo(ref, estado) {
+    var alertEl = document.getElementById('refAlert');
+    var txtEl   = document.getElementById('refAlertText');
+    if (!alertEl || !txtEl) return;
+
+    var msgs = {
+        proceso  : 'Pedido <strong>' + ref + '</strong> encontrado — actualmente <strong>En Proceso</strong>.',
+        envio    : 'Pedido <strong>' + ref + '</strong> encontrado — actualmente <strong>En Envío</strong>.',
+        historial: 'Pedido <strong>' + ref + '</strong> encontrado en el historial — ya fue <strong>Entregado</strong>.',
+        notfound : 'No encontramos el pedido <strong>' + ref + '</strong> en tu cuenta. Verifica el número.'
+    };
+
+    txtEl.innerHTML  = msgs[estado] || msgs.notfound;
+    alertEl.classList.add('ref-alert--visible');
+    if (estado === 'notfound') alertEl.classList.add('ref-alert--warn');
+
+    /* Mover el alert al inicio del tab activo */
+    var activeTab = document.querySelector('.pedido-tab-panel.active');
+    if (activeTab) activeTab.prepend(alertEl);
+}
+
+
+/* ── DOMContentLoaded: inicializa todas las funciones de página ── */
+document.addEventListener('DOMContentLoaded', function() {
+    initRastrearPedido();   /* rastrear_pedido.php  */
+    initRastreoDesdeURL();  /* inicio_usuario.php   */
+});
