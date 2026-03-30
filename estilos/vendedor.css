@@ -2934,7 +2934,7 @@ body {
     transform: translateY(120%);
     transition: transform .3s ease;
 }
-.rep-toast.show { transform: translateY(0); }
+
 
 /* Modal estado */
 .modal-estado-overlay {
@@ -3340,13 +3340,6 @@ body {
 .btn-modal-confirm:hover { background: var(--btn-hover); }
 
 /* ── Toast ───────────────────────────────────────────────────── */
-.rep-toast {
-    position: fixed; bottom: 1.5rem; right: 1.5rem;
-    background: #065f46; color: #fff;
-    padding: .85rem 1.5rem; border-radius: .6rem;
-    font-size: .88rem; font-weight: 600;
-    box-shadow: 0 8px 28px rgba(0,0,0,.22);
-    display: flex; align-items: center; gap: .6rem;
-    z-index: 9999; transform: translateY(120%); transition: transform .3s ease;
-}
-.rep-toast.show { transform: translateY(0); }|
+
+
+.rep-toast.show { transform: translateY(0); }

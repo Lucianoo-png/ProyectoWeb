@@ -1237,15 +1237,13 @@ function filtrarProductos(q) {
 }
 
 /* ── Confirmación modal ──────────────────────────────────────── */
+/* ── Confirmación modal ──────────────────────────────────────── */
 function abrirConfirmacion() {
     const provEl  = el('selectProveedor');
-    const fecha   = el('fechaEntrega').value;
-    const nota    = el('notaProveedor').value;
     const ids     = Object.keys(seleccionados);
 
-    if (!provEl.value)  { alert('Selecciona un proveedor primero.');          return; }
-    if (!fecha)          { alert('Indica la fecha requerida de entrega.');     return; }
-    if (!ids.length)     { alert('Agrega al menos un producto.');              return; }
+    if (!provEl.value)  { alert('Selecciona un proveedor primero.'); return; }
+    if (!ids.length)     { alert('Agrega al menos un producto.'); return; }
 
     const provNombre = PROVEEDORES[provEl.value].nombre;
     let total = 0;
@@ -1262,28 +1260,27 @@ function abrirConfirmacion() {
         </tr>`;
     }).join('');
 
-    const fechaFmt = new Date(fecha + 'T12:00')
-        .toLocaleDateString('es-MX', { day: '2-digit', month: 'long', year: 'numeric' });
-
+    // Contenido del modal sin fecha ni nota (acorde al HTML actual)
     el('modalPedidoBody').innerHTML = `
         <div class="modal-label">Folio</div>
         <div class="modal-value mono">LC-REA-2026-032</div>
+        
         <div class="modal-label">Proveedor</div>
         <div class="modal-value">${provNombre}</div>
-        <div class="modal-label">Entrega requerida</div>
-        <div class="modal-value">${fechaFmt}</div>
-        ${nota ? `<div class="modal-label">Nota</div><div class="modal-value">"${nota}"</div>` : ''}
-        <div class="modal-label mt-2">Detalle de productos</div>
+        
+        <div class="modal-label mt-2">Productos solicitados</div>
         <table class="modal-detalle-table">
             <thead><tr>
                 <th>Producto</th><th>Cant.</th><th>Subtotal</th>
             </tr></thead>
             <tbody>${filas}</tbody>
         </table>
+        
         <div class="modal-total-row">
             <span>Total estimado</span>
             <span>${fmtMXN(total)}</span>
         </div>
+        
         <div class="modal-actions">
             <button class="btn-modal-cancel" onclick="cerrarModal()">
                 <i class="fas fa-times"></i> Cancelar
