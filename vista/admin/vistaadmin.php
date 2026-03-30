@@ -14,7 +14,7 @@
         <div class="container-fluid d-flex justify-content-between px-3">
             <div>
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com</span>
+                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="11627e617e636574515d647279707f7e62527e63613f727e7c">[email&#160;protected]</a></span>
             </div>
             <div><span class="me-2"><i class="fas fa-user-shield me-1"></i> Panel Administrador</span></div>
         </div>
@@ -47,7 +47,10 @@
             <a href="admin_reportes_ventas.php"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
             <a href="admin_reportes_compras.php"  class="nav-link"><i class="fas fa-shopping-bag"></i> Compras</a>
             <a href="admin_reportes_pedidos.php"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
-            <a href="../Cuenta/login.php" class="btn-cerrar">
+            <hr class="sidebar-divider">
+            <p class="sidebar-title">Proveedores</p>
+            <a href="admin_pedido_proveedor.php" class="nav-link"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
+                        <a href="../Cuenta/login.php" class="btn-cerrar">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
             </a>
         </nav>

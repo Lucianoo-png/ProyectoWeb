@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ElectroPendejo | Admin — Personal</title>
+    <title>LuchanosCorp | Admin — Personal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
      <!-- <link rel="stylesheet" href="../../estilos/styles.css">-->
@@ -62,13 +62,16 @@
             <a href="admin_productos.php" class="nav-link"><i class="fas fa-box"></i> Productos</a>
             <hr class="sidebar-divider">
             <p class="sidebar-title">Reportes</p>
-            <a href="admin_reportes.php"             class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
-            <a href="admin_reportes.php?tab=compras" class="nav-link"><i class="fas fa-shopping-bag"></i> Compras</a>
-            <a href="admin_reportes.php?tab=pedidos" class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
-            <a href="../Cuenta/login.php" class="btn-cerrar">
+            <a href="admin_reportes_ventas.php"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
+            <a href="admin_reportes_compras.php"  class="nav-link"><i class="fas fa-shopping-bag"></i> Compras</a>
+            <a href="admin_reportes_pedidos.php"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
+            <hr class="sidebar-divider">
+            <p class="sidebar-title">Proveedores</p>
+            <a href="admin_pedido_proveedor.php" class="nav-link"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
+                        <a href="../Cuenta/login.php" class="btn-cerrar">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
             </a>
-        </nav>
+</nav>
 
         <main class="admin-content">
 

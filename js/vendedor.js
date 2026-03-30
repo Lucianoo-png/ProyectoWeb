@@ -1103,3 +1103,233 @@ document.addEventListener('DOMContentLoaded', () => {
     initRastrearPedido();
     initRastreoDesdeURL();
 });
+
+/* ══════════════════════════════════════════════════════════════
+   LuchanosCorp — Admin: Pedido a Proveedor
+   Ruta: js/admin_pedido_proveedor.js
+   ══════════════════════════════════════════════════════════════ */
+
+'use strict';
+
+/* ── Datos locales (sustituir por fetch al servidor) ─────────── */
+const CATALOGO = {
+    P001: { nombre: 'Refrigerador 14 pies Frost',  sku: 'WH-REF-014', precio: 7490  },
+    P002: { nombre: 'Lavadora 17 kg Automática',   sku: 'WH-LAV-017', precio: 5290  },
+    P003: { nombre: 'Estufa 6 Quemadores Acero',   sku: 'MB-EST-006', precio: 3850  },
+    P004: { nombre: 'Televisor 55" QLED 4K',       sku: 'SG-TV-055',  precio: 9999  },
+    P005: { nombre: 'Microondas 30L Inverter',     sku: 'LG-MW-030',  precio: 2199  },
+};
+
+const PROVEEDORES = {
+    whirlpool: { nombre: 'Whirlpool MX',   contacto: 'ventas@whirlpool.com.mx' },
+    samsung:   { nombre: 'Samsung MX',     contacto: 'proveedores@samsung.mx'  },
+    lg:        { nombre: 'LG Electronics', contacto: 'reabasto@lg.com.mx'      },
+    mabe:      { nombre: 'Mabe',           contacto: 'compras@mabe.com.mx'     },
+};
+
+/* Estado en memoria */
+const seleccionados = {}; // { id: qty }
+
+/* ── Helpers ─────────────────────────────────────────────────── */
+function fmtMXN(n) {
+    return n.toLocaleString('es-MX', { style: 'currency', currency: 'MXN' });
+}
+
+function el(id) { return document.getElementById(id); }
+
+/* ── Tabs ────────────────────────────────────────────────────── */
+function cambiarTab(tab, btn) {
+    document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.admin-tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    el('tab-' + tab).classList.add('active');
+}
+
+/* ── Proveedor ───────────────────────────────────────────────── */
+function actualizarProveedor(val) {
+    const p = PROVEEDORES[val];
+    el('contactoProveedor').value = p ? p.contacto : '';
+    el('resProveedor').textContent = p ? p.nombre : '—';
+}
+
+/* ── Toggle producto ─────────────────────────────────────────── */
+function toggleProducto(id, fila) {
+    const chk = el('chk-' + id);
+    chk.checked = !chk.checked;
+    if (chk.checked) {
+        seleccionados[id] = seleccionados[id] || 1;
+        fila.style.background = '#e6f6f8';
+    } else {
+        delete seleccionados[id];
+        fila.style.background = '';
+    }
+    renderTabla();
+    actualizarResumen();
+}
+
+/* ── Render tabla de seleccionados ───────────────────────────── */
+function renderTabla() {
+    const ids  = Object.keys(seleccionados);
+    const wrap = el('tablaSeleccionadosWrap');
+    const tbody = el('tablaSeleccionados');
+    wrap.style.display = ids.length ? '' : 'none';
+    tbody.innerHTML = '';
+
+    ids.forEach(id => {
+        const p   = CATALOGO[id];
+        const qty = seleccionados[id];
+        const sub = fmtMXN(qty * p.precio);
+        const fila = document.createElement('tr');
+        fila.className = 'producto-fila';
+        fila.innerHTML = `
+            <td>${p.nombre}</td>
+            <td style="font-family:monospace;font-size:.8rem;color:#8a9bb5">${p.sku}</td>
+            <td style="text-align:center">
+                <input class="qty-input" type="number" min="1" value="${qty}"
+                       onchange="cambiarQty('${id}', this.value)">
+            </td>
+            <td style="text-align:right;font-weight:600">${fmtMXN(p.precio)}</td>
+            <td style="text-align:right;font-weight:700;color:var(--btn-color)">${sub}</td>
+            <td>
+                <button class="btn-quitar" onclick="quitarProducto('${id}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </td>`;
+        tbody.appendChild(fila);
+    });
+}
+
+function cambiarQty(id, val) {
+    seleccionados[id] = Math.max(1, parseInt(val) || 1);
+    renderTabla();
+    actualizarResumen();
+}
+
+function quitarProducto(id) {
+    delete seleccionados[id];
+    const chk = el('chk-' + id);
+    if (chk) chk.checked = false;
+    document.querySelectorAll('.picker-item').forEach(f => {
+        if (f.querySelector('#chk-' + id)) f.style.background = '';
+    });
+    renderTabla();
+    actualizarResumen();
+}
+
+/* ── Resumen ─────────────────────────────────────────────────── */
+function actualizarResumen() {
+    const ids = Object.keys(seleccionados);
+    let total = 0, unidades = 0;
+    ids.forEach(id => {
+        total    += seleccionados[id] * CATALOGO[id].precio;
+        unidades += seleccionados[id];
+    });
+    el('resCantProductos').textContent = ids.length;
+    el('resUnidades').textContent      = unidades;
+    el('resTotal').textContent         = fmtMXN(total);
+}
+
+/* ── Filtro picker ───────────────────────────────────────────── */
+function filtrarProductos(q) {
+    document.querySelectorAll('.picker-item').forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+    });
+}
+
+/* ── Confirmación modal ──────────────────────────────────────── */
+function abrirConfirmacion() {
+    const provEl  = el('selectProveedor');
+    const fecha   = el('fechaEntrega').value;
+    const nota    = el('notaProveedor').value;
+    const ids     = Object.keys(seleccionados);
+
+    if (!provEl.value)  { alert('Selecciona un proveedor primero.');          return; }
+    if (!fecha)          { alert('Indica la fecha requerida de entrega.');     return; }
+    if (!ids.length)     { alert('Agrega al menos un producto.');              return; }
+
+    const provNombre = PROVEEDORES[provEl.value].nombre;
+    let total = 0;
+    ids.forEach(id => { total += seleccionados[id] * CATALOGO[id].precio; });
+
+    const filas = ids.map(id => {
+        const p = CATALOGO[id];
+        return `<tr>
+            <td style="font-size:.83rem;padding:.35rem .5rem">${p.nombre}</td>
+            <td style="font-size:.83rem;padding:.35rem .5rem;text-align:center">${seleccionados[id]}</td>
+            <td style="font-size:.83rem;padding:.35rem .5rem;text-align:right;color:var(--btn-color);font-weight:700">
+                ${fmtMXN(seleccionados[id] * p.precio)}
+            </td>
+        </tr>`;
+    }).join('');
+
+    const fechaFmt = new Date(fecha + 'T12:00')
+        .toLocaleDateString('es-MX', { day: '2-digit', month: 'long', year: 'numeric' });
+
+    el('modalPedidoBody').innerHTML = `
+        <div class="modal-label">Folio</div>
+        <div class="modal-value mono">LC-REA-2026-032</div>
+        <div class="modal-label">Proveedor</div>
+        <div class="modal-value">${provNombre}</div>
+        <div class="modal-label">Entrega requerida</div>
+        <div class="modal-value">${fechaFmt}</div>
+        ${nota ? `<div class="modal-label">Nota</div><div class="modal-value">"${nota}"</div>` : ''}
+        <div class="modal-label mt-2">Detalle de productos</div>
+        <table class="modal-detalle-table">
+            <thead><tr>
+                <th>Producto</th><th>Cant.</th><th>Subtotal</th>
+            </tr></thead>
+            <tbody>${filas}</tbody>
+        </table>
+        <div class="modal-total-row">
+            <span>Total estimado</span>
+            <span>${fmtMXN(total)}</span>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-modal-cancel" onclick="cerrarModal()">
+                <i class="fas fa-times"></i> Cancelar
+            </button>
+            <button class="btn-modal-confirm" onclick="confirmarEnvio()">
+                <i class="fas fa-paper-plane"></i> Confirmar y Enviar
+            </button>
+        </div>`;
+
+    el('modalPedidoOverlay').classList.add('show');
+}
+
+function cerrarModal() {
+    el('modalPedidoOverlay').classList.remove('show');
+}
+
+function confirmarEnvio() {
+    cerrarModal();
+    mostrarToast('toastEnviado');
+    /* Aquí iría el POST real: fetch('/api/pedidos', { method:'POST', body: JSON.stringify({...}) }) */
+}
+
+/* ── Toast ───────────────────────────────────────────────────── */
+function mostrarToast(id, ms = 3500) {
+    const t = el(id);
+    if (!t) return;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), ms);
+}
+
+/* ── Detalle historial ───────────────────────────────────────── */
+function verDetalle(folio) {
+    /* Sustituir por apertura de modal con datos reales */
+    alert('Detalle de: ' + folio);
+}
+
+/* ── Inicialización ──────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+    /* Fecha mínima = hoy */
+    const hoy = new Date().toISOString().split('T')[0];
+    const fechaInput = el('fechaEntrega');
+    if (fechaInput) fechaInput.min = hoy;
+
+    /* Cerrar modal al hacer clic en el overlay */
+    const overlay = el('modalPedidoOverlay');
+    if (overlay) overlay.addEventListener('click', e => {
+        if (e.target === overlay) cerrarModal();
+    });
+});
