@@ -4,17 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LuchanosCorp | Contacto</title>
-
-    <!-- Bootstrap 5.3.2 CSS desde CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-
-    <!-- CSS Global del sitio -->
     <link rel="stylesheet" href="../estilos/styles.css">
-
-    <!-- CSS Específico de Contacto (archivo separado) -->
     <link rel="stylesheet" href="../estilos/contacto.css">
 </head>
 <body>
@@ -373,6 +365,8 @@
 <!-- Scripts globales del sitio -->
 <script src="../js/scripts.js"></script>
 <script src="../js/contacto.js"></script>
+<link rel="stylesheet" href="../estilos/responsive.css">
+<script src="../js/responsive.js"></script>
 
 </body>
 </html>

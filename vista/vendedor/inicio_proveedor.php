@@ -40,7 +40,7 @@
             </span>
         </div>
         <div class="d-flex align-items-center gap-3 ms-2">
-            <a href="login_proveedor.php" class="nav-icon" title="Cerrar Sesión"
+            <a href="../../vista/Cuenta/login.php" class="nav-icon" title="Cerrar Sesión"
                style="font-size:.8rem;display:flex;align-items:center;gap:.35rem">
                 <i class="fas fa-sign-out-alt"></i>
                 <span class="d-none d-md-inline">Salir</span>
@@ -688,5 +688,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../js/scripts.js"></script>
 <script src="../../js/proveedor.js"></script>
+<link rel="stylesheet" href="../../estilos/responsive.css">
+<script src="../../js/responsive.js"></script>
 </body>
 </html>

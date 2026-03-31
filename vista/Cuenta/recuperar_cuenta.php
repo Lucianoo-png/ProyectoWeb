@@ -133,5 +133,9 @@
         })();
     </script>
 
+
+<link rel="stylesheet" href="../../estilos/responsive.css">
+<script src="../../js/responsive.js"></script>
+
 </body>
 </html>
