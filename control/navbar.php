@@ -42,7 +42,7 @@ $r = [
     'lavavajillas' => $pathBase . 'vista/Producto/OtrasCategorias/lavavajillas.php',
     'cuidado_hogar'=> $pathBase . 'vista/Producto/OtrasCategorias/cuidado_hogar.php',
     'cuidado_personal'=> $pathBase . 'vista/Producto/OtrasCategorias/cuidado_personal.php',
-    'ayuda' => $pathBase . 'vista/cuentausuario/ayuda.php'
+    
 ];
 ?>
 
