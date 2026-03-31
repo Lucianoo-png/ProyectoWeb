@@ -14,11 +14,13 @@
         <div class="container-fluid d-flex justify-content-between px-3">
             <div>
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="11627e617e636574515d647279707f7e62527e63613f727e7c">[email&#160;protected]</a></span>
+                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com</span>
             </div>
-            <div><span class="me-2"><i class="fas fa-user-shield me-1"></i> Panel Administrador</span></div>
+            <div><span><i class="fas fa-user-shield me-1"></i> Panel Administrador</span></div>
         </div>
     </div>
+
+    
     <div class="main-nav">
         <div class="container-fluid d-flex align-items-center gap-3 px-3">
             <a href="../../index.php" class="brand-logo me-3">

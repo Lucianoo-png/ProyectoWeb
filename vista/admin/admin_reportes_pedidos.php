@@ -14,7 +14,7 @@
         <div class="container-fluid d-flex justify-content-between px-3">
             <div>
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="11627e617e63657451747d747265637e61747f75747b7e3f727e7c">[email&#160;protected]</a></span>
+                <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com</span>
             </div>
             <div><span><i class="fas fa-user-shield me-1"></i> Panel Administrador</span></div>
         </div>
