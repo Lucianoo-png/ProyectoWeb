@@ -122,7 +122,7 @@ include 'includes/../control/navbar.php';
             <div class="col-md-3">
                 <h6 class="text-uppercase fw-bold mb-4">Soporte</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="contacto.php">Contacto</a></li>
+                    <li class="mb-2"><a href="Vista/contacto.php">Contacto</a></li>
                 </ul>
             </div>
         </div>

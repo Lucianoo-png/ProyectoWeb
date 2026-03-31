@@ -258,7 +258,7 @@
         <hr class="menu-divider">
         <span class="menu-group-label">Ayuda</span>
         <a href="${rastrearHref}" class="menu-item"><i class="fas fa-truck"></i> Rastrear Pedido</a>
-        <a href="contacto.php" class="menu-item"><i class="fas fa-headset"></i> Contacto</a>`;
+        <a href="Vista/contacto.php" class="menu-item"><i class="fas fa-headset"></i> Contacto</a>`;
 
         return html;
     }
