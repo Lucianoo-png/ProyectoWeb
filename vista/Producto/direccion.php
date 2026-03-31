@@ -11,22 +11,21 @@
 <body class="checkout-bg">
 
     <!-- Topbar -->
-     <div class="topbar">
-    <div class="container d-flex justify-content-between">
-        <div>
-            <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-            <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
-            </span>
-        </div>
-        <div class="d-flex gap-3">
-            <a href="../rastrear_pedido.php" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-                <!-- <a href="#" class="topbar-link-muted">Ayuda</a>-->
+    <div class="topbar">
+        <div class="container d-flex justify-content-between">
+            <div>
+                <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
+                <span class="d-none d-md-inline">
+                    <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
+                </span>
+            </div>
+            <div class="d-flex gap-3">
+                <a href="../rastrear_pedido.php" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Navbar -->
     <div class="main-nav">
@@ -79,14 +78,10 @@
                 Si es así, haz click en el botón <strong>"ENVIAR AQUÍ"</strong>.
             </div>
 
-            <!-- Tarjeta de dirección (datos hardcoded / demo) -->
+            <!-- Tarjeta de dirección principal (poblada por JS desde localStorage) -->
             <div class="dir-address-card" id="dir-card-1">
-                <div class="dir-address-name" id="dir-nombre-display">Carlos Ivan Luciano Cruz</div>
-                <div class="dir-address-detail" id="dir-detalle-display">
-                    XXXXXXXXXXXXXXXXXXXX
-                    Veracruz, 91713, México<br>
-                    Teléfono: 2294832504
-                </div>
+                <div class="dir-address-name" id="dir-nombre-display">Cargando...</div>
+                <div class="dir-address-detail" id="dir-detalle-display"></div>
                 <div class="dir-address-actions">
                     <button class="btn-enviar-aqui" onclick="enviarAqui()">ENVIAR AQUÍ</button>
                     <button class="btn-dir-sec" onclick="borrarDireccion()">Borrar</button>
@@ -94,53 +89,69 @@
                 </div>
             </div>
 
-            <a href="#" class="ver-todas-link">Ver todas mis direcciones</a>
+            <a href="#" class="ver-todas-link" onclick="verTodasDirecciones(event)">
+                <i class="fas fa-list me-1"></i> Ver todas mis direcciones
+            </a>
         </div>
     </div>
 
-    <!-- Modal Editar dirección -->
+    <!-- ════════════════════════════════════════════════════════
+         Modal: Ver todas mis direcciones
+    ════════════════════════════════════════════════════════ -->
+    <div id="modal-todas-dirs">
+        <div class="modal-todas-dirs-card">
+            <div class="modal-todas-dirs-header">
+                <h6><i class="fas fa-map-marked-alt me-2"></i>Todas mis direcciones</h6>
+                <button onclick="cerrarTodasDirs()">&times;</button>
+            </div>
+            <div class="modal-todas-dirs-body">
+                <div id="todas-dirs-lista">
+                    <!-- Renderizado por JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         Modal: Editar / Agregar dirección
+    ════════════════════════════════════════════════════════ -->
     <div id="modal-editar">
         <div class="modal-editar-card">
             <div class="modal-editar-header">
-                <h6><i class="fas fa-edit me-2"></i>Editar dirección</h6>
+                <h6 id="modal-editar-titulo"><i class="fas fa-edit me-2"></i>Editar dirección</h6>
                 <button onclick="cerrarEditar()">&times;</button>
             </div>
             <div class="modal-editar-body">
+                <!-- índice oculto para saber qué dirección se edita -->
+                <input type="hidden" id="edit-idx" value="">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label small fw-semibold">Nombre completo</label>
-                        <input type="text" id="edit-nombre" class="form-control form-control-sm"
-                               value="Carlos Ivan Luciano Cruz">
+                        <input type="text" id="edit-nombre" class="form-control form-control-sm">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small fw-semibold">Teléfono</label>
-                        <input type="tel" id="edit-tel" class="form-control form-control-sm"
-                               value="2294832504">
+                        <input type="tel" id="edit-tel" class="form-control form-control-sm">
                     </div>
                     <div class="col-12">
                         <label class="form-label small fw-semibold">Calle y número</label>
-                        <input type="text" id="edit-calle" class="form-control form-control-sm"
-                               value="Rafael Murillo Vidal 485 485, Tienda con fachada de Coca Cola">
+                        <input type="text" id="edit-calle" class="form-control form-control-sm">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small fw-semibold">Colonia</label>
-                        <input type="text" id="edit-colonia" class="form-control form-control-sm"
-                               value="Vías Ferreas">
+                        <input type="text" id="edit-colonia" class="form-control form-control-sm">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small fw-semibold">Ciudad</label>
-                        <input type="text" id="edit-ciudad" class="form-control form-control-sm"
-                               value="Veracruz">
+                        <input type="text" id="edit-ciudad" class="form-control form-control-sm">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label small fw-semibold">C.P.</label>
-                        <input type="text" id="edit-cp" class="form-control form-control-sm"
-                               value="91713">
+                        <input type="text" id="edit-cp" class="form-control form-control-sm">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label small fw-semibold">Estado</label>
-                        <input type="text" id="edit-estado" class="form-control form-control-sm"
-                               value="VERACRUZ">
+                        <input type="text" id="edit-estado" class="form-control form-control-sm">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label small fw-semibold">País</label>
@@ -158,10 +169,13 @@
         </div>
     </div>
 
+    <!-- Toast -->
+    <div id="dir-toast"><i class="fas fa-check-circle me-1"></i><span id="dir-toast-msg"></span></div>
+
     <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../js/scripts.js"></script>
+    <script src="../../js/pago.js"></script>
 </body>
 </html>

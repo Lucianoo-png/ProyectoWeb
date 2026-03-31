@@ -372,8 +372,6 @@
 
 <!-- Scripts globales del sitio -->
 <script src="../js/scripts.js"></script>
-
-<!-- JavaScript específico de Contacto (archivo separado) -->
 <script src="../js/contacto.js"></script>
 
 </body>
