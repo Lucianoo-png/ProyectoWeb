@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
     <link rel="stylesheet" href="../../../estilos/styles.css">
+    <link rel="stylesheet" href="../../../estilos/responsive.css">
 </head>
 <body>
 
@@ -15,7 +16,7 @@
         <div>
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
             <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
+                <i class="fas fa-envelope me-1"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6a19051a05181e0f2a261f09020b0405192905181a44090507">[email&#160;protected]</a>
             </span>
         </div>
           <div class="d-flex gap-3">
@@ -183,8 +184,7 @@
         © 2026 LuchanosCorp S.A. Todos los derechos reservados.
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/scripts.js"></script>
-    <link rel="stylesheet" href="../../../estilos/responsive.css">
-    <script src="../../js/responsive.js"></script>
+    <script src="../../../js/scripts.js"></script>
+    <script src="../../../js/responsive.js"></script>
 </body>
 </html>
