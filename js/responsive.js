@@ -97,7 +97,7 @@
         } else {
             const logoutHref = (
                 document.querySelector('.btn-cerrar')?.href ||
-                document.querySelector('a[href*="login"]')?.href ||
+                document.querySelector('a[href*="login.php"]')?.href ||
                 '#'
             );
             div.innerHTML = `
@@ -508,6 +508,98 @@
     }
 
     /* ════════════════════════════════════════════════
+       CONVERTIR TABLAS A TARJETAS PARA MÓVIL
+       ─────────────────────────────────────────────
+       Las tablas anchas (5-6 columnas) siempre
+       desbordan el viewport en móvil. La solución
+       definitiva es convertir cada fila en una tarjeta
+       con la etiqueta de columna como texto superior.
+       No depende de overflow ni de specificity CSS.
+    ════════════════════════════════════════════════ */
+    function _fixTablasMobile() {
+        if (window.innerWidth > BREAKPOINT) return;
+
+        const selectores = [
+            '.cuenta-card-body .sol-table',
+            '.hist-card-body  .sol-table'
+        ];
+
+        selectores.forEach(sel => {
+            document.querySelectorAll(sel).forEach(table => {
+                /* Evitar doble procesamiento */
+                if (table.dataset.lcMobile) return;
+                table.dataset.lcMobile = '1';
+
+                /* Leer cabeceras */
+                const headers = Array.from(
+                    table.querySelectorAll('thead th')
+                ).map(th => th.textContent.trim());
+
+                if (!headers.length) return;
+
+                /* Añadir data-label a cada celda */
+                table.querySelectorAll('tbody tr').forEach(tr => {
+                    Array.from(tr.querySelectorAll('td')).forEach((td, i) => {
+                        td.setAttribute('data-label', headers[i] || '');
+                    });
+                });
+
+                /* Aplicar clase de tarjetas */
+                table.classList.add('lc-table-card');
+
+                /* Asegurarse de que el contenedor no tenga overflow:hidden heredado */
+                const parent = table.closest('.cuenta-card, .hist-card');
+                if (parent) {
+                    parent.style.overflow = 'visible';
+                }
+            });
+        });
+    }
+
+    /* ════════════════════════════════════════════════
+       ARREGLAR FOOTER EN MÓVIL (respaldo JS)
+       body es flex-column min-height:100dvh,
+       cuenta-layout tiene flex:1 → footer al fondo.
+       Si aún no llega, calculamos min-height exacto.
+    ════════════════════════════════════════════════ */
+    function _fixFooterMobile() {
+        if (window.innerWidth > BREAKPOINT) return;
+
+        const layout = document.querySelector('.cuenta-layout, .admin-layout');
+        const footer = document.querySelector('.site-footer-minimal');
+        if (!layout || !footer) return;
+
+        const recalc = () => {
+            const navEl  = document.querySelector('.main-nav');
+            const navH   = navEl  ? navEl.getBoundingClientRect().height  : 56;
+            const footH  = footer.getBoundingClientRect().height           || 44;
+            const vh     = window.innerHeight;
+            const minH   = vh - navH - footH - 8;   /* 8px de margen de seguridad */
+
+            layout.style.minHeight = Math.max(minH, 0) + 'px';
+        };
+
+        recalc();
+        window.addEventListener('resize', _debounce(recalc, 150));
+    }
+
+    /* ════════════════════════════════════════════════
+       PARCHAR switchPanel PARA RE-APLICAR FIXES
+       cuando el usuario navega entre paneles
+    ════════════════════════════════════════════════ */
+    function _patchSwitchPanel() {
+        if (typeof window.switchPanel !== 'function') return;
+        const orig = window.switchPanel;
+        window.switchPanel = function(panelId, btnEl) {
+            orig.call(this, panelId, btnEl);
+            /* Re-aplicar después de que el panel sea visible */
+            requestAnimationFrame(() => {
+                _fixTablasMobile();
+            });
+        };
+    }
+
+    /* ════════════════════════════════════════════════
        INIT
     ════════════════════════════════════════════════ */
     function init() {
@@ -521,6 +613,9 @@
         _construirMenu();
         _bindEventos();
         _syncBadge();
+        _fixTablasMobile();     // Arregla overflow en cuenta-card
+        _fixFooterMobile();     // Pega el footer al fondo del viewport
+        _patchSwitchPanel();    // Re-aplica fixes al cambiar de panel
 
         btnHamb = document.querySelector('.btn-hamburguesa');
     }

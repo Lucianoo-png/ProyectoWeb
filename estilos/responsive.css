@@ -1,18 +1,15 @@
 /* ════════════════════════════════════════════════════════════
-   LuchanosCorp — responsive.css  v3
-   Hamburguesa · Panel lateral · Submenú expansible ·
-   Ocultar barra de categorías en móvil
+   LuchanosCorp — responsive.css  v4
+   Hamburguesa · Panel lateral · Submenú Categorías ·
+   Proveedor móvil corregido (tablas + stat cards)
    Cargar DESPUÉS de styles.css y vendedor.css.
    ════════════════════════════════════════════════════════════ */
 
-/* ── Variables ───────────────────────────────────────────── */
 :root {
     --menu-ancho : 300px;
     --menu-dur   : 0.32s;
     --menu-ease  : cubic-bezier(.4,0,.2,1);
     --nav-h-mov  : 56px;
-    --azul-m     : #002366;
-    --accent-r   : #008CA8;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -81,7 +78,6 @@
 }
 .menu-lateral.abierto { transform: translateX(0); }
 
-/* ── Cabecera ─────────────────────────────────────── */
 .menu-lateral-header {
     background      : #002366;
     padding         : .9rem 1.1rem;
@@ -112,14 +108,12 @@
 }
 .btn-cerrar-menu:hover { background: rgba(255,255,255,.25); }
 
-/* ── Cuerpo ───────────────────────────────────────── */
 .menu-lateral-body {
     flex                      : 1;
     overflow-y                : auto;
     -webkit-overflow-scrolling: touch;
 }
 
-/* ── Fila usuario ─────────────────────────────────── */
 .menu-user-row {
     display        : flex;
     align-items    : center;
@@ -146,7 +140,6 @@
 .menu-user-name { font-size: .9rem; font-weight: 700; color: #002366; line-height: 1.2; }
 .menu-user-role { font-size: .72rem; color: #8a9bb5; margin-top: .1rem; }
 
-/* ── Etiqueta de sección ──────────────────────────── */
 .menu-group-label {
     display       : block;
     font-size     : .62rem;
@@ -160,7 +153,6 @@
     border-top    : 1px solid #eaeff5;
 }
 
-/* ── Ítem normal ──────────────────────────────────── */
 .menu-item {
     display        : flex;
     align-items    : center;
@@ -191,8 +183,7 @@
     border-left-color: #008CA8;
     font-weight      : 600;
 }
-.menu-item i.fa-chevron-right:first-child,
-.menu-item i.fas:first-child {
+.menu-item i {
     width     : 18px;
     text-align: center;
     color     : #008CA8;
@@ -210,10 +201,7 @@
     line-height  : 1.5;
 }
 
-/* ── Ítem expandible (con flecha) ─────────────────── */
-.menu-item-expand {
-    position: relative;
-}
+/* Ítem expansible */
 .menu-expand-arrow {
     margin-left: auto;
     font-size  : .75rem;
@@ -221,27 +209,22 @@
     flex-shrink: 0;
     transition : transform .3s var(--menu-ease);
 }
-.menu-item-expand.open .menu-expand-arrow {
-    transform: rotate(90deg);
-}
+.menu-item-expand.open .menu-expand-arrow { transform: rotate(90deg); }
 .menu-item-expand.open {
     color            : #008CA8;
     background       : #e6f6f8;
     border-left-color: #008CA8;
 }
 
-/* ── Submenú colapsable ───────────────────────────── */
+/* Submenú colapsable */
 .menu-submenu {
     max-height: 0;
     overflow  : hidden;
     transition: max-height .38s var(--menu-ease);
     background: #f4f8fb;
 }
-.menu-submenu.open {
-    max-height: 1200px;
-}
+.menu-submenu.open { max-height: 1200px; }
 
-/* Etiqueta de subgrupo (dentro del submenú) */
 .menu-subgroup-label {
     display       : block;
     font-size     : .6rem;
@@ -252,8 +235,6 @@
     padding       : .7rem 1.1rem .2rem 2rem;
     background    : #f4f8fb;
 }
-
-/* Ítem de submenú (indentado) */
 .menu-subitem {
     padding-left : 2.1rem !important;
     font-size    : .85rem !important;
@@ -263,10 +244,8 @@
 .menu-subitem i { font-size: .8rem !important; }
 .menu-subitem:hover { background: #e6f6f8 !important; }
 
-/* ── Divisor ──────────────────────────────────────── */
 .menu-divider { border: none; border-top: 1px solid #eaeff5; margin: .2rem 0; }
 
-/* ── Cerrar sesión ────────────────────────────────── */
 .menu-item-cerrar {
     display        : flex;
     align-items    : center;
@@ -288,7 +267,6 @@
 .menu-item-cerrar:hover { background: #fdecea; }
 .menu-item-cerrar i { color: #dc3545; width: 18px; text-align: center; }
 
-/* ── Pie ──────────────────────────────────────────── */
 .menu-lateral-footer {
     padding   : .75rem 1.1rem;
     border-top: 1px solid #eaeff5;
@@ -379,11 +357,107 @@
 
 /* ══════════════════════════════════════════════════════════
    6. OCULTAR BARRA DE CATEGORÍAS EN MÓVIL
-      (se añade clase .lc-cats-bar vía JS al contenedor)
 ══════════════════════════════════════════════════════════ */
 @media (max-width: 991px) {
-    /* La clase la agrega responsive.js al div que envuelve .nav-categories */
     .lc-cats-bar { display: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   6b. EVITAR SCROLL HORIZONTAL EN TODA LA PÁGINA
+   ─────────────────────────────────────────────────────────
+   Causa raíz: tablas anchas empujan el ancho del viewport.
+   Con overflow-x:hidden en html/body, el contenido queda
+   contenido y las tablas pueden hacer scroll internamente.
+══════════════════════════════════════════════════════════ */
+@media (max-width: 991px) {
+    html {
+        overflow-x: hidden;
+        max-width : 100vw;
+    }
+    body {
+        overflow-x: hidden;
+        max-width : 100vw;
+        min-height: 100dvh;          /* dynamic viewport height para móvil */
+    }
+    /* Contenedores del proveedor respetan el ancho de pantalla */
+    .cuenta-layout,
+    .cuenta-layout > main,
+    .cuenta-panel {
+        max-width: 100%;
+        min-width: 0;
+    }
+    /* Las filas de Bootstrap no desbordan */
+    .cuenta-layout .row {
+        max-width: 100%;
+        margin-left : 0;
+        margin-right: 0;
+    }
+    .cuenta-layout .row > [class*="col"] {
+        padding-left : .5rem;
+        padding-right: .5rem;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════
+   6c. TABLAS RESPONSIVAS TIPO TARJETA  (.lc-table-card)
+   ─────────────────────────────────────────────────────────
+   JS inyecta data-label en cada <td> y agrega esta clase.
+   Cada fila se convierte en una mini-tarjeta con etiqueta
+   arriba y valor abajo → sin scroll horizontal.
+══════════════════════════════════════════════════════════ */
+@media (max-width: 991px) {
+
+    /* La tabla pasa a layout de bloque */
+    .lc-table-card              { display: block; width: 100%; }
+    .lc-table-card thead        { display: none; }   /* Ocultar cabecera */
+    .lc-table-card tbody        { display: block; }
+
+    /* Cada fila = tarjeta */
+    .lc-table-card tbody tr {
+        display      : block;
+        background   : #fff;
+        border       : 1px solid #e0e7f0;
+        border-radius: .55rem;
+        margin-bottom: .75rem;
+        overflow     : hidden;
+        box-shadow   : 0 1px 5px rgba(0,35,102,.06);
+    }
+    .lc-table-card tbody tr:last-child { margin-bottom: 0; }
+
+    /* Cada celda = fila dentro de la tarjeta */
+    .lc-table-card tbody td {
+        display      : block;
+        padding      : .52rem .9rem;
+        border-bottom: 1px solid #f1f5f9;
+        font-size    : .83rem;
+        color        : #333;
+        text-align   : left !important;
+        vertical-align: middle !important;
+    }
+    .lc-table-card tbody td:last-child { border-bottom: none; }
+
+    /* Etiqueta de columna encima del valor */
+    .lc-table-card tbody td[data-label]::before {
+        content      : attr(data-label);
+        display      : block;
+        font-size    : .62rem;
+        font-weight  : 700;
+        text-transform: uppercase;
+        letter-spacing: .07em;
+        color        : #8a9bb5;
+        margin-bottom: .18rem;
+    }
+
+    /* Primera celda (folio/SKU) destacada */
+    .lc-table-card tbody td:first-child {
+        background: #f8fafc;
+        font-weight: 700;
+        color      : #002366;
+        font-size  : .88rem;
+    }
+
+    /* Celdas sin label (vacías) no muestran el pseudo-elemento */
+    .lc-table-card tbody td[data-label=""]::before { display: none; }
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -391,8 +465,10 @@
 ══════════════════════════════════════════════════════════ */
 @media (max-width: 991px) {
 
+    /* Topbar oculto */
     .topbar { display: none; }
 
+    /* Navbar fijo y compacto */
     .main-nav {
         padding    : .3rem 0;
         position   : sticky;
@@ -413,10 +489,8 @@
         padding-right: .75rem !important;
     }
 
-    /* Hamburguesa visible */
     .btn-hamburguesa { display: flex; }
 
-    /* Logo centrado */
     .brand-logo {
         font-size  : 1.2rem;
         flex       : 1;
@@ -427,13 +501,10 @@
     /* Ocultar búsqueda desktop */
     .main-nav .input-group.search-bar,
     .main-nav .search-bar.flex-grow-1,
-    .main-nav .flex-grow-1.mx-lg-4 { display: none !important; }
-
-    /* Ocultar textos/iconos extras del navbar de portales */
+    .main-nav .flex-grow-1.mx-lg-4        { display: none !important; }
     .main-nav .d-flex.align-items-center.gap-3.ms-2 { display: none !important; }
-    .main-nav .d-flex.flex-grow-1                   { display: none !important; }
+    .main-nav .d-flex.flex-grow-1         { display: none !important; }
 
-    /* Iconos y buscador móvil */
     .nav-icons-mobile  { display: flex; }
     .search-bar-mobile { display: block; }
 
@@ -445,18 +516,85 @@
     /* ─ Proveedor ─ */
     .cuenta-sidebar { display: none !important; }
     .cuenta-layout  {
-        display : block !important;
-        margin  : .75rem auto !important;
-        padding : 0 .75rem 2rem !important;
+        display   : block !important;
+        flex      : 1 0 auto;          /* crece para empujar el footer al fondo */
+        margin    : .75rem auto !important;
+        padding   : 0 .75rem 2rem !important;
+        max-width : 100%;
+        min-width : 0;
+        box-sizing: border-box;
     }
 
-    /* Tabla de solicitudes scroll */
-    .sol-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* Footer al fondo: body tiene min-height:100dvh y flex-direction:column */
+    .site-footer-minimal {
+        flex-shrink: 0;
+        margin-top : 0 !important;
+        width      : 100%;
+    }
+
+    /* ── PROVEEDOR: arreglar overflow:hidden de .cuenta-card ──────
+       styles.css define .cuenta-card { overflow: hidden } lo que
+       impide que .cuenta-card-body haga scroll horizontal.
+       Aquí lo cancelamos para móvil y compensamos el clipping
+       de esquinas con border-radius explícito en header/body. */
+    .cuenta-card {
+        overflow-x : visible !important;
+        overflow-y : visible !important;
+        overflow   : visible !important;
+    }
+    .cuenta-card-header {
+        border-radius : .75rem .75rem 0 0;
+        flex-wrap     : wrap !important;
+        gap           : .5rem !important;
+    }
+    .cuenta-card-header > span {
+        flex     : 1;
+        min-width: 0;
+    }
+    .cuenta-card-header .btn-ver-detalle {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+    /* ── Contenedor de las tarjetas: scroll horizontal ── */
+    .cuenta-card-body {
+        overflow-x                : auto !important;
+        -webkit-overflow-scrolling: touch;
+        border-radius             : 0 0 .75rem .75rem;
+    }
+    /* Tabla de solicitudes dentro de cuenta-card */
+    .cuenta-card-body .sol-table {
+        min-width   : 520px;
+        table-layout: auto;
+    }
+    /* Folio: no romper el texto */
+    .cuenta-card-body .sol-table td:first-child,
+    .cuenta-card-body .sol-table th:first-child {
+        white-space: nowrap;
+    }
+
+    /* Historial cards: overflow visible + scroll */
+    .hist-card {
+        overflow-x : visible !important;
+        overflow-y : visible !important;
+        overflow   : visible !important;
+    }
+    .hist-card-head {
+        border-radius: .6rem .6rem 0 0;
+    }
+    .hist-card-body {
+        overflow-x                : auto !important;
+        -webkit-overflow-scrolling: touch;
+        border-radius             : 0 0 .6rem .6rem;
+    }
+    .hist-card-body .sol-table {
+        min-width: 400px;
+    }
+
+    /* Panel responder */
     .responder-panel { padding: 1rem; }
     .prod-row        { flex-direction: column; align-items: flex-start; gap: .6rem; }
     .qty-input-wrap  { flex-wrap: wrap; }
     .qty-input-wrap input { width: 100%; }
-    .hist-card-body .row.g-2 > [class*="col-md"] { flex: 0 0 50%; max-width: 50%; }
 
     /* ─ Vendedor ─ */
     .info-card-vend { flex-direction: column; text-align: center; padding: 1.2rem 1rem; gap: .65rem; }
@@ -466,13 +604,13 @@
     .admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
     /* ─ Repartidor ─ */
-    .rep-nav-tabs        { flex-wrap: wrap; }
-    .rep-nav-btn         { padding: .5rem 1rem; font-size: .82rem; }
-    .rep-tracking        { justify-content: flex-start; overflow-x: auto; }
-    .rep-step            { min-width: 70px; }
-    .estado-select-wrap  { flex-direction: column; align-items: stretch; }
-    .estado-select       { min-width: 100%; }
-    .btn-avanzar-estado  { width: 100%; justify-content: center; }
+    .rep-nav-tabs       { flex-wrap: wrap; }
+    .rep-nav-btn        { padding: .5rem 1rem; font-size: .82rem; }
+    .rep-tracking       { justify-content: flex-start; overflow-x: auto; }
+    .rep-step           { min-width: 70px; }
+    .estado-select-wrap { flex-direction: column; align-items: stretch; }
+    .estado-select      { min-width: 100%; }
+    .btn-avanzar-estado { width: 100%; justify-content: center; }
 
     /* ─ Filtros ─ */
     .filter-bar            { flex-direction: column; align-items: stretch; }
@@ -480,32 +618,93 @@
     .filter-bar input,
     .filter-bar select     { width: 100%; }
 
-    /* ─ Toast / checkout ─ */
-    .sol-toast       { left: 1rem; right: 1rem; min-width: auto; }
-    .checkout-steps  { padding: .75rem .5rem; }
-    .step-line       { min-width: 30px; max-width: 60px; }
-    .step-label      { font-size: .65rem; }
+    /* ─ Toast / Checkout ─ */
+    .sol-toast      { left: 1rem; right: 1rem; min-width: auto; }
+    .checkout-steps { padding: .75rem .5rem; }
+    .step-line      { min-width: 30px; max-width: 60px; }
+    .step-label     { font-size: .65rem; }
 }
 
-/* ── Móvil pequeño  ≤ 576px ─────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   8. PROVEEDOR — Stat cards y contenido  ≤ 991px
+   ─────────────────────────────────────────────────────────
+   IMPORTANTE: NO sobreescribir col-6 de Bootstrap.
+   Las tarjetas de estadísticas usan col-6 col-lg-3:
+   en móvil deben ser 2 columnas (50% cada una).
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 991px) {
+
+    /* Las stat-cards del proveedor (col-6) quedan en 2 columnas.
+       No las tocamos. Solo ajustamos el padding interno. */
+    .cuenta-layout .stat-card {
+        padding: 1rem .85rem;
+    }
+    .cuenta-layout .stat-card-icon {
+        width : 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    .cuenta-layout .stat-card-val  { font-size: 1.4rem; }
+    .cuenta-layout .stat-card-lbl  { font-size: .72rem; }
+
+    /* Tabla resumen de solicitudes (en panel-resumen) */
+    .cuenta-layout .cuenta-card-body table {
+        font-size: .78rem;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb { font-size: .72rem; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   9. MÓVIL PEQUEÑO  ≤ 576px
+   ─────────────────────────────────────────────────────────
+   NO tocar .col-6 del proveedor: las tarjetas de stats
+   deben permanecer en 2 columnas (50% c/u).
+   ══════════════════════════════════════════════════════════ */
 @media (max-width: 576px) {
     .brand-logo        { font-size: 1.05rem; }
     .admin-content     { padding: .9rem .65rem; }
     .page-header-title { font-size: 1.05rem; }
     .page-header-sub   { font-size: .77rem; }
-    .menu-lateral      { width: 100%; max-width: 100%; }
-    .cuenta-layout .col-6 { flex: 0 0 100% !important; max-width: 100% !important; }
-    .hist-card-body .row.g-2 > [class*="col-md"] { flex: 0 0 100%; max-width: 100%; }
+
+    /* Panel lateral: pantalla completa en móviles muy pequeños */
+    .menu-lateral { width: 100%; max-width: 100%; }
+
+    /* Tablas generales */
     .sol-table thead th { font-size: .64rem; padding: .35rem .4rem; }
     .sol-table tbody td { font-size: .75rem; padding: .45rem .4rem; }
+
+    /* Formularios admin en columna */
     .admin-form-body .row.g-3 > [class*="col-md"] { width: 100%; }
+
+    /* Botones de tabla */
     .btn-ticket, .btn-tbl-danger { padding: .2rem .5rem; font-size: .7rem; }
+
+    /* Historial cards: cabecera en columna */
     .hist-card-head { flex-direction: column; gap: .3rem; align-items: flex-start; }
+
+    /* Historial cards: info en 1 columna */
+    .hist-card-body .row.g-2 > [class*="col-md"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Hero contacto */
     .contact-hero h1 { font-size: 1.5rem; }
-    .breadcrumb     { font-size: .72rem; }
+
+    /* Stat cards proveedor:  2 col en ≤576 también (NO cambiar a 100%) */
+    .cuenta-layout .stat-card {
+        padding: .85rem .65rem;
+    }
+
+    /* Tabla del resumen: fuente más pequeña */
+    .cuenta-card-body table { font-size: .72rem; }
 }
 
-/* ── Desktop: restaurar todo ────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   10. DESKTOP — restaurar todo
+══════════════════════════════════════════════════════════ */
 @media (min-width: 992px) {
     .menu-lateral      { transform: translateX(-100%) !important; }
     .menu-overlay      { display: none !important; }

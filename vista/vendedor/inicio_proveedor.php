@@ -77,7 +77,7 @@
                 <i class="fas fa-user-edit"></i> Mi Perfil
             </button>
             <hr class="cuenta-nav-divider">
-            <a href="login_proveedor.php" class="cuenta-nav-link" style="color:#dc3545">
+            <a href="../../vista/Cuenta/login.php" class="cuenta-nav-link" style="color:#dc3545">
                 <i class="fas fa-sign-out-alt" style="color:#dc3545"></i> Cerrar Sesión
             </a>
         </nav>
@@ -688,7 +688,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../js/scripts.js"></script>
 <script src="../../js/proveedor.js"></script>
-<link rel="stylesheet" href="../../estilos/responsive.css">
 <script src="../../js/responsive.js"></script>
+<link rel="stylesheet" href="../../estilos/responsive.css">
 </body>
 </html>
