@@ -6,7 +6,7 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-           <div class="d-flex gap-3">
+        <div class="d-flex gap-3">
             <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
@@ -58,7 +58,12 @@
                                 <h6>Cocina</h6>
                                 <a class="dropdown-item" href="/proyectoweb/hornos"><i class="fas fa-fire"></i> Hornos</a>
                                 <a class="dropdown-item" href="/proyectoweb/estufas"><i class="fas fa-burn"></i> Estufas</a>
-                                <a class="dropdown-item" href="/proyectoweb/microondas"><i class="fas fa-blender"></i> Microondas</a>
+                                <a class="dropdown-item" href="/proyectoweb/microondas">
+                                    <svg style="width:1em;height:1em;vertical-align:-0.125em;flex-shrink:0"
+         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-1 13H5V7h14v10zm-8-8H7v6h4v-6zm5 4.5c.83 0 1.5-.67 1.5-1.5S16.83 11 16 11s-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+    </svg> Microondas
+                                </a>
                                 <a class="dropdown-item" href="/proyectoweb/lavavajillas"><i class="fas fa-utensils"></i> Lavavajillas</a>
                                 <h6 class="mt-3">Bienestar</h6>
                                 <a class="dropdown-item" href="/proyectoweb/cuidado-hogar"><i class="fas fa-home"></i> Cuidado del Hogar</a>
@@ -78,88 +83,88 @@
                     <li class="breadcrumb-item">
                         <a href="/proyectoweb/?" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
-                    <li class="breadcrumb-item active text-muted">Frigobar / Cava de Vinos</li>
+                    <li class="breadcrumb-item active text-muted">Microondas</li>
                 </ol>
             </nav>
         </div>
     </div>
-
+ 
     <main class="py-4">
         <div class="container">
             <div class="mb-4">
                 <h2 class="mb-1" style="color:var(--dark-blue); font-weight:700">
-                    <i class="fas fa-wine-bottle me-2" style="color:var(--btn-color)"></i>Frigobar y Cava de Vinos
+                    <i class="fas fa-fire me-2" style="color:var(--btn-color)"></i>Hornos
                 </h2>
-                <p class="text-muted small">Frigobares compactos y cavas de vinos con control de temperatura preciso.</p>
+                <p class="text-muted small">Hornos de pared eléctricos y de gas, sencillos y dobles. Con funciones de autolimpieza y convección.</p>
                 <hr>
             </div>
             <div class="row g-3 mb-5">
                 <div class="col-6 col-md-3">
                     <a href="#todas" class="text-decoration-none">
                         <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
-                            <i class="fas fa-wine-bottle fa-2x mb-2" style="color:var(--btn-color)"></i>
+                            <i class="fas fa-fire fa-2x mb-2" style="color:var(--btn-color)"></i>
                             <p class="mb-0 small fw-semibold">Todos los modelos</p>
                         </div>
                     </a>
                 </div>
             </div>
-
+ 
             <!-- ── Todos los modelos ── -->
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
-
+ 
                 <div class="col">
                     <div class="product-card">
                         <div class="product-img-wrap">
-                            <img src="../../multimedia/Imagenes/productos/frigobar-wq09x.jpg" alt="Frigobar 9 pies con congelador y acabado acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WQ09X'">
+                            <img src="../../multimedia/Imagenes/productos/horno-wee745h0fs.jpg" alt="Horno eléctrico de pared 4.8 pies cúbicos autolimpiable acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WEE745H0FS'">
                         </div>
                         <div class="product-body">
-                            <span class="product-sku">WQ09X</span>
-                            <p class="product-name">Frigobar 9 pies con congelador y acabado acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
+                            <span class="product-sku">WEE745H0FS</span>
+                            <p class="product-name">Horno eléctrico de pared 4.8 pies cúbicos autolimpiable acero inoxidable</p>
+                            <div class="product-price-row"><span class="product-price">$12,999.00</span></div>
                         </div>
-                        <a href="/proyectoweb/producto/WQ09X" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WEE745H0FS" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
                     <div class="product-card">
                         <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WHA31FB2" alt="Frigobar 3.1 pies cúbicos negro con congelador" onerror="this.src='https://placehold.co/300x250?text=WHA31FB2'">
+                            <img src="https://placehold.co/300x250?text=WOD51EC0HS" alt="Horno de pared doble 10 funciones de cocción con convección acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WOD51EC0HS'">
                         </div>
                         <div class="product-body">
-                            <span class="product-sku">WHA31FB2</span>
-                            <p class="product-name">Frigobar 3.1 pies cúbicos negro con congelador</p>
-                            <div class="product-price-row"><span class="product-price">$3,999.00</span></div>
+                            <span class="product-sku">WOD51EC0HS</span>
+                            <p class="product-name">Horno de pared doble 10 funciones de cocción con convección acero inoxidable</p>
+                            <div class="product-price-row"><span class="product-price">$18,999.00</span></div>
                         </div>
-                        <a href="/proyectoweb/producto/WHA31FB2" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WOD51EC0HS" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
                     <div class="product-card">
                         <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=GRWF3056F" alt="Cava de vinos 30 botellas con control de temperatura dual" onerror="this.src='https://placehold.co/300x250?text=GRWF3056F'">
+                            <img src="https://placehold.co/300x250?text=WOS31ES0JS" alt="Horno de pared sencillo 5.0 pies autolimpiable con parrilla deslizante" onerror="this.src='https://placehold.co/300x250?text=WOS31ES0JS'">
                         </div>
                         <div class="product-body">
-                            <span class="product-sku">GRWF3056F</span>
-                            <p class="product-name">Cava de vinos 30 botellas con control de temperatura dual</p>
-                            <div class="product-price-row"><span class="product-price">$11,999.00</span></div>
+                            <span class="product-sku">WOS31ES0JS</span>
+                            <p class="product-name">Horno de pared sencillo 5.0 pies autolimpiable con parrilla deslizante</p>
+                            <div class="product-price-row"><span class="product-price">$14,499.00</span></div>
                         </div>
-                        <a href="/proyectoweb/producto/GRWF3056F" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WOS31ES0JS" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
                     <div class="product-card">
                         <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WV18B" alt="Cava de vinos 18 botellas luz LED azul acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WV18B'">
+                            <img src="https://placehold.co/300x250?text=WGP325GGBK" alt="Horno de gas empotrado 5.0 pies negro mate con convección europea" onerror="this.src='https://placehold.co/300x250?text=WGP325GGBK'">
                         </div>
                         <div class="product-body">
-                            <span class="product-sku">WV18B</span>
-                            <p class="product-name">Cava de vinos 18 botellas luz LED azul acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$6,999.00</span></div>
+                            <span class="product-sku">WGP325GGBK</span>
+                            <p class="product-name">Horno de gas empotrado 5.0 pies negro mate con convección europea</p>
+                            <div class="product-price-row"><span class="product-price">$15,999.00</span></div>
                         </div>
-                        <a href="/proyectoweb/producto/WV18B" class="btn-mas-info">Más información</a>
+                        <a href="./../detalle.php?sku=WGP325GGBK" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
             </div>

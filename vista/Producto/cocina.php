@@ -31,14 +31,14 @@
             </div>
         </div>
     </div>
-    <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
+      <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
         <div class="container">
             <ul class="nav nav-categories justify-content-center">
                 <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-blanca">Línea Blanca</a></li>
                 <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-marron">Línea Marrón</a></li>
                 <li class="nav-item"><a class="nav-link" href="/proyectoweb/cocina">Cocina</a></li>
                 <li class="nav-item dropdown mega-dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
+                    <a class="nav-link dropdown-toggle active d-flex align-items-center gap-1"
                        href="#" id="megaDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-th-large me-1 small"></i> Categorías Específicas
@@ -59,7 +59,12 @@
                                 <h6>Cocina</h6>
                                 <a class="dropdown-item" href="/proyectoweb/hornos"><i class="fas fa-fire"></i> Hornos</a>
                                 <a class="dropdown-item" href="/proyectoweb/estufas"><i class="fas fa-burn"></i> Estufas</a>
-                                <a class="dropdown-item" href="/proyectoweb/microondas"><i class="fas fa-blender"></i> Microondas</a>
+                                <a class="dropdown-item" href="/proyectoweb/microondas">
+                                    <svg style="width:1em;height:1em;vertical-align:-0.125em;flex-shrink:0"
+         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-1 13H5V7h14v10zm-8-8H7v6h4v-6zm5 4.5c.83 0 1.5-.67 1.5-1.5S16.83 11 16 11s-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+    </svg> Microondas
+                                </a>
                                 <a class="dropdown-item" href="/proyectoweb/lavavajillas"><i class="fas fa-utensils"></i> Lavavajillas</a>
                                 <h6 class="mt-3">Bienestar</h6>
                                 <a class="dropdown-item" href="/proyectoweb/cuidado-hogar"><i class="fas fa-home"></i> Cuidado del Hogar</a>
@@ -96,9 +101,13 @@
                     <i class="fas fa-fire fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Hornos</p>
                 </div></a></div>
             <div class="col-6 col-md-3"><a href="/proyectoweb/microondas" class="text-decoration-none">
-                <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
-                    <i class="fas fa-blender fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Microondas</p>
-                </div></a></div>
+    <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
+        <svg style="fill:var(--btn-color);width:2em;height:2em;display:block;margin:0 auto .5rem"
+             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-1 13H5V7h14v10zm-8-8H7v6h4v-6zm5 4.5c.83 0 1.5-.67 1.5-1.5S16.83 11 16 11s-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+        </svg>
+        <p class="mb-0 small fw-semibold">Microondas</p>
+    </div></a></div>
             <div class="col-6 col-md-3"><a href="/proyectoweb/lavavajillas" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-utensils fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Lavavajillas</p>

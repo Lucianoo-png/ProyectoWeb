@@ -137,6 +137,7 @@ main { flex: 1; }
     border-bottom: 1px solid #e0e7ff;
     padding-bottom: .4rem;
     margin-bottom: .6rem;
+     vertical-align: -0.125em;
 }
 .mega-menu .dropdown-item {
     font-size: .83rem;
@@ -144,6 +145,14 @@ main { flex: 1; }
     padding: .3rem .5rem;
     border-radius: .3rem;
     transition: background .15s, color .15s;
+}
+
+.mega-menu .dropdown-item svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;        /* ← hereda el mismo #444 que los demás */
+    flex-shrink: 0;
+    vertical-align: -0.125em;
 }
 .mega-menu .dropdown-item:hover {
     background-color: #e6f6f8;
