@@ -45,7 +45,7 @@
         <nav class="admin-sidebar">
             <p class="sidebar-title">Menú Admin</p>
             <a href="/proyectoweb/admin/inicio"      class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
-            <a href="/proyectoweb/admin/personal"  class="nav-link"><i class="fas fa-users"></i> Personal</a>
+            <a href="/proyectoweb/admin/personal"  class="nav-link active"><i class="fas fa-users"></i> Personal</a>
             <a href="/proyectoweb/admin/productos" class="nav-link"><i class="fas fa-box"></i> Productos</a>
             <hr class="sidebar-divider">
             <p class="sidebar-title">Reportes</p>
@@ -54,8 +54,12 @@
             <a href="/proyectoweb/admin/pedidos"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
             <hr class="sidebar-divider">
             <p class="sidebar-title">Proveedores</p>
-            <a href="/proyectoweb/admin/pedido-proveedor" class="nav-link active"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
-                        <a href="/proyectoweb/?" class="btn-cerrar">
+            <a href="/proyectoweb/admin/pedido-proveedor" class="nav-link"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
+            <hr class="sidebar-divider">
+            <p class="sidebar-title">Sistema</p>
+            <a href="/proyectoweb/admin/logs" class="nav-link"><i class="fas fa-history"></i> Historial (Logs)</a>
+            <hr class="sidebar-divider">
+                        <a href="/proyectoweb/?" class="btn-cerrar" style="margin-top:.5rem">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
             </a>
         </nav>
@@ -72,7 +76,7 @@
                 </ol>
             </nav>
 
-            <div class="mb-4">
+            <div class="mb-4 text-center">
                 <h1 class="page-header-title mb-0">Gestión de Personal</h1>
                 <p class="page-header-sub">Registra y consulta el personal del sistema.</p>
             </div>
@@ -255,4 +259,4 @@
         </main>
     </div>
 
-    <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
+ <?php include('vista/admin/footer_admin.php'); ?>

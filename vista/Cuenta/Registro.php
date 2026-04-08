@@ -85,7 +85,7 @@
 
             <!-- Header de la tarjeta -->
             <div class="register-card-header">
-                <h5><i class="fas fa-user-plus me-2"></i>Formulario de registro nuevo usuario</h5>
+                <h5><i class="fas fa-user-plus me-2"></i>Formulario de registro nuevo cliente</h5>
             </div>
 
             <!-- Body -->

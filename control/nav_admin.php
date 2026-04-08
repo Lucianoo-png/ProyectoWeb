@@ -33,6 +33,10 @@ switch($rutaPrincipal){
     case 'pedido-proveedor':
         include('vista/admin/admin_pedido_proveedor.php');
     break;
+    
+     case 'logs':
+        include('vista/admin/admin_logs.php');
+    break;
 
     case 'logout':
         include('vista/admin/admin_logout.php');

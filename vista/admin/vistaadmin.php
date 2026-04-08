@@ -5,11 +5,11 @@
 
         <main class="admin-content">
             <div class="d-flex justify-content-between align-items-start mb-4">
-                <div>
+                <div class="w-100 text-center">
                     <h1 class="page-header-title mb-0">Panel de Administración</h1>
                     <p class="page-header-sub">Bienvenido de vuelta. Aquí tienes un resumen del sistema.</p>
                 </div>
-                <span class="badge text-white px-3 py-2 rounded-pill" style="background:var(--btn-color); font-size:.78rem">
+                <span class="badge text-white px-3 py-2 rounded-pill ms-3" style="background:var(--btn-color); font-size:.78rem; white-space:nowrap">
                     <i class="fas fa-circle me-1" style="font-size:.5rem; vertical-align:middle"></i> Sistema activo
                 </span>
             </div>
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div class="mb-2"><span class="section-title">Estadísticas Generales</span></div>
+            <div class="mb-2 text-center"><span class="section-title">Estadísticas Generales</span></div>
             <div class="row row-cols-2 row-cols-md-4 g-3">
                 <div class="col">
                     <a href="/proyectoweb/admin/personal" class="stat-card">

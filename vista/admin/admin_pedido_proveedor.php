@@ -1,4 +1,3 @@
-
 <div class="topbar">
     <div class="container-fluid d-flex justify-content-between px-3">
         <div>
@@ -43,7 +42,11 @@
             <hr class="sidebar-divider">
             <p class="sidebar-title">Proveedores</p>
             <a href="/proyectoweb/admin/pedido-proveedor" class="nav-link active"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
-                        <a href="/proyectoweb/?" class="btn-cerrar">
+            <hr class="sidebar-divider">
+            <p class="sidebar-title">Sistema</p>
+            <a href="/proyectoweb/admin/logs" class="nav-link"><i class="fas fa-history"></i> Historial (Logs)</a>
+            <hr class="sidebar-divider">
+                        <a href="/proyectoweb/?" class="btn-cerrar" style="margin-top:.5rem">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
             </a>
         </nav>
@@ -63,7 +66,7 @@
 
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-2">
-            <div>
+            <div class="text-center">
                 <h1 class="page-header-title mb-0">Nuevo Pedido a Proveedor</h1>
                 <p class="page-header-sub">Selecciona proveedor, productos y cantidades para generar la solicitud de reabastecimiento.</p>
             </div>
@@ -353,4 +356,4 @@
 
 
 
-<footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
+  <?php include('vista/admin/footer_admin.php'); ?>
