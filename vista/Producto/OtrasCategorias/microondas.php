@@ -30,7 +30,7 @@
         </div>
     </div>
 
-      <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
+    <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
         <div class="container">
             <ul class="nav nav-categories justify-content-center">
                 <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-blanca">Línea Blanca</a></li>

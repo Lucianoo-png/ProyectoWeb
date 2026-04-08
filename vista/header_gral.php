@@ -108,7 +108,10 @@ $mostrarCategorias = $mostrarCategorias ?? true;
                                 <i class="fas fa-burn"></i> Estufas
                             </a>
                             <a class="dropdown-item" href="/proyectoweb/microondas">
-                                <i class="fas fa-blender"></i> Microondas
+                               <svg style="width:1em;height:1em;vertical-align:-0.125em;flex-shrink:0"
+         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-1 13H5V7h14v10zm-8-8H7v6h4v-6zm5 4.5c.83 0 1.5-.67 1.5-1.5S16.83 11 16 11s-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+    </svg> Microondas
                             </a>
                             <a class="dropdown-item" href="/proyectoweb/lavavajillas">
                                 <i class="fas fa-utensils"></i> Lavavajillas
