@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Admin — Personal</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-     <!-- <link rel="stylesheet" href="../../estilos/styles.css">-->
-    <link rel="stylesheet" href="../../estilos/vendedor.css">
-</head>
-<body>
-
-    <!-- Modal de confirmación eliminación -->
+<!-- Modal de confirmación eliminación -->
     <div class="confirm-overlay" id="confirmOverlay">
         <div class="confirm-box">
             <div class="confirm-icon danger"><i class="fas fa-exclamation"></i></div>
@@ -39,7 +26,7 @@
     </div>
     <div class="main-nav">
         <div class="container-fluid d-flex align-items-center gap-3 px-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="/proyectoweb/admin/inicio" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -57,21 +44,21 @@
     <div class="admin-layout">
         <nav class="admin-sidebar">
             <p class="sidebar-title">Menú Admin</p>
-            <a href="vistaadmin.php"      class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
-            <a href="admin_usuarios.php"  class="nav-link active"><i class="fas fa-users"></i> Personal</a>
-            <a href="admin_productos.php" class="nav-link"><i class="fas fa-box"></i> Productos</a>
+            <a href="/proyectoweb/admin/inicio"      class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
+            <a href="/proyectoweb/admin/personal"  class="nav-link"><i class="fas fa-users"></i> Personal</a>
+            <a href="/proyectoweb/admin/productos" class="nav-link"><i class="fas fa-box"></i> Productos</a>
             <hr class="sidebar-divider">
             <p class="sidebar-title">Reportes</p>
-            <a href="admin_reportes_ventas.php"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
-            <a href="admin_reportes_compras.php"  class="nav-link"><i class="fas fa-shopping-bag"></i> Compras</a>
-            <a href="admin_reportes_pedidos.php"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
+            <a href="/proyectoweb/admin/ventas"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
+            <a href="/proyectoweb/admin/compras"  class="nav-link"><i class="fas fa-shopping-bag"></i> Compras</a>
+            <a href="/proyectoweb/admin/pedidos"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
             <hr class="sidebar-divider">
             <p class="sidebar-title">Proveedores</p>
-            <a href="admin_pedido_proveedor.php" class="nav-link"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
-                        <a href="../Cuenta/login.php" class="btn-cerrar">
+            <a href="/proyectoweb/admin/pedido-proveedor" class="nav-link active"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
+                        <a href="/proyectoweb/?" class="btn-cerrar">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
             </a>
-</nav>
+        </nav>
 
         <main class="admin-content">
 
@@ -79,7 +66,7 @@
             <nav aria-label="breadcrumb" class="mb-3">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="vistaadmin.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="/proyectoweb/admin/inicio" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Personal</li>
                 </ol>
@@ -109,7 +96,7 @@
                         <i class="fas fa-user-plus"></i> Formulario de Registro de Nuevo Usuario
                     </div>
                     <div class="admin-form-body">
-                    <form action="admin_usuarios.php" method="POST" novalidate class="needs-validation">
+                    <form action="/proyectoweb/admin/personal" method="POST" class="needs-validation">
 
                         <div class="form-section-label"><i class="fas fa-id-card"></i> Datos Personales</div>
                         <div class="row g-3 mb-4">
@@ -163,35 +150,10 @@
                             </div>
                         </div>
 
-                        <div class="form-section-label"><i class="fas fa-lock"></i> Credencial de Acceso</div>
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label for="usuario" class="form-label">Nombre de Usuario <span class="text-danger">*</span></label>
-                                <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Ej. jperez01" required>
-                                <div class="invalid-feedback">Define un nombre de usuario.</div>
-                            </div>
-                            <div class="col-md-6"><!-- espacio --></div>
-                            <div class="col-md-6">
-                                <label for="contrasena" class="form-label">Contraseña <span class="text-danger">*</span></label>
-                                <div class="pw-wrapper">
-                                    <input type="password" id="contrasena" name="contrasena" class="form-control" placeholder="Mínimo 8 caracteres" minlength="8" required>
-                                    <span class="pw-toggle" onclick="togglePw('contrasena','eyeA')"><i id="eyeA" class="fas fa-eye"></i></span>
-                                </div>
-                                <div class="invalid-feedback">Mínimo 8 caracteres.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="confirmar" class="form-label">Confirmar Contraseña <span class="text-danger">*</span></label>
-                                <div class="pw-wrapper">
-                                    <input type="password" id="confirmar" name="confirmar" class="form-control" placeholder="Repite la contraseña" required>
-                                    <span class="pw-toggle" onclick="togglePw('confirmar','eyeB')"><i id="eyeB" class="fas fa-eye"></i></span>
-                                </div>
-                                <div class="invalid-feedback" id="confirmar-feedback">Confirma la contraseña.</div>
-                            </div>
-                        </div>
 
                         <hr class="admin-form-divider">
                         <div class="d-flex justify-content-end gap-3 mt-3">
-                            <a href="vistaadmin.php" class="btn-admin-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                            <a href="/proyectoweb/admin/personal" class="btn-admin-secondary"><i class="fas fa-times"></i> Cancelar</a>
                             <button type="submit" class="btn-admin-primary"><i class="fas fa-save"></i> Guardar Usuario</button>
                         </div>
                     </form>
@@ -294,9 +256,3 @@
     </div>
 
     <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/vendedor.js"></script>
-    <link rel="stylesheet" href="../../estilos/responsive.css">
-    <script src="../../js/responsive.js"></script>
-</body>
-</html>

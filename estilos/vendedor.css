@@ -786,13 +786,13 @@
 /* ============================================================
    CHECKOUT — Pasos (carrito.php, direccion.php)
    ============================================================ */
-body.checkout-bg {
+div.checkout-bg {
     background: #f4f6f9;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
-body.checkout-bg .cart-layout { flex: 1; }
+div.checkout-bg .cart-layout { flex: 1; }
 
 .checkout-steps {
     display: flex;

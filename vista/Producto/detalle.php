@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Detalle de Producto</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
-</head>
-<body>
 <?php
 $productos = [
     'WM3911D' => [
@@ -112,10 +101,9 @@ $prod_js = json_encode([
             </span>
         </div>
         <div class="d-flex gap-3">
-            <a href="../rastrear_pedido.php" class="topbar-link-track">
+            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
-              <!-- <a href="#" class="topbar-link-muted">Ayuda</a>-->
         </div>
     </div>
 </div>
@@ -123,7 +111,7 @@ $prod_js = json_encode([
 <!-- ─── Navbar ─────────────────────────────────────────────── -->
 <div class="main-nav">
     <div class="container d-flex align-items-center gap-3">
-        <a href="../../index.php" class="brand-logo me-3">
+        <a href="/proyectoweb/?" class="brand-logo me-3">
             <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
         </a>
         <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -131,11 +119,11 @@ $prod_js = json_encode([
             <button class="btn px-4"><i class="fas fa-search"></i></button>
         </div>
         <div class="d-flex align-items-center gap-3 ms-2">
-            <a href="carrito.php" class="nav-icon" title="Carrito">
+            <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-badge" id="cart-count" style="display:none">0</span>
             </a>
-            <a href="../Cuenta/login.php" class="nav-icon" title="Mi Cuenta">
+            <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta">
                 <i class="fas fa-user"></i>
             </a>
         </div>
@@ -147,7 +135,7 @@ $prod_js = json_encode([
     <div class="container">
         <nav aria-label="breadcrumb"><ol class="breadcrumb mb-0 small">
             <li class="breadcrumb-item">
-                <a href="../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                <a href="/proyectoweb/?" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
             </li>
             <li class="breadcrumb-item">
                 <a href="<?= htmlspecialchars($cat_file) ?>" class="text-decoration-none" style="color:var(--btn-color)">
@@ -298,7 +286,7 @@ $prod_js = json_encode([
             </div>
         </div>
         <div class="modal-agregado-footer">
-            <a href="carrito.php" class="btn-ver-carro">
+            <a href="/proyectoweb/carrito" class="btn-ver-carro">
                 <i class="fas fa-shopping-cart me-1"></i> Ver carrito
             </a>
             <button class="btn-seguir-comprando" onclick="cerrarModal()">
@@ -307,14 +295,6 @@ $prod_js = json_encode([
         </div>
     </div>
 </div>
+<?php include('vista/footer_gral.php'); ?>
 
-<footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
-
-<!-- PRODUCTO debe estar ANTES de scripts.js para que agregarAlCarrito() lo lea -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>const PRODUCTO = <?= $prod_js ?>;</script>
-<script src="../../js/scripts.js"></script>
-<link rel="stylesheet" href="../../estilos/responsive.css">
-<script src="../../js/responsive.js"></script>
-</body>
-</html>

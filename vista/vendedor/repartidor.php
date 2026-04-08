@@ -1,22 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Panel Repartidor</title>
-    
-    <!-- Bootstrap y FontAwesome -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    
-    <!-- Estilos consolidados: Admin + Vendedor + Repartidor -->
-    <link rel="stylesheet" href="../../estilos/styles.css">
-    <link rel="stylesheet" href="../../estilos/vendedor.css">
-    <!-- Nota: Ya no se necesita repartidor.css separado -->
-</head>
-<body>
-
-<!-- Toast de notificación -->
 <div class="rep-toast" id="repToast">
     <i class="fas fa-check-circle"></i>
     <span id="repToastMsg">Acción completada</span>
@@ -58,27 +39,7 @@
     </div>
 </div>
 
-<!-- Topbar -->
-<div class="topbar">
-    <div class="container-fluid d-flex justify-content-between px-3">
-        <div>
-            <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-            <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
-            </span>
-        </div>
-        <div><span><i class="fas fa-motorcycle me-1"></i> Panel Repartidor</span></div>
-    </div>
-</div>
-
-<!-- Navbar -->
-<div class="main-nav">
-    <div class="container-fluid d-flex align-items-center gap-3 px-3">
-        <a href="../../index.php" class="brand-logo me-3">
-            <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
-        </a>
-    </div>
-</div>
+<?php include('vista/vendedor/header_repartidor.php'); ?>
 
 <!-- Layout -->
 <div class="admin-layout">
@@ -86,18 +47,18 @@
     <!-- Sidebar -->
     <nav class="admin-sidebar">
         <p class="sidebar-title">Repartidor</p>
-        <a href="#" class="nav-link active" onclick="switchTab('tab-entregas', this); return false;">
+        <a class="nav-link active" style="cursor:pointer;" onclick="switchTab('tab-entregas', this); return false;">
             <i class="fas fa-truck"></i> Mis Entregas
             <span class="tab-badge ms-auto" id="badgeSidebar">1</span>
         </a>
-        <a href="#" class="nav-link" onclick="switchTab('tab-historial', this); return false;">
+        <a class="nav-link" style="cursor:pointer;" onclick="switchTab('tab-historial', this); return false;">
             <i class="fas fa-history"></i> Historial
         </a>
-        <a href="#" class="nav-link" onclick="switchTab('tab-perfil', this); return false;">
+        <a class="nav-link" style="cursor:pointer;" onclick="switchTab('tab-perfil', this); return false;">
             <i class="fas fa-user-cog"></i> Mi Perfil
         </a>
         <hr class="sidebar-divider">
-        <a href="../../vista/Cuenta/login.php" class="btn-cerrar">
+        <a href="/proyectoweb/?" style="cursor:pointer;" class="btn-cerrar">
             <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
         </a>
     </nav>
@@ -511,13 +472,4 @@
     </main>
 </div>
 
-<footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
-
-<!-- Scripts consolidados -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../js/vendedor.js"></script>
-<link rel="stylesheet" href="../../estilos/responsive.css">
-<script src="../../js/responsive.js"></script>
-
-</body>
-</html>
+<?php include('vista/vendedor/footer_repartidor.php'); ?>

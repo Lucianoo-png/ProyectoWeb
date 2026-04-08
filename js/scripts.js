@@ -153,7 +153,7 @@ function renderCarrito() {
             <div class="cart-empty">
                 <i class="fas fa-shopping-cart"></i>
                 <p>Tu carrito está vacío</p>
-                <a href="linea_blanca.php" class="btn-seguir-vacio">
+                <a href="/proyectoweb/?" class="btn-seguir-vacio">
                     <i class="fas fa-arrow-left me-1"></i> Seguir comprando
                 </a>
             </div>`;

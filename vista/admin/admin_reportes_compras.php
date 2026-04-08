@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Admin — Reporte de Compras</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <!-- <link rel="stylesheet" href="../../estilos/styles.css">-->
-    <link rel="stylesheet" href="../../estilos/vendedor.css">
-</head>
-<body>
-    <div class="topbar">
+<div class="topbar">
         <div class="container-fluid d-flex justify-content-between px-3">
             <div>
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
@@ -21,7 +9,7 @@
     </div>
     <div class="main-nav">
         <div class="container-fluid d-flex align-items-center gap-3 px-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="/proyectoweb/admin/inicio" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -39,18 +27,18 @@
     <div class="admin-layout">
         <nav class="admin-sidebar">
             <p class="sidebar-title">Menú Admin</p>
-            <a href="vistaadmin.php"      class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
-            <a href="admin_usuarios.php"  class="nav-link"><i class="fas fa-users"></i> Personal</a>
-            <a href="admin_productos.php" class="nav-link"><i class="fas fa-box"></i> Productos</a>
+            <a href="/proyectoweb/admin/inicio"      class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
+            <a href="/proyectoweb/admin/personal"  class="nav-link"><i class="fas fa-users"></i> Personal</a>
+            <a href="/proyectoweb/admin/productos" class="nav-link"><i class="fas fa-box"></i> Productos</a>
             <hr class="sidebar-divider">
             <p class="sidebar-title">Reportes</p>
-            <a href="admin_reportes_ventas.php"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
-            <a href="admin_reportes_compras.php"  class="nav-link active"><i class="fas fa-shopping-bag"></i> Compras</a>
-            <a href="admin_reportes_pedidos.php"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
+            <a href="/proyectoweb/admin/ventas"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
+            <a href="/proyectoweb/admin/compras"  class="nav-link"><i class="fas fa-shopping-bag"></i> Compras</a>
+            <a href="/proyectoweb/admin/pedidos"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
             <hr class="sidebar-divider">
             <p class="sidebar-title">Proveedores</p>
-            <a href="admin_pedido_proveedor.php" class="nav-link"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
-                        <a href="../Cuenta/login.php" class="btn-cerrar">
+            <a href="/proyectoweb/admin/pedido-proveedor" class="nav-link active"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
+                        <a href="/proyectoweb/?" class="btn-cerrar">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
             </a>
         </nav>
@@ -60,10 +48,10 @@
             <nav aria-label="breadcrumb" class="mb-3">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="vistaadmin.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="/proyectoweb/admin/inicio" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="admin_reportes_ventas.php" class="text-decoration-none" style="color:var(--btn-color)">Reportes</a>
+                        <a href="/proyectoweb/admin/reportes-compras" class="text-decoration-none" style="color:var(--btn-color)">Reportes</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Compras</li>
                 </ol>
@@ -76,7 +64,7 @@
 
             <div class="report-form-card">
                 <h5><i class="fas fa-shopping-bag me-2" style="color:var(--btn-color)"></i>Generar Reporte de Compras</h5>
-                <form action="admin_reportes_compras.php" method="GET" novalidate>
+                <form action="/proyectoweb/admin/reportes-compras" method="POST">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Desde:</label>
@@ -152,9 +140,3 @@
         </main>
     </div>
 <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/vendedor.js"></script>
-    <link rel="stylesheet" href="../../estilos/responsive.css">
-    <script src="../../js/responsive.js"></script>
-</body>
-</html>

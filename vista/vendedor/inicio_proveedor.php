@@ -1,87 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Portal Proveedor</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
-    <link rel="stylesheet" href="../../estilos/proveedor.css">
-</head>
-<body>
-
-<!-- ═══ TOPBAR ═══════════════════════════════════════════ -->
-<div class="topbar">
-    <div class="container d-flex justify-content-between">
-        <div>
-            <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-            <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
-            </span>
-        </div>
-        <div class="d-flex gap-3">
-            <span style="font-size:.8rem;color:rgba(255,255,255,.75)">
-                <i class="fas fa-building me-1"></i> Portal Proveedores
-            </span>
-        </div>
-    </div>
-</div>
-
-<!-- ═══ NAVBAR ════════════════════════════════════════════ -->
-<div class="main-nav">
-    <div class="container d-flex align-items-center gap-3">
-        <a href="../../index.php" class="brand-logo me-3">
-            <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
-        </a>
-        <div class="flex-grow-1 mx-lg-4 d-flex align-items-center gap-2">
-            <span style="font-size:.85rem;color:rgba(255,255,255,.65)">
-                <i class="fas fa-truck-loading me-1"></i> Portal de Proveedores
-            </span>
-        </div>
-        <div class="d-flex align-items-center gap-3 ms-2">
-            <a href="../../vista/Cuenta/login.php" class="nav-icon" title="Cerrar Sesión"
-               style="font-size:.8rem;display:flex;align-items:center;gap:.35rem">
-                <i class="fas fa-sign-out-alt"></i>
-                <span class="d-none d-md-inline">Salir</span>
-            </a>
-        </div>
-    </div>
-</div>
+<?php include('vista/vendedor/header_proveedor.php'); ?>
 
 <!-- ═══ LAYOUT CUENTA ════════════════════════════════════ -->
 <div class="cuenta-layout">
 
-    <!-- ── SIDEBAR ─────────────────────────────────────── -->
-    <aside class="cuenta-sidebar">
-        <div class="cuenta-sidebar-header">
-            <div class="cuenta-avatar">DP</div>
-            <p class="cuenta-sidebar-name">Distribuidora Pérez S.A.</p>
-            <p class="cuenta-sidebar-email">contacto@distribuidoraperez.mx</p>
-        </div>
-        <nav class="cuenta-nav">
-            <button class="cuenta-nav-link active" onclick="switchPanel('panel-resumen', this)">
-                <i class="fas fa-tachometer-alt"></i> Resumen
-            </button>
-            <button class="cuenta-nav-link" onclick="switchPanel('panel-solicitudes', this)">
-                <i class="fas fa-inbox"></i> Solicitudes de Reabasto
-                <span id="badge-pendientes"
-                      style="background:#ef4444;color:#fff;font-size:.65rem;font-weight:700;
-                             padding:.1rem .45rem;border-radius:2rem;margin-left:.35rem">2</span>
-            </button>
-            <button class="cuenta-nav-link" onclick="switchPanel('panel-historial', this)">
-                <i class="fas fa-history"></i> Historial
-            </button>
-            <hr class="cuenta-nav-divider">
-            <button class="cuenta-nav-link" onclick="switchPanel('panel-perfil', this)">
-                <i class="fas fa-user-edit"></i> Mi Perfil
-            </button>
-            <hr class="cuenta-nav-divider">
-            <a href="../../vista/Cuenta/login.php" class="cuenta-nav-link" style="color:#dc3545">
-                <i class="fas fa-sign-out-alt" style="color:#dc3545"></i> Cerrar Sesión
-            </a>
-        </nav>
-    </aside>
+    <?php include('vista/vendedor/menu_proveedor.php'); ?>
 
     <!-- ══════════════════════════════════════════════════
          MAIN
@@ -680,15 +602,4 @@
 
     </main>
 </div><!-- /cuenta-layout -->
-
-<footer class="site-footer-minimal">
-    © 2026 LuchanosCorp S.A. Todos los derechos reservados. — Portal de Proveedores
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../js/scripts.js"></script>
-<script src="../../js/proveedor.js"></script>
-<script src="../../js/responsive.js"></script>
-<link rel="stylesheet" href="../../estilos/responsive.css">
-</body>
-</html>
+<?php include('vista/vendedor/footer_proveedor.php'); ?>

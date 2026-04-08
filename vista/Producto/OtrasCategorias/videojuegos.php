@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Videojuegos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../../estilos/styles.css">
-</head>
-<body>
-
-    <div class="topbar">
+<div class="topbar">
         <div class="container d-flex justify-content-between">
             <div>
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
@@ -19,17 +7,16 @@
                 </span>
             </div>
             <div class="d-flex gap-3">
-                <a href="../../rastrear_pedido.php" class="topbar-link-track">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                     <i class="fas fa-truck me-1"></i> Rastrear Pedido
                 </a>
-                   <!-- <a href="#" class="topbar-link-muted">Ayuda</a>-->
             </div>
         </div>
     </div>
 
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../../index.php" class="brand-logo me-3">
+            <a href="/proyectoweb/?" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -37,8 +24,8 @@
                 <button class="btn px-4"><i class="fas fa-search"></i></button>
             </div>
             <div class="d-flex align-items-center gap-3 ms-2">
-                <a href="../carrito.php" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
-                <a href="../../Cuenta/login.php" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
+                <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
+                <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
             </div>
         </div>
     </div>
@@ -46,9 +33,9 @@
     <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
         <div class="container">
             <ul class="nav nav-categories justify-content-center">
-                <li class="nav-item"><a class="nav-link" href="./../linea_blanca.php">Línea Blanca</a></li>
-                <li class="nav-item"><a class="nav-link" href="./../linea_marron.php">Línea Marrón</a></li>
-                <li class="nav-item"><a class="nav-link" href="./../cocina.php">Cocina</a></li>
+                 <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-blanca">Línea Blanca</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-marron">Línea Marrón</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/cocina">Cocina</a></li>
                 <li class="nav-item dropdown mega-dropdown">
                     <a class="nav-link dropdown-toggle active d-flex align-items-center gap-1"
                        href="#" id="megaDropdown" role="button"
@@ -59,23 +46,23 @@
                         <div class="row g-3">
                             <div class="col-6 category-col">
                                 <h6>Lavado</h6>
-                                <a class="dropdown-item" href="lavadoras.php"><i class="fas fa-tshirt"></i> Lavadoras</a>
-                                <a class="dropdown-item" href="secadoras.php"><i class="fas fa-wind"></i> Secadoras</a>
-                                <a class="dropdown-item" href="lavasecadoras.php"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavadoras"><i class="fas fa-tshirt"></i> Lavadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/secadoras"><i class="fas fa-wind"></i> Secadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavasecadoras"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
                                 <h6 class="mt-3">Refrigeración</h6>
-                                <a class="dropdown-item" href="refrigeradores.php"><i class="fas fa-snowflake"></i> Refrigeradores</a>
-                                <a class="dropdown-item" href="congeladores.php"><i class="fas fa-cube"></i> Congeladores</a>
-                                <a class="dropdown-item" href="frigobar.php"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
+                                <a class="dropdown-item" href="/proyectoweb/refrigeradores"><i class="fas fa-snowflake"></i> Refrigeradores</a>
+                                <a class="dropdown-item" href="/proyectoweb/congeladores"><i class="fas fa-cube"></i> Congeladores</a>
+                                <a class="dropdown-item" href="/proyectoweb/frigobar"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
                             </div>
                             <div class="col-6 category-col">
                                 <h6>Cocina</h6>
-                                <a class="dropdown-item" href="hornos.php"><i class="fas fa-fire"></i> Hornos</a>
-                                <a class="dropdown-item" href="estufas.php"><i class="fas fa-burn"></i> Estufas</a>
-                                <a class="dropdown-item" href="microondas.php"><i class="fas fa-blender"></i> Microondas</a>
-                                <a class="dropdown-item" href="lavavajillas.php"><i class="fas fa-utensils"></i> Lavavajillas</a>
+                                <a class="dropdown-item" href="/proyectoweb/hornos"><i class="fas fa-fire"></i> Hornos</a>
+                                <a class="dropdown-item" href="/proyectoweb/estufas"><i class="fas fa-burn"></i> Estufas</a>
+                                <a class="dropdown-item" href="/proyectoweb/microondas"><i class="fas fa-blender"></i> Microondas</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavavajillas"><i class="fas fa-utensils"></i> Lavavajillas</a>
                                 <h6 class="mt-3">Bienestar</h6>
-                                <a class="dropdown-item" href="cuidado_hogar.php"><i class="fas fa-home"></i> Cuidado del Hogar</a>
-                                <a class="dropdown-item" href="cuidado_personal.php"><i class="fas fa-spa"></i> Cuidado Personal</a>
+                                <a class="dropdown-item" href="/proyectoweb/cuidado-hogar"><i class="fas fa-home"></i> Cuidado del Hogar</a>
+                                <a class="dropdown-item" href="/proyectoweb/cuidado-personal"><i class="fas fa-spa"></i> Cuidado Personal</a>
                             </div>
                         </div>
                     </div>
@@ -89,10 +76,10 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="../../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="/proyectoweb/?" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="./../linea_marron.php" class="text-decoration-none" style="color:var(--btn-color)">Línea Marrón</a>
+                        <a href="/proyectoweb/linea-marron" class="text-decoration-none" style="color:var(--btn-color)">Línea Marrón</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Videojuegos</li>
                 </ol>
@@ -162,7 +149,7 @@
                             <p class="product-name">Consola PlayStation 5 con lector de discos y control DualSense</p>
                             <div class="product-price-row"><span class="product-price">$13,999.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=PS5" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/PS5" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -175,7 +162,7 @@
                             <p class="product-name">Consola Xbox Series X 1TB con mando inalámbrico negro</p>
                             <div class="product-price-row"><span class="product-price">$12,499.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=XBOXSERIES-X" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/XBOXSERIES-X" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -188,7 +175,7 @@
                             <p class="product-name">Consola Xbox Series S 512GB todo digital blanca</p>
                             <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=XBOXSERIES-S" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/XBOXSERIES-S" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -201,7 +188,7 @@
                             <p class="product-name">Consola Nintendo Switch OLED 64GB con pantalla de 7"</p>
                             <div class="product-price-row"><span class="product-price">$9,499.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=SWITCH-OLED" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/SWITCH-OLED" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
 
@@ -223,7 +210,7 @@
                             <p class="product-name">Control DualSense para PS5 con retroalimentación háptica blanco</p>
                             <div class="product-price-row"><span class="product-price">$1,599.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=DUALSENSE" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/DUALSENSE" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -236,7 +223,7 @@
                             <p class="product-name">Control inalámbrico Xbox Series para Windows y consolas negro</p>
                             <div class="product-price-row"><span class="product-price">$1,299.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=XBOX-CTRL" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/XBOX-CTRL" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -249,7 +236,7 @@
                             <p class="product-name">Joy-Con Nintendo Switch par neón azul y neón rojo</p>
                             <div class="product-price-row"><span class="product-price">$1,199.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=JOYCON-NEON" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/JOYCON-NEON" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -262,7 +249,7 @@
                             <p class="product-name">Control DualSense Edge para PS5 pro con gatillos ajustables</p>
                             <div class="product-price-row"><span class="product-price">$3,999.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=DUALSENSE-EDGE" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/DUALSENSE-EDGE" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
 
@@ -284,7 +271,7 @@
                             <p class="product-name">Silla gaming ergonómica con reposacabezas y lumbar ajustables negra</p>
                             <div class="product-price-row"><span class="product-price">$3,499.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=SG-PRO200" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/SG-PRO200" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -297,7 +284,7 @@
                             <p class="product-name">Silla gaming con tiras LED RGB reclinación 180° roja y negra</p>
                             <div class="product-price-row"><span class="product-price">$5,199.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=SG-RGB400" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/SG-RGB400" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
 
@@ -319,7 +306,7 @@
                             <p class="product-name">Audífonos inalámbricos PULSE 3D para PS5 con audio 3D blanco</p>
                             <div class="product-price-row"><span class="product-price">$1,999.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=PULSE3D" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/PULSE3D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -332,7 +319,7 @@
                             <p class="product-name">Headset inalámbrico Xbox con Dolby Atmos y 15h de batería negro</p>
                             <div class="product-price-row"><span class="product-price">$2,499.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=XBOX-HS" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/XBOX-HS" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -345,7 +332,7 @@
                             <p class="product-name">SSD NVMe 1TB de expansión para PlayStation 5 con disipador</p>
                             <div class="product-price-row"><span class="product-price">$2,199.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=SSD-PS5-1TB" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/SSD-PS5-1TB" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -358,20 +345,11 @@
                             <p class="product-name">Disco duro externo 2TB Storage Expansion Card para Xbox Series</p>
                             <div class="product-price-row"><span class="product-price">$3,299.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=SEAGATE-2TB" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/SEAGATE-2TB" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
 
             </div>
         </div>
     </main>
-
-    <footer class="site-footer-minimal">
-        © 2026 LuchanosCorp S.A. Todos los derechos reservados.
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../js/scripts.js"></script>
-    <link rel="stylesheet" href="../../../estilos/responsive.css">
-    <script src="../../../js/responsive.js"></script>
-</body>
-</html>
+    <?php include('vista/footer_gral.php'); ?>

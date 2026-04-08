@@ -6,7 +6,7 @@
     <title>LuchanosCorp | Rastrear Pedido</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="./../estilos/styles.css">
+    <link rel="stylesheet" href="/proyectoweb/estilos/styles.css">
 </head>
 <body>
 
@@ -20,7 +20,7 @@
             </span>
         </div>
         <div class="d-flex gap-3">
-            <a href="rastrear_pedido.php" class="topbar-link-track">
+            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
         </div>
@@ -30,7 +30,7 @@
     <!-- ─── Navbar ──────────────────────────────────────────── -->
     <div class="main-nav">
         <div class="container-fluid d-flex align-items-center gap-3 px-3">
-            <a href="../index.php" class="brand-logo me-3">
+            <a href="/proyectoweb/?" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -38,11 +38,11 @@
                 <button class="btn px-4"><i class="fas fa-search"></i></button>
             </div>
             <div class="d-flex align-items-center gap-3 ms-2">
-                <a href="Producto/carrito.php" class="nav-icon" title="Carrito">
+                <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge js-hidden" id="cart-count">0</span>
                 </a>
-                <a href="Cuenta/login.php" class="nav-icon" title="Mi Cuenta">
+                <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta">
                     <i class="fas fa-user"></i>
                 </a>
             </div>
@@ -98,12 +98,6 @@
             </form>
 
             <hr class="track-divider">
-<!--
-            <div class="track-footer-links">
-                <a href="terminos.php"><i class="fas fa-file-alt"></i> Términos y Condiciones</a>
-                <a href="privacidad.php"><i class="fas fa-shield-alt"></i> Aviso de Privacidad</a>
-                <a href="Cuenta/login.php"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
-            </div>-->
 
             <p class="track-copyright">
                 © <?= date('Y') ?> LuchanosCorp S.A. Todos los derechos reservados.
@@ -220,8 +214,8 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/vendedor.js"></script>
-    <link rel="stylesheet" href="./../estilos/responsive.css">
-    <script src="../../js/responsive.js"></script>
+    <script src="/proyectoweb/js/vendedor.js"></script>
+    <link rel="stylesheet" href="/proyectoweb/estilos/responsive.css">
+    <script src="/proyectoweb/js/responsive.js"></script>
 </body>
 </html>

@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Audio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../../estilos/styles.css">
-</head>
-<body>
-
-    <div class="topbar">
+<div class="topbar">
         <div class="container d-flex justify-content-between">
             <div>
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
@@ -19,17 +7,16 @@
                 </span>
             </div>
             <div class="d-flex gap-3">
-                <a href="../../rastrear_pedido.php" class="topbar-link-track">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                     <i class="fas fa-truck me-1"></i> Rastrear Pedido
                 </a>
-                    <!-- <a href="#" class="topbar-link-muted">Ayuda</a>-->
             </div>
         </div>
     </div>
 
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../../index.php" class="brand-logo me-3">
+            <a href="/proyectoweb/?" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -37,8 +24,8 @@
                 <button class="btn px-4"><i class="fas fa-search"></i></button>
             </div>
             <div class="d-flex align-items-center gap-3 ms-2">
-                <a href="../carrito.php" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
-                <a href="../../Cuenta/login.php" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
+                <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
+                <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
             </div>
         </div>
     </div>
@@ -46,9 +33,9 @@
     <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
         <div class="container">
             <ul class="nav nav-categories justify-content-center">
-                <li class="nav-item"><a class="nav-link" href="./../linea_blanca.php">Línea Blanca</a></li>
-                <li class="nav-item"><a class="nav-link" href="./../linea_marron.php">Línea Marrón</a></li>
-                <li class="nav-item"><a class="nav-link" href="./../cocina.php">Cocina</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-blanca">Línea Blanca</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-marron">Línea Marrón</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/cocina">Cocina</a></li>
                 <li class="nav-item dropdown mega-dropdown">
                     <a class="nav-link dropdown-toggle active d-flex align-items-center gap-1"
                        href="#" id="megaDropdown" role="button"
@@ -59,23 +46,23 @@
                         <div class="row g-3">
                             <div class="col-6 category-col">
                                 <h6>Lavado</h6>
-                                <a class="dropdown-item" href="lavadoras.php"><i class="fas fa-tshirt"></i> Lavadoras</a>
-                                <a class="dropdown-item" href="secadoras.php"><i class="fas fa-wind"></i> Secadoras</a>
-                                <a class="dropdown-item" href="lavasecadoras.php"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavadoras"><i class="fas fa-tshirt"></i> Lavadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/secadoras"><i class="fas fa-wind"></i> Secadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavasecadoras"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
                                 <h6 class="mt-3">Refrigeración</h6>
-                                <a class="dropdown-item" href="refrigeradores.php"><i class="fas fa-snowflake"></i> Refrigeradores</a>
-                                <a class="dropdown-item" href="congeladores.php"><i class="fas fa-cube"></i> Congeladores</a>
-                                <a class="dropdown-item" href="frigobar.php"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
+                                <a class="dropdown-item" href="/proyectoweb/refrigeradores"><i class="fas fa-snowflake"></i> Refrigeradores</a>
+                                <a class="dropdown-item" href="/proyectoweb/congeladores"><i class="fas fa-cube"></i> Congeladores</a>
+                                <a class="dropdown-item" href="/proyectoweb/frigobar"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
                             </div>
                             <div class="col-6 category-col">
                                 <h6>Cocina</h6>
-                                <a class="dropdown-item" href="hornos.php"><i class="fas fa-fire"></i> Hornos</a>
-                                <a class="dropdown-item" href="estufas.php"><i class="fas fa-burn"></i> Estufas</a>
-                                <a class="dropdown-item" href="microondas.php"><i class="fas fa-blender"></i> Microondas</a>
-                                <a class="dropdown-item" href="lavavajillas.php"><i class="fas fa-utensils"></i> Lavavajillas</a>
+                                <a class="dropdown-item" href="/proyectoweb/hornos"><i class="fas fa-fire"></i> Hornos</a>
+                                <a class="dropdown-item" href="/proyectoweb/estufas"><i class="fas fa-burn"></i> Estufas</a>
+                                <a class="dropdown-item" href="/proyectoweb/microondas"><i class="fas fa-blender"></i> Microondas</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavavajillas"><i class="fas fa-utensils"></i> Lavavajillas</a>
                                 <h6 class="mt-3">Bienestar</h6>
-                                <a class="dropdown-item" href="cuidado_hogar.php"><i class="fas fa-home"></i> Cuidado del Hogar</a>
-                                <a class="dropdown-item" href="cuidado_personal.php"><i class="fas fa-spa"></i> Cuidado Personal</a>
+                                <a class="dropdown-item" href="/proyectoweb/cuidado-hogar"><i class="fas fa-home"></i> Cuidado del Hogar</a>
+                                <a class="dropdown-item" href="/proyectoweb/cuidado-personal"><i class="fas fa-spa"></i> Cuidado Personal</a>
                             </div>
                         </div>
                     </div>
@@ -89,10 +76,10 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="../../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="/proyectoweb/?" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="./../linea_marron.php" class="text-decoration-none" style="color:var(--btn-color)">Línea Marrón</a>
+                        <a href="/proyectoweb/linea-marron" class="text-decoration-none" style="color:var(--btn-color)">Línea Marrón</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Audio</li>
                 </ol>
@@ -162,7 +149,7 @@
                             <p class="product-name">Soundbar 5.1ch 360W con Dolby Digital y DTS Virtual:X</p>
                             <div class="product-price-row"><span class="product-price">$6,499.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=HW-Q60T" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/HW-Q60T" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -175,7 +162,7 @@
                             <p class="product-name">Soundbar 11.1.4ch 656W con Dolby Atmos y subwoofer inalámbrico</p>
                             <div class="product-price-row"><span class="product-price">$19,999.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=HW-Q990B" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/HW-Q990B" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -188,7 +175,7 @@
                             <p class="product-name">Soundbar 3.1ch 500W con Dolby Atmos y subwoofer integrado</p>
                             <div class="product-price-row"><span class="product-price">$9,299.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=SC-HTB900" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/SC-HTB900" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -201,7 +188,7 @@
                             <p class="product-name">Soundbar 2.0ch 120W con Bluetooth y DTS Virtual:X</p>
                             <div class="product-price-row"><span class="product-price">$3,999.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=YAS-109" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/YAS-109" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
 
@@ -223,7 +210,7 @@
                             <p class="product-name">Bocina inalámbrica 360° 120W omnidireccional resistente al agua</p>
                             <div class="product-price-row"><span class="product-price">$3,199.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=XBOOM360" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/XBOOM360" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -236,7 +223,7 @@
                             <p class="product-name">Bocina portátil Bluetooth IP67 con luces LED y Extra Bass</p>
                             <div class="product-price-row"><span class="product-price">$2,799.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=SRS-XB43" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/SRS-XB43" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -249,7 +236,7 @@
                             <p class="product-name">Bocina inteligente con Siri y sonido espacial computacional</p>
                             <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=HOMEPOD2" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/HOMEPOD2" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -262,7 +249,7 @@
                             <p class="product-name">Bocina portátil resistente al agua y polvo 40W PartyBoost</p>
                             <div class="product-price-row"><span class="product-price">$3,499.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=CHARGE5" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/CHARGE5" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
 
@@ -284,7 +271,7 @@
                             <p class="product-name">Audífonos inalámbricos con cancelación de ruido Industry-Leading</p>
                             <div class="product-price-row"><span class="product-price">$7,499.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=WH1000XM5" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/WH1000XM5" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -297,7 +284,7 @@
                             <p class="product-name">Audífonos inalámbricos con cancelación de ruido adaptativa 11 niveles</p>
                             <div class="product-price-row"><span class="product-price">$8,999.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=BOSE700" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/BOSE700" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -310,7 +297,7 @@
                             <p class="product-name">Audífonos True Wireless con cancelación de ruido adaptativa H2</p>
                             <div class="product-price-row"><span class="product-price">$6,499.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=AIRPODSPRO2" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/AIRPODSPRO2" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -323,7 +310,7 @@
                             <p class="product-name">Audífonos inalámbricos con cancelación de ruido QuietComfort 45h</p>
                             <div class="product-price-row"><span class="product-price">$7,199.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=QUIETCOMFORT45" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/QUIETCOMFORT45" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
 
@@ -345,7 +332,7 @@
                             <p class="product-name">Minicomponente 1200W con CD, MP3, USB, Bluetooth y karaoke</p>
                             <div class="product-price-row"><span class="product-price">$5,499.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=SC-D7MK2" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/SC-D7MK2" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -358,7 +345,7 @@
                             <p class="product-name">Sistema de audio portátil 2000W con luces LED y MEGA BASS</p>
                             <div class="product-price-row"><span class="product-price">$9,799.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=MHC-V83D" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/MHC-V83D" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -371,7 +358,7 @@
                             <p class="product-name">Receptor de red estéreo compacto con HEOS y Bluetooth integrados</p>
                             <div class="product-price-row"><span class="product-price">$6,299.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=RCD-N10" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/RCD-N10" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
                 <div class="col">
@@ -384,20 +371,11 @@
                             <p class="product-name">Bocina de torre inalámbrica 300W con luces LED y batería 25h</p>
                             <div class="product-price-row"><span class="product-price">$7,899.00</span></div>
                         </div>
-                        <a href="./../detalle.php?sku=XB72" class="btn-mas-info">Más información</a>
+                        <a href="/proyectoweb/producto/XB72" class="btn-mas-info">Más información</a>
                     </div>
                 </div>
 
             </div>
         </div>
     </main>
-
-    <footer class="site-footer-minimal">
-        © 2026 LuchanosCorp S.A. Todos los derechos reservados.
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../js/scripts.js"></script>
-    <link rel="stylesheet" href="../../../estilos/responsive.css">
-    <script src="../../../js/responsive.js"></script>
-</body>
-</html>
+    <?php include('vista/footer_gral.php'); ?>

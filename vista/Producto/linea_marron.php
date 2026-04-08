@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp| Línea Marrón</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
-</head>
-<body>
+
      <div class="topbar">
     <div class="container d-flex justify-content-between">
         <div>
@@ -18,17 +8,16 @@
             </span>
         </div>
         <div class="d-flex gap-3">
-            <a href="../rastrear_pedido.php" class="topbar-link-track">
+            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
-               <!-- <a href="#" class="topbar-link-muted">Ayuda</a>-->
         </div>
     </div>
 </div>
     
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="/proyectoweb/?" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -36,17 +25,17 @@
                 <button class="btn px-4"><i class="fas fa-search"></i></button>
             </div>
             <div class="d-flex align-items-center gap-3 ms-2">
-                <a href="carrito.php" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
-                <a href="../Cuenta/login.php" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
+                <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
+                <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
             </div>
         </div>
     </div>
     <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
         <div class="container">
             <ul class="nav nav-categories justify-content-center">
-                <li class="nav-item"><a class="nav-link" href="linea_blanca.php">Línea Blanca</a></li>
-                <li class="nav-item"><a class="nav-link active" href="linea_marron.php">Línea Marrón</a></li>
-                <li class="nav-item"><a class="nav-link" href="cocina.php">Cocina</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-blanca">Línea Blanca</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-marron">Línea Marrón</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/cocina">Cocina</a></li>
                 <li class="nav-item dropdown mega-dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
                        href="#" id="megaDropdown" role="button"
@@ -57,23 +46,23 @@
                         <div class="row g-3">
                             <div class="col-6 category-col">
                                 <h6>Lavado</h6>
-                                <a class="dropdown-item" href="OtrasCategorias/lavadoras.php"><i class="fas fa-tshirt"></i> Lavadoras</a>
-                                <a class="dropdown-item" href="OtrasCategorias/secadoras.php"><i class="fas fa-wind"></i> Secadoras</a>
-                                <a class="dropdown-item" href="OtrasCategorias/lavasecadoras.php"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavadoras"><i class="fas fa-tshirt"></i> Lavadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/secadoras"><i class="fas fa-wind"></i> Secadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavasecadoras"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
                                 <h6 class="mt-3">Refrigeración</h6>
-                                <a class="dropdown-item" href="OtrasCategorias/refrigeradores.php"><i class="fas fa-snowflake"></i> Refrigeradores</a>
-                                <a class="dropdown-item" href="OtrasCategorias/congeladores.php"><i class="fas fa-cube"></i> Congeladores</a>
-                                <a class="dropdown-item" href="OtrasCategorias/frigobar.php"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
+                                <a class="dropdown-item" href="/proyectoweb/refrigeradores"><i class="fas fa-snowflake"></i> Refrigeradores</a>
+                                <a class="dropdown-item" href="/proyectoweb/congeladores"><i class="fas fa-cube"></i> Congeladores</a>
+                                <a class="dropdown-item" href="/proyectoweb/frigobar"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
                             </div>
                             <div class="col-6 category-col">
                                 <h6>Cocina</h6>
-                                <a class="dropdown-item" href="OtrasCategorias/hornos.php"><i class="fas fa-fire"></i> Hornos</a>
-                                <a class="dropdown-item" href="OtrasCategorias/estufas.php"><i class="fas fa-burn"></i> Estufas</a>
-                                <a class="dropdown-item" href="OtrasCategorias/microondas.php"><i class="fas fa-blender"></i> Microondas</a>
-                                <a class="dropdown-item" href="OtrasCategorias/lavavajillas.php"><i class="fas fa-utensils"></i> Lavavajillas</a>
+                                <a class="dropdown-item" href="/proyectoweb/hornos"><i class="fas fa-fire"></i> Hornos</a>
+                                <a class="dropdown-item" href="/proyectoweb/estufas"><i class="fas fa-burn"></i> Estufas</a>
+                                <a class="dropdown-item" href="/proyectoweb/microondas"><i class="fas fa-blender"></i> Microondas</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavavajillas"><i class="fas fa-utensils"></i> Lavavajillas</a>
                                 <h6 class="mt-3">Bienestar</h6>
-                                <a class="dropdown-item" href="OtrasCategorias/cuidado_hogar.php"><i class="fas fa-home"></i> Cuidado del Hogar</a>
-                                <a class="dropdown-item" href="OtrasCategorias/cuidado_personal.php"><i class="fas fa-spa"></i> Cuidado Personal</a>
+                                <a class="dropdown-item" href="/proyectoweb/cuidado-hogar"><i class="fas fa-home"></i> Cuidado del Hogar</a>
+                                <a class="dropdown-item" href="/proyectoweb/cuidado-personal"><i class="fas fa-spa"></i> Cuidado Personal</a>
                             </div>
                         </div>
                     </div>
@@ -84,7 +73,7 @@
     <div class="bg-white border-bottom py-2">
         <div class="container">
             <nav aria-label="breadcrumb"><ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item"><a href="../../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="/proyectoweb/?" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a></li>
                 <li class="breadcrumb-item active text-muted">Línea Marrón</li>
             </ol></nav>
         </div>
@@ -97,19 +86,19 @@
             <p class="text-muted small">Televisores, audio, video y electrónica de entretenimiento.</p><hr>
         </div>
         <div class="row g-3 mb-5">
-            <div class="col-6 col-md-3"><a href="OtrasCategorias/televisores.php" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="/proyectoweb/televisores" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-tv fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Televisores</p>
                 </div></a></div>
-            <div class="col-6 col-md-3"><a href="OtrasCategorias/audio.php" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="/proyectoweb/audio" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-volume-up fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Audio</p>
                 </div></a></div>
-            <div class="col-6 col-md-3"><a href="OtrasCategorias/proyectores.php" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="/proyectoweb/proyectores" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-film fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Proyectores</p>
                 </div></a></div>
-            <div class="col-6 col-md-3"><a href="OtrasCategorias/videojuegos.php" class="text-decoration-none">
+            <div class="col-6 col-md-3"><a href="/proyectoweb/videojuegos" class="text-decoration-none">
                 <div class="text-center p-3 border rounded bg-white shadow-sm h-100">
                     <i class="fas fa-gamepad fa-2x mb-2" style="color:var(--btn-color)"></i><p class="mb-0 small fw-semibold">Videojuegos</p>
                 </div></a></div>
@@ -123,7 +112,7 @@
                         <p class="product-name">Televisor Smart TV 55" 4K UHD Crystal Display con Alexa</p>
                         <div class="product-price-row"><span class="product-price">$13,999.00</span></div>
                     </div>
-                    <a href="detalle.php?sku=UN55TU8000" class="btn-mas-info">Más información</a>
+                    <a href="/proyectoweb/producto/UN55TU8000" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
                     <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=OLED65C1PSA" alt="OLED65C1PSA" onerror="this.src='https://placehold.co/300x250?text=OLED65C1PSA'"></div>
                     <div class="product-body">
@@ -131,7 +120,7 @@
                         <p class="product-name">Televisor OLED 65" 4K Smart TV con procesador α9 Gen4</p>
                         <div class="product-price-row"><span class="product-price">$42,999.00</span></div>
                     </div>
-                    <a href="detalle.php?sku=OLED65C1PSA" class="btn-mas-info">Más información</a>
+                    <a href="/proyectoweb/producto/OLED65C1PSA" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
                     <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=43PFS6805" alt="43PFS6805" onerror="this.src='https://placehold.co/300x250?text=43PFS6805'"></div>
                     <div class="product-body">
@@ -139,7 +128,7 @@
                         <p class="product-name">Televisor Smart TV 43" Full HD con Saphi OS y HDR10+</p>
                         <div class="product-price-row"><span class="product-price">$6,999.00</span></div>
                     </div>
-                    <a href="detalle.php?sku=43PFS6805" class="btn-mas-info">Más información</a>
+                    <a href="/proyectoweb/producto/43PFS6805" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
                     <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=32LM630BPUA" alt="32LM630BPUA" onerror="this.src='https://placehold.co/300x250?text=32LM630BPUA'"></div>
                     <div class="product-body">
@@ -147,7 +136,7 @@
                         <p class="product-name">Televisor Smart TV 32" HD con webOS 4.5 y control mágico</p>
                         <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
                     </div>
-                    <a href="detalle.php?sku=32LM630BPUA" class="btn-mas-info">Más información</a>
+                    <a href="/proyectoweb/producto/32LM630BPUA" class="btn-mas-info">Más información</a>
                 </div></div>        </div>
         <div id="audio" class="mb-2"><span class="section-title">Audio</span></div>
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
@@ -158,7 +147,7 @@
                         <p class="product-name">Soundbar 5.1ch 360W con Dolby Digital y DTS Virtual:X</p>
                         <div class="product-price-row"><span class="product-price">$6,499.00</span></div>
                     </div>
-                    <a href="detalle.php?sku=HW-Q60T" class="btn-mas-info">Más información</a>
+                    <a href="/proyectoweb/producto/HW-Q60T" class="btn-mas-info">Más información</a>
                 </div></div>                <div class="col"><div class="product-card">
                     <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=XBOOM360" alt="XBOOM360" onerror="this.src='https://placehold.co/300x250?text=XBOOM360'"></div>
                     <div class="product-body">
@@ -166,7 +155,7 @@
                         <p class="product-name">Bocina inalámbrica 360° 120W omnidireccional resistente al agua</p>
                         <div class="product-price-row"><span class="product-price">$3,199.00</span></div>
                     </div>
-                    <a href="detalle.php?sku=XBOOM360" class="btn-mas-info">Más información</a>
+                    <a href="/proyectoweb/producto/XBOOM360" class="btn-mas-info">Más información</a>
                 </div></div>                
                 <div class="col"><div class="product-card">
                     <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=WH1000XM5" alt="WH1000XM5" onerror="this.src='https://placehold.co/300x250?text=WH1000XM5'"></div>
@@ -175,13 +164,7 @@
                         <p class="product-name">Audífonos inalámbricos con cancelación de ruido Industry-Leading</p>
                         <div class="product-price-row"><span class="product-price">$7,499.00</span></div>
                     </div>
-                    <a href="detalle.php?sku=WH1000XM5" class="btn-mas-info">Más información</a>
+                    <a href="/proyectoweb/producto/WH1000XM5" class="btn-mas-info">Más información</a>
                 </div></div>        </div>
     </div></main>
-    <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/scripts.js"></script>
-    <link rel="stylesheet" href="../../estilos/responsive.css">
-    <script src="../../js/responsive.js"></script>
-</body>
-</html>
+<?php include('vista/footer_gral.php'); ?>

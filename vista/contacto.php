@@ -6,8 +6,8 @@
     <title>LuchanosCorp | Contacto</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../estilos/styles.css">
-    <link rel="stylesheet" href="../estilos/contacto.css">
+    <link rel="stylesheet" href="/proyectoweb/estilos/styles.css">
+    <link rel="stylesheet" href="/proyectoweb/estilos/contacto.css">
 </head>
 <body>
 
@@ -23,7 +23,7 @@
             </span>
         </div>
         <div class="d-flex gap-3">
-            <a href="rastrear_pedido.php" class="topbar-link-track">
+            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
         </div>
@@ -33,7 +33,7 @@
 <?php /* ─── Navbar ─────────────────────────────────── */ ?>
 <div class="main-nav">
     <div class="container d-flex align-items-center gap-3">
-        <a href="../index.php" class="brand-logo me-3">
+        <a href="/proyectoweb/?" class="brand-logo me-3">
             <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
         </a>
         <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -41,11 +41,11 @@
             <button class="btn px-4"><i class="fas fa-search"></i></button>
         </div>
         <div class="d-flex align-items-center gap-3 ms-2">
-            <a href="Producto/carrito.php" class="nav-icon" title="Carrito">
+            <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-badge" id="cart-count" style="display:none">0</span>
             </a>
-            <a href="Cuenta/login.php" class="nav-icon" title="Mi Cuenta">
+            <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta">
                 <i class="fas fa-user"></i>
             </a>
         </div>
@@ -56,9 +56,9 @@
 <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
     <div class="container">
         <ul class="nav nav-categories justify-content-center">
-            <li class="nav-item"><a class="nav-link" href="Producto/linea_blanca.php">Línea Blanca</a></li>
-            <li class="nav-item"><a class="nav-link" href="Producto/linea_marron.php">Línea Marrón</a></li>
-            <li class="nav-item"><a class="nav-link" href="Producto/cocina.php">Cocina</a></li>
+            <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-blanca">Línea Blanca</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-marron">Línea Marrón</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/cocina">Cocina</a></li>
             <li class="nav-item dropdown mega-dropdown">
                 <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
                    href="#" id="megaDropdown" role="button"
@@ -68,25 +68,25 @@
                 <div class="dropdown-menu mega-menu" aria-labelledby="megaDropdown">
                     <div class="row g-3">
                         <div class="col-6 category-col">
-                            <h6>Lavado</h6>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/lavadoras.php"><i class="fas fa-tshirt"></i> Lavadoras</a>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/secadoras.php"><i class="fas fa-wind"></i> Secadoras</a>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/lavasecadoras.php"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
-                            <h6 class="mt-3">Refrigeración</h6>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/refrigeradores.php"><i class="fas fa-snowflake"></i> Refrigeradores</a>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/congeladores.php"><i class="fas fa-cube"></i> Congeladores</a>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/frigobar.php"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
-                        </div>
-                        <div class="col-6 category-col">
-                            <h6>Cocina</h6>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/hornos.php"><i class="fas fa-fire"></i> Hornos</a>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/estufas.php"><i class="fas fa-burn"></i> Estufas</a>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/microondas.php"><i class="fas fa-blender"></i> Microondas</a>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/lavavajillas.php"><i class="fas fa-utensils"></i> Lavavajillas</a>
-                            <h6 class="mt-3">Bienestar</h6>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/cuidado_hogar.php"><i class="fas fa-home"></i> Cuidado del Hogar</a>
-                            <a class="dropdown-item" href="Producto/OtrasCategorias/cuidado_personal.php"><i class="fas fa-spa"></i> Cuidado Personal</a>
-                        </div>
+                                <h6>Lavado</h6>
+                                <a class="dropdown-item" href="/proyectoweb/lavadoras"><i class="fas fa-tshirt"></i> Lavadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/secadoras"><i class="fas fa-wind"></i> Secadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavasecadoras"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
+                                <h6 class="mt-3">Refrigeración</h6>
+                                <a class="dropdown-item" href="/proyectoweb/refrigeradores"><i class="fas fa-snowflake"></i> Refrigeradores</a>
+                                <a class="dropdown-item" href="/proyectoweb/congeladores"><i class="fas fa-cube"></i> Congeladores</a>
+                                <a class="dropdown-item" href="/proyectoweb/frigobar"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
+                            </div>
+                            <div class="col-6 category-col">
+                                <h6>Cocina</h6>
+                                <a class="dropdown-item" href="/proyectoweb/hornos"><i class="fas fa-fire"></i> Hornos</a>
+                                <a class="dropdown-item" href="/proyectoweb/estufas"><i class="fas fa-burn"></i> Estufas</a>
+                                <a class="dropdown-item" href="/proyectoweb/microondas"><i class="fas fa-blender"></i> Microondas</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavavajillas"><i class="fas fa-utensils"></i> Lavavajillas</a>
+                                <h6 class="mt-3">Bienestar</h6>
+                                <a class="dropdown-item" href="/proyectoweb/cuidado-hogar"><i class="fas fa-home"></i> Cuidado del Hogar</a>
+                                <a class="dropdown-item" href="/proyectoweb/cuidado-personal"><i class="fas fa-spa"></i> Cuidado Personal</a>
+                            </div>
                     </div>
                 </div>
             </li>
@@ -100,7 +100,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 small">
                 <li class="breadcrumb-item">
-                    <a href="../index.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                    <a href="/proyectoweb/?" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                 </li>
                 <li class="breadcrumb-item active text-muted">Contacto</li>
             </ol>
@@ -341,14 +341,14 @@
             <div class="col-md-2">
                 <h6 class="text-uppercase fw-bold mb-4">Productos</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="Producto/OtrasCategorias/lavadoras.php">Lavadoras</a></li>
-                    <li class="mb-2"><a href="Producto/OtrasCategorias/estufas.php">Estufas</a></li>
+                    <li class="mb-2"><a href="/proyectoweb/lavadoras">Lavadoras</a></li>
+                    <li class="mb-2"><a href="/proyectoweb/estufas">Estufas</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <h6 class="text-uppercase fw-bold mb-4">Soporte</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="contacto.php">Contacto</a></li>
+                    <li class="mb-2"><a href="/proyectoweb/contacto">Contacto</a></li>
                 </ul>
             </div>
         </div>
@@ -363,10 +363,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Scripts globales del sitio -->
-<script src="../js/scripts.js"></script>
-<script src="../js/contacto.js"></script>
-<link rel="stylesheet" href="../estilos/responsive.css">
-<script src="../js/responsive.js"></script>
+<script src="/proyectoweb/js/scripts.js"></script>
+<script src="/proyectoweb/js/contacto.js"></script>
+<link rel="stylesheet" href="/proyectoweb/estilos/responsive.css">
+<script src="/proyectoweb/js/responsive.js"></script>
 
 </body>
 </html>

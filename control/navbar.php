@@ -1,28 +1,6 @@
 <?php
-/**
- * includes/navbar.php — Barra de navegación global
- *
- * Variables que DEBE definir cada página ANTES del include:
- *   $pathBase  (string) — ruta relativa desde el archivo hasta la raíz del proyecto
- *                         Ejemplos:
- *                           index.php                            → ''
- *                           vista/Cuenta/*.php                   → '../../'
- *                           vista/Producto/*.php                 → '../../'
- *                           vista/Producto/OtrasCategorias/*.php → '../../../'
- *
- * Variables opcionales:
- *   $categoriaActiva (string) — resalta la categoría activa: 'blanca' | 'marron' | 'cocina' | ''
- *   $mostrarCategorias (bool) — muestra la barra de categorías (default: true)
- *
- * Uso mínimo:
- *   <?php $pathBase = '../../'; include $pathBase . 'includes/navbar.php'; ?>
- */
 
-$pathBase          = $pathBase          ?? '';
-$categoriaActiva   = $categoriaActiva   ?? '';
-$mostrarCategorias = $mostrarCategorias ?? true;
-
-// Rutas absolutas desde la raíz (usando $pathBase como prefijo)
+/*
 $r = [
     'home'         => $pathBase . './index.php',
     'carrito'      => $pathBase . 'vista/Producto/carrito.php',
@@ -44,132 +22,152 @@ $r = [
     'cuidado_personal'=> $pathBase . 'vista/Producto/OtrasCategorias/cuidado_personal.php',
     
 ];
+*/
+ 
+$url = isset($_GET["url"]) && $_GET["url"] != "" ? $_GET["url"] : "inicio";
+$url = rtrim($url, '/');
+$urlParts = explode('/', $url);
+$rutaPrincipal =  mb_strtolower($urlParts[0]);
+if($rutaPrincipal!='admin' && $rutaPrincipal!='vendedor' && $rutaPrincipal!='repartidor' && $rutaPrincipal!='proveedor' && $rutaPrincipal!='mi-perfil'){
+
+    switch($rutaPrincipal){
+        case "inicio":
+        case "?":
+        case "":
+            include('vista/inicio.php');
+        break;
+
+        case 'linea-blanca':
+            include('vista/Producto/linea_blanca.php');
+        break;
+
+        case 'linea-marron':
+            include('vista/Producto/linea_marron.php');
+        break;
+
+        case 'cocina':
+            include('vista/Producto/cocina.php');
+        break;
+
+        case 'lavadoras':
+            include('vista/Producto/OtrasCategorias/lavadoras.php');
+        break;
+
+        case 'secadoras':
+            include('vista/Producto/OtrasCategorias/secadoras.php');
+        break;
+
+        case 'lavasecadoras':
+            include('vista/Producto/OtrasCategorias/lavasecadoras.php');
+        break;
+
+        case 'hornos':
+            include('vista/Producto/OtrasCategorias/hornos.php');
+        break;
+
+        case 'estufas':
+            include('vista/Producto/OtrasCategorias/estufas.php');
+        break;
+
+        case 'microondas':
+            include('vista/Producto/OtrasCategorias/microondas.php');
+        break;
+
+        case 'lavavajillas':
+            include('vista/Producto/OtrasCategorias/lavavajillas.php');
+        break;
+
+        case 'refrigeradores':
+            include('vista/Producto/OtrasCategorias/refrigeradores.php');
+        break;
+
+        case 'congeladores':
+            include('vista/Producto/OtrasCategorias/congeladores.php');
+        break;
+
+        case 'frigobar':
+            include('vista/Producto/OtrasCategorias/frigobar.php');
+        break;
+
+        case 'cuidado-hogar':
+            include('vista/Producto/OtrasCategorias/cuidado_hogar.php');
+        break;
+
+        case 'cuidado-personal':
+            include('vista/Producto/OtrasCategorias/cuidado_personal.php');
+        break;
+
+        case 'televisores':
+            include('vista/Producto/OtrasCategorias/televisores.php');
+        break;
+
+        case 'audio':
+            include('vista/Producto/OtrasCategorias/audio.php');
+        break;
+
+        case 'proyectores':
+            include('vista/Producto/OtrasCategorias/proyectores.php');
+        break;
+
+        case 'videojuegos':
+            include('vista/Producto/OtrasCategorias/videojuegos.php');
+        break;
+
+        case 'carrito':
+            include('vista/Producto/carrito.php');
+        break;
+
+        case 'rastrear-pedido':
+            include('vista/rastrear_pedido.php');
+        break;
+
+        case 'login':
+            include('vista/Cuenta/login.php');
+        break;
+
+        case 'forgot-password':
+            include('vista/Cuenta/recuperar_cuenta.php');
+        break;
+
+        case 'registro':
+            include('vista/Cuenta/Registro.php');
+        break;
+
+        case 'producto':
+            $sku = isset($urlParts[1]) ? $urlParts[1] : null;
+            if ($sku) {
+                include('vista/Producto/detalle.php');
+            } else {
+                include('vista/header_gral.php');
+                include('vista/404.php');
+                include('vista/footer_gral.php');
+            }
+        break;
+
+        default:
+            include('vista/header_gral.php');
+            include('vista/404.php');
+            include('vista/footer_gral.php');
+        break;
+    }
+
+}
+else{
+    if($rutaPrincipal=='admin'){
+        include('control/nav_admin.php');
+    }
+    else if($rutaPrincipal=='vendedor'){
+        include('control/nav_vendedor.php');
+    }
+    else if($rutaPrincipal=='proveedor'){
+        include('control/nav_proveedor.php');
+    }
+    else if($rutaPrincipal=='repartidor'){
+        include('control/nav_repartidor.php');
+    }
+    else{
+        include('control/nav_cliente.php');
+    }
+}
+
 ?>
-
-<!-- ═══════════════════════════════════════════════════════
-     TOPBAR
-════════════════════════════════════════════════════════ -->
-<div class="topbar">
-    <div class="container d-flex justify-content-between">
-        <div>
-            <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-            <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
-            </span>
-        </div>
-        <div class="d-flex gap-3">
-            <a href="./vista/rastrear_pedido.php" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-            <!--<a href="<?= $r['ayuda'] ?>" class="topbar-link-muted">Ayuda</a>-->
-        </div>
-    </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════
-     NAVBAR PRINCIPAL
-════════════════════════════════════════════════════════ -->
-<div class="main-nav">
-    <div class="container d-flex align-items-center gap-3">
-        <a href="<?= $r['home'] ?>" class="brand-logo me-3">
-            <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
-        </a>
-        <div class="input-group search-bar flex-grow-1 mx-lg-4">
-            <input type="text" class="form-control" placeholder="¿Qué estás buscando?">
-            <button class="btn px-4"><i class="fas fa-search"></i></button>
-        </div>
-        <div class="d-flex align-items-center gap-3 ms-2">
-            <a href="<?= $r['carrito'] ?>" class="nav-icon" title="Carrito">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-badge" id="cart-count" style="display:none">0</span>
-            </a>
-            <a href="<?= $r['login'] ?>" class="nav-icon" title="Mi Cuenta">
-                <i class="fas fa-user"></i>
-            </a>
-        </div>
-    </div>
-</div>
-
-<?php if ($mostrarCategorias): ?>
-<!-- ═══════════════════════════════════════════════════════
-     BARRA DE CATEGORÍAS
-════════════════════════════════════════════════════════ -->
-<div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
-    <div class="container">
-        <ul class="nav nav-categories justify-content-center">
-
-            <li class="nav-item">
-                <a class="nav-link <?= $categoriaActiva === 'blanca' ? 'active' : '' ?>"
-                   href="<?= $r['lb'] ?>">Línea Blanca</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link <?= $categoriaActiva === 'marron' ? 'active' : '' ?>"
-                   href="<?= $r['lm'] ?>">Línea Marrón</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link <?= $categoriaActiva === 'cocina' ? 'active' : '' ?>"
-                   href="<?= $r['cocina'] ?>">Cocina</a>
-            </li>
-
-            <li class="nav-item dropdown mega-dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
-                   href="#" id="megaDropdown" role="button"
-                   data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-th-large me-1 small"></i> Categorías Específicas
-                </a>
-                <div class="dropdown-menu mega-menu" aria-labelledby="megaDropdown">
-                    <div class="row g-3">
-                        <div class="col-6 category-col">
-                            <h6>Lavado</h6>
-                            <a class="dropdown-item" href="<?= $r['lavadoras'] ?>">
-                                <i class="fas fa-tshirt"></i> Lavadoras
-                            </a>
-                            <a class="dropdown-item" href="<?= $r['secadoras'] ?>">
-                                <i class="fas fa-wind"></i> Secadoras
-                            </a>
-                            <a class="dropdown-item" href="<?= $r['lavasecadoras'] ?>">
-                                <i class="fas fa-sync-alt"></i> Lavasecadoras
-                            </a>
-                            <h6 class="mt-3">Refrigeración</h6>
-                            <a class="dropdown-item" href="<?= $r['refrigeradores'] ?>">
-                                <i class="fas fa-snowflake"></i> Refrigeradores
-                            </a>
-                            <a class="dropdown-item" href="<?= $r['congeladores'] ?>">
-                                <i class="fas fa-cube"></i> Congeladores
-                            </a>
-                            <a class="dropdown-item" href="<?= $r['frigobar'] ?>">
-                                <i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos
-                            </a>
-                        </div>
-                        <div class="col-6 category-col">
-                            <h6>Cocina</h6>
-                            <a class="dropdown-item" href="<?= $r['hornos'] ?>">
-                                <i class="fas fa-fire"></i> Hornos
-                            </a>
-                            <a class="dropdown-item" href="<?= $r['estufas'] ?>">
-                                <i class="fas fa-burn"></i> Estufas
-                            </a>
-                            <a class="dropdown-item" href="<?= $r['microondas'] ?>">
-                                <i class="fas fa-blender"></i> Microondas
-                            </a>
-                            <a class="dropdown-item" href="<?= $r['lavavajillas'] ?>">
-                                <i class="fas fa-utensils"></i> Lavavajillas
-                            </a>
-                            <h6 class="mt-3">Bienestar</h6>
-                            <a class="dropdown-item" href="<?= $r['cuidado_hogar'] ?>">
-                                <i class="fas fa-home"></i> Cuidado del Hogar
-                            </a>
-                            <a class="dropdown-item" href="<?= $r['cuidado_personal'] ?>">
-                                <i class="fas fa-spa"></i> Cuidado Personal
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-
-        </ul>
-    </div>
-</div>
-<?php endif; ?>

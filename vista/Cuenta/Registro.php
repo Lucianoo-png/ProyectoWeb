@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Crear Cuenta</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
-</head>
-<body>
-
-    <!-- Top info bar -->
-     <div class="topbar">
+ <div class="topbar">
     <div class="container d-flex justify-content-between">
         <div>
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
@@ -20,10 +7,9 @@
             </span>
         </div>
         <div class="d-flex gap-3">
-            <a href="../rastrear_pedido.php" class="topbar-link-track">
+            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
-            <!-- <a href="#" class="topbar-link-muted">Ayuda</a>-->
         </div>
     </div>
 </div>
@@ -31,7 +17,7 @@
     <!-- Main navbar -->
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="/proyectoweb/?" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
 
@@ -41,9 +27,50 @@
             </div>
 
             <div class="d-flex align-items-center gap-3 ms-2">
-                <a href="../Producto/carrito.php" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
-                <a href="login.php" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
+                <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
+                <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
             </div>
+        </div>
+    </div>
+
+    <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
+        <div class="container">
+            <ul class="nav nav-categories justify-content-center">
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-blanca">Línea Blanca</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-marron">Línea Marrón</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proyectoweb/cocina">Cocina</a></li>
+                <li class="nav-item dropdown mega-dropdown">
+                    <a class="nav-link dropdown-toggle active d-flex align-items-center gap-1"
+                       href="#" id="megaDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-th-large me-1 small"></i> Categorías Específicas
+                    </a>
+                    <div class="dropdown-menu mega-menu" aria-labelledby="megaDropdown">
+                        <div class="row g-3">
+                            <div class="col-6 category-col">
+                                <h6>Lavado</h6>
+                                <a class="dropdown-item" href="/proyectoweb/lavadoras"><i class="fas fa-tshirt"></i> Lavadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/secadoras"><i class="fas fa-wind"></i> Secadoras</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavasecadoras"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
+                                <h6 class="mt-3">Refrigeración</h6>
+                                <a class="dropdown-item" href="/proyectoweb/refrigeradores"><i class="fas fa-snowflake"></i> Refrigeradores</a>
+                                <a class="dropdown-item" href="/proyectoweb/congeladores"><i class="fas fa-cube"></i> Congeladores</a>
+                                <a class="dropdown-item" href="/proyectoweb/frigobar"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
+                            </div>
+                            <div class="col-6 category-col">
+                                <h6>Cocina</h6>
+                                <a class="dropdown-item" href="/proyectoweb/hornos"><i class="fas fa-fire"></i> Hornos</a>
+                                <a class="dropdown-item" href="/proyectoweb/estufas"><i class="fas fa-burn"></i> Estufas</a>
+                                <a class="dropdown-item" href="/proyectoweb/microondas"><i class="fas fa-blender"></i> Microondas</a>
+                                <a class="dropdown-item" href="/proyectoweb/lavavajillas"><i class="fas fa-utensils"></i> Lavavajillas</a>
+                                <h6 class="mt-3">Bienestar</h6>
+                                <a class="dropdown-item" href="/proyectoweb/cuidado-hogar"><i class="fas fa-home"></i> Cuidado del Hogar</a>
+                                <a class="dropdown-item" href="/proyectoweb/cuidado-personal"><i class="fas fa-spa"></i> Cuidado Personal</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -124,20 +151,9 @@
 
                 <!-- Redirigir a login -->
                 <p class="login-redirect">
-                    ¿Ya tienes cuenta? <a href="login.php">Inicia sesión aquí</a>
+                    ¿Ya tienes cuenta? <a href="/proyectoweb/login">Inicia sesión aquí</a>
                 </p>
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="site-footer-minimal">
-        © 2026 LuchanosCorp S.A. Todos los derechos reservados.
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/scripts.js"></script>
-    <link rel="stylesheet" href="../../estilos/responsive.css">
-    <script src="../../js/responsive.js"></script>
-</body>
-</html>
+    <?php include('vista/footer_gral.php'); ?>

@@ -938,8 +938,9 @@ main { flex: 1; }
 /* ============================================================
    CHECKOUT — Barra de pasos (carrito.php, direccion.php)
    ============================================================ */
-body.checkout-bg {
+div.checkout-bg {
     background: #f0f4fa;
+    
 }
 
 .checkout-steps {
@@ -2668,3 +2669,31 @@ body.checkout-bg {
     margin: 0 auto;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;     
+    justify-content: center; 
+    text-align: center;
+    min-height: 70vh;        
+    padding: 2rem;
+}
+.not-found-container img {
+    width: 100%;             
+    max-width: 500px;        
+    height: auto;            
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.8s ease-in-out;
+}
+.not-found-container h3 {
+    color: var(--dash-color-sidebar);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+.not-found-container p {
+    color: #7f8c8d;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.5;
+}

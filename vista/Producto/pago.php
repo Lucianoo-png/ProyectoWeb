@@ -6,9 +6,9 @@
     <title>LuchanosCorp | Pago</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="../../estilos/styles.css">
+    <link rel="stylesheet" href="/proyectoweb/estilos/styles.css">
 </head>
-<body class="checkout-bg">
+<div class="checkout-bg">
 
     <!-- Topbar -->
     <div class="topbar">
@@ -20,7 +20,7 @@
                 </span>
             </div>
             <div class="d-flex gap-3">
-                <a href="../rastrear_pedido.php" class="topbar-link-track">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                     <i class="fas fa-truck me-1"></i> Rastrear Pedido
                 </a>
             </div>
@@ -30,7 +30,7 @@
     <!-- Navbar -->
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="/proyectoweb/?" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -38,11 +38,11 @@
                 <button class="btn px-4"><i class="fas fa-search"></i></button>
             </div>
             <div class="d-flex align-items-center gap-3 ms-2">
-                <a href="carrito.php" class="nav-icon" title="Carrito">
+                <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge" id="cart-count" style="display:none">0</span>
                 </a>
-                <a href="../Cuenta/login.php" class="nav-icon" title="Mi Cuenta">
+                <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta">
                     <i class="fas fa-user"></i>
                 </a>
             </div>
@@ -80,7 +80,7 @@
                     <div>
                         <div class="pago-dir-nombre" id="pago-dir-nombre">—</div>
                         <div class="pago-dir-detalle" id="pago-dir-detalle">—</div>
-                        <a href="direccion.php" class="pago-dir-cambiar">
+                        <a href="proyectoweb/direccion" class="pago-dir-cambiar">
                             <i class="fas fa-pencil-alt me-1"></i>Cambiar dirección
                         </a>
                     </div>
@@ -279,7 +279,7 @@
             <p style="font-size:.8rem;color:#999;margin-bottom:1.2rem">
                 Guarda este número para rastrear tu pedido.
             </p>
-            <a href="../../index.php" class="btn-exito-ok">
+            <a href="/proyectoweb/?" class="btn-exito-ok">
                 <i class="fas fa-home me-1"></i>Volver al inicio
             </a>
         </div>
@@ -288,9 +288,8 @@
     <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/scripts.js"></script>
-    <!--<script src="../../js/pago.js"></script>-->
-    <link rel="stylesheet" href="../../estilos/responsive.css">
-    <script src="../../js/responsive.js"></script>
+    <script src="/proyectoweb/js/scripts.js"></script>
+    <link rel="stylesheet" href="/proyectoweb/estilos/responsive.css">
+    <script src="/proyectoweb/js/responsive.js"></script>
 </body>
 </html>

@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Admin — Productos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-     <!-- <link rel="stylesheet" href="../../estilos/styles.css">-->
-    <link rel="stylesheet" href="../../estilos/vendedor.css">
-</head>
-<body>
-
-    <!-- Modal de confirmación eliminación -->
-    <div class="confirm-overlay" id="confirmOverlay">
+<div class="confirm-overlay" id="confirmOverlay">
         <div class="confirm-box">
             <div class="confirm-icon danger"><i class="fas fa-exclamation"></i></div>
             <h5>Eliminar Producto</h5>
@@ -39,7 +25,7 @@
     </div>
     <div class="main-nav">
         <div class="container-fluid d-flex align-items-center gap-3 px-3">
-            <a href="../../index.php" class="brand-logo me-3">
+            <a href="/proyectoweb/admin/inicio" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
             <div class="input-group search-bar flex-grow-1 mx-lg-4">
@@ -57,18 +43,18 @@
     <div class="admin-layout">
         <nav class="admin-sidebar">
             <p class="sidebar-title">Menú Admin</p>
-            <a href="vistaadmin.php"      class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
-            <a href="admin_usuarios.php"  class="nav-link"><i class="fas fa-users"></i> Personal</a>
-            <a href="admin_productos.php" class="nav-link active"><i class="fas fa-box"></i> Productos</a>
+            <a href="/proyectoweb/admin/inicio"      class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
+            <a href="/proyectoweb/admin/personal"  class="nav-link"><i class="fas fa-users"></i> Personal</a>
+            <a href="/proyectoweb/admin/productos" class="nav-link"><i class="fas fa-box"></i> Productos</a>
             <hr class="sidebar-divider">
             <p class="sidebar-title">Reportes</p>
-            <a href="admin_reportes_ventas.php"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
-            <a href="admin_reportes_compras.php"  class="nav-link"><i class="fas fa-shopping-bag"></i> Compras</a>
-            <a href="admin_reportes_pedidos.php"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
+            <a href="/proyectoweb/admin/ventas"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
+            <a href="/proyectoweb/admin/compras"  class="nav-link"><i class="fas fa-shopping-bag"></i> Compras</a>
+            <a href="/proyectoweb/admin/pedidos"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
             <hr class="sidebar-divider">
             <p class="sidebar-title">Proveedores</p>
-            <a href="admin_pedido_proveedor.php" class="nav-link"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
-                        <a href="../Cuenta/login.php" class="btn-cerrar">
+            <a href="/proyectoweb/admin/pedido-proveedor" class="nav-link active"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
+                        <a href="/proyectoweb/?" class="btn-cerrar">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
             </a>
         </nav>
@@ -78,7 +64,7 @@
             <nav aria-label="breadcrumb" class="mb-3">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item">
-                        <a href="vistaadmin.php" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
+                        <a href="/proyectoweb/admin/inicio" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                     </li>
                     <li class="breadcrumb-item active text-muted">Productos</li>
                 </ol>
@@ -146,16 +132,6 @@
                                 <label for="color" class="form-label">Color</label>
                                 <input type="text" id="color" name="color" class="form-control" placeholder="Ej. Blanco, Negro">
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label d-block">Estado</label>
-                                <div class="toggle-estado">
-                                    <div class="form-check form-switch mb-0">
-                                        <input class="form-check-input" type="checkbox" id="estado" name="estado"
-                                               checked role="switch" style="width:2.5rem; height:1.3rem; cursor:pointer">
-                                    </div>
-                                    <label for="estado" class="toggle-label" id="estadoLabel">Activo</label>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-section-label"><i class="fas fa-photo-video"></i> Clasificación y Multimedia</div>
@@ -215,7 +191,7 @@
 
                         <hr class="admin-form-divider">
                         <div class="d-flex justify-content-end gap-3 mt-3">
-                            <a href="vistaadmin.php" class="btn-admin-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                            <a href="/proyectoweb/admin/productos" class="btn-admin-secondary"><i class="fas fa-times"></i> Cancelar</a>
                             <button type="submit" class="btn-admin-primary"><i class="fas fa-save"></i> Guardar Producto</button>
                         </div>
                     </form>
@@ -325,9 +301,3 @@
     </div>
 
    <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/vendedor.js"></script>
-    <link rel="stylesheet" href="../../estilos/responsive.css">
-    <script src="../../js/responsive.js"></script>
-</body>
-</html>
