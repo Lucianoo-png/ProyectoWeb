@@ -1,4 +1,3 @@
-
 <!-- Modal para atender solicitud -->
 <div class="confirm-overlay" id="modalSolicitud">
     <div class="modal-sol-box">
@@ -83,7 +82,7 @@
             </ol>
         </nav>
 
-        <div class="mb-4">
+        <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Solicitudes de Clientes</h1>
             <p class="page-header-sub">
                 Verifica y gestiona las solicitudes de garantía y devolución enviadas por los clientes.
@@ -91,7 +90,7 @@
         </div>
 
         <!-- Tabs: Pendientes / En Proceso / Resueltas (sin Nueva Solicitud) -->
-        <div class="admin-tabs admin-tabs-left mb-4">
+        <div class="admin-tabs admin-tabs-left mb-4" style="justify-content:center">
             <button class="admin-tab-btn active" data-tab-group="sol" data-target="tab-pendientes">
                 <i class="fas fa-clock me-1"></i> Pendientes
                 <span class="tab-badge">2</span>

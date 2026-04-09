@@ -17,7 +17,7 @@
             </ol>
         </nav>
 
-        <div class="mb-4">
+        <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Inventario de Electrodomésticos</h1>
             <p class="page-header-sub">Consulta el estado actual del stock por producto.</p>
         </div>

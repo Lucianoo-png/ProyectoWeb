@@ -17,7 +17,7 @@
             </ol>
         </nav>
 
-        <div class="mb-4">
+        <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Detalle de Ventas</h1>
             <p class="page-header-sub">Consulta el historial de ventas realizadas. Filtra por folio o rango de fechas.</p>
         </div>

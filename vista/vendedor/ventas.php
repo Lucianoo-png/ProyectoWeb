@@ -15,7 +15,7 @@
             </ol>
         </nav>
 
-        <div class="mb-4">
+        <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Venta de Electrodomésticos</h1>
             <p class="page-header-sub">Registra una nueva venta seleccionando los productos del catálogo.</p>
         </div>
