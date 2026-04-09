@@ -8,11 +8,9 @@
     <!-- Contenido -->
     <main class="admin-content">
 
-        <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-2">
-            <div>
-                <h1 class="page-header-title mb-0">Panel de Vendedor</h1>
-                <p class="page-header-sub">Bienvenido de vuelta. Aquí tienes un resumen de tu actividad.</p>
-            </div>
+        <div class="mb-4 text-center">
+            <h1 class="page-header-title mb-0">Panel de Vendedor</h1>
+            <p class="page-header-sub">Bienvenido de vuelta. Aquí tienes un resumen de tu actividad.</p>
         </div>
 
         <!-- Tarjeta de empleado -->
@@ -37,22 +35,22 @@
                 <div class="stat-label">Ventas realizadas</div>
             </a>
             <div class="stat-card stat-card--info">
-                <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="stat-icon"><i class="fas fa-coins"></i></div>
                 <div class="stat-num">$99,880</div>
                 <div class="stat-label">Ganancias acumuladas</div>
             </div>
             <div class="stat-card stat-card--info">
-                <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                <div class="stat-icon"><i class="fas fa-cash-register"></i></div>
                 <div class="stat-num">$0</div>
                 <div class="stat-label">Ventas del día</div>
             </div>
             <a href="/proyectoweb/vendedor/inventario" class="stat-card">
-                <div class="stat-icon"><i class="fas fa-box-open"></i></div>
+                <div class="stat-icon"><i class="fas fa-cubes"></i></div>
                 <div class="stat-num">202</div>
                 <div class="stat-label">Unidades vendidas</div>
             </a>
             <div class="stat-card stat-card--info">
-                <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+                <div class="stat-icon"><i class="fas fa-tag"></i></div>
                 <div class="stat-num">0</div>
                 <div class="stat-label">Vendidas hoy</div>
             </div>

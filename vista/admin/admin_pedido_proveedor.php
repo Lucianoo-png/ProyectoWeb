@@ -65,12 +65,10 @@
         </nav>
 
         <!-- Header -->
-        <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-2">
-            <div class="text-center">
-                <h1 class="page-header-title mb-0">Nuevo Pedido a Proveedor</h1>
-                <p class="page-header-sub">Selecciona proveedor, productos y cantidades para generar la solicitud de reabastecimiento.</p>
-            </div>
-            <span class="folio-badge" id="folioPreview">LC-REA-2026-032</span>
+        <div class="position-relative mb-4 text-center">
+            <h1 class="page-header-title mb-0">Nuevo Pedido a Proveedor</h1>
+            <p class="page-header-sub">Selecciona proveedor, productos y cantidades para generar la solicitud de reabastecimiento.</p>
+            <span class="folio-badge position-absolute top-0 end-0" id="folioPreview">LC-REA-2026-032</span>
         </div>
 
         <!-- Tabs -->

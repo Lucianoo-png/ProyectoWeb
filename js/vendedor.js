@@ -650,8 +650,15 @@ function mostrarToastRepartidor(msg, color) {
     if(!t) return;
     document.getElementById('repToastMsg').textContent = msg;
     t.style.background = color || '#065f46';
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3200);
+    t.style.display = 'flex';          /* forzar flex antes de animar */
+    requestAnimationFrame(() => {
+        t.classList.add('show');
+    });
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => {
+        t.classList.remove('show');
+        setTimeout(() => { t.style.display = 'none'; }, 270);
+    }, 3200);
 }
 
 /* Tabs del repartidor */
@@ -1329,4 +1336,104 @@ document.addEventListener('DOMContentLoaded', () => {
     if (overlay) overlay.addEventListener('click', e => {
         if (e.target === overlay) cerrarModal();
     });
+});
+
+/* ── Custom estado dropdown (repartidor) ─────────────────── */
+/* ── Portal dropdown: se inyecta en <body> para escapar overflow:hidden ── */
+const ESTADO_OPTIONS = [
+    { val:0, icon:'fa-inbox',              label:'Pedido recibido',    color:'#6b7280' },
+    { val:1, icon:'fa-box-open',           label:'En preparación',     color:'#3b82f6' },
+    { val:2, icon:'fa-truck',              label:'Salió a ruta',       color:'#f59e0b' },
+    { val:3, icon:'fa-home',              label:'Entregado',           color:'#16a34a' },
+    { val:4, icon:'fa-exclamation-triangle', label:'Problema en entrega', color:'#dc2626' },
+];
+
+let _portalList = null;
+let _estadoSelVal = 2; // valor inicial (Salió a ruta)
+
+function _crearPortalList() {
+    if (_portalList) return;
+    _portalList = document.createElement('ul');
+    _portalList.id = 'customEstadoList';
+    _portalList.className = 'custom-estado-list';
+    _portalList.style.cssText = 'position:fixed; z-index:99999; display:none; min-width:230px;';
+
+    ESTADO_OPTIONS.forEach(opt => {
+        const li = document.createElement('li');
+        if (opt.val === _estadoSelVal) li.classList.add('selected');
+        li.innerHTML = `<i class="fas ${opt.icon}" style="color:${opt.color};font-size:1rem;width:20px;text-align:center;flex-shrink:0"></i> ${opt.label}`;
+        li.addEventListener('click', function(e) {
+            e.stopPropagation();
+            _selectEstadoPortal(opt.val, opt.icon, opt.label, opt.color, li);
+        });
+        _portalList.appendChild(li);
+    });
+
+    document.body.appendChild(_portalList);
+}
+
+function _posicionarPortal() {
+    const trigger = document.getElementById('customEstadoSelected');
+    if (!trigger || !_portalList) return;
+    const rect = trigger.getBoundingClientRect();
+    _portalList.style.top  = (rect.bottom + 4) + 'px';
+    _portalList.style.left = rect.left + 'px';
+    _portalList.style.width = rect.width + 'px';
+}
+
+function toggleEstadoDropdown() {
+    _crearPortalList();
+    const chevron = document.getElementById('customChevron');
+    const isOpen  = _portalList.style.display === 'block';
+
+    if (isOpen) {
+        _portalList.style.display = 'none';
+        if (chevron) chevron.classList.remove('open');
+    } else {
+        _posicionarPortal();
+        _portalList.style.display = 'block';
+        if (chevron) chevron.classList.add('open');
+    }
+}
+
+function _selectEstadoPortal(val, icon, label, color, liEl) {
+    _estadoSelVal = val;
+    const hidden = document.getElementById('selectorEstado');
+    if (hidden) hidden.value = val;
+
+    const iconEl = document.getElementById('customEstadoIcon');
+    if (iconEl) iconEl.innerHTML = `<i class="fas ${icon}" style="color:${color};font-size:1rem"></i>`;
+
+    const textEl = document.getElementById('customEstadoText');
+    if (textEl) textEl.textContent = label;
+
+    // Mark selected
+    _portalList.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+    liEl.classList.add('selected');
+
+    // Close
+    _portalList.style.display = 'none';
+    const chevron = document.getElementById('customChevron');
+    if (chevron) chevron.classList.remove('open');
+
+    previsualizarEstado();
+}
+
+// Close portal clicking outside
+document.addEventListener('click', function(e) {
+    if (!_portalList) return;
+    const trigger = document.getElementById('customEstadoSelect');
+    if (trigger && !trigger.contains(e.target) && !_portalList.contains(e.target)) {
+        _portalList.style.display = 'none';
+        const chevron = document.getElementById('customChevron');
+        if (chevron) chevron.classList.remove('open');
+    }
+});
+
+// Reposition on scroll/resize
+window.addEventListener('scroll', function() {
+    if (_portalList && _portalList.style.display === 'block') _posicionarPortal();
+}, true);
+window.addEventListener('resize', function() {
+    if (_portalList && _portalList.style.display === 'block') _posicionarPortal();
 });

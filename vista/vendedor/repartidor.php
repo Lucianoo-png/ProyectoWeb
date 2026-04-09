@@ -66,7 +66,7 @@
     <!-- Contenido -->
     <main class="admin-content">
 
-        <div class="mb-4">
+        <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Panel de Repartidor</h1>
             <p class="page-header-sub">
                 Bienvenido de nuevo, <strong>Juan Hernández</strong>. Gestiona tus entregas asignadas.
@@ -212,13 +212,17 @@
                                     Cambiar estado del envío
                                 </p>
                                 <div class="estado-select-wrap">
-                                    <select class="estado-select" id="selectorEstado" onchange="previsualizarEstado()">
-                                        <option value="0">📥 Pedido recibido</option>
-                                        <option value="1">📦 En preparación</option>
-                                        <option value="2" selected>🚚 Salió a ruta</option>
-                                        <option value="3">🏠 Entregado</option>
-                                        <option value="4">⚠️ Problema en entrega</option>
-                                    </select>
+                                    <!-- Custom dropdown con iconos FA -->
+                                    <input type="hidden" id="selectorEstado" value="2">
+                                    <div class="custom-estado-select" id="customEstadoSelect">
+                                        <div class="custom-estado-selected" id="customEstadoSelected"
+                                             onclick="toggleEstadoDropdown()">
+                                            <span id="customEstadoIcon"><i class="fas fa-truck" style="color:#f59e0b; font-size:1rem"></i></span>
+                                            <span id="customEstadoText">Salió a ruta</span>
+                                            <i class="fas fa-chevron-down ms-auto custom-chevron" id="customChevron"></i>
+                                        </div>
+                                        <!-- El <ul> se inyecta en <body> vía JS para escapar overflow:hidden del card -->
+                                    </div>
                                     <button class="btn-avanzar-estado" id="btnGuardarEstado"
                                             onclick="guardarEstado()">
                                         <i class="fas fa-save me-1"></i> Guardar estado

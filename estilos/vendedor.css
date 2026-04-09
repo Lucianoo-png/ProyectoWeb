@@ -2927,12 +2927,18 @@ body {
     font-size: .88rem;
     font-weight: 600;
     box-shadow: 0 8px 28px rgba(0,0,0,.22);
-    display: flex;
+    display: none;
     align-items: center;
     gap: .6rem;
     z-index: 9999;
-    transform: translateY(120%);
-    transition: transform .3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .25s ease, transform .25s ease;
+}
+.rep-toast.show {
+    display: flex !important;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
@@ -3342,4 +3348,67 @@ body {
 /* ── Toast ───────────────────────────────────────────────────── */
 
 
-.rep-toast.show { transform: translateY(0); }
+/* .rep-toast.show merged above */
+
+/* ── Custom estado dropdown (repartidor) ─────────────────── */
+/* ── Custom estado dropdown ─────────────────────────────── */
+.custom-estado-select {
+    position: relative;
+    min-width: 220px;
+    font-size: .85rem;
+    user-select: none;
+}
+.custom-estado-selected {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .5rem .85rem;
+    border: 1.5px solid #d1d5db;
+    border-radius: .45rem;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    transition: border-color .2s;
+    min-width: 220px;
+}
+.custom-estado-selected:hover { border-color: var(--btn-color); }
+.custom-chevron {
+    font-size: .7rem;
+    color: #9ca3af;
+    transition: transform .2s;
+}
+.custom-chevron.open { transform: rotate(180deg); }
+.custom-estado-list {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 100%;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: .45rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
+    list-style: none;
+    padding: .35rem 0;
+    margin: 0;
+    z-index: 999;
+}
+.custom-estado-list.open { display: block; }
+.custom-estado-list li {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .55rem 1rem;
+    cursor: pointer;
+    transition: background .15s;
+    font-size: .84rem;
+}
+.custom-estado-list li:hover { background: #f1f5f9; }
+.custom-estado-list li.selected {
+    background: #eff6ff;
+    font-weight: 600;
+}
+.custom-estado-list li i { width: 16px; text-align: center; }
+
+/* icon size override */
+.custom-estado-list li i { width:20px; font-size:1rem; flex-shrink:0; }
