@@ -2706,3 +2706,12 @@ div.checkout-bg {
     margin: 0 auto;
     line-height: 1.5;
 }
+
+/*INDICADORES DE LA CONSTRASEÑA*/
+.pw-barra {
+    height: 4px;
+    flex: 1;
+    border-radius: 2px;
+    background: #e5e7eb;
+    transition: background .25s;
+}

@@ -1,4 +1,4 @@
- <!-- Topbar -->
+<!-- Topbar -->
     <div class="topbar">
         <div class="container d-flex justify-content-between">
             <div>
@@ -139,19 +139,4 @@
 
         </div>
     </div>
-    <script>
-        (() => {
-            'use strict';
-            const forms = document.querySelectorAll('.needs-validation');
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        })();
-    </script>
     <?php include('vista/footer_gral.php'); ?>

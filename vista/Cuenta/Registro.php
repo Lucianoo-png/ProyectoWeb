@@ -1,4 +1,4 @@
- <div class="topbar">
+<div class="topbar">
     <div class="container d-flex justify-content-between">
         <div>
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
@@ -122,22 +122,26 @@
                     <div class="col-md-6">
                         <label class="form-label" for="password">Contraseña</label>
                         <div class="pw-wrapper">
-                            <input type="password" id="password" class="form-control pe-5" placeholder="••••••••">
+                            <input type="password" id="password" class="form-control pe-5" placeholder="••••••••"
+                                   autocomplete="new-password">
                             <span class="pw-toggle" onclick="togglePw('password','eye1')">
                                 <i class="fas fa-eye" id="eye1"></i>
                             </span>
                         </div>
+                        <div id="pw-indicadores" style="margin-top:.5rem"></div>
                     </div>
 
                     <!-- Confirmar Contraseña -->
                     <div class="col-md-6">
                         <label class="form-label" for="confirmPassword">Confirmar Contraseña</label>
                         <div class="pw-wrapper">
-                            <input type="password" id="confirmPassword" class="form-control pe-5" placeholder="••••••••">
+                            <input type="password" id="confirmPassword" class="form-control pe-5" placeholder="••••••••"
+                                   autocomplete="new-password">
                             <span class="pw-toggle" onclick="togglePw('confirmPassword','eye2')">
                                 <i class="fas fa-eye" id="eye2"></i>
                             </span>
                         </div>
+                        <div id="pw-confirm-msg" style="font-size:.75rem;margin-top:.35rem;font-weight:600;min-height:1rem"></div>
                     </div>
 
                     <!-- Dirección (ancho completo) -->
@@ -161,4 +165,5 @@
             </div>
         </div>
     </div>
-    <?php include('vista/footer_gral.php'); ?>
+    
+<?php include('vista/footer_gral.php'); ?>

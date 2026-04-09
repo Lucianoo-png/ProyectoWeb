@@ -916,3 +916,124 @@ function switchPedidoTab(id, btn) {
     document.getElementById(id)?.classList.add('active');
     btn?.classList.add('active');
 }
+
+/* ── Validación de contraseña en tiempo real — Registro.php ──── */
+/* Se activa solo si existe #pw-indicadores (página de registro)   */
+/* ── Validación de contraseña — Registro.php ─────────────────── */
+(function(){
+    var REGLAS = [
+        { id:'rl', label:'Mínimo 8 caracteres',               fn: function(v){ return v.length >= 8; } },
+        { id:'ru', label:'Al menos una mayúscula',             fn: function(v){ return /[A-Z]/.test(v); } },
+        { id:'rn', label:'Al menos un número',                 fn: function(v){ return /[0-9]/.test(v); } },
+        { id:'rs', label:'Al menos un carácter especial (!@#$...)', fn: function(v){ return /[!@#$%^&*()\-_=+\[\]{};':"\\|,.<>/?`~]/.test(v); } }
+    ];
+    var COLS = ['#ef4444','#f97316','#eab308','#16a34a'];
+    var LABS = ['Muy débil','Débil','Aceptable','Fuerte'];
+
+    /* ─── Build UI inside #pw-indicadores ─── */
+    var wrap = document.getElementById('pw-indicadores');
+    if(!wrap) return;
+
+    var html = '<div style="display:flex;gap:4px;margin-bottom:.28rem">';
+    for(var b=0;b<4;b++) html += '<div id="pwb'+b+'" style="height:5px;flex:1;border-radius:3px;background:#e5e7eb;transition:background .22s"></div>';
+    html += '</div>';
+    html += '<p id="pwlabel" style="font-size:.72rem;color:#9ca3af;margin:.1rem 0 .35rem">Ingresa una contraseña</p>';
+    REGLAS.forEach(function(r){
+        html += '<p id="'+r.id+'" style="font-size:.76rem;color:#9ca3af;margin:.1rem 0;display:flex;align-items:center;gap:.45rem;transition:color .2s">'
+              + '<i id="'+r.id+'i" class="fas fa-circle" style="font-size:.42rem;flex-shrink:0;transition:all .18s"></i>'
+              + r.label+'</p>';
+    });
+    wrap.innerHTML = html;
+
+    /* ─── Update strength bars + rules ─── */
+    function checkPw(val){
+        var ok = 0;
+        REGLAS.forEach(function(r){
+            var pass = r.fn(val);
+            if(pass) ok++;
+            var row = document.getElementById(r.id);
+            var ico = document.getElementById(r.id+'i');
+            if(!row||!ico) return;
+            if(pass){
+                row.style.color = '#16a34a';
+                ico.className   = 'fas fa-check-circle';
+                ico.style.fontSize = '.78rem';
+            } else {
+                row.style.color = '#9ca3af';
+                ico.className   = 'fas fa-circle';
+                ico.style.fontSize = '.42rem';
+            }
+        });
+        for(var b=0;b<4;b++){
+            var bar = document.getElementById('pwb'+b);
+            if(bar) bar.style.background = b < ok ? COLS[ok-1] : '#e5e7eb';
+        }
+        var lbl = document.getElementById('pwlabel');
+        if(lbl){
+            lbl.textContent = val ? (LABS[ok-1]||'Muy débil') : 'Ingresa una contraseña';
+            lbl.style.color = val ? (COLS[ok-1]||'#ef4444')   : '#9ca3af';
+        }
+        return ok === REGLAS.length;
+    }
+
+    /* ─── Update confirm match ─── */
+    function checkConfirm(){
+        var pw1 = document.getElementById('password');
+        var pw2 = document.getElementById('confirmPassword');
+        var msg = document.getElementById('pw-confirm-msg');
+        if(!pw1||!pw2||!msg) return;
+        var v2 = pw2.value;
+        if(!v2){ msg.innerHTML=''; pw2.style.borderColor=''; return; }
+        var match = pw1.value === v2;
+        msg.innerHTML = match
+            ? '<span style="color:#16a34a;font-weight:600">&#10003; Las contraseñas coinciden</span>'
+            : '<span style="color:#ef4444;font-weight:600">&#10007; Las contraseñas no coinciden</span>';
+        pw2.style.borderColor = match ? '#16a34a' : '#ef4444';
+    }
+
+    /* ─── Attach listeners ─── */
+    var pw1 = document.getElementById('password');
+    var pw2 = document.getElementById('confirmPassword');
+    var EVTS = ['input','keyup','keydown','change'];
+
+    if(pw1){
+        EVTS.forEach(function(e){
+            pw1.addEventListener(e, function(){
+                checkPw(this.value);
+                if(pw2 && pw2.value) checkConfirm();
+            });
+        });
+    }
+    if(pw2){
+        EVTS.forEach(function(e){
+            pw2.addEventListener(e, function(){ checkConfirm(); });
+        });
+    }
+
+    /* ─── Block submit if invalid ─── */
+    var form = pw1 && (pw1.closest ? pw1.closest('form') : null);
+    if(!form) form = document.querySelector('form');
+    if(form){
+        form.addEventListener('submit', function(e){
+            if(!checkPw(pw1.value)){ e.preventDefault(); pw1.focus(); return; }
+            if(pw2 && pw1.value !== pw2.value){ e.preventDefault(); pw2.focus(); }
+        });
+    }
+})();
+
+
+/* ── Bootstrap needs-validation — recuperar_cuenta.php ──────── */
+/* Activa solo si hay formularios .needs-validation en la página  */
+(function () {
+    'use strict';
+    var forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();
