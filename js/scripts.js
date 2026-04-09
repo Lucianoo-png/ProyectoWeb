@@ -976,6 +976,17 @@ function switchPedidoTab(id, btn) {
         return ok === REGLAS.length;
     }
 
+    /* ─── Función central: habilita botón solo si TODO está bien ─── */
+    function actualizarBoton(){
+        var pw1 = document.getElementById('password');
+        var pw2 = document.getElementById('confirmPassword');
+        var btn = document.getElementById('btnRegistrar');
+        if(!btn) return;
+        var pwFuerte = pw1 ? checkPw(pw1.value) : false;
+        var coinciden = pw1 && pw2 ? pw1.value === pw2.value && pw2.value !== '' : false;
+        btn.disabled = !(pwFuerte && coinciden);
+    }
+
     /* ─── Update confirm match ─── */
     function checkConfirm(){
         var pw1 = document.getElementById('password');
@@ -983,12 +994,18 @@ function switchPedidoTab(id, btn) {
         var msg = document.getElementById('pw-confirm-msg');
         if(!pw1||!pw2||!msg) return;
         var v2 = pw2.value;
-        if(!v2){ msg.innerHTML=''; pw2.style.borderColor=''; return; }
+        if(!v2){
+            msg.innerHTML='';
+            pw2.style.borderColor='';
+            actualizarBoton();
+            return;
+        }
         var match = pw1.value === v2;
         msg.innerHTML = match
             ? '<span style="color:#16a34a;font-weight:600">&#10003; Las contraseñas coinciden</span>'
             : '<span style="color:#ef4444;font-weight:600">&#10007; Las contraseñas no coinciden</span>';
         pw2.style.borderColor = match ? '#16a34a' : '#ef4444';
+        actualizarBoton();
     }
 
     /* ─── Attach listeners ─── */
@@ -1000,6 +1017,7 @@ function switchPedidoTab(id, btn) {
         EVTS.forEach(function(e){
             pw1.addEventListener(e, function(){
                 checkPw(this.value);
+                actualizarBoton();
                 if(pw2 && pw2.value) checkConfirm();
             });
         });

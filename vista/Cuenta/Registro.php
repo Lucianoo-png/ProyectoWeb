@@ -155,7 +155,7 @@
 
                 <!-- Botón -->
                 <div class="text-center mt-4">
-                    <button class="btn-register">Enviar</button>
+                    <button class="btn-register" id="btnRegistrar" disabled>Enviar</button>
                 </div>
 
                 <!-- Redirigir a login -->
@@ -165,5 +165,4 @@
             </div>
         </div>
     </div>
-    
-<?php include('vista/footer_gral.php'); ?>
+    <?php include('vista/footer_gral.php'); ?>
