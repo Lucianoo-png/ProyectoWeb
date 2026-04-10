@@ -81,19 +81,22 @@
 
     <!-- Login card -->
     <div class="login-wrapper">
+        <form action="/proyectoweb/login" method="POST">
         <div class="login-card">
             <h4>Inicio de Sesión</h4>
             <p class="subtitle">Inicia sesión con su correo y contraseña</p>
 
+            <?php if(count($msj)>0){?><div class="alerta alerta-<?php echo $msj[0]; ?>"><?php echo $msj[1]; ?></div><?php } //error, exito, info ?>
+
             <div class="mb-3">
                 <label class="form-label" for="correo">Correo</label>
-                <input type="email" id="correo" class="form-control" placeholder="ejemplo@correo.com">
+                <input type="email" id="correo" name="correo" class="form-control" placeholder="ejemplo@correo.com">
             </div>
 
             <div class="mb-1">
                 <label class="form-label" for="password">Contraseña</label>
                 <div class="password-wrapper">
-                    <input type="password" id="password" class="form-control pe-5" placeholder="••••••••">
+                    <input type="password" id="password" name="password" class="form-control pe-5" placeholder="••••••••">
                     <span class="toggle-pw" onclick="togglePassword()">
                         <i class="fas fa-eye" id="eyeIcon"></i>
                     </span>
@@ -102,7 +105,7 @@
 
             <!-- <a href="#" class="forgot-link">¿Haz olvidado la contraseña?</a>-->
             <a href="/proyectoweb/forgot-password" class="forgot-link">¿Haz olvidado la contraseña?</a>
-            <button class="btn-login mt-3">Enviar</button>
+            <button type="submit" name="login" class="btn-login mt-3">Enviar</button>
 
             <div class="login-divider"></div>
 
@@ -110,5 +113,6 @@
                 ¿Aún no tiene una cuenta? <a href="/proyectoweb/registro">Regístrese aquí</a>
             </p>
         </div>
+        </form>
     </div>
     <?php include('vista/footer_gral.php'); ?>

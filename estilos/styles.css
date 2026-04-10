@@ -2721,3 +2721,41 @@ div.checkout-bg {
     margin: 0 auto;
     line-height: 1.5;
 }
+
+/* Estilo base para todas las alertas */
+.alerta {
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    font-family: system-ui, -apple-system, sans-serif; /* Fuente limpia por defecto */
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    border-left: 6px solid transparent; /* El borde lateral que cambiará de color */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Ligera sombra para darle profundidad */
+}
+
+.alerta strong {
+    margin-right: 8px;
+}
+
+/* Modificador: Éxito (Verde) */
+.alerta-exito {
+    background-color: #edf7ed;
+    color: #1e4620;
+    border-left-color: #4caf50;
+}
+
+/* Modificador: Error (Rojo) */
+.alerta-error {
+    background-color: #fdeded;
+    color: #5f2120;
+    border-left-color: #ef5350;
+}
+
+/* Modificador: Informativo (Azul) */
+.alerta-info {
+    background-color: #e5f6fd;
+    color: #014361;
+    border-left-color: #03a9f4;
+}

@@ -27,7 +27,7 @@ function _activo(string $clave): string {
     <p class="sidebar-title">Sistema</p>
     <a href="/proyectoweb/admin/logs"             class="nav-link<?= _activo('logs') ?>"><i class="fas fa-history"></i> Historial (Logs)</a>
     <hr class="sidebar-divider">
-    <a href="/proyectoweb/?" class="btn-cerrar" style="margin-top:.5rem">
+    <a href="/proyectoweb/admin/logout" class="btn-cerrar" style="margin-top:.5rem">
         <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
     </a>
 </nav>

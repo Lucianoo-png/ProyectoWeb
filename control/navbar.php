@@ -28,7 +28,6 @@ $url = isset($_GET["url"]) && $_GET["url"] != "" ? $_GET["url"] : "inicio";
 $url = rtrim($url, '/');
 $urlParts = explode('/', $url);
 $rutaPrincipal =  mb_strtolower($urlParts[0]);
-if($rutaPrincipal!='admin' && $rutaPrincipal!='vendedor' && $rutaPrincipal!='repartidor' && $rutaPrincipal!='proveedor' && $rutaPrincipal!='mi-perfil'){
 
     switch($rutaPrincipal){
         case "inicio":
@@ -122,10 +121,20 @@ if($rutaPrincipal!='admin' && $rutaPrincipal!='vendedor' && $rutaPrincipal!='rep
         break;
 
         case 'login':
+            $msj = array();
+            $emp = new EmpleadoControlador();
+            if(isset($_REQUEST["login"])){
+                $msj = $emp->validarSesion([$_POST['correo'],$_POST['password']]);
+            }
             include('vista/Cuenta/login.php');
         break;
 
         case 'forgot-password':
+            $msj = array();
+            $emp = new EmpleadoControlador();
+            if(isset($_REQUEST["recuperar_cuenta"])){
+                $msj = $emp->recuperarCuenta([$_POST["correo_recuperacion"]]);
+            }
             include('vista/Cuenta/recuperar_cuenta.php');
         break;
 
@@ -144,30 +153,26 @@ if($rutaPrincipal!='admin' && $rutaPrincipal!='vendedor' && $rutaPrincipal!='rep
             }
         break;
 
+        case 'admin':
+            include('control/nav_admin.php');
+        break;
+
+        case 'vendedor':
+            include('control/nav_vendedor.php');
+        break;
+
+        case 'proveedor':
+            include('control/nav_proveedor.php');
+        break;
+
+        case 'repartidor':
+            include('control/nav_repartidor.php');
+        break;
+
         default:
             include('vista/header_gral.php');
             include('vista/404.php');
             include('vista/footer_gral.php');
         break;
     }
-
-}
-else{
-    if($rutaPrincipal=='admin'){
-        include('control/nav_admin.php');
-    }
-    else if($rutaPrincipal=='vendedor'){
-        include('control/nav_vendedor.php');
-    }
-    else if($rutaPrincipal=='proveedor'){
-        include('control/nav_proveedor.php');
-    }
-    else if($rutaPrincipal=='repartidor'){
-        include('control/nav_repartidor.php');
-    }
-    else{
-        include('control/nav_cliente.php');
-    }
-}
-
 ?>

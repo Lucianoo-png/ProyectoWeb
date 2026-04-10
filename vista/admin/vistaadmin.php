@@ -17,8 +17,8 @@
             <div class="admin-info-card">
                 <div class="info-avatar"><i class="fas fa-user-shield"></i></div>
                 <div class="info-rows">
-                    <p><span class="label">Nombre</span><br><span class="value">Administrador del Sistema</span></p>
-                    <p><span class="label">Usuario</span><br><span class="value">ADMIN01 — Administrador</span></p>
+                    <p><span class="label">Nombre</span><br><span class="value"><?php $nombre = $emp->getEmpleado()->buscar('"Veracruz".empleado',["select"=>"CONCAT(nombre,' ', apellidospama) as nombre","where"=>"rfc='".$_SESSION["RFC"]."'"])[0]['nombre']; echo $nombre; ?></span></p>
+                    <p><span class="label">RFC</span><br><span class="value"><?php echo $_SESSION["RFC"]; ?></span></p>
                 </div>
             </div>
 

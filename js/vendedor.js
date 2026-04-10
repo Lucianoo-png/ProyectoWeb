@@ -88,13 +88,12 @@ function confirmDelete(type, name, id) {
     const yesBtn = document.getElementById('confirmYes');
     if (!overlay || !msgEl || !yesBtn) return;
     const labels = { producto: 'el producto', usuario: 'el usuario', personal: 'al personal' };
-    msgEl.textContent = `¿Estás seguro de eliminar ${labels[type] || 'el registro'} "${name}"? Esta acción no se puede deshacer.`;
+    msgEl.textContent = `¿Estás seguro de eliminar ${labels[type] || 'el registro'} "${name}"?`;
     overlay.classList.add('show');
     const newBtn = yesBtn.cloneNode(true);
     yesBtn.parentNode.replaceChild(newBtn, yesBtn);
     newBtn.addEventListener('click', function () {
         overlay.classList.remove('show');
-        console.log(`Eliminar ${type} id=${id}`);
     });
 }
 

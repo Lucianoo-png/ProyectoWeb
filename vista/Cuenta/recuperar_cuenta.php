@@ -82,53 +82,25 @@
             <h4 class="mb-1">Recuperación de cuenta</h4>
             <p class="subtitle text-center">Ingresa tus datos para restablecer tu contraseña</p>
 
-            <?php if (!empty($_GET['enviado'])): ?>
-            <div class="alert alert-success py-2 small" role="alert">
-                <i class="fas fa-check-circle me-1"></i>
-                Correo de recuperación enviado. Revisa tu bandeja de entrada.
-            </div>
-            <?php endif; ?>
+            <?php if(count($msj)>0){?><div class="alerta alerta-<?php echo $msj[0]; ?>"><?php echo $msj[1]; ?></div><?php } //error, exito, info ?>
 
-            <?php if (!empty($_GET['error'])): ?>
-            <div class="alert alert-danger py-2 small" role="alert">
-                <i class="fas fa-exclamation-circle me-1"></i>
-                No se encontró ninguna cuenta con esos datos.
-            </div>
-            <?php endif; ?>
-
-            <form action="recuperar_contrasena.php" method="POST" novalidate class="needs-validation">
-
-                <!-- Usuario -->
-                <div class="mb-3">
-                    <label for="usuario" class="form-label">
-                        Ingresa tu usuario: <span class="text-danger">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="usuario"
-                        name="usuario"
-                        class="form-control"
-                        required
-                    >
-                    <div class="invalid-feedback">Por favor ingresa tu usuario.</div>
-                </div>
+            <form action="/proyectoweb/forgot-password" method="POST" class="needs-validation">
 
                 <!-- Correo de recuperación -->
                 <div class="mb-3">
                     <label for="correo_recuperacion" class="form-label">
-                        Ingresa un correo electrónico de recuperación: <span class="text-danger">*</span>
+                        Ingresa tu correo electrónico: <span class="text-danger">*</span>
                     </label>
                     <input
                         type="email"
                         id="correo_recuperacion"
                         name="correo_recuperacion"
                         class="form-control"
-                        required
+                        placeholder="ejemplo@correo.com"
                     >
-                    <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
                 </div>
 
-                <button type="submit" class="btn-login">Enviar correo</button>
+                <button type="submit" name="recuperar_cuenta" class="btn-login">Enviar correo</button>
 
                 <div class="login-divider"></div>
                 <p class="register-text">
