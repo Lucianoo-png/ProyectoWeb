@@ -135,6 +135,7 @@
             <a href="/proyectoweb/admin/inicio"      class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
             <a href="/proyectoweb/admin/personal"  class="nav-link active"><i class="fas fa-users"></i> Personal</a>
             <a href="/proyectoweb/admin/productos" class="nav-link"><i class="fas fa-box"></i> Productos</a>
+            <a href="/proyectoweb/admin/clientes"  class="nav-link"><i class="fas fa-user-friends"></i> Clientes</a>
             <hr class="sidebar-divider">
             <p class="sidebar-title">Reportes</p>
             <a href="/proyectoweb/admin/ventas"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
@@ -175,7 +176,7 @@
                 if(isset($_POST['actualizar']) || isset($_POST["eliminar"]) || isset($_POST["activar"])) $postAction = 'tab-consulta-usuario';
             ?>
 
-            <div class="admin-tabs">
+            <div class="admin-tabs" style="border-bottom: none;">
                 <button class="admin-tab-btn"
                         data-tab-group="personal" data-target="tab-registro-usuario">
                     <i class="fas fa-user-plus me-1"></i> Registro

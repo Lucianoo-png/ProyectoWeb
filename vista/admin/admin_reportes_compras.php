@@ -31,11 +31,12 @@
         <a href="/proyectoweb/admin/inicio"    class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
         <a href="/proyectoweb/admin/personal"  class="nav-link"><i class="fas fa-users"></i> Personal</a>
         <a href="/proyectoweb/admin/productos" class="nav-link"><i class="fas fa-box"></i> Productos</a>
+            <a href="/proyectoweb/admin/clientes"  class="nav-link"><i class="fas fa-user-friends"></i> Clientes</a>
         <hr class="sidebar-divider">
         <p class="sidebar-title">Reportes</p>
-        <a href="/proyectoweb/admin/ventas"  class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
-        <a href="/proyectoweb/admin/compras" class="nav-link active"><i class="fas fa-shopping-bag"></i> Compras</a>
-        <a href="/proyectoweb/admin/pedidos" class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
+        <a href="/proyectoweb/admin/ventas"   class="nav-link active"><i class="fas fa-chart-bar"></i> Ventas</a>
+        <a href="/proyectoweb/admin/compras"  class="nav-link"><i class="fas fa-shopping-bag"></i> Compras</a>
+        <a href="/proyectoweb/admin/pedidos"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
         <hr class="sidebar-divider">
         <p class="sidebar-title">Proveedores</p>
         <a href="/proyectoweb/admin/pedido-proveedor" class="nav-link"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
@@ -55,20 +56,20 @@
                     <a href="/proyectoweb/admin/inicio" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="/proyectoweb/admin/reportes-compras" class="text-decoration-none" style="color:var(--btn-color)">Reportes</a>
+                    <a href="/proyectoweb/admin/reportes-ventas" class="text-decoration-none" style="color:var(--btn-color)">Reportes</a>
                 </li>
-                <li class="breadcrumb-item active text-muted">Compras</li>
+                <li class="breadcrumb-item active text-muted">Ventas</li>
             </ol>
         </nav>
 
         <div class="mb-4 text-center">
-            <h1 class="page-header-title mb-0">Reporte de Compras</h1>
-            <p class="page-header-sub">Genera un reporte PDF filtrado de las compras a proveedores.</p>
+            <h1 class="page-header-title mb-0">Reporte de Ventas</h1>
+            <p class="page-header-sub">Genera un reporte PDF filtrado de las ventas registradas.</p>
         </div>
 
         <div class="report-form-card">
-            <h5 class="text-center"><i class="fas fa-shopping-bag me-2" style="color:var(--btn-color)"></i>Generar Reporte de Compras</h5>
-            <form action="/proyectoweb/admin/reportes-compras" method="POST">
+            <h5 class="text-center"><i class="fas fa-chart-bar me-2" style="color:var(--btn-color)"></i>Generar Reporte de Ventas</h5>
+            <form action="/proyectoweb/admin/reportes-ventas" method="POST">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label">Desde:</label>
@@ -107,13 +108,21 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Proveedor:</label>
-                        <select name="proveedor" class="form-select">
+                        <label class="form-label">Método de Pago:</label>
+                        <select name="metodo_pago" class="form-select">
                             <option value="">Todos</option>
-                            <option>Whirlpool MX</option>
-                            <option>Samsung MX</option>
-                            <option>LG Electronics</option>
-                            <option>Mabe</option>
+                            <option>Efectivo</option>
+                            <option>Tarjeta</option>
+                            <option>Transferencia</option>
+                            <option>Crédito</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Cliente:</label>
+                        <select name="cliente" class="form-select">
+                            <option value="">Todos</option>
+                            <option>Ana Torres</option>
+                            <option>Luis Ramírez</option>
                         </select>
                     </div>
                     <div class="col-md-6">

@@ -48,6 +48,10 @@ switch($rutaPrincipal){
         include('vista/admin/admin_productos.php');
     break;
 
+    case 'clientes':
+        include('vista/admin/admin_clientes.php');
+    break;
+
     case 'ventas':
         include('vista/admin/admin_reportes_ventas.php');
     break;

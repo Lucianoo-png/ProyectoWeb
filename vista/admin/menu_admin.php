@@ -15,6 +15,7 @@ function _activo(string $clave): string {
     <a href="/proyectoweb/admin/inicio"          class="nav-link<?= _activo('inicio') ?>"><i class="fas fa-tachometer-alt"></i> Inicio</a>
     <a href="/proyectoweb/admin/personal"         class="nav-link<?= _activo('personal') ?>"><i class="fas fa-users"></i> Personal</a>
     <a href="/proyectoweb/admin/productos"        class="nav-link<?= _activo('productos') ?>"><i class="fas fa-box"></i> Productos</a>
+    <a href="/proyectoweb/admin/clientes"         class="nav-link<?= _activo('clientes') ?>"><i class="fas fa-user-friends"></i> Clientes</a>
     <hr class="sidebar-divider">
     <p class="sidebar-title">Reportes</p>
     <a href="/proyectoweb/admin/ventas"           class="nav-link<?= _activo('ventas') ?>"><i class="fas fa-chart-bar"></i> Ventas</a>

@@ -146,6 +146,41 @@ if (isset($_POST['guardar'])) {
                     </div>
                 </div>
 
+                <div class="form-section-label"><i class="fas fa-palette"></i> Colores Disponibles</div>
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <label class="form-label">Selecciona uno o varios colores</label>
+                        <div class="color-selector-wrap" id="edit_color_wrap">
+                            <?php
+                            $coloresDisponibles2 = [
+                                'Negro'   => '#1a1a1a',
+                                'Blanco'  => '#f5f5f5',
+                                'Gris'    => '#9e9e9e',
+                                'Plata'   => '#C0C0C0',
+                                'Dorado'  => '#FFD700',
+                                'Rojo'    => '#e53935',
+                                'Azul'    => '#1e88e5',
+                                'Verde'   => '#43a047',
+                                'Amarillo'=> '#FDD835',
+                                'Naranja' => '#fb8c00',
+                                'Morado'  => '#8e24aa',
+                                'Rosa'    => '#e91e8c',
+                                'Café'    => '#6d4c41',
+                                'Cobre'   => '#b87333',
+                            ];
+                            foreach ($coloresDisponibles2 as $nombre => $hex): ?>
+                            <label class="color-chip-label" title="<?= $nombre ?>">
+                                <input type="checkbox" name="colores[]" value="<?= $nombre ?>" class="color-chip-input edit-color-check">
+                                <span class="color-chip" style="background:<?= $hex ?>;" data-nombre="<?= $nombre ?>">
+                                    <i class="fas fa-check color-chip-check"></i>
+                                </span>
+                                <small><?= $nombre ?></small>
+                            </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-section-label"><i class="fas fa-images"></i> Multimedia (Deja vacío si no cambian)</div>
                 <div class="row g-3 mb-4">
                     <div class="col-md-6">
@@ -200,6 +235,7 @@ if (isset($_POST['guardar'])) {
         <a href="/proyectoweb/admin/inicio" class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
         <a href="/proyectoweb/admin/personal" class="nav-link"><i class="fas fa-users"></i> Personal</a>
         <a href="/proyectoweb/admin/productos" class="nav-link active"><i class="fas fa-box"></i> Productos</a>
+        <a href="/proyectoweb/admin/clientes" class="nav-link"><i class="fas fa-user-friends"></i> Clientes</a>
         <hr class="sidebar-divider">
         <p class="sidebar-title">Reportes</p>
         <a href="/proyectoweb/admin/ventas" class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
@@ -230,7 +266,7 @@ if (isset($_POST['guardar'])) {
             <p class="page-header-sub">Registra y controla el inventario del sistema.</p>
         </div>
 
-        <div class="admin-tabs">
+        <div class="admin-tabs" style="border-bottom: none;">
             <button class="admin-tab-btn" data-tab-group="productos" data-target="tab-registro-prod">
                 <i class="fas fa-plus-circle me-1"></i> Registro
             </button>
@@ -330,6 +366,41 @@ if (isset($_POST['guardar'])) {
                             </div>
                         </div>
 
+                        <div class="form-section-label"><i class="fas fa-palette"></i> Colores Disponibles</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <label class="form-label">Selecciona uno o varios colores <span class="text-danger">*</span></label>
+                                <div class="color-selector-wrap">
+                                    <?php
+                                    $coloresDisponibles = [
+                                        'Negro'   => '#1a1a1a',
+                                        'Blanco'  => '#f5f5f5',
+                                        'Gris'    => '#9e9e9e',
+                                        'Plata'   => '#C0C0C0',
+                                        'Dorado'  => '#FFD700',
+                                        'Rojo'    => '#e53935',
+                                        'Azul'    => '#1e88e5',
+                                        'Verde'   => '#43a047',
+                                        'Amarillo'=> '#FDD835',
+                                        'Naranja' => '#fb8c00',
+                                        'Morado'  => '#8e24aa',
+                                        'Rosa'    => '#e91e8c',
+                                        'Café'    => '#6d4c41',
+                                        'Cobre'   => '#b87333',
+                                    ];
+                                    foreach ($coloresDisponibles as $nombre => $hex): ?>
+                                    <label class="color-chip-label" title="<?= $nombre ?>">
+                                        <input type="checkbox" name="colores[]" value="<?= $nombre ?>" class="color-chip-input">
+                                        <span class="color-chip" style="background:<?= $hex ?>;" data-nombre="<?= $nombre ?>">
+                                            <i class="fas fa-check color-chip-check"></i>
+                                        </span>
+                                        <small><?= $nombre ?></small>
+                                    </label>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-section-label"><i class="fas fa-images"></i> Multimedia</div>
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
@@ -385,6 +456,7 @@ if (isset($_POST['guardar'])) {
                                     <th>P. Venta</th>
                                     <th>Estatus</th>
                                     <th>Editar</th>
+                                    <th>Activar</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
@@ -409,22 +481,29 @@ if (isset($_POST['guardar'])) {
                                     <td>
                                         <?php if($p['estatus']): ?>
                                         <button class="btn-tbl-edit" title="Editar"
-                                                onclick="abrirModalEdicion('<?= $p['no_producto'] ?>', '<?= addslashes(htmlspecialchars($p['nombre'], ENT_QUOTES, 'UTF-8')) ?>', '<?= addslashes(htmlspecialchars($p['descripción'] ?? $p['descripcion'] ?? '', ENT_QUOTES, 'UTF-8')) ?>', '<?= $p['precio_compra'] ?>', '<?= $p['precio_venta'] ?>', '<?= $p['stock'] ?>', '<?= $p['stockminimo'] ?>', '<?= $p['alto'] ?>', '<?= $p['ancho'] ?>', '<?= $p['categoria'] ?>')">
+                                                onclick="abrirModalEdicion('<?= $p['no_producto'] ?>', '<?= addslashes(htmlspecialchars($p['nombre'], ENT_QUOTES, 'UTF-8')) ?>', '<?= addslashes(htmlspecialchars($p['descripción'] ?? $p['descripcion'] ?? '', ENT_QUOTES, 'UTF-8')) ?>', '<?= $p['precio_compra'] ?>', '<?= $p['precio_venta'] ?>', '<?= $p['stock'] ?>', '<?= $p['stockminimo'] ?>', '<?= $p['alto'] ?>', '<?= $p['ancho'] ?>', '<?= $p['categoria'] ?>', '<?= addslashes($p['colores'] ?? '') ?>')">
                                             <i class="fas fa-pencil-alt"></i>
                                         </button>
                                         <?php endif; ?>
                                     </td>
                                     <td>
+                                        <?php if(!$p['estatus']): ?>
+                                            <button type="button" class="btn-tbl-activate" title="Activar"
+                                                    onclick="abrirModalActivar('<?= $p['no_producto'] ?>', '<?= addslashes(htmlspecialchars($p['nombre'], ENT_QUOTES, 'UTF-8')) ?>')">
+                                                <i class="fas fa-toggle-on"></i>
+                                            </button>
+                                        <?php else: ?>
+                                            <span class="text-muted" style="font-size:.75rem;">—</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
                                         <?php if($p['estatus']): ?>
-                                            <button type="button" class="btn-tbl-delete" title="Eliminar" 
+                                            <button type="button" class="btn-tbl-delete" title="Dar de baja" 
                                                     onclick="abrirModalEliminar('<?= $p['no_producto'] ?>', '<?= addslashes(htmlspecialchars($p['nombre'], ENT_QUOTES, 'UTF-8')) ?>')">
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         <?php else: ?>
-                                            <button type="button" class="btn-tbl-delete" title="Activar"
-                                                    onclick="abrirModalActivar('<?= $p['no_producto'] ?>', '<?= addslashes(htmlspecialchars($p['nombre'], ENT_QUOTES, 'UTF-8')) ?>')">
-                                                <i class="fas fa-check"></i>
-                                            </button>
+                                            <span class="text-muted" style="font-size:.75rem;">—</span>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -439,7 +518,6 @@ if (isset($_POST['guardar'])) {
     </main>
 </div>
 
-<?php include('vista/admin/footer_admin.php'); ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -585,7 +663,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderTable();
 });
 
-function abrirModalEdicion(id, nombre, descripcion, p_compra, p_venta, stock, stock_minimo, alto, ancho, categoria) {
+function abrirModalEdicion(id, nombre, descripcion, p_compra, p_venta, stock, stock_minimo, alto, ancho, categoria, coloresStr) {
     document.getElementById('edit_no_producto').value = id;
     document.getElementById('edit_nombre').value = nombre;
     document.getElementById('edit_descripcion').value = descripcion;
@@ -596,6 +674,18 @@ function abrirModalEdicion(id, nombre, descripcion, p_compra, p_venta, stock, st
     document.getElementById('edit_alto').value = alto;
     document.getElementById('edit_ancho').value = ancho;
     document.getElementById('edit_categoria').value = categoria;
+
+    // Restablecer colores
+    const checks = document.querySelectorAll('.edit-color-check');
+    checks.forEach(cb => cb.checked = false);
+
+    if (coloresStr) {
+        const activos = coloresStr.split(',').map(c => c.trim());
+        checks.forEach(cb => {
+            if (activos.includes(cb.value)) cb.checked = true;
+        });
+    }
+
     document.getElementById('editModal').style.display = 'flex';
 }
 
@@ -625,3 +715,5 @@ function cerrarModalActivar() {
     document.getElementById('activateOverlay').style.display = 'none';
 }
 </script>
+
+<?php include('vista/admin/footer_admin.php'); ?>
