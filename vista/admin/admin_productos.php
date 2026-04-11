@@ -153,20 +153,20 @@ if (isset($_POST['guardar'])) {
                         <div class="color-selector-wrap" id="edit_color_wrap">
                             <?php
                             $coloresDisponibles2 = [
-                                'Negro'   => '#1a1a1a',
-                                'Blanco'  => '#f5f5f5',
-                                'Gris'    => '#9e9e9e',
-                                'Plata'   => '#C0C0C0',
-                                'Dorado'  => '#FFD700',
-                                'Rojo'    => '#e53935',
-                                'Azul'    => '#1e88e5',
-                                'Verde'   => '#43a047',
-                                'Amarillo'=> '#FDD835',
-                                'Naranja' => '#fb8c00',
-                                'Morado'  => '#8e24aa',
-                                'Rosa'    => '#e91e8c',
-                                'Café'    => '#6d4c41',
-                                'Cobre'   => '#b87333',
+                                'Negro'              => '#1a1a1a',
+                                'Blanco'             => '#f5f5f5',
+                                'Gris'               => '#9e9e9e',
+                                'Plata'              => '#C0C0C0',
+                                'Acero Inoxidable'   => '#8D9093',
+                                'Grafito'            => '#3d3d3d',
+                                'Titanio'            => '#7a7a85',
+                                'Champagne'          => '#C9A96E',
+                                'Cobre'              => '#b87333',
+                                'Dorado'             => '#CFB53B',
+                                'Crema'              => '#F5F0E1',
+                                'Rojo'               => '#c62828',
+                                'Azul Marino'        => '#1a3a5c',
+                                'Verde Pizarra'      => '#4a6741',
                             ];
                             foreach ($coloresDisponibles2 as $nombre => $hex): ?>
                             <label class="color-chip-label" title="<?= $nombre ?>">
@@ -373,20 +373,20 @@ if (isset($_POST['guardar'])) {
                                 <div class="color-selector-wrap">
                                     <?php
                                     $coloresDisponibles = [
-                                        'Negro'   => '#1a1a1a',
-                                        'Blanco'  => '#f5f5f5',
-                                        'Gris'    => '#9e9e9e',
-                                        'Plata'   => '#C0C0C0',
-                                        'Dorado'  => '#FFD700',
-                                        'Rojo'    => '#e53935',
-                                        'Azul'    => '#1e88e5',
-                                        'Verde'   => '#43a047',
-                                        'Amarillo'=> '#FDD835',
-                                        'Naranja' => '#fb8c00',
-                                        'Morado'  => '#8e24aa',
-                                        'Rosa'    => '#e91e8c',
-                                        'Café'    => '#6d4c41',
-                                        'Cobre'   => '#b87333',
+                                        'Negro'              => '#1a1a1a',
+                                        'Blanco'             => '#f5f5f5',
+                                        'Gris'               => '#9e9e9e',
+                                        'Plata'              => '#C0C0C0',
+                                        'Acero Inoxidable'   => '#8D9093',
+                                        'Grafito'            => '#3d3d3d',
+                                        'Titanio'            => '#7a7a85',
+                                        'Champagne'          => '#C9A96E',
+                                        'Cobre'              => '#b87333',
+                                        'Dorado'             => '#CFB53B',
+                                        'Crema'              => '#F5F0E1',
+                                        'Rojo'               => '#c62828',
+                                        'Azul Marino'        => '#1a3a5c',
+                                        'Verde Pizarra'      => '#4a6741',
                                     ];
                                     foreach ($coloresDisponibles as $nombre => $hex): ?>
                                     <label class="color-chip-label" title="<?= $nombre ?>">
@@ -488,9 +488,10 @@ if (isset($_POST['guardar'])) {
                                     </td>
                                     <td>
                                         <?php if(!$p['estatus']): ?>
-                                            <button type="button" class="btn-tbl-activate" title="Activar"
-                                                    onclick="abrirModalActivar('<?= $p['no_producto'] ?>', '<?= addslashes(htmlspecialchars($p['nombre'], ENT_QUOTES, 'UTF-8')) ?>')">
-                                                <i class="fas fa-toggle-on"></i>
+                                            <button type="button" class="btn-tbl-delete" title="Dar de alta"
+                                                    onclick="abrirModalActivar('<?= $p['no_producto'] ?>', '<?= addslashes(htmlspecialchars($p['nombre'], ENT_QUOTES, 'UTF-8')) ?>')"
+                                                    style="background-color:#16a34a; color:#fff;">
+                                                <i class="fas fa-check-circle"></i>
                                             </button>
                                         <?php else: ?>
                                             <span class="text-muted" style="font-size:.75rem;">—</span>

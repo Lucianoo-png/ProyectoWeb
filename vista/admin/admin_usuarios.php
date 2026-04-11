@@ -295,6 +295,7 @@
                                     <th>Conexión</th>
                                     <th>Estatus</th>
                                     <th>Editar</th>
+                                    <th>Dar de Alta</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
@@ -330,24 +331,25 @@
                                         <?php }} ?>
                                     </td>
                                     <td>
-                                        <?php if($_SESSION["RFC"]!=$p['rfc']){ 
-                                              if($p['enlinea']==false){
-                                                if($p['estatus']){
-                                            ?>
-                                        <button type="button" class="btn-tbl-delete" title="Eliminar"
-                                                onclick="abrirModalEliminar('<?= $p['rfc'] ?>', '<?= htmlspecialchars($p['nombre'].' '.$p['apellidospama'], ENT_QUOTES, 'UTF-8') ?>')">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                        <?php }
-                                        else{
-                                            //AQUÍ DEBES PONER EL ÍCONO PARA ACTIVAR NO TE VAYAS A CONFUNDIR
-                                            ?>
-                                        <button type="button" class="btn-tbl-delete" title="Eliminar"
-                                                onclick="abrirModalActivar('<?= $p['rfc'] ?>', '<?= htmlspecialchars($p['nombre'].' '.$p['apellidospama'], ENT_QUOTES, 'UTF-8') ?>')">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                        <?php
-                                        }}} ?>
+                                        <?php if($_SESSION["RFC"]!=$p['rfc'] && $p['enlinea']==false && !$p['estatus']): ?>
+                                            <button type="button" class="btn-tbl-delete" title="Dar de alta"
+                                                    onclick="abrirModalActivar('<?= $p['rfc'] ?>', '<?= htmlspecialchars($p['nombre'].' '.$p['apellidospama'], ENT_QUOTES, 'UTF-8') ?>')"
+                                                    style="background-color:#16a34a; color:#fff;">
+                                                <i class="fas fa-check-circle"></i>
+                                            </button>
+                                        <?php else: ?>
+                                            <span class="text-muted" style="font-size:.75rem;">—</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php if($_SESSION["RFC"]!=$p['rfc'] && $p['enlinea']==false && $p['estatus']): ?>
+                                            <button type="button" class="btn-tbl-delete" title="Dar de baja"
+                                                    onclick="abrirModalEliminar('<?= $p['rfc'] ?>', '<?= htmlspecialchars($p['nombre'].' '.$p['apellidospama'], ENT_QUOTES, 'UTF-8') ?>')">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        <?php else: ?>
+                                            <span class="text-muted" style="font-size:.75rem;">—</span>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <?php $i++; endforeach; ?>

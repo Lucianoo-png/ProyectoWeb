@@ -2759,3 +2759,75 @@ div.checkout-bg {
     color: #014361;
     border-left-color: #03a9f4;
 }
+
+/* ══════════════════════════════════════════════════════════
+   COLOR CHIP SELECTOR — Selector de colores tipo círculo
+   Usado en admin_productos.php (registro y edición)
+   ══════════════════════════════════════════════════════════ */
+.color-selector-wrap {
+    display    : flex;
+    flex-wrap  : wrap;
+    gap        : .75rem 1rem;
+    padding    : .5rem 0;
+}
+
+.color-chip-label {
+    display        : flex;
+    flex-direction : column;
+    align-items    : center;
+    gap            : .3rem;
+    cursor         : pointer;
+    user-select    : none;
+}
+
+/* Oculta el checkbox nativo */
+.color-chip-input {
+    display : none;
+}
+
+/* Círculo de color */
+.color-chip {
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    width           : 42px;
+    height          : 42px;
+    border-radius   : 50%;
+    border          : 2.5px solid transparent;
+    box-shadow      : 0 1px 4px rgba(0,0,0,.25);
+    transition      : transform .15s, border-color .15s, box-shadow .15s;
+}
+
+.color-chip:hover {
+    transform   : scale(1.12);
+    box-shadow  : 0 3px 8px rgba(0,0,0,.3);
+}
+
+/* Ícono check — oculto por defecto */
+.color-chip-check {
+    color      : #fff;
+    font-size  : .8rem;
+    opacity    : 0;
+    transition : opacity .15s;
+    text-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
+
+/* Cuando el checkbox está marcado */
+.color-chip-input:checked + .color-chip {
+    border-color : var(--btn-color, #0d7a8a);
+    transform    : scale(1.12);
+    box-shadow   : 0 0 0 3px rgba(13,122,138,.25);
+}
+
+.color-chip-input:checked + .color-chip .color-chip-check {
+    opacity : 1;
+}
+
+/* Etiqueta de texto debajo del círculo */
+.color-chip-label small {
+    font-size   : .68rem;
+    color       : #555;
+    text-align  : center;
+    max-width   : 52px;
+    line-height : 1.2;
+}
