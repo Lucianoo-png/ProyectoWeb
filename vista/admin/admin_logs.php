@@ -22,26 +22,19 @@
         </div>
 
         <!-- Resumen rápido -->
-        <div class="row row-cols-2 row-cols-md-4 g-3 mb-4">
-            <div class="col">
-                <div class="stat-card" style="cursor:default">
-                    <div class="stat-icon"><i class="fas fa-list-alt"></i></div>
-                    <div class="stat-num"><?php echo $total_logs; ?></div>
-                    <div class="stat-label">Total evento(s)</div>
+        <div class="report-form-card mb-3" style="background:transparent; box-shadow:none; border:none; padding-top:0; padding-bottom:0;">
+            <div class="d-flex gap-2">
+                <div class="stat-card-mini" style="cursor:default">
+                    <div class="mini-icon"><i class="fas fa-list-alt" style="color:var(--btn-color)"></i></div>
+                    <div><div class="mini-num"><?php echo $total_logs; ?></div><div class="mini-label">Total evento(s)</div></div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="stat-card" style="cursor:default">
-                    <div class="stat-icon" style="color:#16a34a"><i class="fas fa-check-circle"></i></div>
-                    <div class="stat-num"><?php echo $total_logs_exito; ?></div>
-                    <div class="stat-label">Exitoso(s)</div>
+                <div class="stat-card-mini" style="cursor:default">
+                    <div class="mini-icon"><i class="fas fa-check-circle" style="color:#16a34a"></i></div>
+                    <div><div class="mini-num"><?php echo $total_logs_exito; ?></div><div class="mini-label">Exitoso(s)</div></div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="stat-card" style="cursor:default">
-                    <div class="stat-icon" style="color:#dc2626"><i class="fas fa-times-circle"></i></div>
-                    <div class="stat-num"><?php echo $total_logs_error; ?></div>
-                    <div class="stat-label">Error(es)</div>
+                <div class="stat-card-mini" style="cursor:default">
+                    <div class="mini-icon"><i class="fas fa-times-circle" style="color:#dc2626"></i></div>
+                    <div><div class="mini-num"><?php echo $total_logs_error; ?></div><div class="mini-label">Error(es)</div></div>
                 </div>
             </div>
         </div>

@@ -2831,3 +2831,44 @@ div.checkout-bg {
     max-width   : 52px;
     line-height : 1.2;
 }
+/* ── Tarjetas mini de resumen (admin_logs) ───────────────────── */
+.stat-card-mini {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .65rem;
+    background: #f8faff;
+    border-radius: .6rem;
+    padding: .65rem 1.1rem;
+    box-shadow: 0 1px 4px rgba(0,35,102,.06);
+    border: 1px solid #e8ecf4;
+    flex: 1;
+    justify-content: center;
+}
+.mini-icon {
+    font-size: 1.15rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.mini-num {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1a2340;
+    line-height: 1.1;
+}
+.mini-label {
+    font-size: .68rem;
+    color: #888;
+    white-space: nowrap;
+}
+@media (max-width: 575px) {
+    .stat-card-mini { padding: .5rem .7rem; flex-direction: column; text-align: center; }
+    .mini-icon      { width: 30px; height: 30px; font-size: 1rem; }
+    .mini-num       { font-size: 1rem; }
+}
