@@ -18,7 +18,7 @@ class Conexion
             //"host" => "db",
             "db" => "ecommerce",
             "user" => "postgres",
-            "password" => "12345", //Recuerda que yo tengo que cambiar la constraseña hasta el 8
+            "password" => "12345678", //Recuerda que yo tengo que cambiar la constraseña hasta el 8
             "port" => "5432",
         ];
         $this->driver = $config["driver"] ?? "mysql";
@@ -26,7 +26,7 @@ class Conexion
         $this->db = $config["db"] ?? "testdb";
         $this->user = $config["user"] ?? "root";
         $this->password = $config["password"] ?? "";
-
+//bueeeeeeeno
         if (!isset($config["port"])) {
             $this->port = $this->driver === "pgsql" ? "5432" : "3306";
         } else {
