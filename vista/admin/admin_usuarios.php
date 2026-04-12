@@ -328,7 +328,9 @@
                                                 onclick="abrirModalEdicion('<?= $p['rfc'] ?>', '<?= addslashes($p['nombre']) ?>', '<?= addslashes($p['apellidospama']) ?>', '<?= $p['correo'] ?>', '<?= $p['telefono'] ?? '' ?>', '<?= $p['tipousuario'] ?>', '<?= addslashes($p['empresa'] ?? '') ?>')">
                                             <i class="fas fa-pencil-alt"></i>
                                         </button>
-                                        <?php }} ?>
+                                        <?php }else{?>
+                                            <span class="text-muted" style="font-size:.75rem;">—</span> <?php }}else{?>
+                                            <span class="text-muted" style="font-size:.75rem;">—</span><?php } ?>
                                     </td>
                                     <td>
                                         <?php if($_SESSION["RFC"]!=$p['rfc'] && $p['enlinea']==false && !$p['estatus']): ?>
@@ -397,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let filteredRows = [...allRows];
     function renderTable() {
         const totalRows = filteredRows.length;
-        const totalPages = rowsPerPage === 'all' ? 1 : Math.ceil(totalRows / rowsPerPage);
+        const totalPages = rowsPerPage === 'all' ? 1 : Math.max(1, Math.ceil(totalRows / rowsPerPage));
         if (currentPage < 1) currentPage = 1;
         if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
         infoRowsPerPage.textContent = rowsPerPage === 'all' ? 'Todos' : rowsPerPage;

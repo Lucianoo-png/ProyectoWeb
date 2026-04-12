@@ -73,39 +73,23 @@ if (isset($_POST['guardar'])) {
                     <div class="col-md-4">
                         <label for="edit_categoria" class="form-label">Categoría <span class="text-danger">*</span></label>
                         <select id="edit_categoria" name="categoria" class="form-select" >
-                            <option value="" disabled selected>Selecciona una</option>
-
-                                    <option value="lavadoras">Lavadoras</option>
-
-                                    <option value="secadoras">Secadoras</option>
-
-                                    <option value="refrigeradores">Refrigeradores</option>
-
-                                    <option value="congeladores">Congeladores</option>
-
-                                    <option value="televisores">Televisores</option>
-
-                                    <option value="audio">Audio</option>
-
-                                    <option value="proyectores">Proyectores</option>
-
-                                    <option value="videojuegos">Videojuegos</option>
-
-                                    <option value="estufas">Estufas</option>
-
-                                    <option value="hornos">Hornos</option>
-
-                                    <option value="microondas">Microondas</option>
-
-                                    <option value="lavavajillas">Lavavajillas</option>
-
-                                    <option value="lavasecadoras">Lavasecadoras</option>
-
-                                    <option value="frigobar">Cava de vinos</option>
-
-                                    <option value="cuidado-hogar">Cuidado del hogar</option>
-
-                                    <option value="cuidado-personal">Cuidado personal</option>
+                            <option value="" disabled>Selecciona una</option>
+                            <option value="lavadoras">Lavadoras</option>
+                            <option value="secadoras">Secadoras</option>
+                            <option value="refrigeradores">Refrigeradores</option>
+                            <option value="congeladores">Congeladores</option>
+                            <option value="televisores">Televisores</option>
+                            <option value="audio">Audio</option>
+                            <option value="proyectores">Proyectores</option>
+                            <option value="videojuegos">Videojuegos</option>
+                            <option value="estufas">Estufas</option>
+                            <option value="hornos">Hornos</option>
+                            <option value="microondas">Microondas</option>
+                            <option value="lavavajillas">Lavavajillas</option>
+                            <option value="lavasecadoras">Lavasecadoras</option>
+                            <option value="frigobar">Cava de vinos</option>
+                            <option value="cuidado-hogar">Cuidado del hogar</option>
+                            <option value="cuidado-personal">Cuidado personal</option>
                         </select>
                     </div>
                     <div class="col-12">
@@ -149,10 +133,10 @@ if (isset($_POST['guardar'])) {
                 <div class="form-section-label"><i class="fas fa-palette"></i> Colores Disponibles</div>
                 <div class="row g-3 mb-4">
                     <div class="col-12">
-                        <label class="form-label">Selecciona uno o varios colores</label>
-                        <div class="color-selector-wrap" id="edit_color_wrap">
+                        <label class="form-label">Selecciona uno o varios colores <span class="text-danger">*</span></label>
+                        <div class="color-selector-wrap">
                             <?php
-                            $coloresDisponibles2 = [
+                            $coloresDisponiblesEdit = [
                                 'Negro'              => '#1a1a1a',
                                 'Blanco'             => '#f5f5f5',
                                 'Gris'               => '#9e9e9e',
@@ -168,7 +152,7 @@ if (isset($_POST['guardar'])) {
                                 'Azul Marino'        => '#1a3a5c',
                                 'Verde Pizarra'      => '#4a6741',
                             ];
-                            foreach ($coloresDisponibles2 as $nombre => $hex): ?>
+                            foreach ($coloresDisponiblesEdit as $nombre => $hex): ?>
                             <label class="color-chip-label" title="<?= $nombre ?>">
                                 <input type="checkbox" name="colores[]" value="<?= $nombre ?>" class="color-chip-input edit-color-check">
                                 <span class="color-chip" style="background:<?= $hex ?>;" data-nombre="<?= $nombre ?>">
@@ -185,11 +169,18 @@ if (isset($_POST['guardar'])) {
                 <div class="row g-3 mb-4">
                     <div class="col-md-6">
                         <label class="form-label">Nueva Imagen del Producto</label>
-                        <input type="file" name="imagen" class="form-control" accept="image/*">
+                        <input type="file" id="edit_imagen_input" name="imagen" class="form-control" accept="image/*" onchange="previewEditImage(event)">
+                        <div class="mt-2 text-center">
+                            <small class="text-muted d-block mb-2" id="edit_imagen_actual_nombre"></small>
+                            <img id="edit_img_preview" src="" alt="Vista previa" style="max-height: 150px; display: none; border-radius: 8px; border: 1px solid #ddd; padding: 4px;">
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Nuevo Manual (PDF)</label>
                         <input type="file" name="manual" class="form-control" accept=".pdf">
+                        <div class="mt-2">
+                            <small class="text-muted d-block" id="edit_manual_actual_nombre"></small>
+                        </div>
                     </div>
                 </div>
 
@@ -294,37 +285,21 @@ if (isset($_POST['guardar'])) {
                                 <label for="categoria" class="form-label">Categoría <span class="text-danger">*</span></label>
                                 <select id="categoria" name="categoria" class="form-select" >
                                     <option value="" disabled selected>Selecciona una</option>
-
                                     <option value="lavadoras">Lavadoras</option>
-
                                     <option value="secadoras">Secadoras</option>
-
                                     <option value="refrigeradores">Refrigeradores</option>
-
                                     <option value="congeladores">Congeladores</option>
-
                                     <option value="televisores">Televisores</option>
-
                                     <option value="audio">Audio</option>
-
                                     <option value="proyectores">Proyectores</option>
-
                                     <option value="videojuegos">Videojuegos</option>
-
                                     <option value="estufas">Estufas</option>
-
                                     <option value="hornos">Hornos</option>
-
                                     <option value="microondas">Microondas</option>
-
                                     <option value="lavavajillas">Lavavajillas</option>
-
                                     <option value="lavasecadoras">Lavasecadoras</option>
-
                                     <option value="frigobar">Cava de vinos</option>
-
                                     <option value="cuidado-hogar">Cuidado del hogar</option>
-
                                     <option value="cuidado-personal">Cuidado personal</option>
                                 </select>
                             </div>
@@ -405,7 +380,10 @@ if (isset($_POST['guardar'])) {
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Imagen del Producto <span class="text-danger">*</span></label>
-                                <input type="file" name="imagen" class="form-control" accept="image/*" >
+                                <input type="file" id="reg_imagen" name="imagen" class="form-control" accept="image/*" onchange="previewRegImage(event)">
+                                <div class="mt-2 text-center">
+                                    <img id="reg_img_preview" src="" alt="Vista previa" style="max-height: 150px; display: none; border-radius: 8px; border: 1px solid #ddd; padding: 4px;">
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Manual (PDF)</label>
@@ -463,7 +441,11 @@ if (isset($_POST['guardar'])) {
                             <tbody>
                                 <?php
                                 $prod = new Producto();
-                                $lista = $prod->buscar('"Veracruz".producto', ["order" => "no_producto ASC"]);
+                                // Subconsulta para traer los colores concatenados y poder inyectarlos en JS
+                                $lista = $prod->buscar('"Veracruz".producto p', [
+                                    "select" => "p.*, (SELECT string_agg(color, ',') FROM \"Veracruz\".productocolor WHERE no_producto = p.no_producto) as colores",
+                                    "order" => "p.no_producto ASC"
+                                ]);
                                 $i = 0;
                                 foreach ($lista as $p): 
                                 ?>
@@ -481,9 +463,11 @@ if (isset($_POST['guardar'])) {
                                     <td>
                                         <?php if($p['estatus']): ?>
                                         <button class="btn-tbl-edit" title="Editar"
-                                                onclick="abrirModalEdicion('<?= $p['no_producto'] ?>', '<?= addslashes(htmlspecialchars($p['nombre'], ENT_QUOTES, 'UTF-8')) ?>', '<?= addslashes(htmlspecialchars($p['descripción'] ?? $p['descripcion'] ?? '', ENT_QUOTES, 'UTF-8')) ?>', '<?= $p['precio_compra'] ?>', '<?= $p['precio_venta'] ?>', '<?= $p['stock'] ?>', '<?= $p['stockminimo'] ?>', '<?= $p['alto'] ?>', '<?= $p['ancho'] ?>', '<?= $p['categoria'] ?>', '<?= addslashes($p['colores'] ?? '') ?>')">
+                                                onclick="abrirModalEdicion('<?= $p['no_producto'] ?>', '<?= addslashes(htmlspecialchars($p['nombre'], ENT_QUOTES, 'UTF-8')) ?>', '<?= addslashes(htmlspecialchars($p['descripción'] ?? $p['descripcion'] ?? '', ENT_QUOTES, 'UTF-8')) ?>', '<?= $p['precio_compra'] ?>', '<?= $p['precio_venta'] ?>', '<?= $p['stock'] ?>', '<?= $p['stockminimo'] ?>', '<?= $p['alto'] ?>', '<?= $p['ancho'] ?>', '<?= $p['categoria'] ?>',  '<?= addslashes($p['colores'] ?? '') ?>', '<?= $p['imagen'] ?? '' ?>', '<?= $p['manual'] ?? '' ?>')">
                                             <i class="fas fa-pencil-alt"></i>
                                         </button>
+                                         <?php else: ?>
+                                            <span class="text-muted" style="font-size:.75rem;">—</span>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -519,6 +503,7 @@ if (isset($_POST['guardar'])) {
     </main>
 </div>
 
+<?php include('vista/admin/footer_admin.php'); ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -578,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderTable() {
         const totalRows = filteredRows.length;
-        const totalPages = rowsPerPage === 'all' ? 1 : Math.ceil(totalRows / rowsPerPage);
+        const totalPages = rowsPerPage === 'all' ? 1 : Math.max(1, Math.ceil(totalRows / rowsPerPage));
         
         if (currentPage < 1) currentPage = 1;
         if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
@@ -664,7 +649,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderTable();
 });
 
-function abrirModalEdicion(id, nombre, descripcion, p_compra, p_venta, stock, stock_minimo, alto, ancho, categoria, coloresStr) {
+function abrirModalEdicion(id, nombre, descripcion, p_compra, p_venta, stock, stock_minimo, alto, ancho, categoria, coloresStr, imagen, manual) {
     document.getElementById('edit_no_producto').value = id;
     document.getElementById('edit_nombre').value = nombre;
     document.getElementById('edit_descripcion').value = descripcion;
@@ -676,15 +661,34 @@ function abrirModalEdicion(id, nombre, descripcion, p_compra, p_venta, stock, st
     document.getElementById('edit_ancho').value = ancho;
     document.getElementById('edit_categoria').value = categoria;
 
-    // Restablecer colores
     const checks = document.querySelectorAll('.edit-color-check');
     checks.forEach(cb => cb.checked = false);
-
     if (coloresStr) {
         const activos = coloresStr.split(',').map(c => c.trim());
         checks.forEach(cb => {
             if (activos.includes(cb.value)) cb.checked = true;
         });
+    }
+
+    const imgPreview = document.getElementById('edit_img_preview');
+    const imgName = document.getElementById('edit_imagen_actual_nombre');
+    const manualName = document.getElementById('edit_manual_actual_nombre');
+    document.getElementById('edit_imagen_input').value = '';
+
+    if (imagen) {
+        imgPreview.src = '/proyectoweb/public/uploads/img/' + imagen;
+        imgPreview.style.display = 'inline-block';
+        imgName.innerHTML = `<i class="fas fa-image text-primary"></i> Actual: <strong>${imagen}</strong>`;
+    } else {
+        imgPreview.style.display = 'none';
+        imgPreview.src = '';
+        imgName.innerHTML = 'Sin imagen registrada';
+    }
+
+    if (manual) {
+        manualName.innerHTML = `<i class="fas fa-file-pdf text-danger"></i> Actual: <a href="/proyectoweb/public/uploads/pdf/${manual}" target="_blank"><strong>${manual}</strong></a>`;
+    } else {
+        manualName.innerHTML = 'Sin manual registrado';
     }
 
     document.getElementById('editModal').style.display = 'flex';
@@ -715,6 +719,25 @@ function abrirModalActivar(id, nombre) {
 function cerrarModalActivar() {
     document.getElementById('activateOverlay').style.display = 'none';
 }
-</script>
 
-<?php include('vista/admin/footer_admin.php'); ?>
+function previewRegImage(event) {
+    const preview = document.getElementById('reg_img_preview');
+    const file = event.target.files[0];
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+    } else {
+        preview.style.display = 'none';
+        preview.src = '';
+    }
+}
+
+function previewEditImage(event) {
+    const preview = document.getElementById('edit_img_preview');
+    const file = event.target.files[0];
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+    }
+}
+</script>

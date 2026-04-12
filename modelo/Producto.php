@@ -20,24 +20,9 @@ class Producto {
         $this->conexion = new Conexion();
     }
 
-    public function setNoProducto($id){ $this->no_producto = $id; }
-    public function getNoProducto(){ return $this->no_producto; }
-    public function setNombre($n){ $this->nombre = $n; }
-    public function setDescripcion($d){ $this->descripcion = $d; }
-    public function setPrecioVenta($p){ $this->precio_venta = $p; }
-    public function setAlto($a){ $this->alto = $a; }
-    public function setAncho($an){ $this->ancho = $an; }
-    public function setImagen($i){ $this->imagen = $i; }
-    public function setManual($m){ $this->manual = $m; }
-    public function setCategoria($c){ $this->categoria = $c; }
-    public function setStock($s){ $this->stock = $s; }
-    public function setStockMinimo($sm){ $this->stockminimo = $sm; }
-    public function setEstado($e){ $this->estado = $e; }
-    public function setPrecioCompra($pc){ $this->precio_compra = $pc; }
-    public function setEstatus($est){ $this->estatus = $est; }
+    
 
     public function buscar($tabla, $opciones = []) {
-        
         $select = $opciones['select'] ?? '*';
         $join = $opciones['join'] ?? '';
         $where = $opciones['where'] ?? '';
@@ -50,27 +35,23 @@ class Producto {
         if ($join != '') {
             $query .= ' '. $join;
         }
-
         if($where != ''){
             $query .= ' WHERE ' . $where;
         }
-
         if($group != ''){
             $query .= ' GROUP BY ' . $group;
         }
-
         if ($orderBy != '') {
             $query .= ' ORDER BY ' . $orderBy;
         }
+        
         $resultado = $this->conexion->ejecutarConsulta($query, $params);
-
         return $resultado->fetchAll(PDO::FETCH_ASSOC);
-    
     }
 
     public function insertar() {
-        $query = 'INSERT INTO "Veracruz".producto (nombre, descripción, precio_venta, alto, ancho, imagen, manual, categoria, stock, stockminimo, estado, precio_compra, estatus) 
-                  VALUES (:nom, :des, :pv, :alt, :anc, :img, :man, :cat, :stk, :stm, :estd, :pc, :ests)';
+        $query = 'INSERT INTO "Veracruz".producto (nombre, "descripción", precio_venta, alto, ancho, imagen, manual, categoria, stock, stockminimo, estado, precio_compra, estatus) 
+                  VALUES (:nom, :des, :pv, :alt, :anc, :img, :man, :cat, :stk, :stm, :estd, :pc, :ests) RETURNING no_producto';
         $params = [
             ":nom" => $this->nombre, ":des" => $this->descripcion, ":pv" => $this->precio_venta,
             ":alt" => $this->alto, ":anc" => $this->ancho, ":img" => $this->imagen,
@@ -78,18 +59,24 @@ class Producto {
             ":stm" => $this->stockminimo, ":estd" => $this->estado, ":pc" => $this->precio_compra,
             ":ests" => 'true'
         ];
-        return $this->conexion->ejecutarConsulta($query, $params)->rowCount() > 0;
+        
+        $stmt = $this->conexion->ejecutarConsulta($query, $params);
+        if($stmt && $stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row['no_producto'];
+        }
+        return false;
     }
 
     public function editar() {
         $query = 'UPDATE "Veracruz".producto SET nombre=:nom, "descripción"=:des, precio_venta=:pv, alto=:alt, ancho=:anc, 
-                  imagen=COALESCE(:img, imagen), manual=COALESCE(:man, manual), categoria=:cat, stock=:stk, stockminimo=:stm, 
-                  estado=:estd, precio_compra=:pc WHERE no_producto=:id';
+                  imagen=COALESCE(:img, imagen), manual=COALESCE(:man, manual), categoria=:cat, stock=:stk, stockminimo=:stm,
+                  precio_compra=:pc WHERE no_producto=:id';
         $params = [
             ":nom" => $this->nombre, ":des" => $this->descripcion, ":pv" => $this->precio_venta,
             ":alt" => $this->alto, ":anc" => $this->ancho, ":img" => $this->imagen,
             ":man" => $this->manual, ":cat" => $this->categoria, ":stk" => $this->stock,
-            ":stm" => $this->stockminimo, ":estd" => $this->estado, ":pc" => $this->precio_compra,
+            ":stm" => $this->stockminimo, ":pc" => $this->precio_compra,
             ":id" => $this->no_producto
         ];
         return $this->conexion->ejecutarConsulta($query, $params)->rowCount() > 0;
@@ -99,4 +86,47 @@ class Producto {
         $query = 'UPDATE "Veracruz".producto SET estatus=:est WHERE no_producto=:id';
         return $this->conexion->ejecutarConsulta($query, [":est" => $borrar?'false':'true', ":id" => $this->no_producto])->rowCount() > 0;
     }
+
+    public function insertarColores($id_producto, $colores) {
+        foreach($colores as $color) {
+            $query = 'INSERT INTO "Veracruz".productocolor (no_producto, color) VALUES (:id, :color)';
+            $this->conexion->ejecutarConsulta($query, [":id" => $id_producto, ":color" => $color]);
+        }
+        return true;
+    }
+
+    public function eliminarColores($id_producto) {
+        $query = 'DELETE FROM "Veracruz".productocolor WHERE no_producto = :id';
+        $this->conexion->ejecutarConsulta($query, [":id" => $id_producto]);
+        return true;
+    } 
+    public function getNo_producto(){return $this->no_producto;}
+    public function setNo_producto($no_producto){$this->no_producto = $no_producto;}
+    public function getNombre(){return $this->nombre;} 
+    public function setNombre($nombre){$this->nombre = $nombre;}
+    public function getDescripcion(){return $this->descripcion;}
+    public function setDescripcion($descripcion){$this->descripcion = $descripcion;}
+    public function getPrecio_venta(){return $this->precio_venta;}
+    public function setPrecio_venta($precio_venta){$this->precio_venta = $precio_venta;}
+    public function getAlto(){return $this->alto;}
+    public function setAlto($alto){$this->alto = $alto;}
+    public function getAncho(){return $this->ancho;}
+    public function setAncho($ancho){$this->ancho = $ancho;}
+    public function getImagen(){return $this->imagen;}
+    public function setImagen($imagen){$this->imagen = $imagen;}
+    public function getManual(){return $this->manual;}
+    public function setManual($manual){$this->manual = $manual;}
+    public function getCategoria(){return $this->categoria;}
+    public function setCategoria($categoria){$this->categoria = $categoria;}
+    public function getStock(){return $this->stock;} 
+    public function setStock($stock){$this->stock = $stock;}
+    public function getStockminimo(){return $this->stockminimo;}
+    public function setStockminimo($stockminimo){$this->stockminimo = $stockminimo;}
+    public function getEstado(){return $this->estado;}
+    public function setEstado($estado){$this->estado = $estado;}
+    public function getPrecio_compra(){return $this->precio_compra;}
+    public function setPrecio_compra($precio_compra){$this->precio_compra = $precio_compra;}
+    public function getEstatus(){return $this->estatus;}
+    public function setEstatus($estatus){$this->estatus = $estatus;}
 }
+?>

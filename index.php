@@ -10,12 +10,13 @@ require('modelo/Conexion.php');
 
 require('modelo/Empleado.php');
 require('modelo/Producto.php');
-
+require('modelo/Bitacora.php');
 
 
 
 require('control/EmpleadoControlador.php');
 require('control/ProductoControlador.php');
+require('control/BitacoraControlador.php');
 
 
 

@@ -26,240 +26,255 @@
             <div class="col">
                 <div class="stat-card" style="cursor:default">
                     <div class="stat-icon"><i class="fas fa-list-alt"></i></div>
-                    <div class="stat-num">1,284</div>
-                    <div class="stat-label">Total eventos</div>
+                    <div class="stat-num"><?php echo $total_logs; ?></div>
+                    <div class="stat-label">Total evento(s)</div>
                 </div>
             </div>
             <div class="col">
                 <div class="stat-card" style="cursor:default">
                     <div class="stat-icon" style="color:#16a34a"><i class="fas fa-check-circle"></i></div>
-                    <div class="stat-num">1,201</div>
-                    <div class="stat-label">Exitosos</div>
+                    <div class="stat-num"><?php echo $total_logs_exito; ?></div>
+                    <div class="stat-label">Exitoso(s)</div>
                 </div>
             </div>
             <div class="col">
                 <div class="stat-card" style="cursor:default">
                     <div class="stat-icon" style="color:#dc2626"><i class="fas fa-times-circle"></i></div>
-                    <div class="stat-num">37</div>
-                    <div class="stat-label">Errores</div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="stat-card" style="cursor:default">
-                    <div class="stat-icon" style="color:#d97706"><i class="fas fa-exclamation-triangle"></i></div>
-                    <div class="stat-num">46</div>
-                    <div class="stat-label">Advertencias</div>
+                    <div class="stat-num"><?php echo $total_logs_error; ?></div>
+                    <div class="stat-label">Error(es)</div>
                 </div>
             </div>
         </div>
 
-        <!-- Filtros -->
         <div class="report-form-card mb-4">
             <h5 class="text-center">
                 <i class="fas fa-filter me-2" style="color:var(--btn-color)"></i>Filtrar Registros
             </h5>
-            <form method="GET" action="/proyectoweb/">
-                <input type="hidden" name="url" value="admin/logs">
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <label class="form-label">Desde:</label>
-                        <input type="date" name="desde" class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Hasta:</label>
-                        <input type="date" name="hasta" class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Usuario:</label>
-                        <select name="usuario" class="form-select">
-                            <option value="">Todos</option>
-                            <option>ADMIN01</option>
-                            <option>Juan Pérez</option>
-                            <option>María García</option>
-                            <option>Carlos Mendoza</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Módulo:</label>
-                        <select name="modulo" class="form-select">
-                            <option value="">Todos</option>
-                            <option>Productos</option>
-                            <option>Ventas</option>
-                            <option>Compras</option>
-                            <option>Pedidos</option>
-                            <option>Personal</option>
-                            <option>Proveedores</option>
-                            <option>Sesión</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Tipo de evento:</label>
-                        <select name="tipo" class="form-select">
-                            <option value="">Todos</option>
-                            <option>Creación</option>
-                            <option>Edición</option>
-                            <option>Eliminación</option>
-                            <option>Consulta</option>
-                            <option>Inicio sesión</option>
-                            <option>Cierre sesión</option>
-                            <option>Error</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Estado:</label>
-                        <select name="estado" class="form-select">
-                            <option value="">Todos</option>
-                            <option>Exitoso</option>
-                            <option>Error</option>
-                            <option>Advertencia</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Buscar palabra clave:</label>
-                        <input type="text" name="q" class="form-control" placeholder="Ej: producto eliminado, login fallido...">
-                    </div>
-                    <div class="col-12 d-flex justify-content-end gap-2 mt-2">
-                        <a href="/proyectoweb/?url=admin/logs" class="btn btn-outline-secondary">
-                            <i class="fas fa-undo me-1"></i> Limpiar
-                        </a>
-                        <button type="submit" class="btn-generar-pdf">
-                            <i class="fas fa-search me-1"></i> Filtrar
-                        </button>
-                    </div>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Desde:</label>
+                    <input type="date" id="filtroDesde" class="form-control">
                 </div>
-            </form>
+                <div class="col-md-3">
+                    <label class="form-label">Hasta:</label>
+                    <input type="date" id="filtroHasta" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Usuario:</label>
+                    <select id="filtroUsuario" class="form-select">
+                        <option value="all">Todos</option>
+                        <?php foreach($usuarios as $usu): ?>
+                            <option value="<?php echo $usu['rfc']; ?>"><?php echo $usu['nombre']." ".$usu['apellidospama']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Estado:</label>
+                    <select id="filtroEstado" class="form-select">
+                        <option value="all">Todos</option>
+                        <option value="C">Exitoso</option>
+                        <option value="E">Error</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Buscar palabra clave:</label>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Ej: producto eliminado, login fallido...">
+                </div>
+            </div>
         </div>
 
         <!-- Tabla de logs -->
         <div class="report-form-card">
-            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                <h5 class="mb-0 text-center w-100">
-                    <i class="fas fa-history me-2" style="color:var(--btn-color)"></i>Eventos Registrados
-                </h5>
-                <div class="w-100 d-flex justify-content-end">
-                    <button class="btn-generar-pdf" style="font-size:.78rem; padding:.45rem 1rem">
-                        <i class="fas fa-file-pdf me-1"></i> Exportar PDF
-                    </button>
+            <div class="admin-form-body pb-0 px-0">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <h5 class="mb-0 text-center w-100">
+                        <i class="fas fa-history me-2" style="color:var(--btn-color)"></i>Eventos Registrados
+                    </h5>
+                    <div class="w-100 d-flex justify-content-between align-items-center">
+                        <div class="table-page-info text-muted small">
+                            Número de registros por página: <span id="info-rows-per-page">5</span> | Página: <span id="info-current-page">1</span> de <span id="info-total-pages">1</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <select id="rowsPerPageSelect" class="form-select form-select-sm w-auto">
+                                <option value="5" selected>5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="all">Todos</option>
+                            </select>
+                            <button class="btn-generar-pdf" style="font-size:.78rem; padding:.45rem 1rem">
+                                <i class="fas fa-file-pdf me-1"></i> Exportar PDF
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="admin-table-wrap">
-                <table class="admin-table">
+                <table class="admin-table" id="tablaLogs">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Fecha y Hora</th>
                             <th>Usuario</th>
-                            <th>Módulo</th>
                             <th>Acción</th>
-                            <th>Detalle</th>
-                            <th>IP</th>
                             <th>Estado</th>
+                            <th style="display:none;">RawDate</th>
+                            <th style="display:none;">RawEstado</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach($logs as $log): ?>
                         <tr>
-                            <td style="color:#999; font-size:.8rem">1284</td>
-                            <td>08/04/2026 11:42:05</td>
-                            <td><strong>ADMIN01</strong></td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#eff6ff; color:#1d4ed8; font-size:.72rem">Productos</span></td>
-                            <td>Edición</td>
-                            <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">Modificó precio de Refrigerador 14 pies Frost</td>
-                            <td style="font-family:monospace; font-size:.78rem">192.168.1.10</td>
-                            <td><span class="badge-confirmada">Exitoso</span></td>
+                            <td style="color:#999; font-size:.8rem"><?php echo $log['no_bitacora']; ?></td>
+                            <td><?php echo date('d/m/Y H:i:s', strtotime($log['fechayhora'])); ?></td>
+                            <td><strong><?php echo $log['rfc']; ?></strong></td>
+                            <td><?php echo $log['descripcion']; ?></td>
+                            <td><span class="badge-<?php echo ($log['estado']=='C') ? 'confirmada' : 'pendiente'; ?>"><?php echo ($log['estado']=='C') ? 'Exitoso' : 'Error'; ?></span></td>
+                            
+                            <td style="display:none;"><?php echo date('Y-m-d', strtotime($log['fechayhora'])); ?></td>
+                            <td style="display:none;"><?php echo $log['estado']; ?></td>
                         </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">1283</td>
-                            <td>08/04/2026 10:15:33</td>
-                            <td><strong>Juan Pérez</strong></td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#f0fdf4; color:#15803d; font-size:.72rem">Ventas</span></td>
-                            <td>Creación</td>
-                            <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">Registró venta #VT-2026-4921</td>
-                            <td style="font-family:monospace; font-size:.78rem">192.168.1.14</td>
-                            <td><span class="badge-confirmada">Exitoso</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">1282</td>
-                            <td>08/04/2026 09:58:11</td>
-                            <td><strong>María García</strong></td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#fff7ed; color:#c2410c; font-size:.72rem">Sesión</span></td>
-                            <td>Inicio sesión</td>
-                            <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">Inicio de sesión correcto</td>
-                            <td style="font-family:monospace; font-size:.78rem">192.168.1.22</td>
-                            <td><span class="badge-confirmada">Exitoso</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">1281</td>
-                            <td>08/04/2026 09:31:47</td>
-                            <td><strong>Carlos Mendoza</strong></td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#fef9c3; color:#92400e; font-size:.72rem">Pedidos</span></td>
-                            <td>Edición</td>
-                            <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">Cambió estado de pedido #PD-2026-571 a "Entregado"</td>
-                            <td style="font-family:monospace; font-size:.78rem">192.168.1.18</td>
-                            <td><span class="badge-confirmada">Exitoso</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">1280</td>
-                            <td>07/04/2026 18:02:09</td>
-                            <td><strong>ADMIN01</strong></td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#eff6ff; color:#1d4ed8; font-size:.72rem">Productos</span></td>
-                            <td>Eliminación</td>
-                            <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">Eliminó producto SKU: MB-EST-002 (descontinuado)</td>
-                            <td style="font-family:monospace; font-size:.78rem">192.168.1.10</td>
-                            <td><span class="badge-confirmada">Exitoso</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">1279</td>
-                            <td>07/04/2026 17:45:00</td>
-                            <td><strong>Juan Pérez</strong></td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#fff7ed; color:#c2410c; font-size:.72rem">Sesión</span></td>
-                            <td>Inicio sesión</td>
-                            <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">Contraseña incorrecta — intento fallido</td>
-                            <td style="font-family:monospace; font-size:.78rem">192.168.1.14</td>
-                            <td><span class="badge-pendiente">Error</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">1278</td>
-                            <td>07/04/2026 14:20:38</td>
-                            <td><strong>ADMIN01</strong></td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#f5f3ff; color:#6d28d9; font-size:.72rem">Personal</span></td>
-                            <td>Creación</td>
-                            <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">Registró nuevo usuario: María Torres (Vendedor)</td>
-                            <td style="font-family:monospace; font-size:.78rem">192.168.1.10</td>
-                            <td><span class="badge-confirmada">Exitoso</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">1277</td>
-                            <td>07/04/2026 11:05:14</td>
-                            <td><strong>María García</strong></td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#fef9c3; color:#92400e; font-size:.72rem">Compras</span></td>
-                            <td>Consulta</td>
-                            <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">Generó reporte PDF de compras (marzo 2026)</td>
-                            <td style="font-family:monospace; font-size:.78rem">192.168.1.22</td>
-                            <td><span class="badge-confirmada">Exitoso</span></td>
-                        </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
 
-            <!-- Paginación -->
-            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
-                <small class="text-muted">Mostrando 1–8 de 1,284 registros</small>
-                <nav>
-                    <ul class="pagination pagination-sm mb-0">
-                        <li class="page-item disabled"><a class="page-link" href="#">‹ Anterior</a></li>
-                        <li class="page-item active"><a class="page-link" href="#" style="background:var(--btn-color); border-color:var(--btn-color)">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">…</a></li>
-                        <li class="page-item"><a class="page-link" href="#">161</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Siguiente ›</a></li>
-                    </ul>
-                </nav>
-            </div>
+            <div class="admin-pagination mt-3" id="paginationControls"></div>
         </div>
 
     </main>
 </div>
 
 <?php include('vista/admin/footer_admin.php'); ?>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const filtroDesde = document.getElementById('filtroDesde');
+    const filtroHasta = document.getElementById('filtroHasta');
+    const filtroUsuario = document.getElementById('filtroUsuario');
+    const filtroEstado = document.getElementById('filtroEstado');
+    
+    const rowsPerPageSelect = document.getElementById('rowsPerPageSelect');
+    const tbody = document.querySelector('#tablaLogs tbody');
+    const allRows = Array.from(tbody.querySelectorAll('tr'));
+    const paginationControls = document.getElementById('paginationControls');
+
+    const infoRowsPerPage = document.getElementById('info-rows-per-page');
+    const infoCurrentPage = document.getElementById('info-current-page');
+    const infoTotalPages = document.getElementById('info-total-pages');
+
+    let currentPage = 1;
+    let rowsPerPage = 5;
+    let filteredRows = [...allRows];
+
+    function renderTable() {
+        const totalRows = filteredRows.length;
+        const totalPages = rowsPerPage === 'all' ? 1 : Math.max(1, Math.ceil(totalRows / rowsPerPage));
+        
+        if (currentPage < 1) currentPage = 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+        
+        infoRowsPerPage.textContent = rowsPerPage === 'all' ? 'Todos' : rowsPerPage;
+        infoCurrentPage.textContent = currentPage;
+        infoTotalPages.textContent = totalPages;
+
+        allRows.forEach(row => row.style.display = 'none');
+        
+        if (totalRows > 0) {
+            let start = 0;
+            let end = totalRows;
+
+            if (rowsPerPage !== 'all') {
+                start = (currentPage - 1) * rowsPerPage;
+                end = start + rowsPerPage;
+            }
+
+            for (let i = start; i < end && i < totalRows; i++) {
+                filteredRows[i].style.display = ''; 
+            }
+        }
+        renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+        if (totalPages <= 1) {
+            paginationControls.innerHTML = '';
+            return; 
+        }
+
+        paginationControls.innerHTML = '<span class="page-info">Página:</span>';
+        
+        if (currentPage > 1) {
+            const btnPrev = document.createElement('button');
+            btnPrev.className = 'pg-btn';
+            btnPrev.innerHTML = '<i class="fas fa-chevron-left me-1"></i>';
+            btnPrev.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentPage--;
+                renderTable();
+            });
+            paginationControls.appendChild(btnPrev);
+        }
+
+        const btnCurrent = document.createElement('button');
+        btnCurrent.className = 'pg-btn active';
+        btnCurrent.textContent = currentPage;
+        paginationControls.appendChild(btnCurrent);
+        
+        if (currentPage < totalPages) {
+            const btnNext = document.createElement('button');
+            btnNext.className = 'pg-btn';
+            btnNext.innerHTML = '<i class="fas fa-chevron-right ms-1"></i>';
+            btnNext.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentPage++;
+                renderTable();
+            });
+            paginationControls.appendChild(btnNext);
+        }
+    }
+
+    function applyFilters() {
+        const term = searchInput.value.toLowerCase();
+        const fDesde = filtroDesde.value; 
+        const fHasta = filtroHasta.value;
+        const fUser = filtroUsuario.value;
+        const fEstado = filtroEstado.value;
+
+        filteredRows = allRows.filter(row => {
+            const cells = row.querySelectorAll('td');
+            const txtFecha = cells[1].textContent.toLowerCase();
+            const txtUsuario = cells[2].textContent;
+            const txtAccion = cells[3].textContent.toLowerCase();
+            const rawFechaBD = cells[5].textContent;
+            const rawEstadoBD = cells[6].textContent;
+            const textToSearch = txtFecha + " " + txtUsuario.toLowerCase() + " " + txtAccion;
+            if (term && !textToSearch.includes(term)) return false;
+            if (fUser !== 'all' && txtUsuario !== fUser) return false;
+            if (fEstado !== 'all' && rawEstadoBD !== fEstado) return false;
+            if (fDesde && rawFechaBD < fDesde) return false;
+            if (fHasta && rawFechaBD > fHasta) return false;
+
+            return true;
+        });
+
+        currentPage = 1;
+        renderTable();
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    filtroDesde.addEventListener('change', applyFilters);
+    filtroHasta.addEventListener('change', applyFilters);
+    filtroUsuario.addEventListener('change', applyFilters);
+    filtroEstado.addEventListener('change', applyFilters);
+    
+    rowsPerPageSelect.addEventListener('change', function() {
+        rowsPerPage = this.value === 'all' ? 'all' : parseInt(this.value);
+        currentPage = 1;
+        renderTable();
+    });
+    renderTable();
+});
+</script>

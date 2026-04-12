@@ -2,12 +2,15 @@
 
 class EmpleadoControlador{
     private Empleado $empleado;
+    private BitacoraControlador $log;
 
     public function __construct(){
         $this->empleado = new Empleado();
+        $this->log = new BitacoraControlador();
     }
 
     public function getEmpleado(){return $this->empleado;}
+    public function getBitacora(){return $this->log;}
 
     public function validarSesion($datos = array()){
         if(trim($datos[0]) == '' || trim($datos[1])==''){
@@ -20,12 +23,16 @@ class EmpleadoControlador{
         $datos = $this->empleado->iniciarSesion();
 
         if($datos==false){
+            $this->log->registrarLog(null, "Intento de inicio de sesión fallido para el correo: ".$this->empleado->getCorreo(), "E");
             return array("error","Correo y/o contraseña incorrectos.");
         }
         else{
             $_SESSION['RFC'] = $datos[0]['rfc'];
             $_SESSION['Tipo'] = $datos[0]['tipousuario'];
             $this->empleado->actualizarUltimaVez(true);
+            $usuario = '';
+            if($_SESSION["Tipo"]=='A'){$usuario='Administrador';}else if($_SESSION["Tipo"]=='E'){$usuario='Vendedor';}else if($_SESSION["Tipo"]=='R'){$usuario='Repartidor';}else if($_SESSION["Tipo"]=='Proveedor');
+            $this->log->registrarLog($_SESSION['RFC'], "Inicio de sesión exitoso (".$usuario.")", "C");//listo
             if($datos[0]['tipousuario']=='A'){
                 header('location:/proyectoweb/admin/inicio');
             }
@@ -47,7 +54,6 @@ class EmpleadoControlador{
         }
 
         $this->empleado->setCorreo(mb_strtolower(trim($datos[0])));
-        //buscar si existe en la bd
 
         $existe = $this->empleado->buscar('"Veracruz".empleado',["where"=>"correo='".$this->empleado->getCorreo()."'"]);
         if(count($existe)==1){
@@ -180,22 +186,27 @@ class EmpleadoControlador{
                                 $this->getEmpleado()->setRfc($existe[0]["rfc"]);
                                 $this->getEmpleado()->setContrasena($nuevaContra);
                             if($this->getEmpleado()->reestablecerContra()){
+                                $this->log->registrarLog($existe[0]['rfc'], "Recuperación de cuenta exitosa", "C");
                                 return ["exito","Contraseña reestablecida exitosamente, revisa tu bandeja de entrada o spam."];
                             }
                             else{
+                                $this->log->registrarLog($existe[0]['rfc'], "Correo no enviado", "E");
                                 return ["error","Ocurrió un error al enviar el correo electrónico. Intenta de nuevo."];
                             }
                     }
                     else{
+                        $this->log->registrarLog($existe[0]['rfc'], "Correo no enviado", "E");
                         return ["error","Ocurrió un error al enviar el correo electrónico. Intenta de nuevo."];
                     }
                 }
                 catch(Exception $e){
+                    $this->log->registrarLog($existe[0]['rfc'], "Correo no enviado", "E");
                     return ["error","Ocurrió un error al enviar el correo electrónico. Intenta de nuevo."];
                 }
 
         }
         else{
+            $this->log->registrarLog(null, "Usuario no encontrado con el correo: ".$this->empleado->getCorreo(), "E");
             return ["error","No existe ningún usuario con este correo ingresado."];
         }
     }
@@ -224,12 +235,16 @@ class EmpleadoControlador{
     public function eliminarPersonal($datos = array()){
         $this->empleado->setRfc($datos['rfc']);
         $this->empleado->eliminar(true);
+        $nombre = $this->empleado->buscar('"Veracruz".empleado',["select"=>"CONCAT(nombre,' ',apellidospama) as nombre","where"=>"rfc='".$this->empleado->getRfc()."'"])[0]['nombre'];
+        $this->log->registrarLog($_SESSION['RFC'], "Empleado ".$nombre."(".$datos['rfc'].") dado de baja", "C");
         return ["exito","Empleado eliminado correctamente"];
     }
 
     public function activarPersonal($datos = array()){
         $this->empleado->setRfc($datos['rfc']);
         $this->empleado->eliminar(false);
+        $nombre = $this->empleado->buscar('"Veracruz".empleado',["select"=>"CONCAT(nombre,' ',apellidospama) as nombre","where"=>"rfc='".$this->empleado->getRfc()."'"])[0]['nombre'];
+        $this->log->registrarLog($_SESSION['RFC'], "Empleado ".$nombre."(".$datos['rfc'].") reactivado", "C");
         return ["exito","Empleado activado correctamente"];
     }
 
@@ -257,8 +272,6 @@ class EmpleadoControlador{
         $this->empleado->setEmpresa(mb_strtoupper(trim($empresa)));
         $this->empleado->setTelefono(trim($datos['telefono']));
         $this->empleado->setTipousuario($datos['tipo_usuario']);
-
-        //validar si correo y telefono no eixsten en la bd
         $existe_correo = $this->empleado->buscar('"Veracruz".empleado',["where"=>"correo='".$this->empleado->getCorreo()."' AND rfc<>'".$this->empleado->getRfc()."'"]);
         if(count($existe_correo)>0){
             return ["error","Ya existe un usuario con este correo registrado."];
@@ -271,9 +284,8 @@ class EmpleadoControlador{
         }
 
         if($this->empleado->editar()) {
-            return ["exito", "Información editada exitosamente."];
-        } else {
-            return ["info", "No se realizaron cambios."];
+            $this->log->registrarLog($_SESSION['RFC'], "Información de usuario ".($this->empleado->getNombre()." ".$this->empleado->getApellidospama())."(".$this->empleado->getRfc().") editada correctamente", "C");
+            return ["exito", "Información del empleado editada exitosamente."];
         }
     }
 
@@ -310,8 +322,6 @@ class EmpleadoControlador{
         $this->empleado->setContrasena($password);
         $this->empleado->setEnlinea('false');
         $this->empleado->setEstatus('true');
-
-        //validar si correo y telefono no eixsten en la bd
         $existe_correo = $this->empleado->buscar('"Veracruz".empleado',["where"=>"correo='".$this->empleado->getCorreo()."'"]);
         if(count($existe_correo)>0){
             return ["error","Ya existe un usuario con este correo registrado."];
@@ -487,12 +497,15 @@ class EmpleadoControlador{
                                 $body
                             )){
                          if($this->empleado->insertar()) {
+                            $this->log->registrarLog($_SESSION['RFC'], "Usuario ".($this->empleado->getNombre()." ".$this->empleado->getApellidospama())."(".$this->empleado->getRfc().") agregado correctamente, el correo se ha enviado a su bandeja de entrada o spam", "C");
                             return ["exito", "Usuario registrado exitosamente, favor de indicarle que revise su bandeja de entrada o spam."];
                         } else {
+                            $this->log->registrarLog($_SESSION["RFC"],"Error al registrar al usuario", "E");
                             return ["error", "Ocurrió un error al registrar al usuario. Intente más tarde."];
                         }
                     }
                     else{
+                        $this->log->registrarLog($_SESSION["RFC"], "Correo no enviado al usuario ".($this->empleado->getNombre()." ".$this->empleado->getApellidospama())."(".$this->empleado->getRfc().")", "E");
                         return ["error","Ocurrió un error al enviar el correo electrónico. Intenta de nuevo."];
                     }
     }
