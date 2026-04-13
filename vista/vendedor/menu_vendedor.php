@@ -26,9 +26,6 @@ function _vActivo(string $clave): string {
     <a href="/proyectoweb/vendedor/inventario" class="nav-link<?= _vActivo('inventario') ?>">
         <i class="fas fa-boxes"></i> Inventario
     </a>
-    <a href="/proyectoweb/vendedor/catalogo" class="nav-link<?= _vActivo('catalogo') ?>">
-        <i class="fas fa-th-large"></i> Catálogo
-    </a>
     <hr class="sidebar-divider">
     <p class="sidebar-title">Atención</p>
     <a href="/proyectoweb/vendedor/solicitudes" class="nav-link<?= _vActivo('solicitudes') ?>">

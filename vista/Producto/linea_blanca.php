@@ -7,11 +7,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-        <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+        <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -132,88 +134,154 @@
             </div>
             <!-- Lavadoras -->
             <div class="mb-2"><span class="section-title">Lavadoras</span></div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="../../multimedia/Imagenes/productos/lavadora-8mwtw2024wjm.jpg" alt="Lavadora" onerror="this.src='https://placehold.co/300x250?text=Lavadora'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">8MWTW2024WJM</span>
-                        <p class="product-name">Lavadora 20kg Carga Superior Xpert System Blanca Agitador</p>
-                        <div class="product-price-row"><span class="product-price">$9,999.00</span></div>
+            <?php 
+$productoControl = new ProductoControlador();
+$lavadoras = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='lavadoras'", 
+    "order" => "nombre ASC",
+    "limit"=>"4"
+]);
+
+$secadoras = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='secadoras'", 
+    "order" => "nombre ASC",
+    "limit"=>"4"
+]);
+
+$refrigeradores = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='refrigeradores'", 
+    "order" => "nombre ASC",
+    "limit"=>"4"
+]);
+?>
+
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($lavadoras) && count($lavadoras) > 0):
+        foreach($lavadoras as $lav): 
+            $nombre = $lav['nombre'];
+            $precio = '$' . number_format($lav['precio_venta'], 2);
+            $sku = Helpers::crearSKU($lav['categoria'], $nombre);
+            $id = $lav['no_producto'];
+            $imgLav = "/proyectoweb/public/uploads/img/" . $lav['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Lavadora";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgLav; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
-                    <a href="/proyectoweb/producto/8MWTW2024WJM" class="btn-mas-info">Más información</a>
-                </div></div>
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=WFW5000HW" alt="Lavadora Frontal"></div>
-                    <div class="product-body">
-                        <span class="product-sku">WFW5000HW</span>
-                        <p class="product-name">Lavadora de carga frontal 4.5 pies cúbicos alta eficiencia</p>
-                        <div class="product-price-row"><span class="product-price">$12,499.00</span></div>
-                    </div>
-                    <a href="/proyectoweb/producto/WFW5000HW" class="btn-mas-info">Más información</a>
-                </div></div>
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=WET4024HW" alt="Lavasecadora"></div>
-                    <div class="product-body">
-                        <span class="product-sku">WET4024HW</span>
-                        <p class="product-name">Lavasecadora de carga frontal 24" 2.3 pies cúbicos blanca</p>
-                        <div class="product-price-row"><span class="product-price">$18,999.00</span></div>                   
-                    </div>
-                    <a href="/proyectoweb/producto/WET4024HW" class="btn-mas-info">Más información</a>
-                </div></div>
+                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-4">
+            <p class="text-muted">No hay lavadoras disponibles en este momento.</p>
+        </div>
+    <?php endif; ?>
+</div>
             <!-- Secadoras -->
             <div class="mb-2"><span class="section-title">Secadoras</span></div>
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="../../multimedia/Imagenes/productos/secadora-wed5000dw.jpg" alt="Secadora" onerror="this.src='https://placehold.co/300x250?text=Secadora'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">WED5000DW</span>
-                        <p class="product-name">Secadora eléctrica de carga frontal 7.0 pies cúbicos blanca</p>
-                        <div class="product-price-row"><span class="product-price">$7,899.00</span></div>
+    <?php 
+    if(is_array($secadoras) && count($secadoras) > 0):
+        foreach($secadoras as $sec): 
+            // Datos reales de Veracruz.producto
+            $nombre = $sec['nombre'];
+            $precio = '$' . number_format($sec['precio_venta'], 2); // Columna precio_venta
+            $sku = Helpers::crearSKU($sec['categoria'], $nombre);
+            $id = $sec['no_producto'];
+            
+            // Ruta real de imágenes
+            $imgSec = "/proyectoweb/public/uploads/img/" . $sec['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Secadora";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSec; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
-                    <a href="/proyectoweb/producto/WED5000DW" class="btn-mas-info">Más información</a>
-                </div></div>
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=WGD5000DW" alt="Secadora Gas"></div>
-                    <div class="product-body">
-                        <span class="product-sku">WGD5000DW</span>
-                        <p class="product-name">Secadora a gas de carga frontal 7.0 pies cúbicos blanca</p>
-                        <div class="product-price-row"><span class="product-price">$8,799.00</span></div>
-                    </div>
-                    <a href="/proyectoweb/producto/WGD5000DW" class="btn-mas-info">Más información</a>
-                </div></div>
+                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-4">
+            <p class="text-muted">No hay secadoras disponibles en este momento.</p>
+        </div>
+    <?php endif; ?>
+</div>
             <!-- Refrigeradores -->
             <div class="mb-2"><span class="section-title">Refrigeradores</span></div>
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="../../multimedia/Imagenes/productos/refrigerador-wrs315snhm.jpg" alt="Refrigerador" onerror="this.src='https://placehold.co/300x250?text=Refrigerador'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">WRS315SNHM</span>
-                        <p class="product-name">Refrigerador Side by Side 25 pies con despachador de agua y hielo</p>
-                        <div class="product-price-row"><span class="product-price">$22,499.00</span></div>
+    <?php 
+    if(is_array($refrigeradores) && count($refrigeradores) > 0):
+        foreach($refrigeradores as $refri): 
+            // Datos reales de Veracruz.producto
+            $nombre = $refri['nombre'];
+            $precio = '$' . number_format($refri['precio_venta'], 2); // precio_venta corregido
+            $sku = Helpers::crearSKU($refri['categoria'], $nombre);
+            $id = $refri['no_producto'];
+            
+            // Ruta real de imágenes definida en el CRUD
+            $imgRefri = "/proyectoweb/public/uploads/img/" . $refri['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Refrigerador";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgRefri; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
-                    <a href="/proyectoweb/producto/WRS315SNHM" class="btn-mas-info">Más información</a>
-                </div></div>
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="../../multimedia/Imagenes/productos/despachador-wk0260b.jpg" alt="Despachador" onerror="this.src='https://placehold.co/300x250?text=Despachador'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">WK0260B</span>
-                        <p class="product-name">Despachador de agua con fábrica de hielo</p>
-                        <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
-                    </div>
-                    <a href="/proyectoweb/producto/WK0260B" class="btn-mas-info">Más información</a>
-                </div></div>
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="../../multimedia/Imagenes/productos/frigobar-wq09x.jpg" alt="Frigobar" onerror="this.src='https://placehold.co/300x250?text=Frigobar'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">WQ09X</span>
-                        <p class="product-name">Frigobar 9 pies con congelador y acabado acero inoxidable</p>
-                        <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                    </div>
-                    <a href="/proyectoweb/producto/WQ09X" class="btn-mas-info">Más información</a>
-                </div></div>
+                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-4">
+            <p class="text-muted">No hay refrigeradores disponibles en este momento.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
    <?php include('vista/footer_gral.php'); ?>

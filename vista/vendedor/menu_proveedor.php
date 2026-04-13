@@ -23,7 +23,7 @@
                 <i class="fas fa-user-edit"></i> Mi Perfil
             </button>
             <hr class="cuenta-nav-divider">
-            <a href="/proyectoweb/?" class="cuenta-nav-link" style="color:#dc3545">
+            <a href="/proyectoweb/proveedor/logout" class="cuenta-nav-link" style="color:#dc3545">
                 <i class="fas fa-sign-out-alt" style="color:#dc3545"></i> Cerrar Sesión
             </a>
         </nav>

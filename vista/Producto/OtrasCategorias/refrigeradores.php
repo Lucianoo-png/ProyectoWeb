@@ -6,11 +6,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-          <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+          <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -113,61 +115,53 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$todosRefrigeradores = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='refrigeradores'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="../../multimedia/Imagenes/productos/refrigerador-wrs315snhm.jpg" alt="Refrigerador Side by Side 25 pies con despachador de agua y hielo" onerror="this.src='https://placehold.co/300x250?text=WRS315SNHM'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WRS315SNHM</span>
-                            <p class="product-name">Refrigerador Side by Side 25 pies con despachador de agua y hielo</p>
-                            <div class="product-price-row"><span class="product-price">$22,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WRS315SNHM" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($todosRefrigeradores) && count($todosRefrigeradores) > 0):
+        foreach($todosRefrigeradores as $refri): 
+            $nombre = $refri['nombre'];
+            $precio = '$' . number_format($refri['precio_venta'], 2);
+            $sku = Helpers::crearSKU($refri['categoria'], $nombre);
+            $id = $refri['no_producto'];
+            $imgRefri = "/proyectoweb/public/uploads/img/" . $refri['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Refrigerador";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgRefri; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="../../multimedia/Imagenes/productos/despachador-wk0260b.jpg" alt="Despachador de agua con fábrica de hielo" onerror="this.src='https://placehold.co/300x250?text=WK0260B'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WK0260B</span>
-                            <p class="product-name">Despachador de agua con fábrica de hielo</p>
-                            <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WK0260B" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WRF535SWHZ" alt="Refrigerador French Door 25 pies 5 puertas acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WRF535SWHZ'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WRF535SWHZ</span>
-                            <p class="product-name">Refrigerador French Door 25 pies 5 puertas acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$31,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WRF535SWHZ" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WRT518SZFM" alt="Refrigerador Top Mount 18 pies acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WRT518SZFM'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WRT518SZFM</span>
-                            <p class="product-name">Refrigerador Top Mount 18 pies acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$9,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WRT518SZFM" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron refrigeradores en el inventario.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

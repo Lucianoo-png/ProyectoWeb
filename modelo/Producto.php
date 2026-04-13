@@ -29,6 +29,7 @@ class Producto {
         $group = $opciones['group'] ?? '';
         $orderBy = $opciones['order'] ?? '';
         $params = $opciones['params'] ?? [];
+        $limit = $opciones['limit'] ?? '';
         
         $query = 'SELECT '.$select.' FROM '.$tabla.'';
 
@@ -43,6 +44,10 @@ class Producto {
         }
         if ($orderBy != '') {
             $query .= ' ORDER BY ' . $orderBy;
+        }
+
+        if($limit !=''){
+            $query .=' LIMIT '.$limit;
         }
         
         $resultado = $this->conexion->ejecutarConsulta($query, $params);

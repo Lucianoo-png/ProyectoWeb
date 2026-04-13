@@ -6,11 +6,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-          <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+          <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -113,61 +115,54 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosEstufas = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='estufas'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="../../multimedia/Imagenes/productos/estufa-mgh765rds.jpg" alt="Estufa de gas 6 quemadores con horno convección acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=MGH765RDS'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">MGH765RDS</span>
-                            <p class="product-name">Estufa de gas 6 quemadores con horno convección acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$9,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosEstufas) && count($productosEstufas) > 0):
+        foreach($productosEstufas as $estufa): 
+            $nombre = $estufa['nombre'];
+            $precio = '$' . number_format($estufa['precio_venta'], 2);
+            $sku = Helpers::crearSKU($estufa['categoria'], $nombre);
+            $id = $estufa['no_producto'];
+            
+            $imgSrc = "/proyectoweb/public/uploads/img/" . $estufa['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Estufa";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSrc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=EM7624GXS" alt="Estufa empotrable 4 quemadores de gas vidrio templado negro" onerror="this.src='https://placehold.co/300x250?text=EM7624GXS'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">EM7624GXS</span>
-                            <p class="product-name">Estufa empotrable 4 quemadores de gas vidrio templado negro</p>
-                            <div class="product-price-row"><span class="product-price">$5,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=NCI614TB" alt="Estufa de inducción 4 zonas con control táctil y temporizador" onerror="this.src='https://placehold.co/300x250?text=NCI614TB'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">NCI614TB</span>
-                            <p class="product-name">Estufa de inducción 4 zonas con control táctil y temporizador</p>
-                            <div class="product-price-row"><span class="product-price">$7,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WEE510SOFS" alt="Estufa eléctrica 30" 5 elementos vitrocerámica gris plata" onerror="this.src='https://placehold.co/300x250?text=WEE510SOFS'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WEE510SOFS</span>
-                            <p class="product-name">Estufa eléctrica 30" 5 elementos vitrocerámica gris plata</p>
-                            <div class="product-price-row"><span class="product-price">$10,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron estufas disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

@@ -31,12 +31,19 @@ else{
         include('vista/vendedor/footer_proveedor.php');
         exit;
     }
-    exit;
 }
 
 switch($rutaPrincipal){
     case '':
         case 'inicio':
+            $emp = new EmpleadoControlador();
+            if (isset($_REQUEST['guardar'])) {
+                $msj = $emp->actualizarPerfilPersonal($_POST);
+            }
+            else if(isset($_REQUEST["actualizar_contra"])){
+                 $msj = $emp->actualizarContra($_POST);
+            }
+            $info = $emp->getEmpleado()->buscar('"Veracruz".empleado',["where"=>"rfc='".$_SESSION["RFC"]."'"]);
             include('vista/vendedor/repartidor.php');
 
     break;

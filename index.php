@@ -11,12 +11,14 @@ require('modelo/Conexion.php');
 require('modelo/Empleado.php');
 require('modelo/Producto.php');
 require('modelo/Bitacora.php');
+require('modelo/Cliente.php');
 
 
 
 require('control/EmpleadoControlador.php');
 require('control/ProductoControlador.php');
 require('control/BitacoraControlador.php');
+require('control/ClienteControlador.php');
 
 
 
@@ -26,9 +28,11 @@ require('enviar_correo.php');
 
 require('helpers/Helpers.php');
 
+if(!isset($_SESSION["NoCliente"])){
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 header("Expires: 0");
+}
 
 ?>
 
@@ -38,12 +42,13 @@ header("Expires: 0");
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp<?php if(isset($_SESSION["RFC"])){echo " | ".$_SESSION["RFC"];} ?></title>
+    <title>LuchanosCorp<?php if(isset($_SESSION["RFC"])){echo " | ".$_SESSION["RFC"];}else if(isset($_SESSION["NoCliente"])){echo " | Mi Perfil";} ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
     <link rel="stylesheet" href="/proyectoweb/estilos/styles.css">
     <link rel="stylesheet" href="/proyectoweb/estilos/vendedor.css">
     <link rel="stylesheet" href="/proyectoweb/estilos/proveedor.css">
+    <link rel="stylesheet" href="/proyectoweb/estilos/contacto.css">
 </head>
 <body>
 
@@ -61,6 +66,7 @@ include 'includes/../control/navbar.php';
 <link rel="stylesheet" href="/proyectoweb/estilos/responsive.css">
 <script src="/proyectoweb/js/responsive.js"></script>
 <script src="/proyectoweb/js/vendedor.js"></script>
+<script src="/proyectoweb/js/contacto.js"></script>
 <script>
     window.onpageshow = function(event) {
         if (event.persisted) {

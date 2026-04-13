@@ -6,11 +6,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-          <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+          <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -112,61 +114,54 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosCuidadoPersonal = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='cuidado-personal'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WHD7400AC" alt="Secador de cabello iónico 1875W con difusor y concentrador" onerror="this.src='https://placehold.co/300x250?text=WHD7400AC'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WHD7400AC</span>
-                            <p class="product-name">Secador de cabello iónico 1875W con difusor y concentrador</p>
-                            <div class="product-price-row"><span class="product-price">$1,299.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WHD7400AC" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosCuidadoPersonal) && count($productosCuidadoPersonal) > 0):
+        foreach($productosCuidadoPersonal as $item): 
+            $nombre = $item['nombre'];
+            $precio = '$' . number_format($item['precio_venta'], 2);
+            $sku = Helpers::crearSKU($item['categoria'], $nombre);
+            $id = $item['no_producto'];
+            
+            $imgSrc = "/proyectoweb/public/uploads/img/" . $item['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Cuidado-Personal";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSrc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WHS450" alt="Plancha de cabello cerámica con placas flotantes 450°F" onerror="this.src='https://placehold.co/300x250?text=WHS450'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WHS450</span>
-                            <p class="product-name">Plancha de cabello cerámica con placas flotantes 450°F</p>
-                            <div class="product-price-row"><span class="product-price">$999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WHS450" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WER9350" alt="Afeitadora eléctrica rotativa 3 cabezales con base de carga" onerror="this.src='https://placehold.co/300x250?text=WER9350'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WER9350</span>
-                            <p class="product-name">Afeitadora eléctrica rotativa 3 cabezales con base de carga</p>
-                            <div class="product-price-row"><span class="product-price">$2,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WER9350" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WOC2500" alt="Cepillo de dientes eléctrico oscilante con temporizador y estuche" onerror="this.src='https://placehold.co/300x250?text=WOC2500'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WOC2500</span>
-                            <p class="product-name">Cepillo de dientes eléctrico oscilante con temporizador y estuche</p>
-                            <div class="product-price-row"><span class="product-price">$1,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WOC2500" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos de cuidado personal disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

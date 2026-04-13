@@ -218,7 +218,6 @@ function registrarVenta() {
     const pago = document.getElementById('selectPago')?.value || 'Efectivo';
     const total = (ventaItems.reduce((s, i) => s + i.precio * i.qty, 0) * 1.16)
         .toLocaleString('es-MX', { minimumFractionDigits: 2 });
-    alert(`✅ Venta registrada exitosamente.\n\nCliente: ${cliente}\nPago: ${pago}\nTotal: $${total}\n\nSe puede imprimir el ticket.`);
     ventaItems = [];
     renderTablaVenta();
     const inp = document.getElementById('inputRecibido');
@@ -226,16 +225,6 @@ function registrarVenta() {
     if (inp) inp.value = '';
     if (cam) { cam.value = ''; cam.style.color = ''; }
 }
-
-/* Widget de búsqueda de cliente */
-const CLIENTES_REGISTRADOS = [
-    { id: 'C001', nombre: 'Ana Torres Vega' },
-    { id: 'C002', nombre: 'Luis Ramírez' },
-    { id: 'C003', nombre: 'Roberto Méndez' },
-    { id: 'C004', nombre: 'Claudia Soto' },
-    { id: 'C005', nombre: 'Juan Pérez' },
-    { id: 'C006', nombre: 'María García' },
-];
 
 function initClienteWidget() {
     const input = document.getElementById('clienteInput');
@@ -246,14 +235,42 @@ function initClienteWidget() {
     const hidden = document.getElementById('clienteValor');
     if (!input) return;
 
+    // 1. LIMPIEZA Y FORMATEO DE DATOS DE LA BASE DE DATOS
+    // Usamos un Map para garantizar que NO haya clientes duplicados por su ID
+    const clientesMap = new Map();
+    
+    if (typeof CLIENTES_REGISTRADOS !== 'undefined') {
+        CLIENTES_REGISTRADOS.forEach(c => {
+            if (!clientesMap.has(c.no_cliente)) {
+                // Formateamos el ID para que se vea como C001, C010, etc.
+                const idFormateado = 'C' + String(c.no_cliente).padStart(3, '0');
+                // Unimos nombre y apellidos
+                const nombreCompleto = (c.nombre + ' ' + (c.apellidospama || '')).trim();
+                
+                clientesMap.set(c.no_cliente, {
+                    no_cliente: c.no_cliente,
+                    id_formateado: idFormateado,
+                    nombre_completo: nombreCompleto
+                });
+            }
+        });
+    }
+    
+    // Convertimos el mapa limpio de vuelta a un arreglo para buscar en él
+    const clientesLimpios = Array.from(clientesMap.values());
+
     function renderDropdown(q) {
         dropdown.innerHTML = '';
         const texto = q.trim().toLowerCase();
-        const coincidentes = CLIENTES_REGISTRADOS.filter(c =>
-            c.nombre.toLowerCase().includes(texto) ||
-            c.id.toLowerCase().includes(texto)
+        
+        // 2. BUSCAMOS EN EL ARREGLO LIMPIO
+        const coincidentes = clientesLimpios.filter(c =>
+            c.nombre_completo.toLowerCase().includes(texto) ||
+            c.id_formateado.toLowerCase().includes(texto)
         );
-        if (coincidentes.length > 0) {
+        
+        // Renderizado cuando hay coincidencias
+        if (coincidentes.length > 0 && texto !== '') {
             const g = document.createElement('div');
             g.className = 'cliente-option-group';
             g.textContent = 'Clientes registrados';
@@ -262,15 +279,18 @@ function initClienteWidget() {
                 const opt = document.createElement('div');
                 opt.className = 'cliente-option';
                 opt.innerHTML = `<i class="fas fa-user"></i>
-                    <span>${resaltar(c.nombre, texto)}</span>
-                    <span style="margin-left:auto;font-size:.72rem;color:#aaa">${c.id}</span>`;
+                    <span>${resaltar(c.nombre_completo, texto)}</span>
+                    <span style="margin-left:auto;font-size:.72rem;color:#aaa">${c.id_formateado}</span>`;
                 opt.addEventListener('mousedown', e => {
                     e.preventDefault();
-                    seleccionarCliente(c.nombre, false);
+                    // Al seleccionar, mandamos el ID real a PHP, pero mostramos el nombre
+                    seleccionarCliente(c.nombre_completo, c.no_cliente, false);
                 });
                 dropdown.appendChild(opt);
             });
         }
+        
+        // Renderizado de la opción "Agregar Nuevo"
         if (texto.length >= 2) {
             const g2 = document.createElement('div');
             g2.className = 'cliente-option-group';
@@ -282,34 +302,38 @@ function initClienteWidget() {
                 <span>Usar "<strong>${escHTML(q.trim())}</strong>" como nombre</span>`;
             libre.addEventListener('mousedown', e => {
                 e.preventDefault();
-                seleccionarCliente(q.trim(), true);
+                // Si es nuevo, mandamos el texto libre a PHP
+                seleccionarCliente(q.trim(), q.trim(), true);
             });
             dropdown.appendChild(libre);
         }
+        
+        // Renderizado inicial (lista completa vacía)
         if (texto === '') {
             const g0 = document.createElement('div');
             g0.className = 'cliente-option-group';
             g0.textContent = 'Clientes registrados';
             dropdown.appendChild(g0);
-            CLIENTES_REGISTRADOS.forEach(c => {
+            clientesLimpios.forEach(c => {
                 const opt = document.createElement('div');
                 opt.className = 'cliente-option';
                 opt.innerHTML = `<i class="fas fa-user"></i>
-                    <span>${c.nombre}</span>
-                    <span style="margin-left:auto;font-size:.72rem;color:#aaa">${c.id}</span>`;
+                    <span>${c.nombre_completo}</span>
+                    <span style="margin-left:auto;font-size:.72rem;color:#aaa">${c.id_formateado}</span>`;
                 opt.addEventListener('mousedown', e => {
                     e.preventDefault();
-                    seleccionarCliente(c.nombre, false);
+                    seleccionarCliente(c.nombre_completo, c.no_cliente, false);
                 });
                 dropdown.appendChild(opt);
             });
         }
     }
 
-    function seleccionarCliente(nombre, esNuevo) {
-        hidden.value = nombre;
+    // Actualizamos esta función para recibir el valor a guardar (no_cliente o texto libre)
+    function seleccionarCliente(nombreVisible, valorOculto, esNuevo) {
+        hidden.value = valorOculto; // Este es el valor que se enviará en el POST
         let html = `<i class="fas fa-${esNuevo ? 'user-plus' : 'user'}"></i>
-                    <span>${escHTML(nombre)}</span>`;
+                    <span>${escHTML(nombreVisible)}</span>`;
         if (esNuevo) html += `<span class="badge-nuevo-cliente">Nuevo</span>`;
         pillNombre.innerHTML = html;
         pill.classList.add('visible');
@@ -426,16 +450,6 @@ function generarTicket(folio) {
 /* ════════════════════════════════════════════════════════════
    VENDEDOR — Inventario (inventario.php)
    ════════════════════════════════════════════════════════════ */
-
-const INVENTARIO_DEMO = [
-    { sku: 'WM3911D', nombre: 'Microondas AirFry 4 en 1 (1CuFt)', marca: 'Whirlpool', categoria: 'Cocina', precio: 4599, stock: 45 },
-    { sku: '8MWTW2024WJM', nombre: 'Lavadora 20kg Carga Superior Agitador', marca: 'Whirlpool', categoria: 'Lavado', precio: 9999, stock: 18 },
-    { sku: 'WK0260B', nombre: 'Despachador de agua con fábrica de hielo', marca: 'Whirlpool', categoria: 'Refrigeración', precio: 7999, stock: 7 },
-    { sku: 'WRS315SNHM', nombre: 'Refrigerador Side by Side 25 pies', marca: 'Whirlpool', categoria: 'Refrigeración', precio: 22499, stock: 4 },
-    { sku: 'MGH765RDS', nombre: 'Estufa 6 quemadores con convección', marca: 'Whirlpool', categoria: 'Cocina', precio: 9799, stock: 12 },
-    { sku: 'LG-WM3500CW', nombre: 'Lavadora LG 22kg TurboWash 360', marca: 'LG', categoria: 'Lavado', precio: 11499, stock: 0 },
-    { sku: 'SAM-RF28T', nombre: 'Refrigerador Samsung French Door 28 pies', marca: 'Samsung', categoria: 'Refrigeración', precio: 28999, stock: 3 },
-];
 
 function renderInventario(data) {
     const tbody = document.getElementById('tbodyInventario');
@@ -763,7 +777,7 @@ function guardarEstado() {
 
     estadoRepartidorActual = nuevo;
     renderTrackingRepartidor();
-    mostrarToastRepartidor(`✅ Estado actualizado a: "${ESTADOS_REPARTIDOR[estadoRepartidorActual].label}"`);
+    mostrarToastRepartidor(`Estado actualizado a: "${ESTADOS_REPARTIDOR[estadoRepartidorActual].label}"`);
     
     const lblSig = document.getElementById('lblSigEstado');
     if(lblSig) lblSig.textContent = 'Selecciona el nuevo estado y guarda';
@@ -952,7 +966,6 @@ function resetPerfil() {
         const el = document.getElementById(id);
         if(el) el.value = valor;
     }
-    mostrarToastRepartidor('Datos restaurados.', '#6c757d');
 }
 
 function cambiarContrasena() {

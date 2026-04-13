@@ -6,11 +6,13 @@
                     <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
                 </span>
             </div>
+            <?php if(isset($_SESSION["NoCliente"])){ ?>
             <div class="d-flex gap-3">
                 <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                     <i class="fas fa-truck me-1"></i> Rastrear Pedido
                 </a>
             </div>
+            <?php } ?>
         </div>
     </div>
 
@@ -142,193 +144,213 @@
             <div id="4k" class="mb-2">
                 <span class="section-title">Proyectores 4K</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productos4k = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='4k'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=VW590ES" alt="Proyector 4K HDR de cine en casa 1800 lúmenes con TRILUMINOS Pro" onerror="this.src='https://placehold.co/300x250?text=VW590ES'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">VW590ES</span>
-                            <p class="product-name">Proyector 4K HDR de cine en casa 1800 lúmenes con TRILUMINOS Pro</p>
-                            <div class="product-price-row"><span class="product-price">$54,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/VW590ES" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productos4k) && count($productos4k) > 0):
+        foreach($productos4k as $prod): 
+            $nombre = $prod['nombre'];
+            $precio = '$' . number_format($prod['precio_venta'], 2);
+            $sku = Helpers::crearSKU($prod['categoria'], $nombre);
+            $id = $prod['no_producto'];
+            
+            $imgProd = "/proyectoweb/public/uploads/img/" . $prod['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=UHD-4K";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgProd; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=HT5550" alt="Proyector DLP 4K UHD 2200 lúmenes con HDR10 y modo gaming" onerror="this.src='https://placehold.co/300x250?text=HT5550'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">HT5550</span>
-                            <p class="product-name">Proyector DLP 4K UHD 2200 lúmenes con HDR10 y modo gaming</p>
-                            <div class="product-price-row"><span class="product-price">$38,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/HT5550" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=LSPX-T3S" alt="Proyector láser 4K corta distancia 120 pulgadas con Android TV" onerror="this.src='https://placehold.co/300x250?text=LSPX-T3S'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">LSPX-T3S</span>
-                            <p class="product-name">Proyector láser 4K corta distancia 120" con Android TV integrado</p>
-                            <div class="product-price-row"><span class="product-price">$79,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/LSPX-T3S" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=TK850" alt="Proyector 4K HDR 3000 lúmenes con HLG y cobertura P3" onerror="this.src='https://placehold.co/300x250?text=TK850'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">TK850</span>
-                            <p class="product-name">Proyector 4K HDR 3000 lúmenes con HLG y cobertura P3</p>
-                            <div class="product-price-row"><span class="product-price">$28,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/TK850" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos 4K disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── Proyectores Full HD ── -->
             <div id="fullhd" class="mb-2">
                 <span class="section-title">Proyectores Full HD</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosHD = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='HD'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=HT2050A" alt="Proyector Full HD DLP 2200 lúmenes con modo ambiente oscuro" onerror="this.src='https://placehold.co/300x250?text=HT2050A'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">HT2050A</span>
-                            <p class="product-name">Proyector Full HD DLP 2200 lúmenes con modo ambiente oscuro</p>
-                            <div class="product-price-row"><span class="product-price">$12,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/HT2050A" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosHD) && count($productosHD) > 0):
+        foreach($productosHD as $hd): 
+            $nombre = $hd['nombre'];
+            $precio = '$' . number_format($hd['precio_venta'], 2);
+            $sku = Helpers::crearSKU($hd['categoria'], $nombre);
+            $id = $hd['no_producto'];
+            
+            $imgHd = "/proyectoweb/public/uploads/img/" . $hd['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=HD-FullHD";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgHd; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=EH-TW740" alt="Proyector Full HD 3LCD 3300 lúmenes con HDMI y MHL" onerror="this.src='https://placehold.co/300x250?text=EH-TW740'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">EH-TW740</span>
-                            <p class="product-name">Proyector Full HD 3LCD 3300 lúmenes con HDMI y MHL</p>
-                            <div class="product-price-row"><span class="product-price">$9,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/EH-TW740" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=W2710" alt="Proyector Full HD 4000 lúmenes para sala iluminada con SmartEco" onerror="this.src='https://placehold.co/300x250?text=W2710'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">W2710</span>
-                            <p class="product-name">Proyector Full HD 4000 lúmenes para sala iluminada con SmartEco</p>
-                            <div class="product-price-row"><span class="product-price">$14,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/W2710" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=P6600" alt="Proyector Full HD 5500 lúmenes para negocios y educación" onerror="this.src='https://placehold.co/300x250?text=P6600'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">P6600</span>
-                            <p class="product-name">Proyector Full HD 5500 lúmenes para negocios y educación</p>
-                            <div class="product-price-row"><span class="product-price">$19,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/P6600" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos HD disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── Portátiles ── -->
             <div id="portatiles" class="mb-2">
                 <span class="section-title">Portátiles</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosPortatiles = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='portatiles'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=GP10" alt="Proyector portátil láser Full HD 1000 lúmenes con Android TV" onerror="this.src='https://placehold.co/300x250?text=GP10'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">GP10</span>
-                            <p class="product-name">Proyector portátil láser Full HD 1000 lúmenes con Android TV</p>
-                            <div class="product-price-row"><span class="product-price">$16,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/GP10" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosPortatiles) && count($productosPortatiles) > 0):
+        foreach($productosPortatiles as $item): 
+            $nombre = $item['nombre'];
+            $precio = '$' . number_format($item['precio_venta'], 2);
+            $sku = Helpers::crearSKU($item['categoria'], $nombre);
+            $id = $item['no_producto'];
+            
+            $imgSrc = "/proyectoweb/public/uploads/img/" . $item['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Portatil";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSrc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=MP180" alt="Proyector mini portátil 480p 200 lúmenes con batería integrada" onerror="this.src='https://placehold.co/300x250?text=MP180'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">MP180</span>
-                            <p class="product-name">Proyector mini portátil 480p 200 lúmenes con batería integrada</p>
-                            <div class="product-price-row"><span class="product-price">$3,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/MP180" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos portátiles disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── Accesorios ── -->
             <div id="accesorios" class="mb-2">
                 <span class="section-title">Accesorios</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosAccesorios = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='accesorios'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=PRO-S100" alt="Pantalla de proyección 100 pulgadas tipo trípode portátil" onerror="this.src='https://placehold.co/300x250?text=PRO-S100'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">PRO-S100</span>
-                            <p class="product-name">Pantalla de proyección 100" tipo trípode portátil</p>
-                            <div class="product-price-row"><span class="product-price">$1,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/PRO-S100" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosAccesorios) && count($productosAccesorios) > 0):
+        foreach($productosAccesorios as $accesorio): 
+            $nombre = $accesorio['nombre'];
+            $precio = '$' . number_format($accesorio['precio_venta'], 2);
+            $sku = Helpers::crearSKU($accesorio['categoria'], $nombre);
+            $id = $accesorio['no_producto'];
+            
+            $imgAcc = "/proyectoweb/public/uploads/img/" . $accesorio['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Accesorio";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgAcc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=PRO-M120" alt="Pantalla de proyección motorizada 120 pulgadas para techo o pared" onerror="this.src='https://placehold.co/300x250?text=PRO-M120'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">PRO-M120</span>
-                            <p class="product-name">Pantalla de proyección motorizada 120" para techo o pared</p>
-                            <div class="product-price-row"><span class="product-price">$4,299.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/PRO-M120" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron accesorios disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

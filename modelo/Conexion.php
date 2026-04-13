@@ -18,7 +18,7 @@ class Conexion
             //"host" => "db",
             "db" => "ecommerce",
             "user" => "postgres",
-            "password" => "12345678", //Recuerda que yo tengo que cambiar la constraseña hasta el 8
+            "password" => "12345", //Recuerda que yo tengo que cambiar la constraseña hasta el 8
             "port" => "5432",
         ];
         $this->driver = $config["driver"] ?? "mysql";
@@ -54,7 +54,7 @@ class Conexion
         }
     }
 
-    private function buildDsn(): string
+    private function buildDsn()
     {
         switch ($this->driver) {
             case "mysql":

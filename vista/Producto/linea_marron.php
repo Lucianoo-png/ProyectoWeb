@@ -7,11 +7,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-        <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+        <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
     
@@ -109,67 +111,201 @@
                 </div></a></div>
         </div>
         <div id="televisores" class="mb-2"><span class="section-title">Televisores</span></div>
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=UN55TU8000" alt="UN55TU8000" onerror="this.src='https://placehold.co/300x250?text=UN55TU8000'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">UN55TU8000</span>
-                        <p class="product-name">Televisor Smart TV 55" 4K UHD Crystal Display con Alexa</p>
-                        <div class="product-price-row"><span class="product-price">$13,999.00</span></div>
+        <?php 
+$productoControl = new ProductoControlador();
+$televisores = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='televisores'", 
+    "order" => "nombre ASC"
+]);
+?>
+
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($televisores) && count($televisores) > 0):
+        foreach($televisores as $tv): 
+            $nombre = $tv['nombre'];
+            $precio = '$' . number_format($tv['precio_venta'], 2);
+            $sku = Helpers::crearSKU($tv['categoria'], $nombre);
+            $id = $tv['no_producto'];
+            $imgTv = "/proyectoweb/public/uploads/img/" . $tv['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Televisor";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgTv; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
-                    <a href="/proyectoweb/producto/UN55TU8000" class="btn-mas-info">Más información</a>
-                </div></div>                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=OLED65C1PSA" alt="OLED65C1PSA" onerror="this.src='https://placehold.co/300x250?text=OLED65C1PSA'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">OLED65C1PSA</span>
-                        <p class="product-name">Televisor OLED 65" 4K Smart TV con procesador α9 Gen4</p>
-                        <div class="product-price-row"><span class="product-price">$42,999.00</span></div>
-                    </div>
-                    <a href="/proyectoweb/producto/OLED65C1PSA" class="btn-mas-info">Más información</a>
-                </div></div>                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=43PFS6805" alt="43PFS6805" onerror="this.src='https://placehold.co/300x250?text=43PFS6805'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">43PFS6805</span>
-                        <p class="product-name">Televisor Smart TV 43" Full HD con Saphi OS y HDR10+</p>
-                        <div class="product-price-row"><span class="product-price">$6,999.00</span></div>
-                    </div>
-                    <a href="/proyectoweb/producto/43PFS6805" class="btn-mas-info">Más información</a>
-                </div></div>                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=32LM630BPUA" alt="32LM630BPUA" onerror="this.src='https://placehold.co/300x250?text=32LM630BPUA'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">32LM630BPUA</span>
-                        <p class="product-name">Televisor Smart TV 32" HD con webOS 4.5 y control mágico</p>
-                        <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                    </div>
-                    <a href="/proyectoweb/producto/32LM630BPUA" class="btn-mas-info">Más información</a>
-                </div></div>        </div>
+                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
+            </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron televisores disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         <div id="audio" class="mb-2"><span class="section-title">Audio</span></div>
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=HW-Q60T" alt="HW-Q60T" onerror="this.src='https://placehold.co/300x250?text=HW-Q60T'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">HW-Q60T</span>
-                        <p class="product-name">Soundbar 5.1ch 360W con Dolby Digital y DTS Virtual:X</p>
-                        <div class="product-price-row"><span class="product-price">$6,499.00</span></div>
+        <?php 
+$productoControl = new ProductoControlador();
+$productosAudio = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='audio'", 
+    "order" => "nombre ASC"
+]);
+?>
+
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosAudio) && count($productosAudio) > 0):
+        foreach($productosAudio as $audio): 
+            $nombre = $audio['nombre'];
+            $precio = '$' . number_format($audio['precio_venta'], 2);
+            $sku = Helpers::crearSKU($audio['categoria'], $nombre);
+            $id = $audio['no_producto'];
+            
+            $imgAudio = "/proyectoweb/public/uploads/img/" . $audio['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Audio";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgAudio; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
-                    <a href="/proyectoweb/producto/HW-Q60T" class="btn-mas-info">Más información</a>
-                </div></div>                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=XBOOM360" alt="XBOOM360" onerror="this.src='https://placehold.co/300x250?text=XBOOM360'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">XBOOM360</span>
-                        <p class="product-name">Bocina inalámbrica 360° 120W omnidireccional resistente al agua</p>
-                        <div class="product-price-row"><span class="product-price">$3,199.00</span></div>
+                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
+            </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos de audio disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
+
+  <div id="audio" class="mb-2"><span class="section-title">Proyectores</span></div>
+    <?php 
+$productoControl = new ProductoControlador();
+$productosAudio = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='proyectores'", 
+    "order" => "nombre ASC"
+]);
+?>
+
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosAudio) && count($productosAudio) > 0):
+        foreach($productosAudio as $audio): 
+            $nombre = $audio['nombre'];
+            $precio = '$' . number_format($audio['precio_venta'], 2);
+            $sku = Helpers::crearSKU($audio['categoria'], $nombre);
+            $id = $audio['no_producto'];
+            
+            $imgAudio = "/proyectoweb/public/uploads/img/" . $audio['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Audio";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgAudio; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
-                    <a href="/proyectoweb/producto/XBOOM360" class="btn-mas-info">Más información</a>
-                </div></div>                
-                <div class="col"><div class="product-card">
-                    <div class="product-img-wrap"><img src="https://placehold.co/300x250?text=WH1000XM5" alt="WH1000XM5" onerror="this.src='https://placehold.co/300x250?text=WH1000XM5'"></div>
-                    <div class="product-body">
-                        <span class="product-sku">WH1000XM5</span>
-                        <p class="product-name">Audífonos inalámbricos con cancelación de ruido Industry-Leading</p>
-                        <div class="product-price-row"><span class="product-price">$7,499.00</span></div>
+                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
+            </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos de audio disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
+
+<div id="audio" class="mb-2"><span class="section-title">Videojuegos</span></div>
+ <?php 
+$productoControl = new ProductoControlador();
+$productosAudio = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='videojuegos'", 
+    "order" => "nombre ASC"
+]);
+?>
+
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosAudio) && count($productosAudio) > 0):
+        foreach($productosAudio as $audio): 
+            $nombre = $audio['nombre'];
+            $precio = '$' . number_format($audio['precio_venta'], 2);
+            $sku = Helpers::crearSKU($audio['categoria'], $nombre);
+            $id = $audio['no_producto'];
+            
+            $imgAudio = "/proyectoweb/public/uploads/img/" . $audio['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Audio";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgAudio; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
-                    <a href="/proyectoweb/producto/WH1000XM5" class="btn-mas-info">Más información</a>
-                </div></div>        </div>
+                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
+            </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos de audio disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
     </div></main>
 <?php include('vista/footer_gral.php'); ?>

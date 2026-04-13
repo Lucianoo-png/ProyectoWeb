@@ -247,7 +247,7 @@ if (isset($_POST['guardar'])) {
     <main class="admin-content">
         <nav aria-label="breadcrumb" class="mb-3">
             <ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item"><a href="/proyectoweb/admin/inicio" style="color:var(--btn-color)">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="/proyectoweb/admin/inicio" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a></li>
                 <li class="breadcrumb-item active text-muted">Productos</li>
             </ol>
         </nav>
@@ -290,6 +290,22 @@ if (isset($_POST['guardar'])) {
                                     <option value="refrigeradores">Refrigeradores</option>
                                     <option value="congeladores">Congeladores</option>
                                     <option value="televisores">Televisores</option>
+                                    <option value="oled/qled">OLED/QLED</option>
+                                    <option value="led">LED/Smart TV</option>
+                                    <option value="65+">65'' o más</option>
+                                    <option value="32a43">32'' a 43''</option>
+                                    <option value="soundbars">Barras de sonido</option>
+                                    <option value="bocinas">Bocinas</option>
+                                    <option value="audifonos">Audífonos</option>
+                                    <option value="sistemassonido">Sistemas de sonido</option>
+                                    <option value="4k">Proyectores 4K</option>
+                                    <option value="HD">Proyectores FULL HD</option>
+                                    <option value="portatiles">Portátiles</option>
+                                    <option value="accesorios">Accesorios</option>
+                                    <option value="consolas">Consolas</option>
+                                    <option value="controles">Controles</option>
+                                    <option value="sillagamer">Sillas gamer</option>
+                                    <option value="accesoriosgaming">Accesorios gaming</option>
                                     <option value="audio">Audio</option>
                                     <option value="proyectores">Proyectores</option>
                                     <option value="videojuegos">Videojuegos</option>
@@ -409,6 +425,7 @@ if (isset($_POST['guardar'])) {
                             <option value="5" selected>5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>
+                            <option value="20">20</option>
                             <option value="all">Todos</option>
                         </select>
                     </div>
@@ -416,6 +433,7 @@ if (isset($_POST['guardar'])) {
                         Número de registros por página: <span id="info-rows-per-page">5</span> &nbsp;|&nbsp; 
                         Página: <span id="info-current-page">1</span> de <span id="info-total-pages">1</span>
                     </div>
+                    <div class="admin-pagination mt-3" id="paginationControls"></div>
                 </div>
 
                 <?php if(!empty($msj) && (isset($_POST['actualizar']) || isset($_POST['eliminar']) || isset($_POST['activar']))){ ?>
@@ -429,7 +447,7 @@ if (isset($_POST['guardar'])) {
                                 <tr>
                                     <th>No.</th>
                                     <th>Nombre del Producto</th>
-                                    <th>Categoría</th>
+                                    <th>SKU</th>
                                     <th>Stock</th>
                                     <th>P. Venta</th>
                                     <th>Estatus</th>
@@ -452,7 +470,7 @@ if (isset($_POST['guardar'])) {
                                 <tr>
                                     <td><?= $i+1 ?></td>
                                     <td class="td-name"><?= htmlspecialchars($p['nombre']) ?></td>
-                                    <td><?= $p['categoria'] ?></td>
+                                    <td><?php echo Helpers::crearSKU($p['categoria'],htmlspecialchars($p['nombre'])); ?></td>
                                     <td><?= $p['stock'] ?></td>
                                     <td>$<?= number_format($p['precio_venta'], 2) ?></td>
                                     <td>
@@ -496,7 +514,7 @@ if (isset($_POST['guardar'])) {
                             </tbody>
                         </table>
                     </div>
-                    <div class="admin-pagination mt-3" id="paginationControls"></div>
+                    
                 </div>
             </div>
         </div>

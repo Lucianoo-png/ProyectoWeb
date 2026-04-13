@@ -265,7 +265,8 @@
                                 <option value="5" selected>5</option>
                                 <option value="10">10</option>
                                 <option value="15">15 </option>
-                                <option value="all">Todos los registros</option>
+                                <option value="20">20</option>
+                                <option value="all">Todos</option>
                             </select>
                         </div>
                         <div class="table-page-info">

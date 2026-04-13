@@ -6,11 +6,13 @@
                     <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
                 </span>
             </div>
+            <?php if(isset($_SESSION["NoCliente"])){ ?>
             <div class="d-flex gap-3">
                 <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                     <i class="fas fa-truck me-1"></i> Rastrear Pedido
                 </a>
             </div>
+            <?php } ?>
         </div>
     </div>
 
@@ -142,245 +144,213 @@
             <div id="soundbars" class="mb-2">
                 <span class="section-title">Soundbars</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosSoundbars = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='soundbars'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=HW-Q60T" alt="Soundbar 5.1ch 360W con Dolby Digital y DTS Virtual X" onerror="this.src='https://placehold.co/300x250?text=HW-Q60T'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">HW-Q60T</span>
-                            <p class="product-name">Soundbar 5.1ch 360W con Dolby Digital y DTS Virtual:X</p>
-                            <div class="product-price-row"><span class="product-price">$6,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/HW-Q60T" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosSoundbars) && count($productosSoundbars) > 0):
+        foreach($productosSoundbars as $bar): 
+            $nombre = $bar['nombre'];
+            $precio = '$' . number_format($bar['precio_venta'], 2);
+            $sku = Helpers::crearSKU($bar['categoria'], $nombre);
+            $id = $bar['no_producto'];
+            
+            $imgBar = "/proyectoweb/public/uploads/img/" . $bar['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Soundbar";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgBar; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=HW-Q990B" alt="Soundbar 11.1.4ch 656W con Dolby Atmos y subwoofer inalámbrico" onerror="this.src='https://placehold.co/300x250?text=HW-Q990B'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">HW-Q990B</span>
-                            <p class="product-name">Soundbar 11.1.4ch 656W con Dolby Atmos y subwoofer inalámbrico</p>
-                            <div class="product-price-row"><span class="product-price">$19,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/HW-Q990B" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=SC-HTB900" alt="Soundbar 3.1ch 500W con Dolby Atmos y subwoofer integrado" onerror="this.src='https://placehold.co/300x250?text=SC-HTB900'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">SC-HTB900</span>
-                            <p class="product-name">Soundbar 3.1ch 500W con Dolby Atmos y subwoofer integrado</p>
-                            <div class="product-price-row"><span class="product-price">$9,299.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/SC-HTB900" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=YAS-109" alt="Soundbar 2.0ch 120W con Bluetooth y DTS Virtual X" onerror="this.src='https://placehold.co/300x250?text=YAS-109'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">YAS-109</span>
-                            <p class="product-name">Soundbar 2.0ch 120W con Bluetooth y DTS Virtual:X</p>
-                            <div class="product-price-row"><span class="product-price">$3,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/YAS-109" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron barras de sonido disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── Bocinas ── -->
             <div id="bocinas" class="mb-2">
                 <span class="section-title">Bocinas</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosBocinas = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='bocinas'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=XBOOM360" alt="Bocina inalámbrica 360 120W omnidireccional resistente al agua" onerror="this.src='https://placehold.co/300x250?text=XBOOM360'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">XBOOM360</span>
-                            <p class="product-name">Bocina inalámbrica 360° 120W omnidireccional resistente al agua</p>
-                            <div class="product-price-row"><span class="product-price">$3,199.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/XBOOM360" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosBocinas) && count($productosBocinas) > 0):
+        foreach($productosBocinas as $bocina): 
+            $nombre = $bocina['nombre'];
+            $precio = '$' . number_format($bocina['precio_venta'], 2);
+            $sku = Helpers::crearSKU($bocina['categoria'], $nombre);
+            $id = $bocina['no_producto'];
+            
+            $imgBocina = "/proyectoweb/public/uploads/img/" . $bocina['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Bocina";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgBocina; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=SRS-XB43" alt="Bocina portátil Bluetooth IP67 con luces LED y Extra Bass" onerror="this.src='https://placehold.co/300x250?text=SRS-XB43'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">SRS-XB43</span>
-                            <p class="product-name">Bocina portátil Bluetooth IP67 con luces LED y Extra Bass</p>
-                            <div class="product-price-row"><span class="product-price">$2,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/SRS-XB43" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=HOMEPOD2" alt="Bocina inteligente con Siri y sonido espacial computacional" onerror="this.src='https://placehold.co/300x250?text=HOMEPOD2'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">HOMEPOD2</span>
-                            <p class="product-name">Bocina inteligente con Siri y sonido espacial computacional</p>
-                            <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/HOMEPOD2" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=CHARGE5" alt="Bocina portátil resistente al agua y polvo 40W PartyBoost" onerror="this.src='https://placehold.co/300x250?text=CHARGE5'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">CHARGE5</span>
-                            <p class="product-name">Bocina portátil resistente al agua y polvo 40W PartyBoost</p>
-                            <div class="product-price-row"><span class="product-price">$3,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/CHARGE5" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron bocinas disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── Audífonos ── -->
             <div id="audifonos" class="mb-2">
                 <span class="section-title">Audífonos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosAudifonos = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='audifonos'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WH1000XM5" alt="Audífonos inalámbricos con cancelación de ruido Industry-Leading" onerror="this.src='https://placehold.co/300x250?text=WH1000XM5'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WH1000XM5</span>
-                            <p class="product-name">Audífonos inalámbricos con cancelación de ruido Industry-Leading</p>
-                            <div class="product-price-row"><span class="product-price">$7,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WH1000XM5" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosAudifonos) && count($productosAudifonos) > 0):
+        foreach($productosAudifonos as $audifono): 
+            $nombre = $audifono['nombre'];
+            $precio = '$' . number_format($audifono['precio_venta'], 2);
+            $sku = Helpers::crearSKU($audifono['categoria'], $nombre);
+            $id = $audifono['no_producto'];
+            
+            $imgAudifono = "/proyectoweb/public/uploads/img/" . $audifono['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Audifonos";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgAudifono; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=BOSE700" alt="Audífonos inalámbricos con cancelación de ruido adaptativa 11 niveles" onerror="this.src='https://placehold.co/300x250?text=BOSE700'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">BOSE700</span>
-                            <p class="product-name">Audífonos inalámbricos con cancelación de ruido adaptativa 11 niveles</p>
-                            <div class="product-price-row"><span class="product-price">$8,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/BOSE700" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=AIRPODSPRO2" alt="Audífonos True Wireless con cancelación de ruido adaptativa H2" onerror="this.src='https://placehold.co/300x250?text=AIRPODSPRO2'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">AIRPODSPRO2</span>
-                            <p class="product-name">Audífonos True Wireless con cancelación de ruido adaptativa H2</p>
-                            <div class="product-price-row"><span class="product-price">$6,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/AIRPODSPRO2" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=QUIETCOMFORT45" alt="Audífonos inalámbricos con cancelación de ruido QuietComfort 45h" onerror="this.src='https://placehold.co/300x250?text=QUIETCOMFORT45'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">QUIETCOMFORT45</span>
-                            <p class="product-name">Audífonos inalámbricos con cancelación de ruido QuietComfort 45h</p>
-                            <div class="product-price-row"><span class="product-price">$7,199.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/QUIETCOMFORT45" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron audífonos disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── Sistemas de Sonido ── -->
             <div id="sistemas" class="mb-2">
                 <span class="section-title">Sistemas de Sonido</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$sistemasSonido = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='sistemassonido'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=SC-D7MK2" alt="Minicomponente 1200W con CD MP3 USB Bluetooth y karaoke" onerror="this.src='https://placehold.co/300x250?text=SC-D7MK2'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">SC-D7MK2</span>
-                            <p class="product-name">Minicomponente 1200W con CD, MP3, USB, Bluetooth y karaoke</p>
-                            <div class="product-price-row"><span class="product-price">$5,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/SC-D7MK2" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($sistemasSonido) && count($sistemasSonido) > 0):
+        foreach($sistemasSonido as $sistema): 
+            $nombre = $sistema['nombre'];
+            $precio = '$' . number_format($sistema['precio_venta'], 2);
+            $sku = Helpers::crearSKU($sistema['categoria'], $nombre);
+            $id = $sistema['no_producto'];
+            
+            $imgSistema = "/proyectoweb/public/uploads/img/" . $sistema['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Sistema-Sonido";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSistema; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=MHC-V83D" alt="Sistema de audio portátil 2000W con luces LED y MEGA BASS" onerror="this.src='https://placehold.co/300x250?text=MHC-V83D'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">MHC-V83D</span>
-                            <p class="product-name">Sistema de audio portátil 2000W con luces LED y MEGA BASS</p>
-                            <div class="product-price-row"><span class="product-price">$9,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/MHC-V83D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=RCD-N10" alt="Receptor de red estéreo compacto con HEOS y Bluetooth integrados" onerror="this.src='https://placehold.co/300x250?text=RCD-N10'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">RCD-N10</span>
-                            <p class="product-name">Receptor de red estéreo compacto con HEOS y Bluetooth integrados</p>
-                            <div class="product-price-row"><span class="product-price">$6,299.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/RCD-N10" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=XB72" alt="Bocina de torre inalámbrica 300W con luces LED y batería 25h" onerror="this.src='https://placehold.co/300x250?text=XB72'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">XB72</span>
-                            <p class="product-name">Bocina de torre inalámbrica 300W con luces LED y batería 25h</p>
-                            <div class="product-price-row"><span class="product-price">$7,899.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/XB72" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron sistemas de sonido disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

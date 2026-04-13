@@ -14,11 +14,13 @@ $mostrarCategorias = $mostrarCategorias ?? true;
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
+        <?php if(isset($_SESSION["NoCliente"])){ ?>
         <div class="d-flex gap-3">
             <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
         </div>
+        <?php } ?>
     </div>
 </div>
 
@@ -39,7 +41,7 @@ $mostrarCategorias = $mostrarCategorias ?? true;
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-badge" id="cart-count" style="display:none">0</span>
             </a>
-            <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta">
+            <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?> class="nav-icon" title="Mi Cuenta">
                 <i class="fas fa-user"></i>
             </a>
         </div>

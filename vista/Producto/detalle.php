@@ -1,98 +1,72 @@
 <?php
-$productos = [
-    'WM3911D' => [
-        'No_Producto' => 'WM3911D',
-        'Nombre'      => 'Microondas de mesa con función AirFry y 4 modos en 1',
-        'Descripcion' => 'Microondas de mesa de 1.1 pies cúbicos con función AirFry integrada y 4 modos de cocción: microondas, convección, grill y combinado. Pantalla digital con presets automáticos para los platillos más comunes.',
-        'Precio_Venta' => 4599.00, 'Alto' => 34.3, 'Ancho' => 55.9,
-        'Imagen'  => '../../multimedia/Imagenes/productos/microondas-wm3911d.jpg',
-        'Manual'  => '../../multimedia/Manuales/microondas-wm3911d.pdf',
-        'Categoria' => 'cocina',
-    ],
-    '8MWTW2024WJM' => [
-        'No_Producto' => '8MWTW2024WJM',
-        'Nombre'      => 'Lavadora 20kg Carga Superior Xpert System Blanca Agitador',
-        'Descripcion' => 'Lavadora de carga superior de 20 kg con sistema Xpert que se adapta a tus cargas. Motor de alta eficiencia, 12 ciclos de lavado y tecnología de agua caliente integrada para una limpieza profunda.',
-        'Precio_Venta' => 9999.00, 'Alto' => 105.0, 'Ancho' => 68.0,
-        'Imagen'  => '../../multimedia/Imagenes/productos/lavadora-8mwtw2024wjm.jpg',
-        'Manual'  => '../../multimedia/Manuales/lavadora-8mwtw2024wjm.pdf',
-        'Categoria' => 'blanca',
-    ],
-    'WK0260B' => [
-        'No_Producto' => 'WK0260B',
-        'Nombre'      => 'Despachador de agua con fábrica de hielo',
-        'Descripcion' => 'Despachador de agua tipo botellón con fábrica de hielo integrada. Produce hasta 12 kg de hielo al día, dispensador de agua fría, caliente y temperatura natural. Acabado negro mate moderno.',
-        'Precio_Venta' => 7999.00, 'Alto' => 108.0, 'Ancho' => 35.0,
-        'Imagen'  => '../../multimedia/Imagenes/productos/despachador-wk0260b.jpg',
-        'Manual'  => '../../multimedia/Manuales/despachador-wk0260b.pdf',
-        'Categoria' => 'blanca',
-    ],
-    'WRS315SNHM' => [
-        'No_Producto' => 'WRS315SNHM',
-        'Nombre'      => 'Refrigerador Side by Side 25 pies con despachador de agua y hielo',
-        'Descripcion' => 'Refrigerador side by side de 25 pies cúbicos con despachador externo de agua y hielo en puerta. Tecnología In-Door-Ice para maximizar el espacio interior, iluminación LED y control de temperatura digital.',
-        'Precio_Venta' => 22499.00, 'Alto' => 174.0, 'Ancho' => 83.8,
-        'Imagen'  => '../../multimedia/Imagenes/productos/refrigerador-wrs315snhm.jpg',
-        'Manual'  => '../../multimedia/Manuales/refrigerador-wrs315snhm.pdf',
-        'Categoria' => 'blanca',
-    ],
-    'MGH765RDS' => [
-        'No_Producto' => 'MGH765RDS',
-        'Nombre'      => 'Estufa de gas 6 quemadores con horno convección acero inoxidable',
-        'Descripcion' => 'Estufa de 30" color negro acero porcelanizado con seis quemadores y tres parrillas con encendido eléctrico, sistema de seguridad push & turn, horno con capacidad de 5.1 pies cúbicos y ventana panorámica semi ahumada.',
-        'Precio_Venta' => 9799.00, 'Alto' => 92.0, 'Ancho' => 76.0,
-        'Imagen'  => '../../multimedia/Imagenes/productos/estufa-mgh765rds.jpg',
-        'Manual'  => '../../multimedia/Manuales/estufa-mgh765rds.pdf',
-        'Categoria' => 'cocina',
-    ],
-    'WED5000DW' => [
-        'No_Producto' => 'WED5000DW',
-        'Nombre'      => 'Secadora eléctrica de carga frontal 7.0 pies cúbicos blanca',
-        'Descripcion' => 'Secadora eléctrica de carga frontal con capacidad de 7.0 pies cúbicos. 12 ciclos de secado, sensor de humedad automático para evitar el sobre-secado y tambor iluminado para cargas fáciles.',
-        'Precio_Venta' => 7899.00, 'Alto' => 109.2, 'Ancho' => 71.1,
-        'Imagen'  => '../../multimedia/Imagenes/productos/secadora-wed5000dw.jpg',
-        'Manual'  => '../../multimedia/Manuales/secadora-wed5000dw.pdf',
-        'Categoria' => 'blanca',
-    ],
-    'WDF520PADM' => [
-        'No_Producto' => 'WDF520PADM',
-        'Nombre'      => 'Lavavajillas empotrable 24" con ciclo de alta temperatura acero inox',
-        'Descripcion' => 'Lavavajillas empotrable de 24" con ciclo de alta temperatura para eliminar bacterias. Capacidad para 14 cubiertos, 5 ciclos de lavado, tecnología de agua caliente y acabado acero inoxidable resistente a huellas.',
-        'Precio_Venta' => 7299.00, 'Alto' => 85.8, 'Ancho' => 60.3,
-        'Imagen'  => '../../multimedia/Imagenes/productos/lavavajillas-wdf520padm.jpg',
-        'Manual'  => '../../multimedia/Manuales/lavavajillas-wdf520padm.pdf',
-        'Categoria' => 'cocina',
-    ],
-    'WQ09X' => [
-        'No_Producto' => 'WQ09X',
-        'Nombre'      => 'Frigobar 9 pies con congelador y acabado acero inoxidable',
-        'Descripcion' => 'Frigobar de 9 pies cúbicos con sección congelador independiente. Iluminación LED interior, estantes ajustables de vidrio templado y sistema de enfriamiento silencioso. Ideal para recámaras o espacios pequeños.',
-        'Precio_Venta' => 4499.00, 'Alto' => 134.0, 'Ancho' => 55.0,
-        'Imagen'  => '../../multimedia/Imagenes/productos/frigobar-wq09x.jpg',
-        'Manual'  => '../../multimedia/Manuales/frigobar-wq09x.pdf',
-        'Categoria' => 'blanca',
-    ],
+
+$productoControl = new ProductoControlador();
+
+$resProd = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "no_producto = $id_producto AND estatus = 'true'"
+]);
+
+$p = $resProd[0];
+
+$resColores = $productoControl->getProducto()->buscar('"Veracruz".productocolor', [
+    "where" => "no_producto = $id_producto"
+]);
+
+$coloresHex = [
+    'Negro'            => '#1a1a1a',
+    'Blanco'           => '#f5f5f5',
+    'Gris'             => '#9e9e9e',
+    'Plata'            => '#C0C0C0',
+    'Acero Inoxidable' => '#8D9093',
+    'Grafito'          => '#3d3d3d',
+    'Titanio'          => '#7a7a85',
+    'Champagne'        => '#C9A96E',
+    'Cobre'            => '#b87333',
+    'Dorado'           => '#CFB53B',
+    'Crema'            => '#F5F0E1',
+    'Rojo'             => '#c62828',
+    'Azul Marino'      => '#1a3a5c',
+    'Verde Pizarra'    => '#4a6741',
 ];
 
-$sku = isset($_GET['sku']) ? strtoupper(trim($_GET['sku'])) : 'WM3911D';
-$p   = $productos[$sku] ?? $productos['WM3911D'];
+$stockActual = intval($p['stock']);
+$tieneStock  = ($stockActual > 0);
+$maxStock    = $stockActual;
 
-$cat_labels = ['blanca' => 'Línea Blanca', 'marron' => 'Línea Marrón', 'cocina' => 'Cocina'];
-$cat_label  = $cat_labels[$p['Categoria']] ?? ucfirst($p['Categoria']);
-$cat_file   = ['blanca' => 'linea_blanca.php', 'marron' => 'linea_marron.php', 'cocina' => 'cocina.php'][$p['Categoria']] ?? 'index.php';
+$cat_labels = [
+    'blanca' => 'Línea Blanca', 
+    'marron' => 'Línea Marrón', 
+    'cocina' => 'Cocina',
+    '65+'    => 'Televisores 65"+',
+    '32a43'  => 'Televisores 32" a 43"',
+    'soundbars' => 'Barras de Sonido',
+    'bocinas' => 'Bocinas',
+    'audifonos' => 'Audífonos',
+    'sistemassonido' => 'Sistemas de Sonido',
+    '4k' => 'Proyectores 4K',
+    'HD' => 'Proyectores HD',
+    'portatiles' => 'Proyectores Portátiles',
+    'accesorios' => 'Accesorios Proyección',
+    'consolas' => 'Consolas de Videojuegos',
+    'controles' => 'Controles',
+    'sillagamer' => 'Sillas Gamer',
+    'accesoriosgaming' => 'Accesorios Gaming'
+];
+$cat_label = $cat_labels[$p['categoria']] ?? ucfirst($p['categoria']);
 
-// Variable que leerá scripts.js para el carrito
+$sku_visual = Helpers::crearSKU($p['categoria'], $p['nombre']);
+
 $prod_js = json_encode([
-    'sku'      => $p['No_Producto'],
-    'nombre'   => $p['Nombre'],
-    'precio'   => $p['Precio_Venta'],
-    'imagen'   => $p['Imagen'],
-    'categoria'=> $cat_label,
+    'id'        => $p['no_producto'],
+    'nombre'    => $p['nombre'],
+    'precio'    => $p['precio_venta'],
+    'imagen'    => $p['imagen'],
+    'categoria' => $cat_label,
+    'stock'     => $stockActual
 ]);
 ?>
 
-<!-- ─── Topbar ─────────────────────────────────────────────── -->
- <div class="topbar">
+<div class="topbar">
     <div class="container d-flex justify-content-between">
         <div>
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
@@ -100,15 +74,16 @@ $prod_js = json_encode([
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-        <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+        <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+        <?php } ?>
     </div>
 </div>
 
-<!-- ─── Navbar ─────────────────────────────────────────────── -->
 <div class="main-nav">
     <div class="container d-flex align-items-center gap-3">
         <a href="/proyectoweb/?" class="brand-logo me-3">
@@ -119,7 +94,7 @@ $prod_js = json_encode([
             <button class="btn px-4"><i class="fas fa-search"></i></button>
         </div>
         <div class="d-flex align-items-center gap-3 ms-2">
-            <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito">
+            <a href="/proyectoweb/carrito" class="nav-icon position-relative" title="Carrito">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-badge" id="cart-count" style="display:none">0</span>
             </a>
@@ -130,171 +105,291 @@ $prod_js = json_encode([
     </div>
 </div>
 
-<!-- ─── Breadcrumb ─────────────────────────────────────────── -->
 <div class="bg-white border-bottom py-2">
     <div class="container">
-        <nav aria-label="breadcrumb"><ol class="breadcrumb mb-0 small">
-            <li class="breadcrumb-item">
-                <a href="/proyectoweb/?" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="<?= htmlspecialchars($cat_file) ?>" class="text-decoration-none" style="color:var(--btn-color)">
-                    <?= htmlspecialchars($cat_label) ?>
-                </a>
-            </li>
-            <li class="breadcrumb-item active text-muted"><?= htmlspecialchars($p['No_Producto']) ?></li>
-        </ol></nav>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 small">
+                <li class="breadcrumb-item"><a href="/proyectoweb/?" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a></li>
+                <li class="breadcrumb-item"><span class="text-muted"><?= $cat_label ?></span></li>
+                <li class="breadcrumb-item active text-muted" aria-current="page"><?= $sku_visual ?></li>
+            </ol>
+        </nav>
     </div>
 </div>
 
-<!-- ─── Contenido principal ────────────────────────────────── -->
 <main class="py-4">
     <div class="container">
         <div class="row g-4">
 
-            <!-- Imagen -->
             <div class="col-lg-5">
-                <div class="detail-img-card">
-                    <img src="<?= htmlspecialchars($p['Imagen']) ?>"
-                         alt="<?= htmlspecialchars($p['Nombre']) ?>"
-                         class="detail-main-img"
-                         onerror="this.src='https://placehold.co/500x500?text=Producto'">
+                <div class="detail-img-card shadow-sm border rounded bg-white p-3 text-center">
+                    <img src="/proyectoweb/public/uploads/img/<?= htmlspecialchars($p['imagen']) ?>"
+                         alt="<?= htmlspecialchars($p['nombre']) ?>"
+                         class="img-fluid detail-main-img"
+                         onerror="this.src='https://placehold.co/500x500?text=Sin+Imagen'">
                 </div>
             </div>
 
-            <!-- Info -->
             <div class="col-lg-4">
-                <p class="detail-marca"><?= htmlspecialchars($cat_label) ?></p>
-                <h1 class="detail-title"><?= htmlspecialchars($p['Nombre']) ?></h1>
-                <p class="detail-sku text-muted small">
-                    Código de producto (SKU): <?= htmlspecialchars($p['No_Producto']) ?>
+                <h1 class="detail-title mb-2" style="font-size: 1.75rem; font-weight: 700; color: var(--dark-blue);">
+                    <?= htmlspecialchars($p['nombre']) ?>
+                </h1>
+                <p class="text-muted small mb-3">
+                    Código de producto (SKU): <span class="fw-bold"><?= $sku_visual ?></span>
                 </p>
-                <hr class="my-3">
-                <p class="fw-semibold mb-2" style="font-size:.9rem">Cantidad:</p>
-                <div class="qty-control mb-2">
-                    <button class="qty-btn" onclick="cambiarCantidad(-1)"><i class="fas fa-minus"></i></button>
-                    <input type="number" id="cantidad" class="qty-input" value="1" min="1" max="99" readonly>
-                    <button class="qty-btn" onclick="cambiarCantidad(1)"><i class="fas fa-plus"></i></button>
+                
+                <hr class="my-4">
+
+                <div class="mb-4">
+                    <p class="fw-semibold mb-2" style="font-size:.9rem">Color disponible:</p>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <?php if($resColores && count($resColores) > 0): ?>
+                            <?php foreach($resColores as $idx => $c): 
+                                $nColor = $c['color'];
+                                $hColor = $coloresHex[$nColor] ?? '#ddd';
+                            ?>
+                                <div class="color-item">
+                                    <input type="radio" name="color_seleccionado" id="color_<?= $idx ?>" 
+                                           value="<?= $nColor ?>" class="btn-check" 
+                                           <?= $idx === 0 ? 'checked' : '' ?> 
+                                           <?= !$tieneStock ? 'disabled' : '' ?>>
+                                    <label class="color-ball shadow-sm" for="color_<?= $idx ?>" 
+                                           style="background-color: <?= $hColor ?>;" 
+                                           title="<?= $nColor ?>"></label>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <span class="text-muted small italic">Color único de serie</span>
+                        <?php endif; ?>
+                    </div>
                 </div>
-                <p class="detail-disponible">
-                    <i class="fas fa-check-circle me-1" style="color:#28a745"></i> Disponible
-                </p>
-                <hr class="my-3">
-                <?php if (!empty($p['Manual'])): ?>
-                <a href="<?= htmlspecialchars($p['Manual']) ?>" target="_blank"
-                   class="d-inline-flex align-items-center gap-2 text-decoration-none"
-                   style="font-size:.85rem; color:var(--btn-color)">
-                    <i class="fas fa-file-pdf"></i> Descargar manual de usuario
+
+                <p class="fw-semibold mb-2" style="font-size:.9rem">Cantidad:</p>
+                <div class="qty-control mb-3">
+                    <button class="qty-btn" onclick="cambiarCantidadProd(-1)" <?= !$tieneStock ? 'disabled' : '' ?>>
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <input type="number" id="cantidad" class="qty-input" autocomplete="off"
+                           value="<?= $tieneStock ? '1' : '0' ?>" 
+                           min="<?= $tieneStock ? '1' : '0' ?>" 
+                           max="<?= $stockActual ?>" readonly>
+                    <button class="qty-btn" onclick="cambiarCantidadProd(1)" <?= !$tieneStock ? 'disabled' : '' ?>>
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+
+                <div class="stock-status-box mb-4">
+                    <?php if($tieneStock): ?>
+                        <div class="text-success fw-bold">
+                            <i class="fas fa-check-circle me-1"></i> Disponible
+                            <span class="text-muted fw-normal ms-1" style="font-size: 0.85rem;">
+                                (<?= $stockActual ?> unidades en existencia)
+                            </span>
+                        </div>
+                    <?php else: ?>
+                        <div class="text-danger fw-bold">
+                            <i class="fas fa-times-circle me-1"></i> Producto Agotado
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <hr class="my-4">
+
+                <?php if (!empty($p['manual'])): ?>
+                <a href="/proyectoweb/public/uploads/manuales/<?= htmlspecialchars($p['manual']) ?>" 
+                   target="_blank" class="manual-link d-inline-flex align-items-center">
+                    <i class="fas fa-file-pdf me-2 shadow-sm"></i> 
+                    <span>Descargar manual de usuario (.pdf)</span>
                 </a>
                 <?php endif; ?>
             </div>
 
-            <!-- Caja de compra -->
             <div class="col-lg-3">
-                <div class="detail-buy-box">
-                    <span class="detail-price">$<?= number_format($p['Precio_Venta'], 2) ?></span>
-                    <p class="text-muted small mb-3 mt-1">IVA incluido</p>
-                    <hr class="my-3">
-                    <div class="detail-envio-box mb-3">
-                        <i class="fas fa-truck me-2" style="color:var(--btn-color)"></i>
+                <div class="detail-buy-box sticky-top shadow-sm border rounded bg-white p-4" style="top: 20px;">
+                    <div class="price-container">
+                        <span class="detail-price" style="font-size: 2.2rem; font-weight: 800; color: #cc0000;">
+                            $<?= number_format($p['precio_venta'], 2) ?>
+                        </span>
+                        <p class="text-muted small mb-0">Precio con IVA incluido</p>
                     </div>
-                    <!-- onclick llama a agregarAlCarrito() definido en scripts.js -->
-                    <button onclick="agregarAlCarrito()" class="btn-agregar-carrito w-100">
-                        <i class="fas fa-shopping-cart me-2"></i> Agregar al carrito
+
+                    <hr class="my-4">
+
+                    <div class="delivery-info mb-4">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="fas fa-truck text-primary"></i>
+                            <span class="small fw-semibold">Envío gratis a todo el país</span>
+                        </div>
+                    </div>
+
+                    <button id="btn-add-main" onclick="agregarAlCarrito()" 
+                            class="btn-agregar-carrito w-100 py-3 shadow-sm fw-bold" 
+                            <?= !$tieneStock ? 'disabled' : '' ?>>
+                        <i class="fas fa-shopping-cart me-2"></i> 
+                        <?= $tieneStock ? 'AGREGAR AL CARRITO' : 'SIN EXISTENCIAS' ?>
                     </button>
-                    <hr class="my-3">
-                    <div class="row text-center g-2 mt-1">
-                        <div class="col-4"><div class="detail-garantia">
-                            <i class="fas fa-undo-alt"></i><p>30 días para devoluciones</p>
-                        </div></div>
-                        <div class="col-4"><div class="detail-garantia">
-                            <i class="fas fa-shield-alt"></i><p>Desde 90 días de garantía</p>
-                        </div></div>
-                        <div class="col-4"><div class="detail-garantia">
-                            <i class="fas fa-lock"></i><p>Tu compra es segura</p>
-                        </div></div>
-                    </div>
+
                 </div>
             </div>
         </div>
 
-        <!-- Descripción y especificaciones -->
-        <div class="row mt-5">
+        <div class="row mt-5 pt-4">
             <div class="col-12">
-                <h5 class="fw-bold mb-1" style="color:var(--dark-blue)">Descripción y especificaciones</h5>
-                <hr style="border-color:var(--btn-color); border-width:2px; opacity:1; width:240px; margin-top:4px">
+                <div class="section-divider">
+                    <h5 class="fw-bold text-dark mb-0">Descripción y especificaciones</h5>
+                    <div class="title-underline mt-2"></div>
+                </div>
             </div>
         </div>
-        <div class="row g-4 mt-1 mb-5">
+
+        <div class="row g-5 mt-2 mb-5">
             <div class="col-lg-7">
-                <h6 class="fw-bold mb-3" style="color:var(--dark-blue)">Descripción</h6>
-                <p class="text-muted" style="font-size:.9rem; line-height:1.8">
-                    <?= nl2br(htmlspecialchars($p['Descripcion'])) ?>
+                <h6 class="fw-bold mb-3" style="color:var(--dark-blue)">Detalles del producto</h6>
+                <p class="text-muted" style="font-size:.95rem; line-height:1.8; text-align: justify;">
+                    <?= nl2br(htmlspecialchars($p['descripción'])) ?>
                 </p>
-                <p class="text-muted mt-3" style="font-size:.78rem; font-style:italic">
-                    *Los abonos quincenales, el plazo del crédito y el pago inicial, pueden variar según el margen de crédito y el historial de pago de cada cliente.
-                </p>
+                <div class="alert alert-secondary border-0 mt-4 py-2 px-3" style="font-size: 0.75rem; border-left: 4px solid #666 !important;">
+                    * Los abonos quincenales, plazos de crédito y montos de pago inicial son meramente informativos y pueden variar dependiendo del historial crediticio del cliente y su margen de crédito disponible.
+                </div>
             </div>
+
             <div class="col-lg-5">
-                <h6 class="fw-bold mb-3" style="color:var(--dark-blue)">Especificaciones</h6>
-                <table class="table table-sm detail-specs-table">
-                    <tbody>
-                        <tr>
-                            <td class="spec-key">No. Producto</td>
-                            <td class="spec-val"><?= htmlspecialchars($p['No_Producto']) ?></td>
-                        </tr>
-                        <tr>
-                            <td class="spec-key">Medidas (Alto x Ancho)</td>
-                            <td class="spec-val"><?= number_format($p['Alto'],1) ?> x <?= number_format($p['Ancho'],1) ?> cm</td>
-                        </tr>
-                        <tr>
-                            <td class="spec-key">Categoría</td>
-                            <td class="spec-val"><?= htmlspecialchars($cat_label) ?></td>
-                        </tr>
-                        <?php if (!empty($p['Manual'])): ?>
-                        <tr>
-                            <td class="spec-key">Manual</td>
-                            <td class="spec-val">
-                                <a href="<?= htmlspecialchars($p['Manual']) ?>" target="_blank"
-                                   style="color:var(--btn-color); text-decoration:none">
-                                    <i class="fas fa-file-pdf me-1"></i> Ver manual
-                                </a>
-                            </td>
-                        </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                <h6 class="fw-bold mb-3" style="color:var(--dark-blue)">Ficha Técnica</h6>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped specs-table-final">
+                        <tbody>
+                            <tr>
+                                <th class="bg-light w-40">N° de Producto</th>
+                                <td><?= $p['no_producto'] ?></td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Dimensiones</th>
+                                <td><?= number_format($p['alto'], 1) ?> cm (Alto) x <?= number_format($p['ancho'], 1) ?> cm (Ancho)</td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Categoría</th>
+                                <td><?= htmlspecialchars($cat_label) ?></td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Estado de equipo</th>
+                                <td>Nuevo de fábrica</td>
+                            </tr>
+                            <?php if (!empty($p['manual'])): ?>
+                            <tr>
+                                <th class="bg-light text-danger">Manual Digital</th>
+                                <td>
+                                    <a href="/proyectoweb/public/uploads/manuales/<?= htmlspecialchars($p['manual']) ?>" 
+                                       target="_blank" class="text-decoration-none fw-bold">
+                                        <i class="fas fa-external-link-alt me-1"></i> Abrir PDF
+                                    </a>
+                                </td>
+                            </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </main>
 
-<!-- ─── Modal: producto agregado ───────────────────────────── -->
 <div id="modal-agregado">
-    <div class="modal-agregado-card">
+    <div class="modal-agregado-card animate__animated animate__zoomIn">
         <div class="modal-agregado-header">
-            <span><i class="fas fa-check-circle me-1"></i> Producto agregado al carrito</span>
-            <button onclick="cerrarModal()" title="Cerrar">&times;</button>
+            <span><i class="fas fa-check-circle me-1"></i> ¡Producto agregado con éxito!</span>
+            <button onclick="cerrarModal()" class="close-btn">&times;</button>
         </div>
         <div class="modal-agregado-body">
-            <img id="modal-img" src="" alt="" class="modal-agregado-img"
-                 onerror="this.src='https://placehold.co/88x88?text=Producto'">
+            <img id="modal-img" src="" alt="Producto" class="modal-agregado-img shadow-sm"
+                 onerror="this.src='https://placehold.co/100x100?text=Producto'">
             <div class="modal-agregado-info">
-                <div class="prod-name"  id="modal-nombre"></div>
-                <div class="prod-sku"   id="modal-sku"></div>
-                <div class="prod-price" id="modal-precio"></div>
+                <div class="prod-name fw-bold" id="modal-nombre"></div>
+                <div class="prod-sku text-muted small mb-1" id="modal-sku"></div>
+                <div class="prod-color-select small mb-1" id="modal-color"></div>
+                <div class="prod-price h5 fw-bold text-danger" id="modal-precio"></div>
             </div>
         </div>
-        <div class="modal-agregado-footer">
-            <a href="/proyectoweb/carrito" class="btn-ver-carro">
-                <i class="fas fa-shopping-cart me-1"></i> Ver carrito
+        <div class="modal-agregado-footer gap-2">
+            <a href="/proyectoweb/carrito" class="btn-ver-carro w-50 py-2">
+                <i class="fas fa-shopping-cart me-1"></i> IR AL CARRITO
             </a>
-            <button class="btn-seguir-comprando" onclick="cerrarModal()">
-                <i class="fas fa-check"></i> Seguir comprando
+            <button class="btn-seguir-comprando w-50 py-2" onclick="cerrarModal()">
+                SEGUIR COMPRANDO
             </button>
         </div>
     </div>
 </div>
-<?php include('vista/footer_gral.php'); ?>
 
-<script>const PRODUCTO = <?= $prod_js ?>;</script>
+<style>
+:root { --btn-color: #0088cc; --dark-blue: #003366; }
+
+.color-ball { 
+    width: 32px; height: 32px; border-radius: 50%; display: block; 
+    cursor: pointer; border: 3px solid #f0f0f0; transition: all 0.25s ease;
+}
+.btn-check:checked + .color-ball { 
+    border-color: var(--btn-color); transform: scale(1.15); 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
+}
+.btn-check:disabled + .color-ball { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
+
+.qty-control { display: flex; align-items: center; border: 1px solid #ced4da; width: fit-content; border-radius: 6px; }
+.qty-btn { background: #f8f9fa; border: none; padding: 6px 14px; color: #495057; font-size: 0.9rem; }
+.qty-btn:hover:not(:disabled) { background: #e9ecef; }
+.qty-btn:disabled { color: #dee2e6; cursor: not-allowed; }
+.qty-input { width: 55px; border: none; text-align: center; font-weight: 700; background: transparent; }
+
+.btn-agregar-carrito { 
+    background: var(--btn-color); color: white; border: none; border-radius: 6px; 
+    transition: all 0.3s; 
+}
+.btn-agregar-carrito:hover:not(:disabled) { background: var(--dark-blue); transform: translateY(-2px); }
+.btn-agregar-carrito:disabled { background: #a5a5a5; cursor: not-allowed; }
+
+.manual-link { color: var(--btn-color); font-weight: 600; text-decoration: none; transition: 0.2s; }
+.manual-link:hover { color: var(--dark-blue); text-decoration: underline; }
+.title-underline { width: 80px; height: 4px; background: var(--btn-color); border-radius: 2px; }
+.w-40 { width: 40%; }
+</style>
+
+<script>
+
+
+const PRODUCTO_BASE = <?= $prod_js ?>;
+
+function cambiarCantidadProd(v) {
+    const input = document.getElementById('cantidad');
+    const stockMax = parseInt(PRODUCTO_BASE.stock);
+    let valorActual = parseInt(input.value);
+
+    if (valorActual > stockMax) {
+        input.value = stockMax;
+        return; 
+    }
+
+    let nuevoValor = valorActual + v;
+    if (nuevoValor >= 1 && nuevoValor <= stockMax) {
+        input.value = nuevoValor;
+    }
+}
+
+function agregarAlCarrito() {
+    const colorInput = document.querySelector('input[name="color_seleccionado"]:checked');
+    const colorFinal = colorInput ? colorInput.value : 'N/A';
+    const cantidadFinal = parseInt(document.getElementById('cantidad').value);
+    document.getElementById('modal-img').src = "/proyectoweb/public/uploads/img/" + PRODUCTO_BASE.imagen;
+    document.getElementById('modal-nombre').innerText = PRODUCTO_BASE.nombre;
+    document.getElementById('modal-sku').innerText = "SKU: <?= $sku_visual ?>";
+    document.getElementById('modal-color').innerHTML = "Color seleccionado: <b class='text-dark'>" + colorFinal + "</b>";
+    document.getElementById('modal-precio').innerText = "$" + Number(PRODUCTO_BASE.precio).toLocaleString('es-MX', {minimumFractionDigits: 2});
+    
+    document.getElementById('modal-agregado').style.display = 'flex';
+}
+
+function cerrarModal() {
+    document.getElementById('modal-agregado').style.display = 'none';
+}
+
+</script>
+
+<?php include('vista/footer_gral.php'); ?>

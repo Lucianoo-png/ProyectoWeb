@@ -17,18 +17,20 @@ else{
         include('vista/admin/header_admin.php');
         include('vista/404.php');
         include('vista/admin/footer_admin.php');
+        exit;
     }
     else if($_SESSION["Tipo"]=='E'){
         include('vista/vendedor/header_vendedor.php');
         include('vista/404.php');
         include('vista/vendedor/footer_vendedor.php');
+        exit;
     }
     else if($_SESSION["Tipo"]=='R'){
         include('vista/vendedor/header_repartidor.php');
         include('vista/404.php');
         include('vista/vendedor/footer_repartidor.php');
+        exit;
     }
-    exit;
 }
 
 

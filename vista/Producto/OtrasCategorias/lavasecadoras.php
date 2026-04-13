@@ -8,11 +8,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-          <div class="d-flex gap-3">
-            <a href="../../rastrear_pedido.php" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+          <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -115,48 +117,54 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosLavasecadoras = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='lavasecadoras'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WET4024HW" alt="Lavasecadora de carga frontal 24" 2.3 pies cúbicos blanca" onerror="this.src='https://placehold.co/300x250?text=WET4024HW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WET4024HW</span>
-                            <p class="product-name">Lavasecadora de carga frontal 24" 2.3 pies cúbicos blanca</p>
-                            <div class="product-price-row"><span class="product-price">$18,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WET4024HW" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosLavasecadoras) && count($productosLavasecadoras) > 0):
+        foreach($productosLavasecadoras as $lavasecadora): 
+            $nombre = $lavasecadora['nombre'];
+            $precio = '$' . number_format($lavasecadora['precio_venta'], 2);
+            $sku = Helpers::crearSKU($lavasecadora['categoria'], $nombre);
+            $id = $lavasecadora['no_producto'];
+            
+            $imgSrc = "/proyectoweb/public/uploads/img/" . $lavasecadora['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Lavasecadora";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSrc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WFC315S0JW" alt="Lavasecadora apilable 4.5/7.4 pies cúbicos blanca" onerror="this.src=''">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WFC315S0JW</span>
-                            <p class="product-name">Lavasecadora apilable 4.5/7.4 pies cúbicos blanca</p>
-                            <div class="product-price-row"><span class="product-price">$23,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WFC315S0JW" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=MHW8630HW" alt="Lavasecadora todo en uno 4.5 pies cúbicos acero inoxidable" onerror="this.src=''">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">MHW8630HW</span>
-                            <p class="product-name">Lavasecadora todo en uno 4.5 pies cúbicos acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$27,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/MHW8630HW" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron lavasecadoras disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

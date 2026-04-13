@@ -27,28 +27,28 @@
                 <div class="col">
                     <a href="/proyectoweb/admin/personal" class="stat-card">
                         <div class="stat-icon"><i class="fas fa-users"></i></div>
-                        <div class="stat-num">24</div>
-                        <div class="stat-label">Personal</div>
+                        <div class="stat-num"><?php echo $total_empleados; ?></div>
+                        <div class="stat-label">Empleado(s)</div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="/proyectoweb/admin/productos" class="stat-card">
                         <div class="stat-icon"><i class="fas fa-box-open"></i></div>
-                        <div class="stat-num">138</div>
-                        <div class="stat-label">Productos</div>
+                        <div class="stat-num"><?php echo $total_productos; ?></div>
+                        <div class="stat-label">Producto(s)</div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="/proyectoweb/admin/pedidos" class="stat-card">
                         <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
-                        <div class="stat-num">57</div>
-                        <div class="stat-label">Pedidos</div>
+                        <div class="stat-num">0</div>
+                        <div class="stat-label">Pedido(s)</div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="/proyectoweb/admin/ventas" class="stat-card">
                         <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-                        <div class="stat-num">$412k</div>
+                        <div class="stat-num">$0.0</div>
                         <div class="stat-label">Ventas del mes</div>
                     </a>
                 </div>

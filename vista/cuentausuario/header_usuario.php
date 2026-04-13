@@ -16,7 +16,7 @@
 
 <div class="main-nav">
     <div class="container d-flex align-items-center gap-3">
-        <a href="/proyectoweb/mi-perfil/" class="brand-logo me-3">
+        <a href="/proyectoweb/?" class="brand-logo me-3">
             <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
         </a>
         <div class="input-group search-bar flex-grow-1 mx-lg-4">

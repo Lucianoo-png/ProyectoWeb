@@ -6,11 +6,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-          <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+          <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -113,61 +115,54 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosLavavajillas = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='lavavajillas'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="../../multimedia/Imagenes/productos/lavavajillas-wdf520padm.jpg" alt="Lavavajillas empotrable 24" con ciclo de alta temperatura acero inox" onerror="this.src='https://placehold.co/300x250?text=WDF520PADM'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WDF520PADM</span>
-                            <p class="product-name">Lavavajillas empotrable 24" con ciclo de alta temperatura acero inox</p>
-                            <div class="product-price-row"><span class="product-price">$7,299.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WDF520PADM" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosLavavajillas) && count($productosLavavajillas) > 0):
+        foreach($productosLavavajillas as $lavavajillas): 
+            $nombre = $lavavajillas['nombre'];
+            $precio = '$' . number_format($lavavajillas['precio_venta'], 2);
+            $sku = Helpers::crearSKU($lavavajillas['categoria'], $nombre);
+            $id = $lavavajillas['no_producto'];
+            
+            $imgSrc = "/proyectoweb/public/uploads/img/" . $lavavajillas['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Lavavajillas";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSrc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=SPE53B55UC" alt="Lavavajillas compacto 18" capacidad 8 cubiertos WiFi integrado" onerror="this.src='https://placehold.co/300x250?text=SPE53B55UC'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">SPE53B55UC</span>
-                            <p class="product-name">Lavavajillas compacto 18" capacidad 8 cubiertos WiFi integrado</p>
-                            <div class="product-price-row"><span class="product-price">$5,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/SPE53B55UC" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=KDTM604KPS" alt="Lavavajillas empotrable 44 dB ultra silencioso 3 rejillas ajustables" onerror="this.src='https://placehold.co/300x250?text=KDTM604KPS'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">KDTM604KPS</span>
-                            <p class="product-name">Lavavajillas empotrable 44 dB ultra silencioso 3 rejillas ajustables</p>
-                            <div class="product-price-row"><span class="product-price">$13,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/KDTM604KPS" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WDTA50SAKZ" alt="Lavavajillas 24" con punta tercera rejilla y control panel oculto" onerror="this.src='https://placehold.co/300x250?text=WDTA50SAKZ'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WDTA50SAKZ</span>
-                            <p class="product-name">Lavavajillas 24" con punta tercera rejilla y control panel oculto</p>
-                            <div class="product-price-row"><span class="product-price">$8,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WDTA50SAKZ" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron lavavajillas disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

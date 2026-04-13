@@ -6,11 +6,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-        <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+        <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -113,61 +115,54 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
- 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="../../multimedia/Imagenes/productos/horno-wee745h0fs.jpg" alt="Horno eléctrico de pared 4.8 pies cúbicos autolimpiable acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WEE745H0FS'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WEE745H0FS</span>
-                            <p class="product-name">Horno eléctrico de pared 4.8 pies cúbicos autolimpiable acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$12,999.00</span></div>
-                        </div>
-                        <a href="./../detalle.php?sku=WEE745H0FS" class="btn-mas-info">Más información</a>
+            <?php 
+$productoControl = new ProductoControlador();
+$productosHornos = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='hornos'", 
+    "order" => "nombre ASC"
+]);
+?>
+
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosHornos) && count($productosHornos) > 0):
+        foreach($productosHornos as $horno): 
+            $nombre = $horno['nombre'];
+            $precio = '$' . number_format($horno['precio_venta'], 2);
+            $sku = Helpers::crearSKU($horno['categoria'], $nombre);
+            $id = $horno['no_producto'];
+            
+            $imgSrc = "/proyectoweb/public/uploads/img/" . $horno['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Horno";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSrc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WOD51EC0HS" alt="Horno de pared doble 10 funciones de cocción con convección acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WOD51EC0HS'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WOD51EC0HS</span>
-                            <p class="product-name">Horno de pared doble 10 funciones de cocción con convección acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$18,999.00</span></div>
-                        </div>
-                        <a href="./../detalle.php?sku=WOD51EC0HS" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WOS31ES0JS" alt="Horno de pared sencillo 5.0 pies autolimpiable con parrilla deslizante" onerror="this.src='https://placehold.co/300x250?text=WOS31ES0JS'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WOS31ES0JS</span>
-                            <p class="product-name">Horno de pared sencillo 5.0 pies autolimpiable con parrilla deslizante</p>
-                            <div class="product-price-row"><span class="product-price">$14,499.00</span></div>
-                        </div>
-                        <a href="./../detalle.php?sku=WOS31ES0JS" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WGP325GGBK" alt="Horno de gas empotrado 5.0 pies negro mate con convección europea" onerror="this.src='https://placehold.co/300x250?text=WGP325GGBK'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WGP325GGBK</span>
-                            <p class="product-name">Horno de gas empotrado 5.0 pies negro mate con convección europea</p>
-                            <div class="product-price-row"><span class="product-price">$15,999.00</span></div>
-                        </div>
-                        <a href="./../detalle.php?sku=WGP325GGBK" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron hornos disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

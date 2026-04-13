@@ -207,6 +207,29 @@ class Empleado{
         return $resultado->rowCount() > 0;
         
     }
+
+    public function actualizarPerfilPersonal() {
+        $query = 'UPDATE "Veracruz".empleado SET nombre=:nombre, apellidospama=:apellidospama, correo=:correo, telefono=:telefono WHERE rfc=:rfc';
+        $params = [
+            ":nombre" => $this->nombre,
+            ":apellidospama" => $this->apellidospama,
+            ":correo" => $this->correo,
+            ":telefono" => $this->telefono,
+            ":rfc" => $this->rfc
+        ];
+        
+        $resultado = $this->conexion->ejecutarConsulta($query, $params);
+        return $resultado->rowCount() > 0;
+    }
+
+    public function actualizarContra(){
+        $query = 'UPDATE "Veracruz".empleado SET contrasena=:contra WHERE rfc=:rfc';
+        $params = [
+            ":contra"=>md5($this->contrasena),
+            ":rfc"=>$_SESSION["RFC"]
+        ];
+        return $this->conexion->ejecutarConsulta($query, $params)->rowCount()>0;
+    }
 }
 
 ?>

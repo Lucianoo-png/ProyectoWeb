@@ -36,11 +36,18 @@ else{
 switch($rutaPrincipal){
     case '':
         case 'inicio':
+            $emp = new EmpleadoControlador();
+            $info = $emp->getEmpleado()->buscar('"Veracruz".empleado',["where"=>"rfc='".$_SESSION["RFC"]."'"]);
             include('vista/vendedor/inicio_vendedor.php');
 
     break;
 
     case 'ventas':
+        $producto = new ProductoControlador();
+        $productos = $producto->getProducto()->buscar('"Veracruz".producto',["where"=>"stock>0 AND estatus='true'","order"=>"no_producto ASC"]);
+
+        $cliente = new ClienteControlador();
+        $clientes_linea = $cliente->getCliente()->buscar('"Veracruz".cliente', ["where" => "estatus='true' AND origen='L'"]);
         include('vista/vendedor/ventas.php');
     break;
 
@@ -49,11 +56,13 @@ switch($rutaPrincipal){
     break;
 
     case 'inventario':
+        $producto = new ProductoControlador();
+        $productos = $producto->getProducto()->buscar('"Veracruz".producto',["where"=>"estatus='true'","order"=>"no_producto ASC"]);
+        $total_productos = count($producto->getProducto()->buscar('"Veracruz".producto',["where"=>"estatus='true'","order"=>"no_producto ASC"]));
+        $total_productos_normal = count($producto->getProducto()->buscar('"Veracruz".producto',["where"=>"stock>=stockminimo AND estatus='true'","order"=>"no_producto ASC"]));
+        $total_productos_bajo = count($producto->getProducto()->buscar('"Veracruz".producto',["where"=>"stock<stockminimo AND stock>0 AND estatus='true'","order"=>"no_producto ASC"]));
+        $total_productos_agotado = count($producto->getProducto()->buscar('"Veracruz".producto',["where"=>"stock=0 AND estatus='true'","order"=>"no_producto ASC"]));
         include('vista/vendedor/inventario.php');
-    break;
-
-    case 'catalogo':
-        include('vista/vendedor/catalogo.php');
     break;
 
     case 'solicitudes':
@@ -64,7 +73,7 @@ switch($rutaPrincipal){
         $emp = new EmpleadoControlador();
         $emp->getEmpleado()->actualizarUltimaVez(false);
         $log = new BitacoraControlador();
-        $log->registrarLog($_SESSION['RFC'], "Cierre de sesión exitoso (vendedor)", "C");
+        $log->registrarLog($_SESSION['RFC'], "Cierre de sesión exitoso (Vendedor)", "C");
         session_destroy();
         if (ini_get("session.use_cookies")) {
                         $p = session_get_cookie_params();

@@ -79,51 +79,47 @@
         </div>
     </div>
 
-    <!-- Formulario de registro -->
     <div class="register-wrapper">
         <div class="register-card">
-
-            <!-- Header de la tarjeta -->
+        <form action="/proyectoweb/registro" method="POST">
+            
             <div class="register-card-header">
                 <h5><i class="fas fa-user-plus me-2"></i>Formulario de registro nuevo cliente</h5>
             </div>
 
-            <!-- Body -->
             <div class="register-card-body">
+                
+                <?php if(!empty($msj) && isset($_POST['registrar'])){ ?>
+                    <div class="alerta alerta-<?php echo $msj[0]; ?>"><?php echo $msj[1]; ?></div>
+                <?php } ?>
+
                 <p class="section-label">Datos Personales</p>
 
                 <div class="row g-3">
-
-                    <!-- Nombre -->
                     <div class="col-md-6">
-                        <label class="form-label" for="nombre">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" placeholder="Tu nombre">
+                        <label class="form-label" for="nombre">Nombre <span class="text-danger">*</span></label>
+                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Tu nombre">
                     </div>
 
-                    <!-- Apellidos -->
                     <div class="col-md-6">
-                        <label class="form-label" for="apellidos">Apellidos</label>
-                        <input type="text" id="apellidos" class="form-control" placeholder="Tus apellidos">
+                        <label class="form-label" for="apellidos">Apellidos <span class="text-danger">*</span></label>
+                        <input type="text" id="apellidos" name="apellidos" class="form-control" placeholder="Tus apellidos">
                     </div>
 
-                    <!-- Correo -->
                     <div class="col-md-6">
-                        <label class="form-label" for="correo">Correo</label>
-                        <input type="email" id="correo" class="form-control" placeholder="ejemplo@correo.com">
+                        <label class="form-label" for="correo">Correo <span class="text-danger">*</span></label>
+                        <input type="email" id="correo" name="correo" class="form-control" placeholder="ejemplo@correo.com">
                     </div>
 
-                    <!-- Teléfono -->
                     <div class="col-md-6">
-                        <label class="form-label" for="telefono">Teléfono</label>
-                        <input type="tel" id="telefono" class="form-control" placeholder="10 dígitos">
+                        <label class="form-label" for="telefono">Teléfono <span class="text-danger">*</span></label>
+                        <input type="tel" id="telefono" name="telefono" class="form-control" placeholder="10 dígitos">
                     </div>
 
-                    <!-- Contraseña -->
                     <div class="col-md-6">
-                        <label class="form-label" for="password">Contraseña</label>
+                        <label class="form-label" for="password">Contraseña <span class="text-danger">*</span></label>
                         <div class="pw-wrapper">
-                            <input type="password" id="password" class="form-control pe-5" placeholder="••••••••"
-                                   autocomplete="new-password">
+                            <input type="password" id="password" name="password" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
                             <span class="pw-toggle" onclick="togglePw('password','eye1')">
                                 <i class="fas fa-eye" id="eye1"></i>
                             </span>
@@ -131,12 +127,10 @@
                         <div id="pw-indicadores" style="margin-top:.5rem"></div>
                     </div>
 
-                    <!-- Confirmar Contraseña -->
                     <div class="col-md-6">
-                        <label class="form-label" for="confirmPassword">Confirmar Contraseña</label>
+                        <label class="form-label" for="confirmPassword">Confirmar Contraseña <span class="text-danger">*</span></label>
                         <div class="pw-wrapper">
-                            <input type="password" id="confirmPassword" class="form-control pe-5" placeholder="••••••••"
-                                   autocomplete="new-password">
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
                             <span class="pw-toggle" onclick="togglePw('confirmPassword','eye2')">
                                 <i class="fas fa-eye" id="eye2"></i>
                             </span>
@@ -144,25 +138,140 @@
                         <div id="pw-confirm-msg" style="font-size:.75rem;margin-top:.35rem;font-weight:600;min-height:1rem"></div>
                     </div>
 
-                    <!-- Dirección (ancho completo) -->
-                    <div class="col-12">
-                        <label class="form-label" for="direccion">Dirección</label>
-                        <textarea id="direccion" class="form-control" rows="3"
-                                  placeholder="Calle, número, colonia, ciudad..."></textarea>
-                    </div>
-
+                    <div class="row g-3">
+    <div class="col-12">
+        <label class="form-label fw-semibold small">Calle y número</label>
+        <input type="text" id="dCalle" name="calle_numero" class="form-control" placeholder="Ej: Av. Independencia 120">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-semibold small">Estado</label>
+        <select id="dEstado" name="estado" class="form-select">
+            <option value="" selected disabled>Selecciona un estado...</option>
+<option value="Aguascalientes">Aguascalientes</option>
+<option value="Baja California">Baja California</option>
+<option value="Baja California Sur">Baja California Sur</option>
+<option value="Campeche">Campeche</option>
+<option value="Chiapas">Chiapas</option>
+<option value="Chihuahua">Chihuahua</option>
+<option value="Ciudad de México">Ciudad de México</option>
+<option value="Coahuila">Coahuila</option>
+<option value="Colima">Colima</option>
+<option value="Durango">Durango</option>
+<option value="Estado de México">Estado de México</option>
+<option value="Guanajuato">Guanajuato</option>
+<option value="Guerrero">Guerrero</option>
+<option value="Hidalgo">Hidalgo</option>
+<option value="Jalisco">Jalisco</option>
+<option value="Michoacán">Michoacán</option>
+<option value="Morelos">Morelos</option>
+<option value="Nayarit">Nayarit</option>
+<option value="Nuevo León">Nuevo León</option>
+<option value="Oaxaca">Oaxaca</option>
+<option value="Puebla">Puebla</option>
+<option value="Querétaro">Querétaro</option>
+<option value="Quintana Roo">Quintana Roo</option>
+<option value="San Luis Potosí">San Luis Potosí</option>
+<option value="Sinaloa">Sinaloa</option>
+<option value="Sonora">Sonora</option>
+<option value="Tabasco">Tabasco</option>
+<option value="Tamaulipas">Tamaulipas</option>
+<option value="Tlaxcala">Tlaxcala</option>
+<option value="Veracruz">Veracruz</option>
+<option value="Yucatán">Yucatán</option>
+<option value="Zacatecas">Zacatecas</option>
+            </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-semibold small">Ciudad</label>
+        <select id="dCiudad" name="ciudad" class="form-select" disabled>
+            <option value="" selected disabled>Primero selecciona un estado</option>
+        </select>
+    </div>
+    <div class="col-md-5">
+        <label class="form-label fw-semibold small">Colonia</label>
+        <input type="text" id="dColonia" name="colonia" class="form-control">
+    </div>
+    <div class="col-md-4">
+        <label class="form-label fw-semibold small">C.P.</label>
+        <input type="text" id="dCP" name="cp" class="form-control" maxlength="5">
+    </div>
+    <div class="col-md-3">
+        <label class="form-label fw-semibold small">País</label>
+        <input type="text" id="dPais" name="pais" class="form-control" value="México" readonly>
+    </div>
+</div>
                 </div>
 
-                <!-- Botón -->
                 <div class="text-center mt-4">
-                    <button class="btn-register" id="btnRegistrar" disabled>Enviar</button>
+                    <button type="submit" name="registrar" class="btn-register" id="btnRegistrar">Registrar Cuenta</button>
                 </div>
 
-                <!-- Redirigir a login -->
                 <p class="login-redirect">
                     ¿Ya tienes cuenta? <a href="/proyectoweb/login">Inicia sesión aquí</a>
                 </p>
             </div>
+        </form>
         </div>
     </div>
     <?php include('vista/footer_gral.php'); ?>
+
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const estadosYCiudades = {
+        "Aguascalientes": ["Aguascalientes", "Jesús María", "Calvillo", "Rincón de Romos"],
+        "Baja California": ["Tijuana", "Mexicali", "Ensenada", "Playas de Rosarito", "Tecate"],
+        "Baja California Sur": ["La Paz", "Los Cabos", "San José del Cabo", "Loreto", "Ciudad Constitución"],
+        "Campeche": ["Campeche", "Ciudad del Carmen", "Champotón", "Escárcega"],
+        "Chiapas": ["Tuxtla Gutiérrez", "Tapachula", "San Cristóbal de las Casas", "Comitán", "Palenque"],
+        "Chihuahua": ["Chihuahua", "Ciudad Juárez", "Delicias", "Cuauhtémoc", "Hidalgo del Parral"],
+        "Ciudad de México": ["Álvaro Obregón", "Azcapotzalco", "Benito Juárez", "Coyoacán", "Cuajimalpa", "Cuauhtémoc", "Gustavo A. Madero", "Iztacalco", "Iztapalapa", "Magdalena Contreras", "Miguel Hidalgo", "Milpa Alta", "Tláhuac", "Tlalpan", "Venustiano Carranza", "Xochimilco"],
+        "Coahuila": ["Saltillo", "Torreón", "Monclova", "Piedras Negras", "Ciudad Acuña"],
+        "Colima": ["Colima", "Manzanillo", "Tecomán", "Villa de Álvarez"],
+        "Durango": ["Durango", "Gómez Palacio", "Lerdo", "Santiago Papasquiaro"],
+        "Estado de México": ["Toluca", "Ecatepec", "Nezahualcóyotl", "Naucalpan", "Tlalnepantla", "Chimalhuacán", "Cuautitlán Izcalli", "Atizapán", "Metepec"],
+        "Guanajuato": ["León", "Irapuato", "Celaya", "Salamanca", "Guanajuato", "San Miguel de Allende"],
+        "Guerrero": ["Acapulco", "Chilpancingo", "Iguala", "Zihuatanejo", "Taxco"],
+        "Hidalgo": ["Pachuca", "Tulancingo", "Tula de Allende", "Tizayuca", "Mineral de la Reforma"],
+        "Jalisco": ["Guadalajara", "Zapopan", "Tlaquepaque", "Tonalá", "Puerto Vallarta", "Tlajomulco de Zúñiga", "Lagos de Moreno"],
+        "Michoacán": ["Morelia", "Uruapan", "Zamora", "Lázaro Cárdenas", "Pátzcuaro"],
+        "Morelos": ["Cuernavaca", "Jiutepec", "Cuautla", "Temixco", "Yautepec"],
+        "Nayarit": ["Tepic", "Bahía de Banderas", "Xalisco", "Compostela"],
+        "Nuevo León": ["Monterrey", "Apodaca", "Guadalupe", "San Nicolás de los Garza", "San Pedro Garza García", "Santa Catarina", "General Escobedo"],
+        "Oaxaca": ["Oaxaca de Juárez", "Salina Cruz", "San Juan Bautista Tuxtepec", "Juchitán de Zaragoza", "Santa María Huatulco"],
+        "Puebla": ["Puebla", "Cholula", "Tehuacán", "Atlixco", "San Martín Texmelucan", "Cuautlancingo"],
+        "Querétaro": ["Querétaro", "San Juan del Río", "Corregidora", "El Marqués", "Tequisquiapan"],
+        "Quintana Roo": ["Cancún", "Playa del Carmen", "Chetumal", "Cozumel", "Tulum"],
+        "San Luis Potosí": ["San Luis Potosí", "Soledad de Graciano Sánchez", "Ciudad Valles", "Matehuala"],
+        "Sinaloa": ["Culiacán", "Mazatlán", "Los Mochis", "Guasave", "Navolato"],
+        "Sonora": ["Hermosillo", "Ciudad Obregón", "Nogales", "San Luis Río Colorado", "Navojoa", "Guaymas"],
+        "Tabasco": ["Villahermosa", "Cárdenas", "Comalcalco", "Macuspana", "Tenosique"],
+        "Tamaulipas": ["Reynosa", "Matamoros", "Nuevo Laredo", "Ciudad Victoria", "Tampico", "Ciudad Madero"],
+        "Tlaxcala": ["Tlaxcala", "Apizaco", "Huamantla", "Chiautempan", "Zacatelco"],
+        "Veracruz": ["Veracruz", "Boca del Río", "Xalapa", "Córdoba", "Orizaba", "Coatzacoalcos", "Minatitlán", "Poza Rica", "Tuxpan"],
+        "Yucatán": ["Mérida", "Valladolid", "Tizimín", "Progreso", "Kanasín"],
+        "Zacatecas": ["Zacatecas", "Guadalupe", "Fresnillo", "Jerez"]
+    };
+
+    const selectEstado = document.getElementById('dEstado');
+    const selectCiudad = document.getElementById('dCiudad');
+
+    selectEstado.addEventListener('change', function() {
+        const estadoSeleccionado = this.value;
+        const ciudades = estadosYCiudades[estadoSeleccionado] || [];
+        selectCiudad.innerHTML = '<option value="" selected disabled>Selecciona una ciudad...</option>';
+        
+        if (ciudades.length > 0) {
+            selectCiudad.disabled = false;
+            ciudades.forEach(ciudad => {
+                const option = document.createElement('option');
+                option.value = ciudad;
+                option.textContent = ciudad;
+                selectCiudad.appendChild(option);
+            });
+        } else {
+            selectCiudad.disabled = true;
+        }
+    });
+});
+</script>

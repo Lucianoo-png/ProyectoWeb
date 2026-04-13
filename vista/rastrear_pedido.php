@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Rastrear Pedido</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="/proyectoweb/estilos/styles.css">
-</head>
-<body>
 
     <!-- ─── Topbar ──────────────────────────────────────────── -->
     <div class="topbar">
@@ -19,11 +8,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
+        <?php if(isset($_SESSION["NoCliente"])){ ?>
         <div class="d-flex gap-3">
             <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
         </div>
+        <?php } ?>
     </div>
 </div>
 
@@ -61,8 +52,7 @@
 
             <h1 class="track-title">Rastrea aquí<br>tu pedido</h1>
             <p class="track-subtitle">
-                Ingresa tu número de referencia para conocer el estado actual
-                y la ubicación de tu entrega.
+                Ingresa tu número de referencia para conocer el estado actual de tu entrega.
             </p>
 
             <form id="trackForm" novalidate>
@@ -212,10 +202,3 @@
     <footer class="site-footer-minimal">
         © <?= date('Y') ?> LuchanosCorp S.A. Todos los derechos reservados.
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/proyectoweb/js/vendedor.js"></script>
-    <link rel="stylesheet" href="/proyectoweb/estilos/responsive.css">
-    <script src="/proyectoweb/js/responsive.js"></script>
-</body>
-</html>

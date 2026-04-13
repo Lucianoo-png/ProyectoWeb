@@ -1,9 +1,8 @@
 <?php include('vista/vendedor/header_vendedor.php'); ?>
-<!-- Layout -->
+
 <div class="admin-layout">
     <?php include('vista/vendedor/menu_vendedor.php'); ?>
 
-    <!-- Contenido -->
     <main class="admin-content">
 
         <nav aria-label="breadcrumb" class="mb-3">
@@ -20,7 +19,6 @@
             <p class="page-header-sub">Registra una nueva venta seleccionando los productos del catálogo.</p>
         </div>
 
-        <!-- Selector de producto -->
         <div class="admin-form-card mb-4">
             <div class="admin-form-header">
                 <i class="fas fa-cash-register"></i> Punto de Venta
@@ -32,21 +30,28 @@
                             <label class="form-label fw-semibold">Producto:</label>
                             <select id="selectProducto" class="form-select" required>
                                 <option value="" disabled selected>Selecciona un producto…</option>
-                                <option value="WM3911D"      data-precio="4599" >Microondas AirFry 4 en 1 (WM3911D) — $4,599.00</option>
-                                <option value="8MWTW2024WJM" data-precio="9999" >Lavadora 20kg Xpert System (8MWTW2024WJM) — $9,999.00</option>
-                                <option value="WK0260B"      data-precio="7999" >Despachador de agua con hielo (WK0260B) — $7,999.00</option>
-                                <option value="WRS315SNHM"   data-precio="22499">Refrigerador Side by Side 25 pies (WRS315SNHM) — $22,499.00</option>
-                                <option value="MGH765RDS"    data-precio="9799" >Estufa 6 quemadores convección (MGH765RDS) — $9,799.00</option>
-                                <option value="LG-WM3500CW"  data-precio="11499">Lavadora LG 22kg TurboWash (LG-WM3500CW) — $11,499.00</option>
-                                <option value="SAM-RF28T"    data-precio="28999">Refrigerador Samsung French Door 28 pies (SAM-RF28T) — $28,999.00</option>
-                                <option value="WHP-AC1234"   data-precio="8299" >Aire Acondicionado 12,000 BTU (WHP-AC1234) — $8,299.00</option>
-                                <option value="WED5000DW"    data-precio="7899" >Secadora eléctrica 7.0 pies (WED5000DW) — $7,899.00</option>
+                                <?php 
+                                if(is_array($productos) && count($productos) > 0) {
+                                    foreach($productos as $prod) {
+                                        // Generamos el SKU inteligente usando tu clase Helpers
+                                        // Asegúrate de que la columna se llame 'categoria' o cámbiala por la correcta
+                                        $categoriaTexto = isset($prod['categoria']) ? $prod['categoria'] : 'GEN';
+                                        $sku = Helpers::crearSKU($categoriaTexto, $prod['nombre']);
+                                ?>
+                                        <option value="<?php echo $sku; ?>" 
+                                                data-precio="<?php echo $prod['precio_venta']; ?>"
+                                                data-stock="<?php echo $prod['stock']; ?>">
+                                            <?php echo $prod['nombre']; ?> (<?php echo $sku; ?>) — $<?php echo number_format($prod['precio_venta'], 2); ?> — [Stock: <?php echo $prod['stock']; ?>]
+                                        </option>
+                                <?php 
+                                    } 
+                                } 
+                                ?>
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-semibold">Cantidad:</label>
-                            <input type="number" id="inputCantidad" class="form-control"
-                                   min="1" max="99" value="1">
+                            <input type="number" id="inputCantidad" class="form-control" min="1" value="1">
                         </div>
                         <div class="col-md-3">
                             <button type="submit" class="btn-admin-primary w-100">
@@ -58,7 +63,6 @@
             </div>
         </div>
 
-        <!-- Tabla de items -->
         <div class="admin-form-card mb-4">
             <div class="admin-form-body">
                 <div class="admin-table-wrap">
@@ -87,10 +91,8 @@
             </div>
         </div>
 
-        <!-- Sección de pago (oculta hasta agregar productos) -->
         <div class="row g-4 js-hidden" id="seccionPago">
 
-            <!-- Panel izquierdo: cliente + resumen -->
             <div class="col-md-6">
                 <div class="admin-form-card h-100">
                     <div class="admin-form-header">
@@ -100,20 +102,16 @@
                         <div class="mb-3">
                             <label class="form-label">Cliente:</label>
 
-                            <!-- Widget búsqueda/selección/nombre libre -->
                             <div class="cliente-widget">
 
-                                <!-- Input de búsqueda -->
                                 <input type="text"
                                        id="clienteInput"
                                        class="cliente-input"
                                        placeholder="Buscar por nombre o escribir uno nuevo…"
                                        autocomplete="off">
 
-                                <!-- Dropdown de sugerencias (generado por vendedor.js) -->
                                 <div id="clienteDropdown" class="cliente-dropdown"></div>
 
-                                <!-- Pill: cliente seleccionado (visible tras elegir) -->
                                 <div id="clienteSeleccionado" class="cliente-seleccionado">
                                     <span id="clientePillNombre"></span>
                                     <button type="button" id="btnCambiarCliente"
@@ -123,7 +121,6 @@
                                     </button>
                                 </div>
 
-                                <!-- Campo hidden que guarda el valor final -->
                                 <input type="hidden" id="clienteValor" name="cliente">
 
                                 <p class="cliente-hint">
@@ -137,8 +134,6 @@
                             <select class="form-select" id="selectPago">
                                 <option value="efectivo">Efectivo</option>
                                 <option value="tarjeta">Tarjeta</option>
-                                <option value="transferencia">Transferencia</option>
-                                <option value="credito">Crédito (18 MSI)</option>
                             </select>
                         </div>
                         <hr>
@@ -158,7 +153,6 @@
                 </div>
             </div>
 
-            <!-- Panel derecho: cobro + cambio -->
             <div class="col-md-6">
                 <div class="admin-form-card h-100">
                     <div class="admin-form-header">
@@ -171,7 +165,7 @@
                                    min="0" step="0.01" placeholder="0.00"
                                    oninput="calcularCambio()">
                         </div>
-                        <button class="btn-admin-secondary w-100 mb-3" onclick="calcularCambio()">
+                        <button type="button" class="btn-admin-secondary w-100 mb-3" onclick="calcularCambio()">
                             <i class="fas fa-calculator me-1"></i> Calcular Cambio
                         </button>
                         <div class="mb-4">
@@ -179,16 +173,60 @@
                             <input type="text" id="inputCambio" class="form-control fw-bold"
                                    readonly placeholder="$0.00">
                         </div>
-                        <button class="btn-admin-primary w-100" onclick="registrarVenta()">
+                        <button type="button" class="btn-admin-primary w-100" onclick="registrarVenta()">
                             <i class="fas fa-check-circle me-1"></i> Registrar Venta
                         </button>
                     </div>
                 </div>
             </div>
 
-        </div><!-- /seccionPago -->
-
-    </main>
+        </div></main>
 </div>
 
 <?php include('vista/vendedor/footer_vendedor.php'); ?>
+
+<script>
+    const CLIENTES_REGISTRADOS = <?php echo json_encode($clientes_linea); ?>;
+document.addEventListener('DOMContentLoaded', function() {
+    const selectProducto = document.getElementById('selectProducto');
+    const inputCantidad = document.getElementById('inputCantidad');
+    selectProducto.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        
+        if (selectedOption.value !== "") {
+            const stockMaximo = parseInt(selectedOption.getAttribute('data-stock'));
+            inputCantidad.max = stockMaximo;
+            let cantidadActual = parseInt(inputCantidad.value) || 0;
+            if (cantidadActual < 1) {
+                inputCantidad.value = 1;
+            }
+            else if (cantidadActual > stockMaximo) {
+                inputCantidad.value = stockMaximo;
+                alert('La cantidad se ha ajustado al stock máximo disponible (' + stockMaximo + ').');
+            }
+        }
+    });
+
+    inputCantidad.addEventListener('input', function() {
+        const selectedOption = selectProducto.options[selectProducto.selectedIndex];
+        if (selectedOption.value === "") {
+            this.value = 1;
+            return;
+        }
+
+        const stockMaximo = parseInt(selectedOption.getAttribute('data-stock'));
+        let cantidadEscrita = parseInt(this.value);
+
+        if (cantidadEscrita > stockMaximo) {
+            this.value = stockMaximo;
+        } else if (cantidadEscrita < 1) {
+        }
+    });
+    
+    inputCantidad.addEventListener('blur', function() {
+        if (this.value === '' || parseInt(this.value) < 1) {
+            this.value = 1;
+        }
+    });
+});
+</script>

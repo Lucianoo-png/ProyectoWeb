@@ -6,11 +6,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-          <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+          <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -113,61 +115,54 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosCuidadoHogar = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='cuidado-hogar'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WVC15M2JCW" alt="Aspiradora robot Wi-Fi con mapeo inteligente y autodescarga" onerror="this.src='https://placehold.co/300x250?text=WVC15M2JCW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WVC15M2JCW</span>
-                            <p class="product-name">Aspiradora robot Wi-Fi con mapeo inteligente y autodescarga</p>
-                            <div class="product-price-row"><span class="product-price">$9,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosCuidadoHogar) && count($productosCuidadoHogar) > 0):
+        foreach($productosCuidadoHogar as $item): 
+            $nombre = $item['nombre'];
+            $precio = '$' . number_format($item['precio_venta'], 2);
+            $sku = Helpers::crearSKU($item['categoria'], $nombre);
+            $id = $item['no_producto'];
+            
+            $imgSrc = "/proyectoweb/public/uploads/img/" . $item['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Cuidado-Hogar";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSrc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WFH321LW" alt="Purificador de aire HEPA True 360° para espacios hasta 50 m²" onerror="this.src='https://placehold.co/300x250?text=WFH321LW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WFH321LW</span>
-                            <p class="product-name">Purificador de aire HEPA True 360° para espacios hasta 50 m²</p>
-                            <div class="product-price-row"><span class="product-price">$4,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=DW03X" alt="Deshumidificador 30 pintas con control automático de humedad" onerror="this.src='https://placehold.co/300x250?text=DW03X'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">DW03X</span>
-                            <p class="product-name">Deshumidificador 30 pintas con control automático de humedad</p>
-                            <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/M3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WAS24B" alt="Aspiradora vertical sin cable 24V con múltiples accesorios" onerror="this.src='https://placehold.co/300x250?text=WAS24B'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WAS24B</span>
-                            <p class="product-name">Aspiradora vertical sin cable 24V con múltiples accesorios</p>
-                            <div class="product-price-row"><span class="product-price">$3,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos de cuidado del hogar disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

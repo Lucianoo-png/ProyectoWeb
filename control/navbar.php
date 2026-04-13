@@ -27,6 +27,7 @@ $r = [
 $url = isset($_GET["url"]) && $_GET["url"] != "" ? $_GET["url"] : "inicio";
 $url = rtrim($url, '/');
 $urlParts = explode('/', $url);
+$log = new BitacoraControlador();
 $rutaPrincipal =  mb_strtolower($urlParts[0]);
 
     switch($rutaPrincipal){
@@ -123,10 +124,22 @@ $rutaPrincipal =  mb_strtolower($urlParts[0]);
         case 'login':
             $msj = array();
             $emp = new EmpleadoControlador();
+            $cli = new ClienteControlador();
             if(isset($_REQUEST["login"])){
                 $msj = $emp->validarSesion([$_POST['correo'],$_POST['password']]);
+                //Si se lleno el arreglo quiere decir que no coincide con ningún usuario asi que buscamos si es cliente
+                if(count($msj)>0){
+                    $msj = $cli->validarSesion([$_POST['correo'],$_POST['password']]);
+                    if(count($msj)>0){
+                        $log->registrarLog(null, "Intento de inicio de sesión fallido para el correo: ".$_POST["correo"], "E");
+                    }
+                }
             }
             include('vista/Cuenta/login.php');
+        break;
+
+        case 'contacto':
+            include ('vista/contacto.php');
         break;
 
         case 'forgot-password':
@@ -139,12 +152,17 @@ $rutaPrincipal =  mb_strtolower($urlParts[0]);
         break;
 
         case 'registro':
+            $msj = [];
+            if(isset($_REQUEST['registrar'])){
+                $cliente = new ClienteControlador();
+                $msj = $cliente->registrarCliente($_POST);
+            }
             include('vista/Cuenta/Registro.php');
         break;
 
         case 'producto':
-            $sku = isset($urlParts[1]) ? $urlParts[1] : null;
-            if ($sku) {
+            $id_producto = isset($urlParts[1]) ? intval($urlParts[1]) : 0;
+            if ($id_producto) {
                 include('vista/Producto/detalle.php');
             } else {
                 include('vista/header_gral.php');
@@ -167,6 +185,10 @@ $rutaPrincipal =  mb_strtolower($urlParts[0]);
 
         case 'repartidor':
             include('control/nav_repartidor.php');
+        break;
+
+        case 'mi-perfil':
+            include('control/nav_cliente.php');
         break;
 
         default:

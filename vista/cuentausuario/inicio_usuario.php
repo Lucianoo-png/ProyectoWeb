@@ -87,15 +87,17 @@
 
     <aside class="cuenta-sidebar">
         <div class="cuenta-sidebar-header">
-            <div class="cuenta-avatar">CL</div>
-            <p class="cuenta-sidebar-name">Carlos Ivan Luciano</p>
-            <p class="cuenta-sidebar-email"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
+            <div class="cuenta-avatar"><?php 
+            $arr = explode(" ",($info[0]['nombre']." ".$info[0]['apellidospama']));
+            echo mb_substr($arr[0],0,1).mb_substr($arr[1],0,1); ?></div>
+            <p class="cuenta-sidebar-name"><?php echo $info[0]['nombre']." ".$info[0]['apellidospama']; ?></p>
+            <p class="cuenta-sidebar-email"><i class="fas fa-envelope me-1"></i> <?php echo $info[0]['correo']; ?>
         </div>
         <nav class="cuenta-nav">
-            <button class="cuenta-nav-link active" onclick="switchPanel('panel-datos',this)">
+            <button class="cuenta-nav-link <?php echo (!(isset($_POST['guardar_direccion']) || isset($_POST['eliminar_direccion'])) ? 'active' : ''); ?>" onclick="switchPanel('panel-datos',this)">
                 <i class="fas fa-user-edit"></i> Mis Datos
             </button>
-            <button class="cuenta-nav-link" onclick="switchPanel('panel-direcciones',this)">
+            <button class="cuenta-nav-link <?php echo ((isset($_POST['guardar_direccion']) || isset($_POST['eliminar_direccion'])) ? 'active' : ''); ?>" onclick="switchPanel('panel-direcciones',this)">
                 <i class="fas fa-map-marker-alt"></i> Mis Direcciones
             </button>
             <hr class="cuenta-nav-divider">
@@ -106,7 +108,7 @@
                 <i class="fas fa-headset"></i> Mis Solicitudes
             </button>
             <hr class="cuenta-nav-divider">
-            <a href="/proyectoweb/?" class="cuenta-nav-link" style="color:#dc3545">
+            <a href="/proyectoweb/mi-perfil/logout" class="cuenta-nav-link" style="color:#dc3545">
                 <i class="fas fa-sign-out-alt" style="color:#dc3545"></i> Cerrar Sesión
             </a>
         </nav>
@@ -115,7 +117,7 @@
     <main>
 
         <!-- PANEL DATOS -->
-        <div class="cuenta-panel active" id="panel-datos">
+        <div class="cuenta-panel <?php echo (!(isset($_POST['guardar_direccion']) || isset($_POST['eliminar_direccion'])) ? 'active' : ''); ?>" id="panel-datos">
             <div class="cuenta-card">
                 <div class="cuenta-card-header">
                     <span><i class="fas fa-id-card"></i> Información Personal</span>
@@ -125,102 +127,107 @@
                 </div>
                 <div class="cuenta-card-body">
                     <div id="vistaData">
+                        <?php if(isset($_POST["actualizar_datos"]) || isset($_POST["actualizar_contra"]) || isset($_POST["guardar_direccion"])){ if(count($msj)>0){?><div class="alerta alerta-<?php echo $msj[0]; ?>"><?php echo $msj[1]; ?></div><?php } } //error, exito, info ?>
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="perfil-campo">
-                                    <div class="perfil-label">Nombre completo</div>
-                                    <div class="perfil-valor" id="vNombre">Carlos Ivan Luciano Cruz</div>
+                                    <div class="perfil-label">Nombre completo*</div>
+                                    <div class="perfil-valor" id="vNombre"><?php echo $info[0]['nombre']." ".$info[0]["apellidospama"]; ?></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="perfil-campo">
                                     <div class="perfil-label">Teléfono</div>
-                                    <div class="perfil-valor" id="vTel">229-483-2504</div>
+                                    <div class="perfil-valor" id="vTel"><?php echo $info[0]['telefono']; ?></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="perfil-campo">
                                     <div class="perfil-label">Correo electrónico</div>
-                                   <p class="cuenta-sidebar-email"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com</p>
+                                   <p class="perfil-valor"><?php echo $info[0]['correo']; ?></p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="perfil-campo">
-                                    <div class="perfil-label">Fecha de nacimiento</div>
-                                    <div class="perfil-valor" id="vFecha">13 de agosto de 2004</div>
+                                    <div class="perfil-label">Tipo de cliente</div>
+                                    <div class="perfil-valor" id="vFecha">Cliente online</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div id="formData" style="display:none">
+                        <form action="/proyectoweb/mi-perfil/inicio" method="POST">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small">Nombre completo</label>
-                                <input type="text" id="eNombre" class="form-control" value="Carlos Ivan Luciano Cruz">
+                                <label class="form-label fw-semibold small">Nombre(s)*</label>
+                                <input type="text" id="eNombre" class="form-control" name="nombre" value="<?php echo $info[0]['nombre']; ?>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Apellido(s)*</label>
+                                <input type="text" id="eNombre" class="form-control" name="apellidos" value="<?php echo $info[0]['apellidospama']; ?>">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold small">Teléfono</label>
-                                <input type="tel" id="eTel" class="form-control" value="229-483-2504">
+                                <input type="tel" id="eTel" class="form-control" name="telefono" value="<?php echo $info[0]['telefono']; ?>">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold small">Correo electrónico</label>
-                                <input type="email" id="eEmail" class="form-control" value="carlosluciano260@gmail.com">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">Fecha de nacimiento</label>
-                                <input type="date" id="eFecha" class="form-control" value="2004-08-13">
+                                <input type="email" id="eEmail" class="form-control" name="correo" value="<?php echo $info[0]['correo']; ?>">
                             </div>
                         </div>
                         <div class="d-flex gap-2 mt-3">
-                            <button class="btn-cuenta-save" onclick="guardarDatos()">
+                            <button type="submit" name="actualizar_datos" class="btn-cuenta-save" onclick="guardarDatos()">
                                 <i class="fas fa-save me-1"></i> Guardar cambios
                             </button>
                             <button class="btn-cuenta-cancel" onclick="cancelarEditDatos()">Cancelar</button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
 
-            <div class="cuenta-card">
-                <div class="cuenta-card-header">
-                    <span><i class="fas fa-lock"></i> Cambiar Contraseña</span>
-                </div>
-                <div class="cuenta-card-body">
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold small">Contraseña actual</label>
-                            <div class="password-wrapper">
-                                <input type="password" id="pwActual" class="form-control" placeholder="••••••••">
-                                <i class="fas fa-eye toggle-pw" id="iconPwA" onclick="togglePw('pwActual','iconPwA')"></i>
-                            </div>
+            <form action="/proyectoweb/mi-perfil/inicio" method="POST">
+                <div class="cuenta-card">
+                    <div class="cuenta-card-header">
+                        <span><i class="fas fa-lock"></i> Cambiar Contraseña</span>
+                    </div>
+                    <div class="cuenta-card-body">
+                        <div class="row g-3">
+                             <div class="col-md-4">
+                        <label class="form-label" for="password">Contraseña <span class="text-danger">*</span></label>
+                        <div class="pw-wrapper">
+                            <input type="password" id="password" name="password" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
+                            <span class="pw-toggle" onclick="togglePw('password','eye1')">
+                                <i class="fas fa-eye" id="eye1"></i>
+                            </span>
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold small">Nueva contraseña</label>
-                            <div class="password-wrapper">
-                                <input type="password" id="pwNueva" class="form-control" placeholder="Mínimo 8 caracteres">
-                                <i class="fas fa-eye toggle-pw" id="iconPwN" onclick="togglePw('pwNueva','iconPwN')"></i>
-                            </div>
+                        <div id="pw-indicadores" style="margin-top:.5rem"></div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="confirmPassword">Confirmar Contraseña <span class="text-danger">*</span></label>
+                        <div class="pw-wrapper">
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
+                            <span class="pw-toggle" onclick="togglePw('confirmPassword','eye2')">
+                                <i class="fas fa-eye" id="eye2"></i>
+                            </span>
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold small">Confirmar contraseña</label>
-                            <div class="password-wrapper">
-                                <input type="password" id="pwConfirm" class="form-control" placeholder="Repetir contraseña">
-                                <i class="fas fa-eye toggle-pw" id="iconPwC" onclick="togglePw('pwConfirm','iconPwC')"></i>
-                            </div>
+                        <div id="pw-confirm-msg" style="font-size:.75rem;margin-top:.35rem;font-weight:600;min-height:1rem"></div>
+                    </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" id="btnRegistrar" name="actualizar_contra" class="btn-cuenta-save">
+                                <i class="fas fa-key me-1"></i> Actualizar contraseña
+                            </button>
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <button class="btn-cuenta-save" onclick="cambiarPassword()">
-                            <i class="fas fa-key me-1"></i> Actualizar contraseña
-                        </button>
-                    </div>
                 </div>
-            </div>
+            </form>    
         </div><!-- /panel-datos -->
 
 
         <!-- PANEL DIRECCIONES -->
-        <div class="cuenta-panel" id="panel-direcciones">
+        <div class="cuenta-panel <?php echo ((isset($_POST['guardar_direccion']) || isset($_POST['eliminar_direccion'])) ? 'active' : ''); ?>" id="panel-direcciones">
             <div class="cuenta-card">
                 <div class="cuenta-card-header">
                     <span><i class="fas fa-map-marker-alt"></i> Mis Direcciones</span>
@@ -229,70 +236,106 @@
                     </button>
                 </div>
                 <div class="cuenta-card-body">
+                    <?php if(isset($_POST["guardar_direccion"]) || isset($_POST["eliminar_direccion"])){ if(count($msj)>0){ ?>
+                        <div class="alerta alerta-<?php echo $msj[0]; ?> mb-3"><?php echo $msj[1]; ?></div>
+                    <?php } } ?>
                     <div id="listaDirecciones">
+                        <?php foreach($direcciones as $dir){ ?>
                         <div class="dir-item">
-                            <div class="dir-item-name">Carlos Ivan Luciano Cruz</div>
                             <div class="dir-item-detail">
-                                Rafael Murillo Vidal 485, Col. Vías Férreas<br>
-                                Veracruz, Ver. 91713 · México<br>
-                                Teléfono: 229-483-2504
+                                <?php echo $dir['calle_numero']; ?>, <?php echo $dir['colonia']; ?><br>
+                                <?php echo $dir['ciudad']; ?>, <?php echo $dir['estado']; ?>. <?php echo $dir['cp']; ?> · <?php echo $dir['pais']; ?>
                             </div>
                             <div class="dir-item-actions">
-                                <button class="btn-dir-sec" onclick="editarDireccion(1)">
+                                <button class="btn-dir-sec" onclick="editarDireccion(<?php echo intval($dir['no_dirección']); ?>)">
                                     <i class="fas fa-edit me-1"></i>Editar
                                 </button>
-                                <button class="btn-dir-sec" style="color:#dc3545;border-color:#f5c2c2"
-                                        onclick="eliminarDireccion(1)">
-                                    <i class="fas fa-trash me-1"></i>Eliminar
-                                </button>
+                                <form action="/proyectoweb/mi-perfil/inicio" method="POST">
+                                    <input type="hidden" name="no_direccion" value="<?php echo intval($dir['no_dirección']); ?>">
+                                    <button type="submit" name="eliminar_direccion" class="btn-dir-sec" style="color:#dc3545;border-color:#f5c2c2">
+                                        <i class="fas fa-trash me-1"></i>Eliminar
+                                    </button>
+                                </form>
                             </div>
                         </div>
+                        <?php } ?>
                     </div>
                     <div id="formDirWrapper" style="display:none">
+                        <form action="/proyectoweb/mi-perfil/inicio" method="POST">
                         <hr>
+                        <input type="hidden" name="no_direccion" id="updateDirId" value="">
                         <h6 id="formDirTitle" style="color:var(--azul-marino);font-weight:700;margin-bottom:.75rem">
                             <i class="fas fa-plus-circle me-2"></i>Nueva dirección
                         </h6>
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">Nombre completo</label>
-                                <input type="text" id="dNombre" class="form-control" placeholder="Nombre del destinatario">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">Teléfono</label>
-                                <input type="tel" id="dTel" class="form-control" placeholder="229-000-0000">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-semibold small">Calle y número</label>
-                                <input type="text" id="dCalle" class="form-control" placeholder="Ej: Av. Independencia 120">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold small">Colonia</label>
-                                <input type="text" id="dColonia" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold small">Ciudad</label>
-                                <input type="text" id="dCiudad" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold small">C.P.</label>
-                                <input type="text" id="dCP" class="form-control" maxlength="5">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">Estado</label>
-                                <input type="text" id="dEstado" class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">País</label>
-                                <input type="text" id="dPais" class="form-control" value="México" readonly>
-                            </div>
-                        </div>
+    <div class="col-12">
+        <label class="form-label fw-semibold small">Calle y número *</label>
+        <input type="text" id="dCalle" name="calle_numero" class="form-control" placeholder="Ej: Av. Independencia 120">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-semibold small">Estado *</label>
+        <select id="dEstado" name="estado" class="form-select">
+            <option value="" selected disabled>Selecciona un estado...</option>
+<option value="Aguascalientes">Aguascalientes</option>
+<option value="Baja California">Baja California</option>
+<option value="Baja California Sur">Baja California Sur</option>
+<option value="Campeche">Campeche</option>
+<option value="Chiapas">Chiapas</option>
+<option value="Chihuahua">Chihuahua</option>
+<option value="Ciudad de México">Ciudad de México</option>
+<option value="Coahuila">Coahuila</option>
+<option value="Colima">Colima</option>
+<option value="Durango">Durango</option>
+<option value="Estado de México">Estado de México</option>
+<option value="Guanajuato">Guanajuato</option>
+<option value="Guerrero">Guerrero</option>
+<option value="Hidalgo">Hidalgo</option>
+<option value="Jalisco">Jalisco</option>
+<option value="Michoacán">Michoacán</option>
+<option value="Morelos">Morelos</option>
+<option value="Nayarit">Nayarit</option>
+<option value="Nuevo León">Nuevo León</option>
+<option value="Oaxaca">Oaxaca</option>
+<option value="Puebla">Puebla</option>
+<option value="Querétaro">Querétaro</option>
+<option value="Quintana Roo">Quintana Roo</option>
+<option value="San Luis Potosí">San Luis Potosí</option>
+<option value="Sinaloa">Sinaloa</option>
+<option value="Sonora">Sonora</option>
+<option value="Tabasco">Tabasco</option>
+<option value="Tamaulipas">Tamaulipas</option>
+<option value="Tlaxcala">Tlaxcala</option>
+<option value="Veracruz">Veracruz</option>
+<option value="Yucatán">Yucatán</option>
+<option value="Zacatecas">Zacatecas</option>
+            </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-semibold small">Ciudad *</label>
+        <select id="dCiudad" name="ciudad" class="form-select" disabled>
+            <option value="" selected disabled>Primero selecciona un estado</option>
+        </select>
+    </div>
+    <div class="col-md-5">
+        <label class="form-label fw-semibold small">Colonia *</label>
+        <input type="text" id="dColonia" name="colonia" placeholder="Costa de Oro" class="form-control">
+    </div>
+    <div class="col-md-4">
+        <label class="form-label fw-semibold small">C.P. *</label>
+        <input type="text" id="dCP" name="cp" class="form-control" placeholder="91809" maxlength="5">
+    </div>
+    <div class="col-md-3">
+        <label class="form-label fw-semibold small">País *</label>
+        <input type="text" id="dPais" name="pais" class="form-control" value="México" readonly>
+    </div>
+</div>
                         <div class="d-flex gap-2 mt-3">
-                            <button class="btn-cuenta-save" onclick="guardarDireccion()">
+                            <button type="submit" name="guardar_direccion" class="btn-cuenta-save">
                                 <i class="fas fa-save me-1"></i> Guardar dirección
                             </button>
-                            <button class="btn-cuenta-cancel" onclick="cancelarDir()">Cancelar</button>
+                            <button type="button" class="btn-cuenta-cancel" onclick="cancelarDir()">Cancelar</button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -690,3 +733,64 @@
 
     </main>
 </div><!-- /cuenta-layout -->
+
+<script>
+    const DIRS = <?php echo json_encode($direcciones); ?>;
+document.addEventListener('DOMContentLoaded', function() {
+    const estadosYCiudades = {
+        "Aguascalientes": ["Aguascalientes", "Jesús María", "Calvillo", "Rincón de Romos"],
+        "Baja California": ["Tijuana", "Mexicali", "Ensenada", "Playas de Rosarito", "Tecate"],
+        "Baja California Sur": ["La Paz", "Los Cabos", "San José del Cabo", "Loreto", "Ciudad Constitución"],
+        "Campeche": ["Campeche", "Ciudad del Carmen", "Champotón", "Escárcega"],
+        "Chiapas": ["Tuxtla Gutiérrez", "Tapachula", "San Cristóbal de las Casas", "Comitán", "Palenque"],
+        "Chihuahua": ["Chihuahua", "Ciudad Juárez", "Delicias", "Cuauhtémoc", "Hidalgo del Parral"],
+        "Ciudad de México": ["Álvaro Obregón", "Azcapotzalco", "Benito Juárez", "Coyoacán", "Cuajimalpa", "Cuauhtémoc", "Gustavo A. Madero", "Iztacalco", "Iztapalapa", "Magdalena Contreras", "Miguel Hidalgo", "Milpa Alta", "Tláhuac", "Tlalpan", "Venustiano Carranza", "Xochimilco"],
+        "Coahuila": ["Saltillo", "Torreón", "Monclova", "Piedras Negras", "Ciudad Acuña"],
+        "Colima": ["Colima", "Manzanillo", "Tecomán", "Villa de Álvarez"],
+        "Durango": ["Durango", "Gómez Palacio", "Lerdo", "Santiago Papasquiaro"],
+        "Estado de México": ["Toluca", "Ecatepec", "Nezahualcóyotl", "Naucalpan", "Tlalnepantla", "Chimalhuacán", "Cuautitlán Izcalli", "Atizapán", "Metepec"],
+        "Guanajuato": ["León", "Irapuato", "Celaya", "Salamanca", "Guanajuato", "San Miguel de Allende"],
+        "Guerrero": ["Acapulco", "Chilpancingo", "Iguala", "Zihuatanejo", "Taxco"],
+        "Hidalgo": ["Pachuca", "Tulancingo", "Tula de Allende", "Tizayuca", "Mineral de la Reforma"],
+        "Jalisco": ["Guadalajara", "Zapopan", "Tlaquepaque", "Tonalá", "Puerto Vallarta", "Tlajomulco de Zúñiga", "Lagos de Moreno"],
+        "Michoacán": ["Morelia", "Uruapan", "Zamora", "Lázaro Cárdenas", "Pátzcuaro"],
+        "Morelos": ["Cuernavaca", "Jiutepec", "Cuautla", "Temixco", "Yautepec"],
+        "Nayarit": ["Tepic", "Bahía de Banderas", "Xalisco", "Compostela"],
+        "Nuevo León": ["Monterrey", "Apodaca", "Guadalupe", "San Nicolás de los Garza", "San Pedro Garza García", "Santa Catarina", "General Escobedo"],
+        "Oaxaca": ["Oaxaca de Juárez", "Salina Cruz", "San Juan Bautista Tuxtepec", "Juchitán de Zaragoza", "Santa María Huatulco"],
+        "Puebla": ["Puebla", "Cholula", "Tehuacán", "Atlixco", "San Martín Texmelucan", "Cuautlancingo"],
+        "Querétaro": ["Querétaro", "San Juan del Río", "Corregidora", "El Marqués", "Tequisquiapan"],
+        "Quintana Roo": ["Cancún", "Playa del Carmen", "Chetumal", "Cozumel", "Tulum"],
+        "San Luis Potosí": ["San Luis Potosí", "Soledad de Graciano Sánchez", "Ciudad Valles", "Matehuala"],
+        "Sinaloa": ["Culiacán", "Mazatlán", "Los Mochis", "Guasave", "Navolato"],
+        "Sonora": ["Hermosillo", "Ciudad Obregón", "Nogales", "San Luis Río Colorado", "Navojoa", "Guaymas"],
+        "Tabasco": ["Villahermosa", "Cárdenas", "Comalcalco", "Macuspana", "Tenosique"],
+        "Tamaulipas": ["Reynosa", "Matamoros", "Nuevo Laredo", "Ciudad Victoria", "Tampico", "Ciudad Madero"],
+        "Tlaxcala": ["Tlaxcala", "Apizaco", "Huamantla", "Chiautempan", "Zacatelco"],
+        "Veracruz": ["Veracruz", "Boca del Río", "Xalapa", "Córdoba", "Orizaba", "Coatzacoalcos", "Minatitlán", "Poza Rica", "Tuxpan"],
+        "Yucatán": ["Mérida", "Valladolid", "Tizimín", "Progreso", "Kanasín"],
+        "Zacatecas": ["Zacatecas", "Guadalupe", "Fresnillo", "Jerez"]
+    };
+
+    const selectEstado = document.getElementById('dEstado');
+    const selectCiudad = document.getElementById('dCiudad');
+
+    selectEstado.addEventListener('change', function() {
+        const estadoSeleccionado = this.value;
+        const ciudades = estadosYCiudades[estadoSeleccionado] || [];
+        selectCiudad.innerHTML = '<option value="" selected disabled>Selecciona una ciudad...</option>';
+        
+        if (ciudades.length > 0) {
+            selectCiudad.disabled = false;
+            ciudades.forEach(ciudad => {
+                const option = document.createElement('option');
+                option.value = ciudad;
+                option.textContent = ciudad;
+                selectCiudad.appendChild(option);
+            });
+        } else {
+            selectCiudad.disabled = true;
+        }
+    });
+});
+</script>

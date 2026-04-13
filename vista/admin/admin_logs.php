@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </div>
-
+            <div class="admin-pagination mt-3" id="paginationControls"></div>
             <div class="admin-table-wrap">
                 <table class="admin-table" id="tablaLogs">
                     <thead>
@@ -120,7 +120,7 @@
                         <tr>
                             <td style="color:#999; font-size:.8rem"><?php echo $log['no_bitacora']; ?></td>
                             <td><?php echo date('d/m/Y H:i:s', strtotime($log['fechayhora'])); ?></td>
-                            <td><strong><?php echo $log['rfc']; ?></strong></td>
+                            <td><strong><?php if($log['rfc']!=null){ echo $log['rfc']; }else{echo "--";} ?></strong></td>
                             <td><?php echo $log['descripcion']; ?></td>
                             <td><span class="badge-<?php echo ($log['estado']=='C') ? 'confirmada' : 'pendiente'; ?>"><?php echo ($log['estado']=='C') ? 'Exitoso' : 'Error'; ?></span></td>
                             
@@ -131,8 +131,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="admin-pagination mt-3" id="paginationControls"></div>
         </div>
 
     </main>

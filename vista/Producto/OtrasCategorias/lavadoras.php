@@ -8,11 +8,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-         <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+         <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -115,61 +117,53 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$todasLavadoras = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='lavadoras'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="../../multimedia/Imagenes/productos/lavadora-8mwtw2024wjm.jpg" alt="Lavadora 20kg Carga Superior Xpert System Blanca Agitador" onerror="this.src='https://placehold.co/300x250?text=8MWTW2024WJM'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">8MWTW2024WJM</span>
-                            <p class="product-name">Lavadora 20kg Carga Superior Xpert System Blanca Agitador</p>
-                            <div class="product-price-row"><span class="product-price">$9,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($todasLavadoras) && count($todasLavadoras) > 0):
+        foreach($todasLavadoras as $lav): 
+            $nombre = $lav['nombre'];
+            $precio = '$' . number_format($lav['precio_venta'], 2);
+            $sku = Helpers::crearSKU($lav['categoria'], $nombre);
+            $id = $lav['no_producto'];
+            $imgLav = "/proyectoweb/public/uploads/img/" . $lav['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Lavadora";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgLav; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WFW5000HW" alt="Lavadora de carga frontal 4.5 pies cúbicos alta eficiencia" onerror="this.src='https://placehold.co/300x250?text=WFW5000HW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WFW5000HW</span>
-                            <p class="product-name">Lavadora de carga frontal 4.5 pies cúbicos alta eficiencia</p>
-                            <div class="product-price-row"><span class="product-price">$12,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WTW4955HW" alt="Lavadora de carga superior 4.7 pies cúbicos con dispensador automático" onerror="this.src='https://placehold.co/300x250?text=WTW4955HW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WTW4955HW</span>
-                            <p class="product-name">Lavadora de carga superior 4.7 pies cúbicos con dispensador automático</p>
-                            <div class="product-price-row"><span class="product-price">$8,699.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=MVW6230HW" alt="Lavadora carga superior 5.0 pies cúbicos con sensor de carga" onerror="this.src='https://placehold.co/300x250?text=MVW6230HW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">MVW6230HW</span>
-                            <p class="product-name">Lavadora carga superior 5.0 pies cúbicos con sensor de carga</p>
-                            <div class="product-price-row"><span class="product-price">$10,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron lavadoras en el inventario.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

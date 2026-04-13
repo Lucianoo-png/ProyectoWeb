@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Contacto</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="/proyectoweb/estilos/styles.css">
-    <link rel="stylesheet" href="/proyectoweb/estilos/contacto.css">
-</head>
-<body>
 
 <?php
 /* ─── Topbar ─────────────────────────────────────── */
@@ -22,11 +10,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
+        <?php if(isset($_SESSION["NoCliente"])){ ?>
         <div class="d-flex gap-3">
             <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                 <i class="fas fa-truck me-1"></i> Rastrear Pedido
             </a>
         </div>
+        <?php } ?>
     </div>
 </div>
 
@@ -93,21 +83,6 @@
         </ul>
     </div>
 </div>
-
-<?php /* ─── Breadcrumb ──────────────────────────── */ ?>
-<div class="bg-white border-bottom py-2">
-    <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item">
-                    <a href="/proyectoweb/?" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
-                </li>
-                <li class="breadcrumb-item active text-muted">Contacto</li>
-            </ol>
-        </nav>
-    </div>
-</div>
-
 <!-- ═══════════════════════════════════════════════════════
      HERO
 ════════════════════════════════════════════════════════ -->
@@ -179,7 +154,7 @@
                     <div class="contact-info-icon mx-auto">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    <h6>Sucursal Principal</h6>
+                    <h6>Sucursal</h6>
                     <p>Av. Ej. de Oriente 2260,<br>Veracruz, Ver., C.P. 91780<br>México</p>
                 </div>
             </div>
@@ -250,81 +225,6 @@
                 </div>
             </div>
 
-            <!-- Mapa -->
-
-        </div>
-
-                <!-- Mapa -->
-                <div class="map-wrap">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.0!2d-96.134!3d19.163!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA5JzQ2LjgiTiA5NsKwMDgnMDMuNiJX!5e0!3m2!1ses!2smx!4v1680000000000!5m2!1ses!2smx"
-                        allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
-                        title="Ubicación LuchanosCorp">
-                    </iframe>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ═══════════════════════════════════════════
-             SUCURSALES
-        ════════════════════════════════════════════ -->
-        <div class="mt-5">
-            <div class="mb-3"><span class="section-title">Nuestras Sucursales</span></div>
-            <div class="row g-3">
-
-                <div class="col-md-4">
-                    <div class="contact-info-card">
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <div class="contact-info-icon" style="width:38px;height:38px;font-size:1rem;flex-shrink:0">
-                                <i class="fas fa-store"></i>
-                            </div>
-                            <h6 class="mb-0">Sucursal Centro</h6>
-                        </div>
-                        <p class="mb-1">Av. Ej. de Oriente 2260, Centro Histórico<br>Veracruz, Ver. C.P. 91780</p>
-                        <p class="mb-1"><i class="fas fa-phone-alt me-1" style="color:var(--btn-color)"></i>
-                            <a href="tel:2291234567">229 123 4567</a></p>
-                        <p class="mb-0"><i class="fas fa-clock me-1" style="color:var(--btn-color)"></i>
-                            <span style="font-size:.82rem">Lun–Vie 9–7 pm · Sáb 10–5 pm</span></p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="contact-info-card">
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <div class="contact-info-icon" style="width:38px;height:38px;font-size:1rem;flex-shrink:0">
-                                <i class="fas fa-store"></i>
-                            </div>
-                            <h6 class="mb-0">Sucursal Boca del Río</h6>
-                        </div>
-                        <p class="mb-1">Blvd. Manuel Ávila Camacho 3150<br>Boca del Río, Ver. C.P. 94290</p>
-                        <p class="mb-1"><i class="fas fa-phone-alt me-1" style="color:var(--btn-color)"></i>
-                            <a href="tel:2297654321">229 765 4321</a></p>
-                        <p class="mb-0"><i class="fas fa-clock me-1" style="color:var(--btn-color)"></i>
-                            <span style="font-size:.82rem">Lun–Vie 9–7 pm · Sáb 10–5 pm</span></p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="contact-info-card">
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <div class="contact-info-icon" style="width:38px;height:38px;font-size:1rem;flex-shrink:0">
-                                <i class="fas fa-store"></i>
-                            </div>
-                            <h6 class="mb-0">Sucursal Xalapa</h6>
-                        </div>
-                        <p class="mb-1">Av. Lázaro Cárdenas 800, Col. Unidad<br>Xalapa, Ver. C.P. 91010</p>
-                        <p class="mb-1"><i class="fas fa-phone-alt me-1" style="color:var(--btn-color)"></i>
-                            <a href="tel:2289876543">228 987 6543</a></p>
-                        <p class="mb-0"><i class="fas fa-clock me-1" style="color:var(--btn-color)"></i>
-                            <span style="font-size:.82rem">Lun–Vie 9–7 pm · Sáb 10–5 pm</span></p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
     </div>
 </main>
 
@@ -358,15 +258,4 @@
         </div>
     </div>
 </footer>
-
-<!-- Bootstrap 5.3.2 JavaScript Bundle (incluye Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Scripts globales del sitio -->
-<script src="/proyectoweb/js/scripts.js"></script>
-<script src="/proyectoweb/js/contacto.js"></script>
-<link rel="stylesheet" href="/proyectoweb/estilos/responsive.css">
-<script src="/proyectoweb/js/responsive.js"></script>
-
-</body>
 </html>

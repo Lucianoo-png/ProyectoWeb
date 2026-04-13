@@ -35,6 +35,39 @@ class Helpers{
             return "el $dia de $mes$anio_str a las $hora_texto";
         }
     }
+
+    public static function crearSKU($categoria, $nombre, $variante = '') {
+        $catLimpia = self::limpiarTexto($categoria);
+        $nomLimpio = self::limpiarTexto($nombre);
+        $prefijoCategoria = substr($catLimpia, 0, 3);
+        $prefijoNombre = substr($nomLimpio, 0, 4);
+        $hashUnico = strtoupper(substr(md5($nomLimpio), 0, 4));
+        
+        $skuPartes = [
+            $prefijoCategoria,
+            $prefijoNombre,
+            $hashUnico
+        ];
+        
+        if (!empty(trim($variante))) {
+            $varLimpia = self::limpiarTexto($variante);
+            $prefijoVariante = substr($varLimpia, 0, 2);
+            $skuPartes[] = $prefijoVariante;
+        }
+        
+        return implode('-', $skuPartes);
+    }
+
+    private static function limpiarTexto($texto) {
+        $texto = trim(mb_strtoupper($texto, 'UTF-8'));
+        $texto = str_replace(' ', '', $texto);
+        $texto = str_replace(
+            ['Á','É','Í','Ó','Ú','Ñ'], 
+            ['A','E','I','O','U','N'], 
+            $texto
+        );
+        return $texto;
+    }
 }
 
 ?>

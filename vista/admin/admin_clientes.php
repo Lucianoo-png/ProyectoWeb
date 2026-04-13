@@ -5,7 +5,6 @@
 
     <main class="admin-content">
 
-        <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="mb-3">
             <ol class="breadcrumb mb-0 small">
                 <li class="breadcrumb-item">
@@ -15,107 +14,102 @@
             </ol>
         </nav>
 
-        <!-- Encabezado -->
         <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Clientes Registrados</h1>
             <p class="page-header-sub">Consulta los clientes registrados en línea o desde tienda física.</p>
         </div>
 
-        <!-- Resumen rápido -->
         <div class="row row-cols-2 row-cols-md-4 g-3 mb-4">
             <div class="col">
                 <div class="stat-card" style="cursor:default">
                     <div class="stat-icon"><i class="fas fa-users"></i></div>
-                    <div class="stat-num">342</div>
+                    <div class="stat-num"><?php echo $total_clientes; ?></div>
                     <div class="stat-label">Total clientes</div>
                 </div>
             </div>
             <div class="col">
                 <div class="stat-card" style="cursor:default">
                     <div class="stat-icon" style="color:#1d4ed8"><i class="fas fa-globe"></i></div>
-                    <div class="stat-num">218</div>
+                    <div class="stat-num"><?php echo $total_clientes_linea; ?></div>
                     <div class="stat-label">En línea</div>
                 </div>
             </div>
             <div class="col">
                 <div class="stat-card" style="cursor:default">
                     <div class="stat-icon" style="color:#92400e"><i class="fas fa-store"></i></div>
-                    <div class="stat-num">124</div>
+                    <div class="stat-num"><?php echo $total_clientes_fisico; ?></div>
                     <div class="stat-label">Tienda física</div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="stat-card" style="cursor:default">
-                    <div class="stat-icon" style="color:#16a34a"><i class="fas fa-user-check"></i></div>
-                    <div class="stat-num">309</div>
-                    <div class="stat-label">Activos</div>
                 </div>
             </div>
         </div>
 
-        <!-- Filtros -->
         <div class="report-form-card mb-4">
             <h5 class="text-center">
                 <i class="fas fa-filter me-2" style="color:var(--btn-color)"></i>Filtrar Clientes
             </h5>
-            <form method="GET" action="/proyectoweb/">
-                <input type="hidden" name="url" value="admin/clientes">
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <label class="form-label">Desde:</label>
-                        <input type="date" name="desde" class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Hasta:</label>
-                        <input type="date" name="hasta" class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Origen:</label>
-                        <select name="origen" class="form-select">
-                            <option value="">Todos</option>
-                            <option>En línea</option>
-                            <option>Tienda física</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Estado:</label>
-                        <select name="estado" class="form-select">
-                            <option value="">Todos</option>
-                            <option>Activo</option>
-                            <option>Inactivo</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Buscar cliente:</label>
-                        <input type="text" name="q" class="form-control" placeholder="Nombre, correo o teléfono...">
-                    </div>
-                    <div class="col-12 d-flex justify-content-end gap-2 mt-2">
-                        <a href="/proyectoweb/?url=admin/clientes" class="btn btn-outline-secondary">
-                            <i class="fas fa-undo me-1"></i> Limpiar
-                        </a>
-                        <button type="submit" class="btn-generar-pdf">
-                            <i class="fas fa-search me-1"></i> Filtrar
-                        </button>
-                    </div>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Desde:</label>
+                    <input type="date" id="filtroDesde" class="form-control">
                 </div>
-            </form>
+                <div class="col-md-3">
+                    <label class="form-label">Hasta:</label>
+                    <input type="date" id="filtroHasta" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Origen:</label>
+                    <select id="filtroOrigen" class="form-select">
+                        <option value="all">Todos</option>
+                        <option value="En línea">En línea</option>
+                        <option value="Tienda física">Tienda física</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Estado:</label>
+                    <select id="filtroEstado" class="form-select">
+                        <option value="all">Todos</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Buscar cliente:</label>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Nombre, correo o teléfono...">
+                </div>
+            </div>
         </div>
 
-        <!-- Tabla de clientes -->
         <div class="report-form-card">
-            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                <h5 class="mb-0 text-center w-100">
-                    <i class="fas fa-address-book me-2" style="color:var(--btn-color)"></i>Listado de Clientes
-                </h5>
-                <div class="w-100 d-flex justify-content-end">
-                    <button class="btn-generar-pdf" style="font-size:.78rem; padding:.45rem 1rem">
-                        <i class="fas fa-file-pdf me-1"></i> Exportar PDF
-                    </button>
+            <div class="admin-form-body pb-0 px-0">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <h5 class="mb-0 text-center w-100">
+                        <i class="fas fa-address-book me-2" style="color:var(--btn-color)"></i>Listado de Clientes
+                    </h5>
+                    
+                    <div class="w-100 d-flex justify-content-between align-items-center">
+                        <div class="table-page-info text-muted small">
+                            Número de registros por página: <span id="info-rows-per-page">5</span> | Página: <span id="info-current-page">1</span> de <span id="info-total-pages">1</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <select id="rowsPerPageSelect" class="form-select form-select-sm w-auto">
+                                <option value="5" selected>5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="all">Todos</option>
+                            </select>
+                            <button class="btn-generar-pdf" style="font-size:.78rem; padding:.45rem 1rem">
+                                <i class="fas fa-file-pdf me-1"></i> Exportar PDF
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <div class="admin-pagination mt-3" id="paginationControls"></div>
+
             <div class="admin-table-wrap">
-                <table class="admin-table">
+                <table class="admin-table" id="tablaClientes">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -123,101 +117,29 @@
                             <th>Correo Electrónico</th>
                             <th>Teléfono</th>
                             <th>Origen</th>
-                            <th>Fecha de Registro</th>
                             <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">342</td>
-                            <td><strong>Lucía Fernández Mora</strong></td>
-                            <td>lucia.fernandez@gmail.com</td>
-                            <td>229-145-8832</td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#eff6ff; color:#1d4ed8; font-size:.72rem"><i class="fas fa-globe me-1"></i>En línea</span></td>
-                            <td>10/04/2026</td>
-                            <td><span class="badge-confirmada">Activo</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">341</td>
-                            <td><strong>Roberto Salinas Cruz</strong></td>
-                            <td>r.salinas@hotmail.com</td>
-                            <td>229-302-7741</td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#fff7ed; color:#c2410c; font-size:.72rem"><i class="fas fa-store me-1"></i>Tienda física</span></td>
-                            <td>09/04/2026</td>
-                            <td><span class="badge-confirmada">Activo</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">340</td>
-                            <td><strong>Diana Ruiz Herrera</strong></td>
-                            <td>diana.ruiz@yahoo.com</td>
-                            <td>229-874-5510</td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#eff6ff; color:#1d4ed8; font-size:.72rem"><i class="fas fa-globe me-1"></i>En línea</span></td>
-                            <td>07/04/2026</td>
-                            <td><span class="badge-confirmada">Activo</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">339</td>
-                            <td><strong>Marco Antonio Vega</strong></td>
-                            <td>m.vega.mx@gmail.com</td>
-                            <td>229-561-0093</td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#fff7ed; color:#c2410c; font-size:.72rem"><i class="fas fa-store me-1"></i>Tienda física</span></td>
-                            <td>05/04/2026</td>
-                            <td><span class="badge-pendiente">Inactivo</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">338</td>
-                            <td><strong>Sofía Castro Pérez</strong></td>
-                            <td>sofia.castro@outlook.com</td>
-                            <td>229-213-6670</td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#eff6ff; color:#1d4ed8; font-size:.72rem"><i class="fas fa-globe me-1"></i>En línea</span></td>
-                            <td>03/04/2026</td>
-                            <td><span class="badge-confirmada">Activo</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">337</td>
-                            <td><strong>Héctor Jiménez Lara</strong></td>
-                            <td>hector.jl@gmail.com</td>
-                            <td>229-988-4421</td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#fff7ed; color:#c2410c; font-size:.72rem"><i class="fas fa-store me-1"></i>Tienda física</span></td>
-                            <td>01/04/2026</td>
-                            <td><span class="badge-confirmada">Activo</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">336</td>
-                            <td><strong>Valeria Morales Torres</strong></td>
-                            <td>valeria.morales@gmail.com</td>
-                            <td>229-647-2298</td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#eff6ff; color:#1d4ed8; font-size:.72rem"><i class="fas fa-globe me-1"></i>En línea</span></td>
-                            <td>29/03/2026</td>
-                            <td><span class="badge-confirmada">Activo</span></td>
-                        </tr>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem">335</td>
-                            <td><strong>Eduardo Campos Reyes</strong></td>
-                            <td>e.campos@live.com</td>
-                            <td>229-430-8815</td>
-                            <td><span class="badge rounded-pill px-2 py-1" style="background:#fff7ed; color:#c2410c; font-size:.72rem"><i class="fas fa-store me-1"></i>Tienda física</span></td>
-                            <td>27/03/2026</td>
-                            <td><span class="badge-pendiente">Inactivo</span></td>
-                        </tr>
+                        <?php
+                            $i = 1;
+                            foreach($clientes as $clien){
+                                ?>
+                                <tr>
+                                    <td style="color:#999; font-size:.8rem"><?php echo $i; ?></td>
+                                    <td><strong><?php echo $clien['nombre']." ".$clien['apellidospama']; ?></strong></td>
+                                    <td><?php echo $clien['correo']; ?></td>
+                                    <td><?php echo $clien['telefono']; ?></td>
+                                    <?php if($clien['origen']=='L'){ ?><td><span class="badge rounded-pill px-2 py-1" style="background:#eff6ff; color:#1d4ed8; font-size:.72rem"><i class="fas fa-globe me-1"></i>En línea</span></td><?php } ?>
+                                    <?php if($clien['origen']=='F'){ ?> <td><span class="badge rounded-pill px-2 py-1" style="background:#fff7ed; color:#c2410c; font-size:.72rem"><i class="fas fa-store me-1"></i>Tienda física</span></td><?php } ?>
+                                    <td><span class="badge-<?php if($clien['estatus']){echo "confirmada";}else{echo "pendiente";} ?>"><?php if($clien['estatus']){echo "Activo";}else{echo "Inactivo";}  ?></span></td>
+                                </tr>
+                                <?php
+                                $i++;
+                            }
+                        ?>
                     </tbody>
                 </table>
-            </div>
-
-            <!-- Paginación -->
-            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
-                <small class="text-muted">Mostrando 1–8 de 342 registros</small>
-                <nav>
-                    <ul class="pagination pagination-sm mb-0">
-                        <li class="page-item disabled"><a class="page-link" href="#">‹ Anterior</a></li>
-                        <li class="page-item active"><a class="page-link" href="#" style="background:var(--btn-color); border-color:var(--btn-color)">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">…</a></li>
-                        <li class="page-item"><a class="page-link" href="#">43</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Siguiente ›</a></li>
-                    </ul>
-                </nav>
             </div>
         </div>
 
@@ -225,3 +147,134 @@
 </div>
 
 <?php include('vista/admin/footer_admin.php'); ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const filtroDesde = document.getElementById('filtroDesde');
+    const filtroHasta = document.getElementById('filtroHasta');
+    const filtroOrigen = document.getElementById('filtroOrigen');
+    const filtroEstado = document.getElementById('filtroEstado');
+    const rowsPerPageSelect = document.getElementById('rowsPerPageSelect');
+    const tbody = document.querySelector('#tablaClientes tbody');
+    const allRows = Array.from(tbody.querySelectorAll('tr'));
+    const paginationControls = document.getElementById('paginationControls');
+
+    const infoRowsPerPage = document.getElementById('info-rows-per-page');
+    const infoCurrentPage = document.getElementById('info-current-page');
+    const infoTotalPages = document.getElementById('info-total-pages');
+
+    let currentPage = 1;
+    let rowsPerPage = 5;
+    let filteredRows = [...allRows];
+
+    function renderTable() {
+        const totalRows = filteredRows.length;
+        const totalPages = rowsPerPage === 'all' ? 1 : Math.max(1, Math.ceil(totalRows / rowsPerPage));
+        
+        if (currentPage < 1) currentPage = 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+        
+        infoRowsPerPage.textContent = rowsPerPage === 'all' ? 'Todos' : rowsPerPage;
+        infoCurrentPage.textContent = totalPages === 0 ? 0 : currentPage;
+        infoTotalPages.textContent = totalPages;
+        allRows.forEach(row => row.style.display = 'none');
+        
+        if (totalRows > 0) {
+            let start = 0;
+            let end = totalRows;
+
+            if (rowsPerPage !== 'all') {
+                start = (currentPage - 1) * rowsPerPage;
+                end = start + rowsPerPage;
+            }
+            for (let i = start; i < end && i < totalRows; i++) {
+                filteredRows[i].style.display = ''; 
+            }
+        }
+        renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+        if (totalPages <= 1) {
+            paginationControls.innerHTML = '';
+            return; 
+        }
+
+        paginationControls.innerHTML = '<span class="page-info">Página:</span>';
+        
+        if (currentPage > 1) {
+            const btnPrev = document.createElement('button');
+            btnPrev.className = 'pg-btn';
+            btnPrev.innerHTML = '<i class="fas fa-chevron-left me-1"></i>';
+            btnPrev.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentPage--;
+                renderTable();
+            });
+            paginationControls.appendChild(btnPrev);
+        }
+
+        const btnCurrent = document.createElement('button');
+        btnCurrent.className = 'pg-btn active';
+        btnCurrent.textContent = currentPage;
+        paginationControls.appendChild(btnCurrent);
+        
+        if (currentPage < totalPages) {
+            const btnNext = document.createElement('button');
+            btnNext.className = 'pg-btn';
+            btnNext.innerHTML = '<i class="fas fa-chevron-right ms-1"></i>';
+            btnNext.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentPage++;
+                renderTable();
+            });
+            paginationControls.appendChild(btnNext);
+        }
+    }
+
+    function applyFilters() {
+        const term = searchInput.value.toLowerCase();
+        const fDesde = filtroDesde.value; 
+        const fHasta = filtroHasta.value;
+        const fOrigen = filtroOrigen.value;
+        const fEstado = filtroEstado.value;
+
+        filteredRows = allRows.filter(row => {
+            const cells = row.querySelectorAll('td');
+            const txtSearch = (cells[1].textContent + " " + cells[2].textContent + " " + cells[3].textContent).toLowerCase();
+            
+            // Textos exactos para selects
+            const txtOrigen = cells[4].textContent.trim();
+            const txtEstado = cells[6].textContent.trim();
+            const rawFechaBD = cells[7].textContent.trim();
+
+            if (term && !txtSearch.includes(term)) return false;
+            if (fOrigen !== 'all' && txtOrigen !== fOrigen) return false;
+            if (fEstado !== 'all' && txtEstado !== fEstado) return false;
+            if (fDesde && rawFechaBD < fDesde) return false;
+            if (fHasta && rawFechaBD > fHasta) return false;
+
+            return true;
+        });
+
+        currentPage = 1;
+        renderTable();
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    filtroDesde.addEventListener('change', applyFilters);
+    filtroHasta.addEventListener('change', applyFilters);
+    filtroOrigen.addEventListener('change', applyFilters);
+    filtroEstado.addEventListener('change', applyFilters);
+
+
+    rowsPerPageSelect.addEventListener('change', function() {
+        rowsPerPage = this.value === 'all' ? 'all' : parseInt(this.value);
+        currentPage = 1;
+        renderTable();
+    });
+    
+    renderTable();
+});
+</script>

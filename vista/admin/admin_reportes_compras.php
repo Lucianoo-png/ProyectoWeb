@@ -34,8 +34,8 @@
             <a href="/proyectoweb/admin/clientes"  class="nav-link"><i class="fas fa-user-friends"></i> Clientes</a>
         <hr class="sidebar-divider">
         <p class="sidebar-title">Reportes</p>
-        <a href="/proyectoweb/admin/ventas"   class="nav-link active"><i class="fas fa-chart-bar"></i> Ventas</a>
-        <a href="/proyectoweb/admin/compras"  class="nav-link"><i class="fas fa-shopping-bag"></i> Compras</a>
+        <a href="/proyectoweb/admin/ventas"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
+        <a href="/proyectoweb/admin/compras"  class="nav-link active"><i class="fas fa-shopping-bag"></i> Compras</a>
         <a href="/proyectoweb/admin/pedidos"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
         <hr class="sidebar-divider">
         <p class="sidebar-title">Proveedores</p>
@@ -55,20 +55,17 @@
                 <li class="breadcrumb-item">
                     <a href="/proyectoweb/admin/inicio" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                 </li>
-                <li class="breadcrumb-item">
-                    <a href="/proyectoweb/admin/reportes-ventas" class="text-decoration-none" style="color:var(--btn-color)">Reportes</a>
-                </li>
-                <li class="breadcrumb-item active text-muted">Ventas</li>
+                <li class="breadcrumb-item active text-muted">Compras</li>
             </ol>
         </nav>
 
         <div class="mb-4 text-center">
-            <h1 class="page-header-title mb-0">Reporte de Ventas</h1>
-            <p class="page-header-sub">Genera un reporte PDF filtrado de las ventas registradas.</p>
+            <h1 class="page-header-title mb-0">Reporte de Compras</h1>
+            <p class="page-header-sub">Genera un reporte PDF filtrado de las compras registradas.</p>
         </div>
 
         <div class="report-form-card">
-            <h5 class="text-center"><i class="fas fa-chart-bar me-2" style="color:var(--btn-color)"></i>Generar Reporte de Ventas</h5>
+            <h5 class="text-center"><i class="fas fa-chart-bar me-2" style="color:var(--btn-color)"></i>Generar Reporte de Compras</h5>
             <form action="/proyectoweb/admin/reportes-ventas" method="POST">
                 <div class="row g-3">
                     <div class="col-md-6">

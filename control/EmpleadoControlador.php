@@ -23,7 +23,6 @@ class EmpleadoControlador{
         $datos = $this->empleado->iniciarSesion();
 
         if($datos==false){
-            $this->log->registrarLog(null, "Intento de inicio de sesión fallido para el correo: ".$this->empleado->getCorreo(), "E");
             return array("error","Correo y/o contraseña incorrectos.");
         }
         else{
@@ -508,6 +507,44 @@ class EmpleadoControlador{
                         $this->log->registrarLog($_SESSION["RFC"], "Correo no enviado al usuario ".($this->empleado->getNombre()." ".$this->empleado->getApellidospama())."(".$this->empleado->getRfc().")", "E");
                         return ["error","Ocurrió un error al enviar el correo electrónico. Intenta de nuevo."];
                     }
+    }
+
+    public function actualizarPerfilPersonal($datos = array()) {
+        if(trim($datos['nombre']) == '' || trim($datos['apellidos']) == '' || trim($datos['correo']) == '' || trim($datos['telefono']) == '') {
+            return ["error", "Todos los campos de datos personales son obligatorios."];
+        }
+
+        $this->empleado->setRfc($_SESSION['RFC']);
+        $this->empleado->setNombre(trim(mb_strtoupper($datos['nombre'])));
+        $this->empleado->setApellidospama(trim(mb_strtoupper($datos['apellidos'])));
+        $this->empleado->setCorreo(mb_strtolower(trim($datos['correo'])));
+        $this->empleado->setTelefono(trim($datos['telefono']));
+
+        $existe_correo = $this->empleado->buscar('"Veracruz".empleado', ["where" => "correo='".$this->empleado->getCorreo()."' AND rfc<>'".$this->empleado->getRfc()."'"]);
+        if(count($existe_correo) > 0){
+            return ["error", "Ya existe una cuenta con este correo registrado."];
+        }
+
+        $existe_telefono = $this->empleado->buscar('"Veracruz".empleado', ["where" => "telefono='".$this->empleado->getTelefono()."' AND rfc<>'".$this->empleado->getRfc()."'"]);
+        if(count($existe_telefono) > 0){
+            return ["error", "Ya existe una cuenta con este número telefónico registrado."];
+        }
+        if($this->empleado->actualizarPerfilPersonal()) {
+            $this->log->registrarLog($_SESSION['RFC'], "Actualización de datos personales exitosa", "C");
+            return ["exito","Datos guardados correctamente."];
+        } else {
+            return ["info", "No se detectaron cambios o hubo un error al actualizar."];
+        }
+    }
+
+    public function actualizarContra($datos){
+        $this->empleado->setContrasena($datos['password']);
+        $contra_actual = $this->empleado->buscar('"Veracruz".empleado',["select"=>"contrasena","where"=>"rfc='".$_SESSION["RFC"]."'"])[0]['contrasena'];
+        if(md5($this->empleado->getContrasena())==$contra_actual){
+            return ["error","La nueva contraseña no puede ser la misma que la anterior"];
+        }
+        $this->empleado->actualizarContra();
+        return ["exito","Contraseña actualizada correctamente"];
     }
 }
 

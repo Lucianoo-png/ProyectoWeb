@@ -6,11 +6,13 @@
                     <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
                 </span>
             </div>
+            <?php if(isset($_SESSION["NoCliente"])){ ?>
             <div class="d-flex gap-3">
                 <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                     <i class="fas fa-truck me-1"></i> Rastrear Pedido
                 </a>
             </div>
+            <?php } ?>
         </div>
     </div>
 
@@ -142,219 +144,213 @@
             <div id="consolas" class="mb-2">
                 <span class="section-title">Consolas</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosConsolas = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='consolas'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=PS5" alt="Consola PlayStation 5 con lector de discos y control DualSense" onerror="this.src='https://placehold.co/300x250?text=PS5'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">PS5</span>
-                            <p class="product-name">Consola PlayStation 5 con lector de discos y control DualSense</p>
-                            <div class="product-price-row"><span class="product-price">$13,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/PS5" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosConsolas) && count($productosConsolas) > 0):
+        foreach($productosConsolas as $consola): 
+            $nombre = $consola['nombre'];
+            $precio = '$' . number_format($consola['precio_venta'], 2);
+            $sku = Helpers::crearSKU($consola['categoria'], $nombre);
+            $id = $consola['no_producto'];
+            
+            $imgConsola = "/proyectoweb/public/uploads/img/" . $consola['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Consola";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgConsola; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=XBOXSERIES-X" alt="Consola Xbox Series X 1TB con mando inalámbrico negro" onerror="this.src='https://placehold.co/300x250?text=XBOXSERIES-X'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">XBOXSERIES-X</span>
-                            <p class="product-name">Consola Xbox Series X 1TB con mando inalámbrico negro</p>
-                            <div class="product-price-row"><span class="product-price">$12,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/XBOXSERIES-X" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=XBOXSERIES-S" alt="Consola Xbox Series S 512GB todo digital blanca" onerror="this.src='https://placehold.co/300x250?text=XBOXSERIES-S'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">XBOXSERIES-S</span>
-                            <p class="product-name">Consola Xbox Series S 512GB todo digital blanca</p>
-                            <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/XBOXSERIES-S" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=SWITCH-OLED" alt="Consola Nintendo Switch OLED 64GB con pantalla de 7 pulgadas" onerror="this.src='https://placehold.co/300x250?text=SWITCH-OLED'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">SWITCH-OLED</span>
-                            <p class="product-name">Consola Nintendo Switch OLED 64GB con pantalla de 7"</p>
-                            <div class="product-price-row"><span class="product-price">$9,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/SWITCH-OLED" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron consolas disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── Controles ── -->
             <div id="controles" class="mb-2">
                 <span class="section-title">Controles</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosControles = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='controles'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=DUALSENSE" alt="Control DualSense para PS5 con retroalimentación háptica blanco" onerror="this.src='https://placehold.co/300x250?text=DUALSENSE'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">DUALSENSE</span>
-                            <p class="product-name">Control DualSense para PS5 con retroalimentación háptica blanco</p>
-                            <div class="product-price-row"><span class="product-price">$1,599.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/DUALSENSE" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosControles) && count($productosControles) > 0):
+        foreach($productosControles as $control): 
+            $nombre = $control['nombre'];
+            $precio = '$' . number_format($control['precio_venta'], 2);
+            $sku = Helpers::crearSKU($control['categoria'], $nombre);
+            $id = $control['no_producto'];
+            
+            $imgCtrl = "/proyectoweb/public/uploads/img/" . $control['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Control";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgCtrl; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=XBOX-CTRL" alt="Control inalámbrico Xbox Series para Windows y consolas negro" onerror="this.src='https://placehold.co/300x250?text=XBOX-CTRL'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">XBOX-CTRL</span>
-                            <p class="product-name">Control inalámbrico Xbox Series para Windows y consolas negro</p>
-                            <div class="product-price-row"><span class="product-price">$1,299.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/XBOX-CTRL" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=JOYCON-NEON" alt="Joy-Con Nintendo Switch par neón azul y neón rojo" onerror="this.src='https://placehold.co/300x250?text=JOYCON-NEON'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">JOYCON-NEON</span>
-                            <p class="product-name">Joy-Con Nintendo Switch par neón azul y neón rojo</p>
-                            <div class="product-price-row"><span class="product-price">$1,199.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/JOYCON-NEON" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=DUALSENSE-EDGE" alt="Control DualSense Edge para PS5 pro con gatillos ajustables" onerror="this.src='https://placehold.co/300x250?text=DUALSENSE-EDGE'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">DUALSENSE-EDGE</span>
-                            <p class="product-name">Control DualSense Edge para PS5 pro con gatillos ajustables</p>
-                            <div class="product-price-row"><span class="product-price">$3,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/DUALSENSE-EDGE" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron controles disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── Sillas Gaming ── -->
             <div id="sillas" class="mb-2">
                 <span class="section-title">Sillas Gaming</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosSillas = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='sillagamer'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=SG-PRO200" alt="Silla gaming ergonómica con reposacabezas y lumbar ajustables negra" onerror="this.src='https://placehold.co/300x250?text=SG-PRO200'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">SG-PRO200</span>
-                            <p class="product-name">Silla gaming ergonómica con reposacabezas y lumbar ajustables negra</p>
-                            <div class="product-price-row"><span class="product-price">$3,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/SG-PRO200" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosSillas) && count($productosSillas) > 0):
+        foreach($productosSillas as $silla): 
+            $nombre = $silla['nombre'];
+            $precio = '$' . number_format($silla['precio_venta'], 2);
+            $sku = Helpers::crearSKU($silla['categoria'], $nombre);
+            $id = $silla['no_producto'];
+            
+            $imgSilla = "/proyectoweb/public/uploads/img/" . $silla['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Silla-Gamer";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSilla; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=SG-RGB400" alt="Silla gaming con tiras LED RGB reclinación 180 grados roja y negra" onerror="this.src='https://placehold.co/300x250?text=SG-RGB400'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">SG-RGB400</span>
-                            <p class="product-name">Silla gaming con tiras LED RGB reclinación 180° roja y negra</p>
-                            <div class="product-price-row"><span class="product-price">$5,199.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/SG-RGB400" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron sillas gamer disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── Accesorios Gaming ── -->
             <div id="accesorios" class="mb-2">
                 <span class="section-title">Accesorios Gaming</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$accesoriosGaming = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='accesoriosgaming'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=PULSE3D" alt="Audífonos inalámbricos PULSE 3D para PS5 con audio 3D blanco" onerror="this.src='https://placehold.co/300x250?text=PULSE3D'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">PULSE3D</span>
-                            <p class="product-name">Audífonos inalámbricos PULSE 3D para PS5 con audio 3D blanco</p>
-                            <div class="product-price-row"><span class="product-price">$1,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/PULSE3D" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($accesoriosGaming) && count($accesoriosGaming) > 0):
+        foreach($accesoriosGaming as $item): 
+            $nombre = $item['nombre'];
+            $precio = '$' . number_format($item['precio_venta'], 2);
+            $sku = Helpers::crearSKU($item['categoria'], $nombre);
+            $id = $item['no_producto'];
+            
+            $imgSrc = "/proyectoweb/public/uploads/img/" . $item['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Accesorio-Gaming";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSrc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=XBOX-HS" alt="Headset inalámbrico Xbox con Dolby Atmos y 15h de batería negro" onerror="this.src='https://placehold.co/300x250?text=XBOX-HS'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">XBOX-HS</span>
-                            <p class="product-name">Headset inalámbrico Xbox con Dolby Atmos y 15h de batería negro</p>
-                            <div class="product-price-row"><span class="product-price">$2,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/XBOX-HS" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=SSD-PS5-1TB" alt="SSD NVMe 1TB de expansión para PlayStation 5 con disipador" onerror="this.src='https://placehold.co/300x250?text=SSD-PS5-1TB'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">SSD-PS5-1TB</span>
-                            <p class="product-name">SSD NVMe 1TB de expansión para PlayStation 5 con disipador</p>
-                            <div class="product-price-row"><span class="product-price">$2,199.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/SSD-PS5-1TB" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=SEAGATE-2TB" alt="Disco duro externo 2TB Storage Expansion Card para Xbox Series" onerror="this.src='https://placehold.co/300x250?text=SEAGATE-2TB'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">SEAGATE-2TB</span>
-                            <p class="product-name">Disco duro externo 2TB Storage Expansion Card para Xbox Series</p>
-                            <div class="product-price-row"><span class="product-price">$3,299.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/SEAGATE-2TB" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron accesorios gaming disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

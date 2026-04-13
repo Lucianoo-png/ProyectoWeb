@@ -6,11 +6,13 @@
                     <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
                 </span>
             </div>
+            <?php if(isset($_SESSION["NoCliente"])){ ?>
             <div class="d-flex gap-3">
                 <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                     <i class="fas fa-truck me-1"></i> Rastrear Pedido
                 </a>
             </div>
+            <?php } ?>
         </div>
     </div>
 
@@ -142,245 +144,213 @@
             <div id="oled" class="mb-2">
                 <span class="section-title">OLED / QLED</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosOledQled = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='oled/qled'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=OLED65C1PSA" alt="Televisor OLED 65 4K Smart TV con procesador α9 Gen4" onerror="this.src='https://placehold.co/300x250?text=OLED65C1PSA'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">OLED65C1PSA</span>
-                            <p class="product-name">Televisor OLED 65" 4K Smart TV con procesador α9 Gen4</p>
-                            <div class="product-price-row"><span class="product-price">$42,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/OLED65C1PSA" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosOledQled) && count($productosOledQled) > 0):
+        foreach($productosOledQled as $oled): 
+            $nombre = $oled['nombre'];
+            $precio = '$' . number_format($oled['precio_venta'], 2);
+            $sku = Helpers::crearSKU($oled['categoria'], $nombre);
+            $id = $oled['no_producto'];
+            
+            $imgOled = "/proyectoweb/public/uploads/img/" . $oled['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=OLED-QLED";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgOled; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=QN65Q80CAFXZA" alt="Televisor QLED 65 4K con Neo Quantum Processor y Dolby Atmos" onerror="this.src='https://placehold.co/300x250?text=QN65Q80CAFXZA'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">QN65Q80CAFXZA</span>
-                            <p class="product-name">Televisor QLED 65" 4K con Neo Quantum Processor y Dolby Atmos</p>
-                            <div class="product-price-row"><span class="product-price">$36,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/QN65Q80CAFXZA" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=OLED55A2PSA" alt="Televisor OLED 55 4K Smart TV con webOS 22 y control de voz" onerror="this.src='https://placehold.co/300x250?text=OLED55A2PSA'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">OLED55A2PSA</span>
-                            <p class="product-name">Televisor OLED 55" 4K Smart TV con webOS 22 y control de voz</p>
-                            <div class="product-price-row"><span class="product-price">$31,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/OLED55A2PSA" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=QN55QN85BAFXZA" alt="Televisor Neo QLED 55 4K Mini LED 120Hz Gaming TV" onerror="this.src='https://placehold.co/300x250?text=QN55QN85BAFXZA'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">QN55QN85BAFXZA</span>
-                            <p class="product-name">Televisor Neo QLED 55" 4K Mini LED 120Hz Gaming TV</p>
-                            <div class="product-price-row"><span class="product-price">$28,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/QN55QN85BAFXZA" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos OLED/QLED disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── LED / Smart TV ── -->
             <div id="led" class="mb-2">
                 <span class="section-title">LED / Smart TV</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosLed = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='led'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=UN55TU8000" alt="Televisor Smart TV 55 4K UHD Crystal Display con Alexa" onerror="this.src='https://placehold.co/300x250?text=UN55TU8000'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">UN55TU8000</span>
-                            <p class="product-name">Televisor Smart TV 55" 4K UHD Crystal Display con Alexa</p>
-                            <div class="product-price-row"><span class="product-price">$13,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/UN55TU8000" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosLed) && count($productosLed) > 0):
+        foreach($productosLed as $led): 
+            $nombre = $led['nombre'];
+            $precio = '$' . number_format($led['precio_venta'], 2);
+            $sku = Helpers::crearSKU($led['categoria'], $nombre);
+            $id = $led['no_producto'];
+            
+            $imgLed = "/proyectoweb/public/uploads/img/" . $led['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=LED";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgLed; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=43PFS6805" alt="Televisor Smart TV 43 Full HD con Saphi OS y HDR10+" onerror="this.src='https://placehold.co/300x250?text=43PFS6805'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">43PFS6805</span>
-                            <p class="product-name">Televisor Smart TV 43" Full HD con Saphi OS y HDR10+</p>
-                            <div class="product-price-row"><span class="product-price">$6,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/43PFS6805" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=50UP7750PSB" alt="Televisor Smart TV 50 4K UHD con ThinQ AI y Magic Remote" onerror="this.src='https://placehold.co/300x250?text=50UP7750PSB'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">50UP7750PSB</span>
-                            <p class="product-name">Televisor Smart TV 50" 4K UHD con ThinQ AI y Magic Remote</p>
-                            <div class="product-price-row"><span class="product-price">$10,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/50UP7750PSB" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=TCL55S454" alt="Televisor 55 4K UHD Roku TV con HDR y Dolby Vision" onerror="this.src='https://placehold.co/300x250?text=TCL55S454'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">TCL55S454</span>
-                            <p class="product-name">Televisor 55" 4K UHD Roku TV con HDR y Dolby Vision</p>
-                            <div class="product-price-row"><span class="product-price">$8,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/TCL55S454" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos LED disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── 65" o más ── -->
             <div id="grandes" class="mb-2">
                 <span class="section-title">65" o más</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productos65Plus = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='65+'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=QN75QN900BFXZA" alt="Televisor Neo QLED 75 8K con procesador Neural Quantum 8K" onerror="this.src='https://placehold.co/300x250?text=QN75QN900BFXZA'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">QN75QN900BFXZA</span>
-                            <p class="product-name">Televisor Neo QLED 75" 8K con procesador Neural Quantum 8K</p>
-                            <div class="product-price-row"><span class="product-price">$89,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/QN75QN900BFXZA" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productos65Plus) && count($productos65Plus) > 0):
+        foreach($productos65Plus as $plus): 
+            $nombre = $plus['nombre'];
+            $precio = '$' . number_format($plus['precio_venta'], 2);
+            $sku = Helpers::crearSKU($plus['categoria'], $nombre);
+            $id = $plus['no_producto'];
+            
+            $imgPlus = "/proyectoweb/public/uploads/img/" . $plus['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=TV-65-Plus";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgPlus; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=OLED77C2PSA" alt="Televisor OLED 77 4K evo Gallery Edition con procesador α9 Gen5" onerror="this.src='https://placehold.co/300x250?text=OLED77C2PSA'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">OLED77C2PSA</span>
-                            <p class="product-name">Televisor OLED 77" 4K evo Gallery Edition con procesador α9 Gen5</p>
-                            <div class="product-price-row"><span class="product-price">$74,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/OLED77C2PSA" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=UN85TU8000" alt="Televisor Smart TV 85 4K UHD Crystal Display con Alexa integrada" onerror="this.src='https://placehold.co/300x250?text=UN85TU8000'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">UN85TU8000</span>
-                            <p class="product-name">Televisor Smart TV 85" 4K UHD Crystal Display con Alexa integrada</p>
-                            <div class="product-price-row"><span class="product-price">$39,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/UN85TU8000" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=65QNED90UPA" alt="Televisor QNED MiniLED 65 4K con Quantum Dot NanoCell y 120Hz" onerror="this.src='https://placehold.co/300x250?text=65QNED90UPA'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">65QNED90UPA</span>
-                            <p class="product-name">Televisor QNED MiniLED 65" 4K con Quantum Dot NanoCell y 120Hz</p>
-                            <div class="product-price-row"><span class="product-price">$29,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/65QNED90UPA" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron televisores de gran formato disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
             <!-- ── 32" a 43" ── -->
             <div id="compactos" class="mb-2">
                 <span class="section-title">32" a 43"</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productos32a43 = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='32a43'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=32LM630BPUA" alt="Televisor Smart TV 32 HD con webOS 4.5 y control mágico" onerror="this.src='https://placehold.co/300x250?text=32LM630BPUA'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">32LM630BPUA</span>
-                            <p class="product-name">Televisor Smart TV 32" HD con webOS 4.5 y control mágico</p>
-                            <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/32LM630BPUA" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productos32a43) && count($productos32a43) > 0):
+        foreach($productos32a43 as $tv): 
+            $nombre = $tv['nombre'];
+            $precio = '$' . number_format($tv['precio_venta'], 2);
+            $sku = Helpers::crearSKU($tv['categoria'], $nombre);
+            $id = $tv['no_producto'];
+            
+            $imgTv = "/proyectoweb/public/uploads/img/" . $tv['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=TV-32-43";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgTv; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=UN40T5300AFXZA" alt="Televisor Smart TV 40 Full HD con Tizen OS y PurColor" onerror="this.src='https://placehold.co/300x250?text=UN40T5300AFXZA'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">UN40T5300AFXZA</span>
-                            <p class="product-name">Televisor Smart TV 40" Full HD con Tizen OS y PurColor</p>
-                            <div class="product-price-row"><span class="product-price">$5,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/UN40T5300AFXZA" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=TCL32S354" alt="Televisor 32 HD Roku TV con soporte HDR y control por voz" onerror="this.src='https://placehold.co/300x250?text=TCL32S354'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">TCL32S354</span>
-                            <p class="product-name">Televisor 32" HD Roku TV con soporte HDR y control por voz</p>
-                            <div class="product-price-row"><span class="product-price">$3,299.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/TCL32S354" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=43UP7750PSB" alt="Televisor Smart TV 43 4K UHD con ThinQ AI y Filmmaker Mode" onerror="this.src='https://placehold.co/300x250?text=43UP7750PSB'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">43UP7750PSB</span>
-                            <p class="product-name">Televisor Smart TV 43" 4K UHD con ThinQ AI y Filmmaker Mode</p>
-                            <div class="product-price-row"><span class="product-price">$7,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/43UP7750PSB" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron televisores de 32" a 43" disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

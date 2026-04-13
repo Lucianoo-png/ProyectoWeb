@@ -8,11 +8,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-          <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+          <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -115,61 +117,54 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$todasSecadoras = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='secadoras'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="../../multimedia/Imagenes/productos/secadora-wed5000dw.jpg" alt="Secadora eléctrica de carga frontal 7.0 pies cúbicos blanca" onerror="this.src='https://placehold.co/300x250?text=WED5000DW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WED5000DW</span>
-                            <p class="product-name">Secadora eléctrica de carga frontal 7.0 pies cúbicos blanca</p>
-                            <div class="product-price-row"><span class="product-price">$7,899.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WED5000DW" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($todasSecadoras) && count($todasSecadoras) > 0):
+        foreach($todasSecadoras as $sec): 
+            $nombre = $sec['nombre'];
+            $precio = '$' . number_format($sec['precio_venta'], 2);
+            // Siguiendo tu instrucción exacta para SKU e ID
+            $sku = Helpers::crearSKU($sec['categoria'], $nombre);
+            $id = $sec['no_producto'];
+            $imgSec = "/proyectoweb/public/uploads/img/" . $sec['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Secadora";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSec; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WGD5000DW" alt="Secadora a gas de carga frontal 7.0 pies cúbicos blanca" onerror="this.src='https://placehold.co/300x250?text=WGD5000DW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WGD5000DW</span>
-                            <p class="product-name">Secadora a gas de carga frontal 7.0 pies cúbicos blanca</p>
-                            <div class="product-price-row"><span class="product-price">$8,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WGD5000DW" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=MGD6630HW" alt="Secadora a gas 7.4 pies cúbicos con sensor de humedad avanzado" onerror="this.src='https://placehold.co/300x250?text=MGD6630HW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">MGD6630HW</span>
-                            <p class="product-name">Secadora a gas 7.4 pies cúbicos con sensor de humedad avanzado</p>
-                            <div class="product-price-row"><span class="product-price">$9,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/MGD6630HW" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=YMED7230HW" alt="Secadora eléctrica 7.4 pies cúbicos con ciclo a vapor" onerror="this.src='https://placehold.co/300x250?text=YMED7230HW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">YMED7230HW</span>
-                            <p class="product-name">Secadora eléctrica 7.4 pies cúbicos con ciclo a vapor</p>
-                            <div class="product-price-row"><span class="product-price">$10,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/YMED7230HW" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron secadoras en el inventario.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

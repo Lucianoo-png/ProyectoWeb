@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Pago</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="/proyectoweb/estilos/styles.css">
-</head>
+
 <div class="checkout-bg">
 
     <!-- Topbar -->
@@ -19,11 +10,13 @@
                     <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
                 </span>
             </div>
+            <?php if(isset($_SESSION["NoCliente"])){ ?>
             <div class="d-flex gap-3">
                 <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
                     <i class="fas fa-truck me-1"></i> Rastrear Pedido
                 </a>
             </div>
+            <?php } ?>
         </div>
     </div>
 
@@ -286,10 +279,3 @@
     </div>
 
     <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/proyectoweb/js/scripts.js"></script>
-    <link rel="stylesheet" href="/proyectoweb/estilos/responsive.css">
-    <script src="/proyectoweb/js/responsive.js"></script>
-</body>
-</html>

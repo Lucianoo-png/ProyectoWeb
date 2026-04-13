@@ -6,11 +6,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-          <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+         <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -113,61 +115,53 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$todosCongeladores = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='congeladores'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=EFU20MWRFS" alt="Congelador vertical 20 pies cúbicos acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=EFU20MWRFS'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">EFU20MWRFS</span>
-                            <p class="product-name">Congelador vertical 20 pies cúbicos acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$15,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($todosCongeladores) && count($todosCongeladores) > 0):
+        foreach($todosCongeladores as $cong): 
+            $nombre = $cong['nombre'];
+            $precio = '$' . number_format($cong['precio_venta'], 2);
+            $sku = Helpers::crearSKU($cong['categoria'], $nombre);
+            $id = $cong['no_producto'];
+            $imgCong = "/proyectoweb/public/uploads/img/" . $cong['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Congelador";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgCong; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WZF31430DZ" alt="Congelador vertical 31 pies cúbicos acero inoxidable No Frost" onerror="this.src='https://placehold.co/300x250?text=WZF31430DZ'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WZF31430DZ</span>
-                            <p class="product-name">Congelador vertical 31 pies cúbicos acero inoxidable No Frost</p>
-                            <div class="product-price-row"><span class="product-price">$23,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911DZ" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=CHH14E0W" alt="Congelador horizontal tipo cofre 14 pies cúbicos blanco" onerror="this.src='https://placehold.co/300x250?text=CHH14E0W'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">CHH14E0W</span>
-                            <p class="product-name">Congelador horizontal tipo cofre 14 pies cúbicos blanco</p>
-                            <div class="product-price-row"><span class="product-price">$6,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=GFC07EBNWW" alt="Congelador horizontal 7 pies cúbicos blanco compacto" onerror="this.src='https://placehold.co/300x250?text=GFC07EBNWW'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">GFC07EBNWW</span>
-                            <p class="product-name">Congelador horizontal 7 pies cúbicos blanco compacto</p>
-                            <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron congeladores en el inventario.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

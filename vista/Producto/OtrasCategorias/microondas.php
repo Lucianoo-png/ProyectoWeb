@@ -6,11 +6,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-        <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+        <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -117,61 +119,54 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosMicroondas = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='microondas'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="../../multimedia/Imagenes/productos/microondas-wm3911d.jpg" alt="Microondas de mesa con función AirFry y 4 modos en 1 (1CuFt)" onerror="this.src='https://placehold.co/300x250?text=WM3911D'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WM3911D</span>
-                            <p class="product-name">Microondas de mesa con función AirFry y 4 modos en 1 (1CuFt)</p>
-                            <div class="product-price-row"><span class="product-price">$4,599.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WM3911D" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosMicroondas) && count($productosMicroondas) > 0):
+        foreach($productosMicroondas as $micro): 
+            $nombre = $micro['nombre'];
+            $precio = '$' . number_format($micro['precio_venta'], 2);
+            $sku = Helpers::crearSKU($micro['categoria'], $nombre);
+            $id = $micro['no_producto'];
+            
+            $imgSrc = "/proyectoweb/public/uploads/img/" . $micro['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Microondas";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSrc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WMH31017HZ" alt="Microondas sobre rango 1.7 pies con extractora acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WMH31017HZ'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WMH31017HZ</span>
-                            <p class="product-name">Microondas sobre rango 1.7 pies con extractora acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$6,799.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WMH31017HZ" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WMB55511KS" alt="Microondas empotrado 2.2 pies acero inoxidable pantalla LCD" onerror="this.src='https://placehold.co/300x250?text=WMB55511KS'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WMB55511KS</span>
-                            <p class="product-name">Microondas empotrado 2.2 pies acero inoxidable pantalla LCD</p>
-                            <div class="product-price-row"><span class="product-price">$8,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WMB55511KS" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WMC50522HV" alt="Microondas de encimera 2.2 pies 1,200W acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WMC50522HV'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WMC50522HV</span>
-                            <p class="product-name">Microondas de encimera 2.2 pies 1,200W acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$5,199.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WMC50522HV" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron microondas disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

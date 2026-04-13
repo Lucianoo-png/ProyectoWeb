@@ -6,11 +6,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-          <div class="d-flex gap-3">
-            <a href="./proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+          <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -113,61 +115,54 @@
             <div id="todas" class="mb-2">
                 <span class="section-title">Todos los modelos</span>
             </div>
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+            <?php 
+$productoControl = new ProductoControlador();
+$productosFrigobar = $productoControl->getProducto()->buscar('"Veracruz".producto', [
+    "where" => "estatus='true' AND categoria='frigobar'", 
+    "order" => "nombre ASC"
+]);
+?>
 
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="../../multimedia/Imagenes/productos/frigobar-wq09x.jpg" alt="Frigobar 9 pies con congelador y acabado acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WQ09X'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WQ09X</span>
-                            <p class="product-name">Frigobar 9 pies con congelador y acabado acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$4,499.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WQ09X" class="btn-mas-info">Más información</a>
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3 mb-5">
+    <?php 
+    if(is_array($productosFrigobar) && count($productosFrigobar) > 0):
+        foreach($productosFrigobar as $frigobar): 
+            $nombre = $frigobar['nombre'];
+            $precio = '$' . number_format($frigobar['precio_venta'], 2);
+            $sku = Helpers::crearSKU($frigobar['categoria'], $nombre);
+            $id = $frigobar['no_producto'];
+            
+            $imgSrc = "/proyectoweb/public/uploads/img/" . $frigobar['imagen'];
+            $placeholder = "https://placehold.co/300x250?text=Frigobar";
+    ?>
+        <div class="col">
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="<?php echo $imgSrc; ?>" 
+                         alt="<?php echo $nombre; ?>" 
+                         onerror="this.src='<?php echo $placeholder; ?>'">
+                </div>
+                <div class="product-body">
+                    <span class="product-sku"><?php echo $sku; ?></span>
+                    <p class="product-name"><?php echo $nombre; ?></p>
+                    <div class="product-price-row">
+                        <span class="product-price"><?php echo $precio; ?></span>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WHA31FB2" alt="Frigobar 3.1 pies cúbicos negro con congelador" onerror="this.src='https://placehold.co/300x250?text=WHA31FB2'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WHA31FB2</span>
-                            <p class="product-name">Frigobar 3.1 pies cúbicos negro con congelador</p>
-                            <div class="product-price-row"><span class="product-price">$3,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WHA31FB2" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=GRWF3056F" alt="Cava de vinos 30 botellas con control de temperatura dual" onerror="this.src='https://placehold.co/300x250?text=GRWF3056F'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">GRWF3056F</span>
-                            <p class="product-name">Cava de vinos 30 botellas con control de temperatura dual</p>
-                            <div class="product-price-row"><span class="product-price">$11,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/GRWF3056F" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <img src="https://placehold.co/300x250?text=WV18B" alt="Cava de vinos 18 botellas luz LED azul acero inoxidable" onerror="this.src='https://placehold.co/300x250?text=WV18B'">
-                        </div>
-                        <div class="product-body">
-                            <span class="product-sku">WV18B</span>
-                            <p class="product-name">Cava de vinos 18 botellas luz LED azul acero inoxidable</p>
-                            <div class="product-price-row"><span class="product-price">$6,999.00</span></div>
-                        </div>
-                        <a href="/proyectoweb/producto/WV18B" class="btn-mas-info">Más información</a>
-                    </div>
-                </div>
+                <a href="/proyectoweb/producto/<?php echo $id; ?>" class="btn-mas-info">
+                    Más información
+                </a>
             </div>
+        </div>
+    <?php 
+        endforeach; 
+    else:
+    ?>
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se encontraron productos en la categoría frigobar.</p>
+        </div>
+    <?php endif; ?>
+</div>
         </div>
     </main>
     <?php include('vista/footer_gral.php'); ?>

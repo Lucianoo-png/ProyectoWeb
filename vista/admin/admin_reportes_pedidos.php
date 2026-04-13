@@ -55,9 +55,6 @@
                 <li class="breadcrumb-item">
                     <a href="/proyectoweb/admin/inicio" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
                 </li>
-                <li class="breadcrumb-item">
-                    <a href="/proyectoweb/admin/reportes-pedidos" class="text-decoration-none" style="color:var(--btn-color)">Reportes</a>
-                </li>
                 <li class="breadcrumb-item active text-muted">Pedidos</li>
             </ol>
         </nav>

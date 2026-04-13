@@ -36,6 +36,10 @@ switch($rutaPrincipal){
     case '':
         case 'inicio':
             $emp = new EmpleadoControlador();
+            $prod = new ProductoControlador();
+
+            $total_empleados = count($emp->getEmpleado()->buscar('"Veracruz".empleado',["where"=>"estatus='true'"]));
+            $total_productos = count($prod->getProducto()->buscar('"Veracruz".producto',["where"=>"estatus='true'"]));
             include('vista/admin/vistaadmin.php');
     break;
 
@@ -73,6 +77,11 @@ switch($rutaPrincipal){
     break;
 
     case 'clientes':
+        $cli = new ClienteControlador();
+        $clientes = $cli->getCliente()->buscar('"Veracruz".cliente',["order" => "no_cliente ASC"]);
+        $total_clientes = count($cli->getCliente()->buscar('"Veracruz".cliente'));
+        $total_clientes_linea = count($cli->getCliente()->buscar('"Veracruz".cliente',["where"=>"origen='L'"]));
+        $total_clientes_fisico = count($cli->getCliente()->buscar('"Veracruz".cliente',["where"=>"origen='F'"]));
         include('vista/admin/admin_clientes.php');
     break;
 
@@ -97,7 +106,7 @@ switch($rutaPrincipal){
         $total_logs = count($log->getBitacora()->buscar('"Veracruz".bitacora'));
         $total_logs_exito = count($log->getBitacora()->buscar('"Veracruz".bitacora',["where"=>"estado='C'"]));
         $total_logs_error = count($log->getBitacora()->buscar('"Veracruz".bitacora',["where"=>"estado='E'"]));
-        $logs = $log->getBitacora()->buscar('"Veracruz".bitacora');
+        $logs = $log->getBitacora()->buscar('"Veracruz".bitacora',["order"=>"fechayhora DESC"]);
         $usuarios = $usu->getEmpleado()->buscar('"Veracruz".empleado');
         include('vista/admin/admin_logs.php');
     break;
@@ -106,7 +115,7 @@ switch($rutaPrincipal){
         $emp = new EmpleadoControlador();
         $emp->getEmpleado()->actualizarUltimaVez(false);
         $log = new BitacoraControlador();
-        $log->registrarLog($_SESSION['RFC'], "Cierre de sesión exitoso (administrador)", "C");
+        $log->registrarLog($_SESSION['RFC'], "Cierre de sesión exitoso (Administrador)", "C");
         session_destroy();
         if (ini_get("session.use_cookies")) {
                         $p = session_get_cookie_params();

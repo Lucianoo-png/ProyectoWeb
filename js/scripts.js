@@ -805,7 +805,6 @@ function cambiarPassword() {
     if (!a || !n || !c) { alert('Completa todos los campos.'); return; }
     if (n !== c) { alert('Las contraseñas nuevas no coinciden.'); return; }
     if (n.length < 8) { alert('La contraseña debe tener al menos 8 caracteres.'); return; }
-    alert('✅ Contraseña actualizada.\n\n(En producción se guardará en la base de datos.)');
     document.getElementById('pwActual').value = '';
     document.getElementById('pwNueva').value  = '';
     document.getElementById('pwConfirm').value= '';
@@ -813,12 +812,6 @@ function cambiarPassword() {
 
 /* ── Direcciones ────────────────────────────────────────────── */
 let _editandoDir = null;
-const DIRS = [
-    { id: 1, nombre: 'Carlos Ivan Luciano Cruz',
-      calle: 'Rafael Murillo Vidal 485', colonia: 'Vías Férreas',
-      ciudad: 'Veracruz', cp: '91713', estado: 'VERACRUZ',
-      pais: 'México', tel: '229-483-2504' }
-];
 
 function renderDirecciones() {
     const cont = document.getElementById('listaDirecciones');
@@ -845,27 +838,42 @@ function renderDirecciones() {
 function toggleFormDir() {
     _editandoDir = null;
     document.getElementById('formDirTitle').innerHTML = '<i class="fas fa-plus-circle me-2"></i>Nueva dirección';
-    ['dNombre','dTel','dCalle','dColonia','dCiudad','dCP','dEstado'].forEach(id => {
+    document.getElementById('updateDirId').value = '';
+    ['dCalle', 'dColonia', 'dCP', 'dEstado'].forEach(id => {
         document.getElementById(id).value = '';
     });
+    const selectCiudad = document.getElementById('dCiudad');
+    selectCiudad.innerHTML = '<option value="" selected disabled>Primero selecciona un estado</option>';
+    selectCiudad.disabled = true;
     document.getElementById('dPais').value = 'México';
     const fw = document.getElementById('formDirWrapper');
     fw.style.display = fw.style.display === 'none' ? 'block' : 'none';
 }
 
 function editarDireccion(id) {
-    const d = DIRS.find(x => x.id === id);
+    const d = DIRS.find(x => x.no_dirección == id);
     if (!d) return;
+
     _editandoDir = id;
     document.getElementById('formDirTitle').innerHTML = '<i class="fas fa-edit me-2"></i>Editar dirección';
-    document.getElementById('dNombre').value  = d.nombre;
-    document.getElementById('dTel').value     = d.tel;
-    document.getElementById('dCalle').value   = d.calle;
+    document.getElementById('dCalle').value   = d.calle_numero; 
     document.getElementById('dColonia').value = d.colonia;
-    document.getElementById('dCiudad').value  = d.ciudad;
     document.getElementById('dCP').value      = d.cp;
-    document.getElementById('dEstado').value  = d.estado;
     document.getElementById('dPais').value    = d.pais;
+    const selectEstado = document.getElementById('dEstado');
+    const selectCiudad = document.getElementById('dCiudad');
+    selectEstado.value = d.estado;
+    selectEstado.dispatchEvent(new Event('change'));
+    selectCiudad.value = d.ciudad;
+    let inputHiddenId = document.getElementById('updateDirId');
+    if (!inputHiddenId) {
+        inputHiddenId = document.createElement('input');
+        inputHiddenId.type = 'hidden';
+        inputHiddenId.id = 'updateDirId';
+        inputHiddenId.name = 'no_direccion';
+        document.querySelector('#formDirWrapper form').appendChild(inputHiddenId);
+    }
+    inputHiddenId.value = id;
     document.getElementById('formDirWrapper').style.display = 'block';
     document.getElementById('formDirWrapper').scrollIntoView({ behavior: 'smooth' });
 }
@@ -901,7 +909,6 @@ function guardarDireccion() {
     }
     renderDirecciones();
     cancelarDir();
-    alert('✅ Dirección guardada correctamente.');
 }
 
 function cancelarDir() {

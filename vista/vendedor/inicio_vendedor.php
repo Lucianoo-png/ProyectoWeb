@@ -18,11 +18,11 @@
             <div class="info-avatar"><i class="fas fa-user-tie"></i></div>
             <div class="info-rows">
                 <p><span class="label">Empresa</span><br>
-                   <span class="value">LuchanosCorp — Sucursal Veracruz</span></p>
+                   <span class="value">LuchanosCorp</span></p>
                 <p><span class="label">Empleado</span><br>
-                   <span class="value">Miguel Gutiérrez Cruz</span></p>
+                   <span class="value"><?php echo $info[0]['nombre']." ".$info[0]['apellidospama']; ?></span></p>
                 <p><span class="label">Usuario</span><br>
-                   <span class="value">MIGGUICRU — Vendedor</span></p>
+                   <span class="value"><?php echo $info[0]['correo']; ?> — Vendedor</span></p>
             </div>
         </div>
 
