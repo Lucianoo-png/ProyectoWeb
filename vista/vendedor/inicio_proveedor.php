@@ -76,7 +76,7 @@
             <div class="cuenta-card">
                 <div class="cuenta-card-header">
                     <span><i class="fas fa-bell me-1"></i> Solicitudes Pendientes de Respuesta</span>
-                    <button class="btn-ver-detalle" onclick="switchPanel('panel-solicitudes', document.querySelector('.cuenta-nav-link:nth-child(2)'))">
+                    <button class="btn-ver-detalle" onclick="switchPanel('panel-solicitudes', document.querySelectorAll('.cuenta-nav-link')[1])">
                         Ver todas
                     </button>
                 </div>
@@ -99,7 +99,7 @@
                                 <td><span class="badge-pendiente">Pendiente</span></td>
                                 <td>
                                     <button class="btn-ver-detalle"
-                                        onclick="abrirSolicitud('LC-REA-2026-031'); switchPanel('panel-solicitudes', document.querySelector('.cuenta-nav-link:nth-child(2)'))">
+                                        onclick="abrirSolicitud('LC-REA-2026-031'); switchPanel('panel-solicitudes', document.querySelectorAll('.cuenta-nav-link')[1])">
                                         Responder
                                     </button>
                                 </td>
@@ -111,7 +111,7 @@
                                 <td><span class="badge-pendiente">Pendiente</span></td>
                                 <td>
                                     <button class="btn-ver-detalle"
-                                        onclick="abrirSolicitud('LC-REA-2026-028'); switchPanel('panel-solicitudes', document.querySelector('.cuenta-nav-link:nth-child(2)'))">
+                                        onclick="abrirSolicitud('LC-REA-2026-028'); switchPanel('panel-solicitudes', document.querySelectorAll('.cuenta-nav-link')[1])">
                                         Responder
                                     </button>
                                 </td>
@@ -602,4 +602,7 @@
 
     </main>
 </div><!-- /cuenta-layout -->
+
+<script src="/proyectoweb/js/proveedor.js"></script>
+
 <?php include('vista/vendedor/footer_proveedor.php'); ?>

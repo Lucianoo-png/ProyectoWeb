@@ -55,7 +55,7 @@
             <i class="fas fa-user-cog"></i> Mi Perfil
         </a>
         <hr class="sidebar-divider">
-        <a href="/proyectoweb/repartidor/logout" style="cursor:pointer;" class="btn-cerrar">
+        <a href="/proyectoweb/repartidor/logout" style="cursor:pointer;margin-top:0;" class="btn-cerrar">
             <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
         </a>
     </nav>

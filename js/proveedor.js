@@ -192,6 +192,6 @@ function cambiarPassword() {
 function verHistorial(folio) {
     switchPanel(
         'panel-historial',
-        document.querySelector('.cuenta-nav-link:nth-child(3)')
+        document.querySelectorAll('.cuenta-nav-link')[2]
     );
 }
