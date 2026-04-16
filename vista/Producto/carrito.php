@@ -33,7 +33,7 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge" id="cart-count" style="display:none">0</span>
                 </a>
-                <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta">
+                <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?> class="nav-icon" title="Mi Cuenta">
                     <i class="fas fa-user"></i>
                 </a>
             </div>
@@ -143,3 +143,36 @@
     </div>
 </div>
     <?php include('vista/footer_gral.php'); ?>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const response = await fetch('/proyectoweb/carrito-obtener');
+        const data = await response.json();
+
+        if (data.success) {
+            guardarCarrito(data.items);
+            renderCarrito();
+            if (data.items.length > 0) {
+                iniciarTimerCarrito(data.segundos);
+            }
+        }
+    } catch (e) {
+        console.error("Error al cargar carrito:", e);
+    }
+});
+
+async function eliminarItem(idx) {
+    const carrito = obtenerCarrito();
+    const item = carrito[idx];
+    const exito = await sincronizarReservaServidor(item.sku, 0);
+
+    if (exito) {
+        carrito.splice(idx, 1);
+        guardarCarrito(carrito);
+        renderCarrito();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', cargarCarritoDesdeServidor);
+    </script>

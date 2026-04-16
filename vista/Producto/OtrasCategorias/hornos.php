@@ -26,8 +26,8 @@
                 <button class="btn px-4"><i class="fas fa-search"></i></button>
             </div>
             <div class="d-flex align-items-center gap-3 ms-2">
-                <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
-                <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
+                <?php if(isset($_SESSION["NoCliente"])){ ?><a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a> <?php } ?>
+                <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?> class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
             </div>
         </div>
     </div>
@@ -118,7 +118,7 @@
             <?php 
 $productoControl = new ProductoControlador();
 $productosHornos = $productoControl->getProducto()->buscar('"Veracruz".producto', [
-    "where" => "estatus='true' AND categoria='hornos'", 
+    "where" => "stock > 0 AND estatus='true' AND categoria='hornos'", 
     "order" => "nombre ASC"
 ]);
 ?>

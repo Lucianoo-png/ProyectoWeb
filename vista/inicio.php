@@ -8,7 +8,7 @@
         <?php 
 $productoControl = new ProductoControlador();
 $productosSlider = $productoControl->getProducto()->buscar('"Veracruz".producto', [
-    "where" => "estatus='true' AND imagen IS NOT NULL", 
+    "where" => "stock > 0 AND estatus='true' AND imagen IS NOT NULL", 
     "order" => "no_producto ASC",
     "limit" => 5
 ]);
@@ -65,7 +65,7 @@ $totalSlider = is_array($productosSlider) ? count($productosSlider) : 0;
         <?php 
 $productoControl = new ProductoControlador();
 $destacados = $productoControl->getProducto()->buscar('"Veracruz".producto', [
-    "where" => "estatus='true'", 
+    "where" => "stock > 0 AND estatus='true'", 
     "order" => "no_producto ASC",
     "limit" => 4
 ]);

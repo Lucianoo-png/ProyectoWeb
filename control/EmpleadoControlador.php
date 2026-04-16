@@ -30,7 +30,7 @@ class EmpleadoControlador{
             $_SESSION['Tipo'] = $datos[0]['tipousuario'];
             $this->empleado->actualizarUltimaVez(true);
             $usuario = '';
-            if($_SESSION["Tipo"]=='A'){$usuario='Administrador';}else if($_SESSION["Tipo"]=='E'){$usuario='Vendedor';}else if($_SESSION["Tipo"]=='R'){$usuario='Repartidor';}else if($_SESSION["Tipo"]=='Proveedor');
+            if($_SESSION["Tipo"]=='A'){$usuario='Administrador';}else if($_SESSION["Tipo"]=='E'){$usuario='Vendedor';}else if($_SESSION["Tipo"]=='R'){$usuario='Repartidor';}else if($_SESSION["Tipo"]=='P'){$usuario = 'Proveedor';};
             $this->log->registrarLog($_SESSION['RFC'], "Inicio de sesión exitoso (".$usuario.")", "C");//listo
             if($datos[0]['tipousuario']=='A'){
                 header('location:/proyectoweb/admin/inicio');

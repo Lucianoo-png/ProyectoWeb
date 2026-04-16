@@ -3,8 +3,15 @@
 $productoControl = new ProductoControlador();
 
 $resProd = $productoControl->getProducto()->buscar('"Veracruz".producto', [
-    "where" => "no_producto = $id_producto AND estatus = 'true'"
+    "where" => "no_producto = $id_producto AND stock > 0 AND estatus = 'true'"
 ]);
+
+if(!isset($resProd[0])){
+    include('vista/header_gral.php');
+    include('vista/404.php');
+    include('vista/footer_gral.php');
+    exit;
+}
 
 $p = $resProd[0];
 
@@ -94,11 +101,8 @@ $prod_js = json_encode([
             <button class="btn px-4"><i class="fas fa-search"></i></button>
         </div>
         <div class="d-flex align-items-center gap-3 ms-2">
-            <a href="/proyectoweb/carrito" class="nav-icon position-relative" title="Carrito">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-badge" id="cart-count" style="display:none">0</span>
-            </a>
-            <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta">
+            <?php if(isset($_SESSION["NoCliente"])){ ?><a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a> <?php } ?>
+            <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?> class="nav-icon" title="Mi Cuenta">
                 <i class="fas fa-user"></i>
             </a>
         </div>
@@ -210,7 +214,6 @@ $prod_js = json_encode([
                         <span class="detail-price" style="font-size: 2.2rem; font-weight: 800; color: #cc0000;">
                             $<?= number_format($p['precio_venta'], 2) ?>
                         </span>
-                        <p class="text-muted small mb-0">Precio con IVA incluido</p>
                     </div>
 
                     <hr class="my-4">
@@ -222,12 +225,15 @@ $prod_js = json_encode([
                         </div>
                     </div>
 
-                    <button id="btn-add-main" onclick="agregarAlCarrito()" 
-                            class="btn-agregar-carrito w-100 py-3 shadow-sm fw-bold" 
-                            <?= !$tieneStock ? 'disabled' : '' ?>>
-                        <i class="fas fa-shopping-cart me-2"></i> 
-                        <?= $tieneStock ? 'AGREGAR AL CARRITO' : 'SIN EXISTENCIAS' ?>
-                    </button>
+                   <?php if (isset($_SESSION['NoCliente'])): ?>
+                        <button type="button" onclick="agregarAlCarrito()" class="btn btn-primary w-100">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    <?php else: ?>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#modalLoginRequerido" class="btn btn-primary w-100">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                    <?php endif; ?>
 
                 </div>
             </div>
@@ -300,11 +306,8 @@ $prod_js = json_encode([
             <button onclick="cerrarModal()" class="close-btn">&times;</button>
         </div>
         <div class="modal-agregado-body">
-            <img id="modal-img" src="" alt="Producto" class="modal-agregado-img shadow-sm"
-                 onerror="this.src='https://placehold.co/100x100?text=Producto'">
             <div class="modal-agregado-info">
                 <div class="prod-name fw-bold" id="modal-nombre"></div>
-                <div class="prod-sku text-muted small mb-1" id="modal-sku"></div>
                 <div class="prod-color-select small mb-1" id="modal-color"></div>
                 <div class="prod-price h5 fw-bold text-danger" id="modal-precio"></div>
             </div>
@@ -318,6 +321,25 @@ $prod_js = json_encode([
             </button>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="modalLoginRequerido" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¡Estás a un paso!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <i class="fas fa-shopping-basket fa-3x text-primary mb-3"></i>
+        <p>Para poder <strong>apartar este producto por 15 minutos</strong> y asegurar tu número de unidades, es necesario iniciar sesión.</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?> class="btn btn-primary">Iniciar Sesión</a>
+        <a href="/proyectoweb/registro" class="btn btn-outline-secondary">Crear cuenta</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
@@ -355,40 +377,8 @@ $prod_js = json_encode([
 <script>
 
 
-const PRODUCTO_BASE = <?= $prod_js ?>;
+const PRODUCTO = <?= $prod_js ?>;
 
-function cambiarCantidadProd(v) {
-    const input = document.getElementById('cantidad');
-    const stockMax = parseInt(PRODUCTO_BASE.stock);
-    let valorActual = parseInt(input.value);
-
-    if (valorActual > stockMax) {
-        input.value = stockMax;
-        return; 
-    }
-
-    let nuevoValor = valorActual + v;
-    if (nuevoValor >= 1 && nuevoValor <= stockMax) {
-        input.value = nuevoValor;
-    }
-}
-
-function agregarAlCarrito() {
-    const colorInput = document.querySelector('input[name="color_seleccionado"]:checked');
-    const colorFinal = colorInput ? colorInput.value : 'N/A';
-    const cantidadFinal = parseInt(document.getElementById('cantidad').value);
-    document.getElementById('modal-img').src = "/proyectoweb/public/uploads/img/" + PRODUCTO_BASE.imagen;
-    document.getElementById('modal-nombre').innerText = PRODUCTO_BASE.nombre;
-    document.getElementById('modal-sku').innerText = "SKU: <?= $sku_visual ?>";
-    document.getElementById('modal-color').innerHTML = "Color seleccionado: <b class='text-dark'>" + colorFinal + "</b>";
-    document.getElementById('modal-precio').innerText = "$" + Number(PRODUCTO_BASE.precio).toLocaleString('es-MX', {minimumFractionDigits: 2});
-    
-    document.getElementById('modal-agregado').style.display = 'flex';
-}
-
-function cerrarModal() {
-    document.getElementById('modal-agregado').style.display = 'none';
-}
 
 </script>
 

@@ -68,6 +68,20 @@ class Helpers{
         );
         return $texto;
     }
+
+    public static function generarFolioReabastecimiento($ultimoFolio = null) {
+        $anioActual = date('Y');
+        $prefijo = "LC-REA-" . $anioActual . "-";
+
+        if (!$ultimoFolio) {
+            return $prefijo . "001";
+        }
+        $posUltimoGuion = strrpos($ultimoFolio, '-');
+        $numeroStr = substr($ultimoFolio, $posUltimoGuion + 1);
+        $nuevoNumero = (int)$numeroStr + 1;
+        $numeroFormateado = str_pad($nuevoNumero, 3, "0", STR_PAD_LEFT);
+        return $prefijo . $numeroFormateado;
+    }
 }
 
 ?>

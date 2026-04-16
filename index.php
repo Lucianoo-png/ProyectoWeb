@@ -12,6 +12,10 @@ require('modelo/Empleado.php');
 require('modelo/Producto.php');
 require('modelo/Bitacora.php');
 require('modelo/Cliente.php');
+require('modelo/SolicitudReabastecimiento.php');
+require('modelo/Compra.php');
+require('modelo/Pedido.php');
+require('modelo/Reserva.php');
 
 
 
@@ -19,7 +23,10 @@ require('control/EmpleadoControlador.php');
 require('control/ProductoControlador.php');
 require('control/BitacoraControlador.php');
 require('control/ClienteControlador.php');
-
+require('control/SolicitudReabastecimientoControlador.php');
+require('control/CompraControlador.php');
+require('control/PedidoControlador.php');
+require('control/CarritoControlador.php');
 
 
 require('enviar_correo.php');
@@ -28,11 +35,20 @@ require('enviar_correo.php');
 
 require('helpers/Helpers.php');
 
+
+if(isset($_GET["obtener_detalle"])){
+    $soli = new SolicitudReabastecimientoControlador();
+            header('Content-Type: application/json');
+            echo json_encode($soli->obtenerDetalles($_GET['folio']));
+            exit;
+        }
+
 if(!isset($_SESSION["NoCliente"])){
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Pragma: no-cache");
-header("Expires: 0");
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Pragma: no-cache");
+    header("Expires: 0");
 }
+
 
 ?>
 
@@ -67,6 +83,7 @@ include 'includes/../control/navbar.php';
 <script src="/proyectoweb/js/responsive.js"></script>
 <script src="/proyectoweb/js/vendedor.js"></script>
 <script src="/proyectoweb/js/contacto.js"></script>
+<script src="/proyectoweb/js/proveedor.js"></script>
 <script>
     window.onpageshow = function(event) {
         if (event.persisted) {

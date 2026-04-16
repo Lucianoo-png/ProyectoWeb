@@ -230,6 +230,7 @@ class Empleado{
         ];
         return $this->conexion->ejecutarConsulta($query, $params)->rowCount()>0;
     }
+
 }
 
 ?>

@@ -69,26 +69,29 @@ function actualizarBadge() {
 /* ============================================================
    DETALLE.PHP — agregar al carrito + modal
    ============================================================ */
-function agregarAlCarrito() {
-    if (typeof PRODUCTO === 'undefined') {
-        console.error('PRODUCTO no definido — verifica que la variable PHP se inyecta antes de scripts.js');
-        return;
-    }
-    const qty     = parseInt(document.getElementById('cantidad')?.value) || 1;
+async function agregarAlCarrito() {
+    if (typeof PRODUCTO === 'undefined') return;
+
+    const qty = parseInt(document.getElementById('cantidad')?.value) || 1;
+    const exito = await sincronizarReservaServidor(PRODUCTO.id, qty);
+    if (!exito) return; 
+
     const carrito = obtenerCarrito();
-    const idx     = carrito.findIndex(i => i.sku === PRODUCTO.sku);
+    const idx = carrito.findIndex(i => i.id=== PRODUCTO.id);
+    
     if (idx >= 0) {
         carrito[idx].cantidad += qty;
     } else {
         carrito.push({
-            sku:       PRODUCTO.sku,
-            nombre:    PRODUCTO.nombre,
-            precio:    PRODUCTO.precio,
-            imagen:    PRODUCTO.imagen,
+            id: PRODUCTO.id,
+            nombre: PRODUCTO.nombre,
+            precio: PRODUCTO.precio,
+            imagen: PRODUCTO.imagen,
             categoria: PRODUCTO.categoria,
-            cantidad:  qty
+            cantidad: qty
         });
     }
+    
     guardarCarrito(carrito);
     actualizarBadge();
     mostrarModal();
@@ -115,27 +118,28 @@ function cerrarModal() {
 /* ============================================================
    CARRITO.PHP — renderizado dinámico
    ============================================================ */
-let _timerCarrito = null;
+let _timerInterval = null;
 
-function iniciarTimerCarrito() {
-    clearInterval(_timerCarrito);
-    _timerCarrito = setInterval(() => {
-        const timerEl = document.getElementById('cart-timer');
-        if (!timerEl) { clearInterval(_timerCarrito); return; }
-        try {
-            const raw = localStorage.getItem('lc_carrito');
-            if (!raw) { clearInterval(_timerCarrito); renderCarrito(); return; }
-            const restante = JSON.parse(raw).expira - Date.now();
-            if (restante <= 0) {
-                clearInterval(_timerCarrito);
-                localStorage.removeItem('lc_carrito');
-                renderCarrito();
-                return;
-            }
-            const min = String(Math.floor(restante / 60000)).padStart(2, '0');
-            const seg = String(Math.floor((restante % 60000) / 1000)).padStart(2, '0');
-            timerEl.textContent = `⏱ Tu carrito se reserva por ${min}:${seg} min`;
-        } catch (e) { clearInterval(_timerCarrito); }
+function iniciarTimerCarrito(segundosServidor = 900) {
+    const timerEl = document.getElementById('cart-timer');
+    if (!timerEl) return;
+    clearInterval(_timerInterval);
+
+    let tiempoRestante = segundosServidor;
+
+    _timerInterval = setInterval(() => {
+        if (tiempoRestante <= 0) {
+            clearInterval(_timerInterval);
+            localStorage.removeItem('lc_carrito');
+            location.reload(); 
+            return;
+        }
+
+        const min = String(Math.floor(tiempoRestante / 60)).padStart(2, '0');
+        const seg = String(Math.floor(tiempoRestante % 60)).padStart(2, '0');
+        timerEl.textContent = `⏱ Tu carrito se reserva por ${min}:${seg} min`;
+        
+        tiempoRestante--;
     }, 1000);
 }
 
@@ -169,18 +173,19 @@ function renderCarrito() {
         totalItems  += item.cantidad;
         totalPrecio += item.precio * item.cantidad;
         let opts = '';
-        for (let q = 1; q <= 10; q++) {
-            opts += `<option value="${q}"${q === item.cantidad ? ' selected' : ''}>${q}</option>`;
-        }
         const div = document.createElement('div');
         div.className = 'cart-item';
+        let stockReal = parseInt(item.stock_disponible) || 0;
+        let maxPermitido = Math.min(stockReal, 10); 
+        for (let q = 1; q <= maxPermitido; q++) {
+            opts += `<option value="${q}"${q === item.cantidad ? ' selected' : ''}>${q}</option>`;
+        }
         div.innerHTML = `
-            <img src="${item.imagen}" alt="${item.nombre}" class="cart-item-img"
+            <img src="${"/proyectoweb/public/uploads/img/"+item.imagen}" alt="${item.nombre}" class="cart-item-img"
                  onerror="this.src='https://placehold.co/90x90?text=Producto'">
             <div class="cart-item-info">
                 <div class="cart-item-name">${item.nombre}</div>
-                <div class="cart-item-sku">SKU: ${item.sku}</div>
-                <div class="cart-item-cat">Categoría: ${item.categoria} &nbsp;·&nbsp; Estado: <strong>Nuevo</strong></div>
+                <div class="cart-item-sku">No. de Producto: ${item.sku}</div>
                 <div class="cart-item-actions">
                     <label style="font-size:.8rem;color:#555">Cantidad:
                         <select class="qty-select ms-1" onchange="cambiarCantidadCarrito(${idx}, this.value)">
@@ -209,29 +214,81 @@ function renderCarrito() {
     actualizarBadge();
 }
 
-function cambiarCantidadCarrito(idx, nueva) {
+// Función para cambiar cantidad
+async function cambiarCantidadCarrito(idx, nuevaCantidad) {
     const carrito = obtenerCarrito();
-    carrito[idx].cantidad = parseInt(nueva);
-    guardarCarrito(carrito);
-    renderCarrito();
+    const item = carrito[idx];
+    const response = await fetch(`/proyectoweb/carrito-reservar?sku=${item.sku}&cantidad=${nuevaCantidad}`);
+    const data = await response.json();
+
+    if (data.success) {
+        guardarCarrito(data.items); 
+        renderCarrito();
+        if(data.segundos) iniciarTimerCarrito(data.segundos);
+    } else {
+        alert(data.message);
+        location.reload(); 
+    }
 }
 
-function eliminarItem(idx) {
+async function eliminarItem(idx) {
     const carrito = obtenerCarrito();
-    carrito.splice(idx, 1);
-    guardarCarrito(carrito);
-    renderCarrito();
-}
+    const item = carrito[idx];
+    
+    const response = await fetch(`/proyectoweb/carrito-reservar?sku=${item.sku}&cantidad=0`);
+    const data = await response.json();
 
+    if (data.success) {
+        guardarCarrito(data.items);
+        renderCarrito();
+    }
+}
+async function sincronizarReservaServidor(no_producto, cantidad) {
+    try {
+        const response = await fetch('/proyectoweb/carrito-reservar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ no_producto, cantidad })
+        });
+        const data = await response.json();
+        if (!data.success) {
+            return false;
+        }
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
 function realizarPedido() {
-    window.location.href = 'direccion.php';
+    const carrito = obtenerCarrito();
+    if (carrito.length === 0) {
+        alert("Tu carrito está vacío.");
+        return;
+    }
+    window.location.href = "/proyectoweb/checkout/envio";
 }
+function iniciarTimerCarrito(segundosServidor = 900) {
+    const timerEl = document.getElementById('cart-timer');
+    if (!timerEl) return;
 
-/* ============================================================
-   DIRECCION.PHP + PAGO.PHP — absorbido desde pago.js
-   ============================================================ */
+    clearInterval(_timerInterval);
+    let tiempoRestante = segundosServidor;
 
-/* ── Helpers de localStorage de direcciones ─────────────────── */
+    _timerInterval = setInterval(() => {
+        if (tiempoRestante <= 0) {
+            clearInterval(_timerInterval);
+            localStorage.removeItem('lc_carrito');
+            location.reload(); 
+            return;
+        }
+
+        const min = String(Math.floor(tiempoRestante / 60)).padStart(2, '0');
+        const seg = String(Math.floor(tiempoRestante % 60)).padStart(2, '0');
+        timerEl.textContent = `⏱ Tu carrito se reserva por ${min}:${seg} min`;
+        
+        tiempoRestante--;
+    }, 1000);
+}
 function getDirs() {
     try { return JSON.parse(localStorage.getItem('lc_direcciones') || '[]'); }
     catch (e) { return []; }

@@ -18,13 +18,19 @@
             <h1 class="page-header-title mb-0">Venta de Electrodomésticos</h1>
             <p class="page-header-sub">Registra una nueva venta seleccionando los productos del catálogo.</p>
         </div>
-
+        <div id="contenedor-alerta" style="display: flex; justify-content: center;margin-bottom:5px;">
+            <?php if(!empty($msj)): ?>
+                <div class="alerta alerta-<?php echo $msj[0]; ?>">
+                    <?php echo $msj[1]; ?>
+                </div>
+            <?php endif; ?>
+        </div>
         <div class="admin-form-card mb-4">
             <div class="admin-form-header">
                 <i class="fas fa-cash-register"></i> Punto de Venta
             </div>
+             <form id="formAgregarProducto" novalidate>
             <div class="admin-form-body">
-                <form id="formAgregarProducto" novalidate>
                     <div class="row g-3 align-items-end">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Producto:</label>
@@ -33,14 +39,15 @@
                                 <?php 
                                 if(is_array($productos) && count($productos) > 0) {
                                     foreach($productos as $prod) {
-                                        // Generamos el SKU inteligente usando tu clase Helpers
-                                        // Asegúrate de que la columna se llame 'categoria' o cámbiala por la correcta
                                         $categoriaTexto = isset($prod['categoria']) ? $prod['categoria'] : 'GEN';
                                         $sku = Helpers::crearSKU($categoriaTexto, $prod['nombre']);
                                 ?>
-                                        <option value="<?php echo $sku; ?>" 
+                                        <option value="<?php echo $prod['no_producto']; ?>" 
                                                 data-precio="<?php echo $prod['precio_venta']; ?>"
-                                                data-stock="<?php echo $prod['stock']; ?>">
+                                                data-sku="<?php echo $sku; ?>"
+                                                data-stock="<?php echo $prod['stock']; ?>"
+                                                data-nombre="<?php echo $prod['nombre']; ?>"
+                                            >
                                             <?php echo $prod['nombre']; ?> (<?php echo $sku; ?>) — $<?php echo number_format($prod['precio_venta'], 2); ?> — [Stock: <?php echo $prod['stock']; ?>]
                                         </option>
                                 <?php 
@@ -92,7 +99,9 @@
         </div>
 
         <div class="row g-4 js-hidden" id="seccionPago">
-
+          <form action="/proyectoweb/vendedor/ventas" method="POST" id="formFinalizarVenta">
+            <input type="hidden" name="items_json" id="items_json">
+            <input type="hidden" name="nombre_cliente_nuevo" id="nombre_cliente_nuevo">
             <div class="col-md-6">
                 <div class="admin-form-card h-100">
                     <div class="admin-form-header">
@@ -131,7 +140,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Tipo de Pago:</label>
-                            <select class="form-select" id="selectPago">
+                            <select name="pago" class="form-select" id="selectPago" onchange="ejecutarLogicaCobro()">
                                 <option value="efectivo">Efectivo</option>
                                 <option value="tarjeta">Tarjeta</option>
                             </select>
@@ -158,29 +167,36 @@
                     <div class="admin-form-header">
                         <i class="fas fa-money-bill-wave"></i> Cobro
                     </div>
-                    <div class="admin-form-body">
-                        <div class="mb-3">
-                            <label class="form-label">Cantidad recibida ($):</label>
-                            <input type="number" id="inputRecibido" class="form-control"
-                                   min="0" step="0.01" placeholder="0.00"
-                                   oninput="calcularCambio()">
+                        <div class="admin-form-body">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Cantidad recibida ($):</label>
+                                <input type="number" name="cantidad" id="inputRecibido" class="form-control form-control-lg"
+                                    min="0" step="0.01" placeholder="0.00"
+                                    oninput="ejecutarLogicaCobro()">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label small text-muted">Cambio:</label>
+                                <input type="text" id="inputCambio" class="form-control fw-bold bg-light"
+                                    readonly placeholder="$0.00" style="font-size: 1.2rem;">
+                            </div>
+
+                            <div id="wrapper-acciones-venta">
+                                <div id="msg-error-pago" class="alerta alerta-danger mb-3 js-hidden" style="font-size: 0.85rem;">
+                                    <i class="fas fa-exclamation-triangle me-1"></i> 
+                                    Monto insuficiente para registrar la venta.
+                                </div>
+                                
+                                <button type="submit" name="registrar_venta" id="btn-registrar-venta" class="btn-admin-primary w-100 js-hidden">
+                                    <i class="fas fa-check-circle me-1"></i> Registrar Venta
+                                </button>
+                            </div>
                         </div>
-                        <button type="button" class="btn-admin-secondary w-100 mb-3" onclick="calcularCambio()">
-                            <i class="fas fa-calculator me-1"></i> Calcular Cambio
-                        </button>
-                        <div class="mb-4">
-                            <label class="form-label">Cambio:</label>
-                            <input type="text" id="inputCambio" class="form-control fw-bold"
-                                   readonly placeholder="$0.00">
-                        </div>
-                        <button type="button" class="btn-admin-primary w-100" onclick="registrarVenta()">
-                            <i class="fas fa-check-circle me-1"></i> Registrar Venta
-                        </button>
-                    </div>
                 </div>
             </div>
-
-        </div></main>
+        </div>
+        </form>
+    </main>
 </div>
 
 <?php include('vista/vendedor/footer_vendedor.php'); ?>
@@ -229,4 +245,74 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function ejecutarLogicaCobro() {
+    const metodo = document.getElementById('selectPago').value;
+    const inputRecibido = document.getElementById('inputRecibido');
+    const inputCambio = document.getElementById('inputCambio');
+    const totalVenta = obtenerTotalNumerico(); 
+    let recibido = parseFloat(inputRecibido.value) || 0;
+
+    if (metodo === 'tarjeta') {
+        inputRecibido.readOnly = true;
+        inputRecibido.value = totalVenta.toFixed(2);
+        inputCambio.value = "$0.00";
+        toggleBotones(true);
+    } else {
+        inputRecibido.readOnly = false;
+        let cambio = recibido - totalVenta;
+        
+        if (recibido >= totalVenta && totalVenta > 0) {
+            inputCambio.value = fmt(cambio);
+            toggleBotones(true);
+        } else {
+            inputCambio.value = "$0.00";
+            toggleBotones(false);
+        }
+    }
+}
+
+function toggleBotones(esValido) {
+    const btnRegistrar = document.getElementById('btn-registrar-venta');
+    const msgError = document.getElementById('msg-error-pago');
+    const totalVenta = obtenerTotalNumerico();
+
+    if (totalVenta <= 0) {
+        btnRegistrar.classList.add('js-hidden');
+        msgError.classList.add('js-hidden');
+        return;
+    }
+
+    if (esValido) {
+        btnRegistrar.classList.remove('js-hidden');
+        msgError.classList.add('js-hidden');
+    } else {
+        btnRegistrar.classList.add('js-hidden');
+        msgError.classList.remove('js-hidden');
+    }
+}
+
+
+function obtenerTotalNumerico() {
+    const totalTexto = document.getElementById('lblTotal').textContent;
+    return parseFloat(totalTexto.replace(/[$,]/g, '')) || 0;
+}
+
+document.getElementById('formFinalizarVenta').addEventListener('submit', function(e) {
+    document.getElementById('items_json').value = JSON.stringify(ventaItems);
+    const idCliente = document.getElementById('clienteValor').value;
+    const pillNombre = document.getElementById('clientePillNombre').textContent.trim();
+    const inputTexto = document.getElementById('clienteInput').value.trim();
+    
+    let nombreFinal = "Mostrador";
+
+    if (idCliente && pillNombre !== "") {
+        nombreFinal = pillNombre;
+    } else if (inputTexto !== "") {
+        nombreFinal = inputTexto;
+    }
+
+    document.getElementById('nombre_cliente_nuevo').value = nombreFinal;
+});
+
 </script>

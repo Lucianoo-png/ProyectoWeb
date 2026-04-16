@@ -1,8 +1,6 @@
 <?php include('vista/cuentausuario/header_usuario.php'); ?>
 <?php if ($mostrarCategorias): ?>
-<!-- ═══════════════════════════════════════════════════════
-     BARRA DE CATEGORÍAS
-════════════════════════════════════════════════════════ -->
+
 <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
     <div class="container">
         <ul class="nav nav-categories justify-content-center">
@@ -91,7 +89,7 @@
             $arr = explode(" ",($info[0]['nombre']." ".$info[0]['apellidospama']));
             echo mb_substr($arr[0],0,1).mb_substr($arr[1],0,1); ?></div>
             <p class="cuenta-sidebar-name"><?php echo $info[0]['nombre']." ".$info[0]['apellidospama']; ?></p>
-            <p class="cuenta-sidebar-email"><i class="fas fa-envelope me-1"></i> <?php echo $info[0]['correo']; ?>
+            <p class="cuenta-sidebar-email"><i class="fas fa-envelope me-1"></i><?php echo $info[0]['correo']; ?>
         </div>
         <nav class="cuenta-nav">
             <button class="cuenta-nav-link <?php echo (!(isset($_POST['guardar_direccion']) || isset($_POST['eliminar_direccion'])) ? 'active' : ''); ?>" onclick="switchPanel('panel-datos',this)">

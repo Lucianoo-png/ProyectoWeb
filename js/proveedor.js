@@ -1,94 +1,176 @@
-/* ════════════════════════════════════════════════════════
-   inicio_proveedor.js
-   Lógica del portal de inicio del proveedor
-════════════════════════════════════════════════════════ */
 
-/* ══════════════════════════════════════════════════════
-   DATOS DE SOLICITUDES (mock — reemplazar con PHP/BD)
-══════════════════════════════════════════════════════ */
-const SOLICITUDES = {
-    'LC-REA-2026-031': {
-        folio: 'LC-REA-2026-031',
-        fecha: '28/03/2026 10:45',
-        nota:  'Reabasto urgente línea blanca. Se requieren los productos a la brevedad posible.',
-        productos: [
-            { sku: 'WRS315SNHM', nombre: 'Refrigerador Side by Side 25 pies', cantSolicitada: 10 },
-            { sku: 'WRT518SZFM', nombre: 'Refrigerador Top Mount 18 pies',     cantSolicitada: 8  },
-            { sku: 'WED5000DW',  nombre: 'Secadora eléctrica 7.0 pies',         cantSolicitada: 15 },
-            { sku: 'WFW5620HW',  nombre: 'Lavadora carga frontal 4.5 pies',     cantSolicitada: 20 },
-        ]
-    },
-    'LC-REA-2026-028': {
-        folio: 'LC-REA-2026-028',
-        fecha: '25/03/2026 08:20',
-        nota:  'Stock bajo detectado en microondas. Solicitud prioritaria.',
-        productos: [
-            { sku: 'WM3911D',    nombre: 'Microondas de mesa AirFry 1CuFt',  cantSolicitada: 25 },
-            { sku: 'WMH31017HZ', nombre: 'Microondas sobre rango 1.7 pies',  cantSolicitada: 12 },
-        ]
-    }
-};
-
-/* ══════════════════════════════════════════════════════
-   NAVEGACIÓN ENTRE PANELES
-══════════════════════════════════════════════════════ */
 function switchPanel(id, btn) {
     document.querySelectorAll('.cuenta-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.cuenta-nav-link').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     if (btn) btn.classList.add('active');
+    localStorage.setItem('activePanel', id);
 }
 
-/* ══════════════════════════════════════════════════════
-   ABRIR SOLICITUD PARA RESPONDER
-══════════════════════════════════════════════════════ */
+
 function abrirSolicitud(folio) {
-    const sol = SOLICITUDES[folio];
+    const sol = SOLICITUDES_REALES[folio];
     if (!sol) return;
 
-    document.getElementById('folio-activo').textContent    = folio;
-    document.getElementById('nota-admin-txt').textContent  = sol.nota;
-    document.getElementById('alerta-enviada').classList.remove('show');
-    document.getElementById('obs-proveedor').value         = '';
-
-    // Renderizar fila de productos
+    document.getElementById('folio-activo').textContent = folio;
+    document.getElementById('input-folio').value = folio;
+    document.getElementById('nota-admin-txt').textContent = sol.nota;
+    
     const cont = document.getElementById('productos-solicitud');
     cont.innerHTML = sol.productos.map(p => `
-        <div class="prod-row" id="row-${p.sku}">
+        <div class="prod-row d-flex align-items-center justify-content-between p-2 border-bottom">
             <div class="prod-row-info">
-                <div class="prod-row-sku">${p.sku}</div>
-                <div class="prod-row-name">${p.nombre}</div>
+                <div class="prod-row-name" style="font-weight:600; font-size:0.9rem;">${p.nombre}</div>
+                <div class="prod-row-sku text-muted" style="font-size:0.75rem;">
+                    No. Producto: ${p.id} | Solicitado: <strong>${p.cantSolicitada}</strong> | 
+                    Precio Unit: <strong class="text-success">$${parseFloat(p.precio).toLocaleString('es-MX', {minimumFractionDigits: 2})}</strong>
+                </div>
             </div>
-            <span class="prod-row-qty">
-                <i class="fas fa-arrow-down me-1"></i> Solicitado: <strong>${p.cantSolicitada}</strong>
-            </span>
-            <div class="qty-input-wrap">
-                <label>Cantidad a suministrar:</label>
-                <div>
-                    <input type="number" id="qty-${p.sku}"
-                           min="${p.cantSolicitada}" value="${p.cantSolicitada}"
-                           oninput="validarCantidad('${p.sku}', ${p.cantSolicitada})">
-                    <div class="qty-warning" id="warn-${p.sku}">
-                        <i class="fas fa-exclamation-circle me-1"></i>
-                        La cantidad no puede ser menor a ${p.cantSolicitada}.
-                    </div>
+            <div style="width: 120px;" class="text-end">
+                <input type="number" 
+                       name="cantidades[${p.id}]" 
+                       class="form-control form-control-sm input-suministro text-center" 
+                       min="0" 
+                       value="${p.cantSolicitada}"
+                       data-precio="${p.precio}"
+                       max="${p.cantSolicitada}"
+                       oninput="recalcularTotalesProveedor()">
+                <div class="small fw-bold mt-1 text-primary subtotal-fila">
+                    $${(p.cantSolicitada * p.precio).toLocaleString('es-MX', {minimumFractionDigits: 2})}
                 </div>
             </div>
         </div>
     `).join('');
+
+    let resumenFinanciero = document.getElementById('resumen-financiero-prov');
+    if (!resumenFinanciero) {
+        resumenFinanciero = document.createElement('div');
+        resumenFinanciero.id = 'resumen-financiero-prov';
+        resumenFinanciero.className = 'p-3 my-3 border-top border-bottom bg-light d-flex justify-content-between align-items-center';
+        cont.after(resumenFinanciero);
+    }
+    
+    recalcularTotalesProveedor();
 
     const wrapper = document.getElementById('responder-wrapper');
     wrapper.classList.add('show');
     wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+function recalcularTotalesProveedor() {
+    let granTotal = 0;
+    const filas = document.querySelectorAll('.prod-row');
+    
+    filas.forEach(fila => {
+        const input = fila.querySelector('.input-suministro');
+        const displaySubtotal = fila.querySelector('.subtotal-fila');
+        const precio = parseFloat(input.getAttribute('data-precio'));
+        const cantidad = parseInt(input.value) || 0;
+        
+        const subtotal = precio * cantidad;
+        granTotal += subtotal;
+        
+        displaySubtotal.textContent = `$${subtotal.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+    });
+
+    const resumen = document.getElementById('resumen-financiero-prov');
+    if (resumen) {
+        resumen.innerHTML = `
+            <span class="fw-bold text-muted small text-uppercase">Total estimado del suministro:</span>
+            <span class="fs-5 fw-bold text-primary">$${granTotal.toLocaleString('es-MX', {minimumFractionDigits: 2})}</span>
+        `;
+    }
+}
+
+function verDetalleRespondido(folio) {
+    const sol = SOLICITUDES_REALES[folio];
+    if (!sol) {
+        console.error("No se encontró la solicitud con folio: " + folio);
+        return;
+    }
+
+    const dom = {
+        folio: document.getElementById('lblFolioDetalle'),
+        nota: document.getElementById('txtNotaDetalle'),
+        tbody: document.getElementById('tbDetalleProductos'),
+        tfoot: document.getElementById('tfootTotalCompra'),
+        total: document.getElementById('txtTotalCompra'),
+        modal: document.getElementById('modalVerDetalle')
+    };
+
+    if (dom.folio) dom.folio.textContent = folio;
+    if (dom.nota) dom.nota.textContent = sol.nota || 'Sin observaciones.';
+    
+    let granTotal = 0;
+    if (dom.tbody) {
+        if (sol.estado === 'cancelada') {
+            if (dom.tfoot) dom.tfoot.style.display = 'none';
+            
+            dom.tbody.innerHTML = sol.productos.map(p => `
+                <tr style="background-color: #fff5f5;">
+                    <td style="padding:12px;">
+                        <div style="font-weight:600; color: #c53030;">${p.nombre}</div>
+                        <div class="text-muted" style="font-size:0.75rem;">No. Producto: ${p.id}</div>
+                    </td>
+                    <td class="text-center" style="color: #c53030; font-weight: 600;">${p.cantSolicitada}</td>
+                    <td colspan="3" class="text-center" style="color: #c53030; font-weight: 800; text-transform: uppercase; font-size: 0.75rem;">
+                        <i class="fas fa-times-circle me-1"></i> Solicitud Rechazada / Sin Suministro
+                    </td>
+                </tr>
+            `).join('');
+        } else {
+            if (dom.tfoot) dom.tfoot.style.display = 'table-footer-group';
+            
+            dom.tbody.innerHTML = sol.productos.map(p => {
+                const sumin = parseInt(p.cantSuministrada) || 0;
+                const prec = parseFloat(p.precio) || 0;
+                const subtotal = sumin * prec;
+                granTotal += subtotal;
+                
+                return `
+                    <tr>
+                        <td style="padding:12px;">
+                            <div style="font-weight:600; color: var(--dark-blue);">${p.nombre}</div>
+                            <div class="text-muted" style="font-size:0.75rem;">No. Producto: ${p.id}</div>
+                        </td>
+                        <td class="text-center" style="color: #64748b;">${p.cantSolicitada}</td>
+                        <td class="text-center fw-bold text-primary" style="font-size: 1rem;">${sumin}</td>
+                        <td class="text-end" style="color: #10b981;">$${prec.toLocaleString('es-MX', {minimumFractionDigits: 2})}</td>
+                        <td class="text-end fw-bold" style="color: #1e293b;">$${subtotal.toLocaleString('es-MX', {minimumFractionDigits: 2})}</td>
+                    </tr>
+                `;
+            }).join('');
+            
+            if (dom.total) {
+                dom.total.textContent = `$${granTotal.toLocaleString('es-MX', {minimumFractionDigits: 2})}`;
+            }
+        }
+    }
+    if (dom.modal) {
+        dom.modal.style.display = 'flex';
+    }
+}
+
+
+
+function cerrarDetalle() {
+    const modal = document.getElementById('modalVerDetalle');
+    if (modal) modal.style.display = 'none';
+}
+
+function toggleInputsSuministro(estado) {
+    const inputs = document.querySelectorAll('.input-suministro');
+    inputs.forEach(i => {
+        i.disabled = (estado === 'cancelada');
+        if(estado === 'cancelada') i.required = false;
+        else i.required = true;
+    });
+}
+
 function cerrarResponder() {
     document.getElementById('responder-wrapper').classList.remove('show');
 }
 
-/* ══════════════════════════════════════════════════════
-   VALIDAR CANTIDAD (debe ser ≥ solicitada — regla de negocio)
-══════════════════════════════════════════════════════ */
 function validarCantidad(sku, minimo) {
     const input = document.getElementById('qty-' + sku);
     const warn  = document.getElementById('warn-' + sku);
@@ -101,9 +183,6 @@ function validarCantidad(sku, minimo) {
     }
 }
 
-/* ══════════════════════════════════════════════════════
-   ENVIAR RESPUESTA A SOLICITUD
-══════════════════════════════════════════════════════ */
 function enviarRespuesta() {
     const folio = document.getElementById('folio-activo').textContent;
     const sol   = SOLICITUDES[folio];

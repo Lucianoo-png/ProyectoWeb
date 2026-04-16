@@ -101,8 +101,15 @@ class ProductoControlador {
         }
 
         if ($stock < $stock_minimo) {
-            return ["error", "El stock actual no puede ser menor al stock mínimo."];
+            $this->producto->setEstado('B');
+            if($stock==0){
+                $this->producto->setEstado('A');
+            }
         }
+        else if($stock >= $stock_minimo){
+            $this->producto->setEstado('S');
+        }
+
         
         $this->producto->setNo_producto($datos['no_producto']);
         $this->producto->setNombre(trim(mb_strtoupper($datos['nombre'])));

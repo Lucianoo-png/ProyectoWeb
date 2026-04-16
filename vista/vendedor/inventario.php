@@ -124,7 +124,7 @@
                                         $badge = '<span class="badge-out">Agotado</span>';
                                         $obs = 'No disponible para venta';
                                         $color = '#dc3545';
-                                    } else if ($stock <= $prod['stockminimo']) {
+                                    } else if ($stock < $prod['stockminimo']) {
                                         $badge = '<span class="badge-warn">Bajo stock</span>';
                                         $obs = 'Próximo a agotarse — Reabastecer';
                                         $color = '#d97706';

@@ -98,6 +98,26 @@ switch($rutaPrincipal){
     break;
 
     case 'pedido-proveedor':
+        $msj = array();
+        $emp = new EmpleadoControlador();
+        $prod = new ProductoControlador();
+        $soli = new SolicitudReabastecimientoControlador();
+        $log = new BitacoraControlador();
+        if(isset($_REQUEST["guardar_pedido"])){
+            $msj = $soli->registrarSolicitud($_POST, $_SESSION["RFC"], $log);
+        }
+
+        $proveedores = $emp->getEmpleado()->buscar('"Veracruz".empleado',["where"=>"tipousuario='P' AND estatus='true'"]);
+        $productos = $prod->getProducto()->buscar('"Veracruz".producto',["where"=>"estado<>'S'"]);
+        $solicitudes = $soli->obtenerHistorialCompletoVista();
+
+        $resultado = $soli->getSoli()->buscar('"Veracruz".solicitud_reabastecimiento', [
+            "order" => "folio_solicitud DESC", 
+            "limit" => 1
+        ]);
+        $ultimoFolio = (!empty($resultado)) ? $resultado[0]['folio_solicitud'] : null;
+
+        $nuevoFolio = Helpers::generarFolioReabastecimiento($ultimoFolio);
         include('vista/admin/admin_pedido_proveedor.php');
     break;
     

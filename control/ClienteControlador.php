@@ -24,7 +24,13 @@ class ClienteControlador {
         else{
             $_SESSION['NoCliente'] = $datos[0]['no_cliente'];
             $_SESSION['Tipo'] = 'C';
-            header('location:/proyectoweb/mi-perfil/inicio');
+            if (isset($_SESSION['url_retorno']) && str_contains(mb_strtolower($_SESSION["url_retorno"]),"producto")) {
+                $destino = $_SESSION['url_retorno'];
+                unset($_SESSION['url_retorno']);
+                header("location: $destino");
+            } else {
+                header('location:/proyectoweb/mi-perfil/inicio');
+            }
         }
     }
 

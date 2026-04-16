@@ -386,7 +386,7 @@
                             </div>
                             <hr class="admin-form-divider mt-4">
                             <div class="d-flex gap-2 flex-wrap">
-                                <button type="submit" class="btn-admin-primary">
+                                <button type="submit" name="guardar" class="btn-admin-primary">
                                     <i class="fas fa-save me-1"></i> Guardar cambios
                                 </button>
                             </div>
@@ -453,7 +453,7 @@
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <button type="submit" id="btnRegistrar" class="btn-cuenta-save w-100">
+                                <button type="submit" name="actualizar_contra" id="btnRegistrar" class="btn-cuenta-save w-100">
                                     <i class="fas fa-key me-1"></i> Actualizar contraseña
                                 </button>
                             </div>

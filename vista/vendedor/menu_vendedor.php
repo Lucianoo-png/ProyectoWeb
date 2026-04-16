@@ -33,7 +33,7 @@ function _vActivo(string $clave): string {
         <span class="tab-badge">4</span>
     </a>
     <hr class="sidebar-divider">
-    <a href="/proyectoweb/?" class="btn-cerrar" style="margin-top:.5rem">
+    <a href="/proyectoweb/vendedor/logout" class="btn-cerrar" style="margin-top:.5rem">
         <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
     </a>
 </nav>

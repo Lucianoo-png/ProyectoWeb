@@ -1,13 +1,4 @@
-/* ════════════════════════════════════════════════════════════
-   LuchanosCorp — Scripts Panel Admin + Vendedor + Repartidor
-   Ruta: js/vendedor.js
-   ════════════════════════════════════════════════════════════ */
 
-/* ════════════════════════════════════════════════════════════
-   UTILIDADES GLOBALES
-   ════════════════════════════════════════════════════════════ */
-
-/** Formatea número como moneda MXN: $1,234.56 */
 function fmt(n) {
     return '$' + parseFloat(n).toLocaleString('es-MX', {
         minimumFractionDigits: 2,
@@ -15,9 +6,6 @@ function fmt(n) {
     });
 }
 
-/* ════════════════════════════════════════════════════════════
-   ADMIN — Funciones Generales
-   ════════════════════════════════════════════════════════════ */
 
 function previewImagen(input) {
     const label = document.getElementById('imagen-label');
@@ -34,7 +22,6 @@ function previewImagen(input) {
     reader.readAsDataURL(input.files[0]);
 }
 
-/* Toggle de estado activo/inactivo */
 function initToggleEstado() {
     const toggle = document.getElementById('estado');
     const label = document.getElementById('estadoLabel');
@@ -44,7 +31,6 @@ function initToggleEstado() {
     });
 }
 
-/* Validación de formulario */
 function initAdminFormValidation() {
     const form = document.querySelector('.needs-validation');
     if (!form) return;
@@ -67,7 +53,6 @@ function initAdminFormValidation() {
     if (confirmar) confirmar.addEventListener('input', () => confirmar.setCustomValidity(''));
 }
 
-/* Tabs del panel admin */
 function initAdminTabs() {
     document.querySelectorAll('.admin-tab-btn').forEach(btn => {
         btn.addEventListener('click', function () {
@@ -81,7 +66,6 @@ function initAdminTabs() {
     });
 }
 
-/* Modal de confirmación de eliminación */
 function confirmDelete(type, name, id) {
     const overlay = document.getElementById('confirmOverlay');
     const msgEl = document.getElementById('confirmMsg');
@@ -102,7 +86,6 @@ function closeConfirm() {
     if (overlay) overlay.classList.remove('show');
 }
 
-/* Tabs de reportes */
 function initReportTabs() {
     document.querySelectorAll('.report-tab-btn').forEach(btn => {
         btn.addEventListener('click', function () {
@@ -115,9 +98,6 @@ function initReportTabs() {
     });
 }
 
-/* ════════════════════════════════════════════════════════════
-   VENDEDOR — Punto de Venta (ventas.php)
-   ════════════════════════════════════════════════════════════ */
 
 let ventaItems = [];
 let ventaCounter = 0;
@@ -125,29 +105,68 @@ let ventaCounter = 0;
 function initVentas() {
     const form = document.getElementById('formAgregarProducto');
     if (!form) return;
+    
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         const sel = document.getElementById('selectProducto');
-        const qty = parseInt(document.getElementById('inputCantidad').value) || 1;
+        const inputCant = document.getElementById('inputCantidad');
+        const qty = parseInt(inputCant.value) || 1;
+        
         if (!sel.value) {
             sel.classList.add('is-invalid');
             return;
         }
         sel.classList.remove('is-invalid');
-        const precio = parseFloat(sel.options[sel.selectedIndex].dataset.precio);
+        const opt = sel.options[sel.selectedIndex];
         const sku = sel.value;
-        const nombre = sel.options[sel.selectedIndex].text.split(' (')[0];
-        const exist = ventaItems.find(i => i.sku === sku);
+        const stockMax = parseInt(opt.dataset.stock);
+        const precio = parseFloat(opt.dataset.precio);
+        const skuu= opt.dataset.sku;
+        const nombre = opt.text.split(' (')[0];
+
+        const exist = ventaItems.find(i => i.id_producto === sku);
+        
         if (exist) {
+            if ((exist.qty + qty) > stockMax) {
+                mostrarAlertaJS(`No puedes agregar más, ya que este producto cuenta con máximo ${stockMax} unidad(es).`, 'error');
+                return; 
+            }
             exist.qty += qty;
         } else {
+            if (qty > stockMax) {
+                mostrarAlertaJS(`La cantidad excede el stock disponible del producto).`, 'error');
+                return;
+            }
             ventaCounter++;
-            ventaItems.push({ id: ventaCounter, sku, nombre, precio, qty });
+            ventaItems.push({ 
+                id: ventaCounter, 
+                id_producto: sku,
+                nombre, 
+                precio, 
+                qty,
+                skuu
+            });
         }
         renderTablaVenta();
         sel.selectedIndex = 0;
-        document.getElementById('inputCantidad').value = 1;
+        inputCant.value = 1;
+        inputCant.max = "";
     });
+}
+
+function mostrarAlertaJS(mensaje, tipo = 'error') {
+    const contenedor = document.getElementById('contenedor-alerta');
+    const claseTipo = tipo === 'error' ? 'error' : 'exito'; 
+
+    contenedor.innerHTML = `
+        <div class="alerta alerta-${claseTipo}" style="text-align:center;margin: 15px 15px 0 15px;">
+            ${mensaje}
+        </div>
+    `;
+
+    setTimeout(() => {
+        contenedor.innerHTML = '';
+    }, 7000);
 }
 
 function renderTablaVenta() {
@@ -167,7 +186,7 @@ function renderTablaVenta() {
     tbody.innerHTML = ventaItems.map((item, idx) => `
         <tr>
             <td>${idx + 1}</td>
-            <td style="font-family:monospace;font-weight:700">${item.sku}</td>
+            <td style="font-family:monospace;font-weight:700">${item.skuu}</td>
             <td>${item.nombre}</td>
             <td>${item.qty}</td>
             <td>${fmt(item.precio)}</td>
@@ -194,6 +213,7 @@ function actualizarTotalesVenta() {
     if (el('lblSubtotal')) el('lblSubtotal').textContent = fmt(sub);
     if (el('lblIva')) el('lblIva').textContent = fmt(iva);
     if (el('lblTotal')) el('lblTotal').textContent = fmt(sub + iva);
+    manejarCambioPago();
 }
 
 function calcularCambio() {
@@ -235,8 +255,6 @@ function initClienteWidget() {
     const hidden = document.getElementById('clienteValor');
     if (!input) return;
 
-    // 1. LIMPIEZA Y FORMATEO DE DATOS DE LA BASE DE DATOS
-    // Usamos un Map para garantizar que NO haya clientes duplicados por su ID
     const clientesMap = new Map();
     
     if (typeof CLIENTES_REGISTRADOS !== 'undefined') {
@@ -290,25 +308,6 @@ function initClienteWidget() {
             });
         }
         
-        // Renderizado de la opción "Agregar Nuevo"
-        if (texto.length >= 2) {
-            const g2 = document.createElement('div');
-            g2.className = 'cliente-option-group';
-            g2.textContent = 'O continuar con:';
-            dropdown.appendChild(g2);
-            const libre = document.createElement('div');
-            libre.className = 'cliente-option option-nuevo';
-            libre.innerHTML = `<i class="fas fa-user-plus"></i>
-                <span>Usar "<strong>${escHTML(q.trim())}</strong>" como nombre</span>`;
-            libre.addEventListener('mousedown', e => {
-                e.preventDefault();
-                // Si es nuevo, mandamos el texto libre a PHP
-                seleccionarCliente(q.trim(), q.trim(), true);
-            });
-            dropdown.appendChild(libre);
-        }
-        
-        // Renderizado inicial (lista completa vacía)
         if (texto === '') {
             const g0 = document.createElement('div');
             g0.className = 'cliente-option-group';
@@ -329,7 +328,6 @@ function initClienteWidget() {
         }
     }
 
-    // Actualizamos esta función para recibir el valor a guardar (no_cliente o texto libre)
     function seleccionarCliente(nombreVisible, valorOculto, esNuevo) {
         hidden.value = valorOculto; // Este es el valor que se enviará en el POST
         let html = `<i class="fas fa-${esNuevo ? 'user-plus' : 'user'}"></i>
@@ -376,9 +374,6 @@ function initClienteWidget() {
     });
 }
 
-/* ════════════════════════════════════════════════════════════
-   VENDEDOR — Detalle de Ventas (detalle_ventas.php)
-   ════════════════════════════════════════════════════════════ */
 
 const VENTAS_DEMO = [
     { folio: 1, fecha: '21/03/2026', hora: '10:23:51', cliente: 'Ana Torres', sku: 'WRS315SNHM', desc: 'Refrigerador Side by Side 25 pies', qty: 1, precio: 22499, pago: 'Tarjeta' },

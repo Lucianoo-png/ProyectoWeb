@@ -76,12 +76,12 @@ class Producto {
     public function editar() {
         $query = 'UPDATE "Veracruz".producto SET nombre=:nom, "descripción"=:des, precio_venta=:pv, alto=:alt, ancho=:anc, 
                   imagen=COALESCE(:img, imagen), manual=COALESCE(:man, manual), categoria=:cat, stock=:stk, stockminimo=:stm,
-                  precio_compra=:pc WHERE no_producto=:id';
+                  estado=:estado, precio_compra=:pc WHERE no_producto=:id';
         $params = [
             ":nom" => $this->nombre, ":des" => $this->descripcion, ":pv" => $this->precio_venta,
             ":alt" => $this->alto, ":anc" => $this->ancho, ":img" => $this->imagen,
             ":man" => $this->manual, ":cat" => $this->categoria, ":stk" => $this->stock,
-            ":stm" => $this->stockminimo, ":pc" => $this->precio_compra,
+            ":stm" => $this->stockminimo, ":estado"=>$this->estado,":pc" => $this->precio_compra,
             ":id" => $this->no_producto
         ];
         return $this->conexion->ejecutarConsulta($query, $params)->rowCount() > 0;

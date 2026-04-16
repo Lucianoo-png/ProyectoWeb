@@ -1,29 +1,5 @@
 <?php
 
-/*
-$r = [
-    'home'         => $pathBase . './index.php',
-    'carrito'      => $pathBase . 'vista/Producto/carrito.php',
-    'login'        => $pathBase . 'vista/Cuenta/login.php',
-    'lb'           => $pathBase . 'vista/Producto/linea_blanca.php',
-    'lm'           => $pathBase . 'vista/Producto/linea_marron.php',
-    'cocina'       => $pathBase . 'vista/Producto/cocina.php',
-    'lavadoras'    => $pathBase . 'vista/Producto/OtrasCategorias/lavadoras.php',
-    'secadoras'    => $pathBase . 'vista/Producto/OtrasCategorias/secadoras.php',
-    'lavasecadoras'=> $pathBase . 'vista/Producto/OtrasCategorias/lavasecadoras.php',
-    'refrigeradores'=> $pathBase . 'vista/Producto/OtrasCategorias/refrigeradores.php',
-    'congeladores' => $pathBase . 'vista/Producto/OtrasCategorias/congeladores.php',
-    'frigobar'     => $pathBase . 'vista/Producto/OtrasCategorias/frigobar.php',
-    'hornos'       => $pathBase . 'vista/Producto/OtrasCategorias/hornos.php',
-    'estufas'      => $pathBase . 'vista/Producto/OtrasCategorias/estufas.php',
-    'microondas'   => $pathBase . 'vista/Producto/OtrasCategorias/microondas.php',
-    'lavavajillas' => $pathBase . 'vista/Producto/OtrasCategorias/lavavajillas.php',
-    'cuidado_hogar'=> $pathBase . 'vista/Producto/OtrasCategorias/cuidado_hogar.php',
-    'cuidado_personal'=> $pathBase . 'vista/Producto/OtrasCategorias/cuidado_personal.php',
-    
-];
-*/
- 
 $url = isset($_GET["url"]) && $_GET["url"] != "" ? $_GET["url"] : "inicio";
 $url = rtrim($url, '/');
 $urlParts = explode('/', $url);
@@ -114,7 +90,19 @@ $rutaPrincipal =  mb_strtolower($urlParts[0]);
         break;
 
         case 'carrito':
-            include('vista/Producto/carrito.php');
+            if(isset($_SESSION["NoCliente"])){
+                include('vista/Producto/carrito.php');
+            }
+            else{
+                include('vista/header_gral.php');
+                include('vista/404.php');
+                include('vista/footer_gral.php');
+            }
+        break;
+
+        case 'carrito-obtener':
+            $controlador = new CarritoControlador();
+            $controlador->accionObtenerCarrito();
         break;
 
         case 'rastrear-pedido':
@@ -134,6 +122,9 @@ $rutaPrincipal =  mb_strtolower($urlParts[0]);
                         $log->registrarLog(null, "Intento de inicio de sesión fallido para el correo: ".$_POST["correo"], "E");
                     }
                 }
+            }
+            if (isset($_SERVER['HTTP_REFERER']) && str_contains(mb_strtolower($_SERVER['HTTP_REFERER']),"producto")) {
+                $_SESSION['url_retorno'] = $_SERVER['HTTP_REFERER'];
             }
             include('vista/Cuenta/login.php');
         break;
@@ -169,6 +160,11 @@ $rutaPrincipal =  mb_strtolower($urlParts[0]);
                 include('vista/404.php');
                 include('vista/footer_gral.php');
             }
+        break;
+
+        case 'carrito-reservar':
+            $controlador = new CarritoControlador();
+            $controlador->accionReservar();
         break;
 
         case 'admin':

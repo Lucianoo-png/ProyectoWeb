@@ -6,11 +6,13 @@
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-        <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
+        <?php if(isset($_SESSION["NoCliente"])){ ?>
+            <div class="d-flex gap-3">
+                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
+                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
+                </a>
+            </div>
+            <?php } ?>
     </div>
 </div>
 
@@ -27,8 +29,10 @@
             </div>
 
             <div class="d-flex align-items-center gap-3 ms-2">
-                <a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
-                <a href="/proyectoweb/login" class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>
+                <?php if(isset($_SESSION["NoCliente"])){ ?><a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a> <?php } ?>
+                <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?> class="nav-icon" title="Mi Cuenta">
+                    <i class="fas fa-user"></i>
+                </a>
             </div>
         </div>
     </div>

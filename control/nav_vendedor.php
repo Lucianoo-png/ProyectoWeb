@@ -44,10 +44,23 @@ switch($rutaPrincipal){
 
     case 'ventas':
         $producto = new ProductoControlador();
-        $productos = $producto->getProducto()->buscar('"Veracruz".producto',["where"=>"stock>0 AND estatus='true'","order"=>"no_producto ASC"]);
-
         $cliente = new ClienteControlador();
-        $clientes_linea = $cliente->getCliente()->buscar('"Veracruz".cliente', ["where" => "estatus='true' AND origen='L'"]);
+        $pedidoControl = new PedidoControlador();
+        $log = new BitacoraControlador();
+        $msj = array();
+        if (isset($_REQUEST["registrar_venta"])) {
+            $msj = $pedidoControl->procesarVentaFisica($_POST, $_SESSION['RFC'], $log);
+        }
+
+        $productos = $producto->getProducto()->buscar('"Veracruz".producto', [
+            "where" => "stock > 0 AND estatus = 'true'",
+            "order" => "no_producto ASC"
+        ]);
+
+        $clientes_linea = $cliente->getCliente()->buscar('"Veracruz".cliente', [
+            "where" => "estatus = 'true' AND origen = 'L'"
+        ]);
+
         include('vista/vendedor/ventas.php');
     break;
 

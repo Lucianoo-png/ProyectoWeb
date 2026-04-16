@@ -18,7 +18,7 @@ class Conexion
             //"host" => "db",
             "db" => "ecommerce",
             "user" => "postgres",
-            "password" => "12345678", //Recuerda que yo tengo que cambiar la constraseña hasta el 8
+            "password" => "12345", //Recuerda que yo tengo que cambiar la constraseña hasta el 8
             "port" => "5432",
         ];
         $this->driver = $config["driver"] ?? "mysql";
@@ -32,6 +32,19 @@ class Conexion
         } else {
             $this->port = $config["port"];
         }
+    }
+
+    public function comenzarTransaccion() {
+        if ($this->pdo === null) $this->conectar();
+        return $this->pdo->beginTransaction();
+    }
+
+    public function confirmarTransaccion() {
+        return $this->pdo->commit();
+    }
+
+    public function cancelarTransaccion() {
+        return $this->pdo->rollBack();
     }
 
     public function conectar()

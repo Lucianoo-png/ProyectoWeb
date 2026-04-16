@@ -137,6 +137,13 @@ class Cliente {
         return $this->conexion->ejecutarConsulta($query, $params)->rowCount() > 0;
     }
 
+    public function asociarCarritoAnonimo($no_cliente, $session_id) {
+        $query = 'UPDATE "Veracruz".carrito_reserva 
+                SET no_cliente = ? 
+                WHERE session_id = ? AND expiracion > NOW()';
+        return $this->conexion->ejecutarConsulta($query, [$no_cliente, $session_id]);
+    }
+
     public function eliminarDireccion($direccion){
         $query = 'DELETE FROM "Veracruz".clientedireccion WHERE no_dirección=:dire'; 
         $params = [
