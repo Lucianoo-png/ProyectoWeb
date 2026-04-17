@@ -79,9 +79,7 @@
         </ul>
     </div>
 </div>
-<!-- ═══════════════════════════════════════════════════════
-     HERO
-════════════════════════════════════════════════════════ -->
+
 <div class="contact-hero">
     <div class="container">
         <div class="d-flex align-items-center gap-3 mb-2">
@@ -94,9 +92,7 @@
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════
-     TARJETAS DE CONTACTO
-════════════════════════════════════════════════════════ -->
+<!--   CONTACTOS-->
 <main class="py-2 pb-5">
     <div class="container">
 

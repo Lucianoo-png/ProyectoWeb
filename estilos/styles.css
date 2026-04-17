@@ -1,18 +1,6 @@
-/* ============================================================
-   LuchanosCorp — Estilos Globales / Tienda Pública
-   Ruta: estilos/styles.css
-   Incluye: variables, base, topbar, navbar, footer,
-            login/registro, carrusel, productos, carrito,
-            checkout (pasos, dirección), rastrear pedido.
-   Panel admin/vendedor → ver: estilos/panel.css
-   ============================================================ */
+/* ESTILOS GLOBALES AQUI SE ENCUENTRAN LA MAYORÍA DE ESTILOS */
 
-/* ============================================================
-   ElectroPendejo — Estilos Globales
-   Ruta para referenciar: estilos/styles.css
-   ============================================================ */
-
-/* ── Variables de color ─────────────────────────────────────── */
+/*Variables de color  */
 :root {
     --azul-marino: #002366;
     --azul-claro:  #4b7dd9;
@@ -25,7 +13,7 @@
     --sombra-card: 0 2px 16px rgba(0,35,102,.09);
 }
 
-/* ── Base ────────────────────────────────────────────────────── */
+/* Base  */
 body {
     background-color: var(--fondo);
     min-height: 100vh;
@@ -36,7 +24,7 @@ body {
 
 main { flex: 1; }
 
-/* ── Topbar ──────────────────────────────────────────────────── */
+/* Topbar */
 .topbar {
     background-color: var(--azul-marino);
     color: #fff;
@@ -62,7 +50,7 @@ main { flex: 1; }
 .topbar-link-track:hover,
 .topbar-link-muted:hover { color: #fff; text-decoration: underline; }
 
-/* ── Navbar principal ────────────────────────────────────────── */
+/*  Navbar principal */
 .main-nav {
     background: #fff;
     border-bottom: 1px solid #dee2e6;
@@ -100,7 +88,7 @@ main { flex: 1; }
 }
 .nav-icon:hover { color: var(--btn-color); }
 
-/* ── Navbar de categorías ────────────────────────────────────── */
+/*  Navbar de categorías */
 .nav-categories .nav-link {
     font-size: .875rem;
     font-weight: 600;
@@ -116,7 +104,7 @@ main { flex: 1; }
     border-bottom-color: var(--btn-color);
 }
 
-/* ── Mega-menu ───────────────────────────────────────────────── */
+/* Mega-menu*/
 .mega-dropdown { position: static !important; }
 
 .mega-menu {
@@ -150,7 +138,7 @@ main { flex: 1; }
 .mega-menu .dropdown-item svg {
     width: 18px;
     height: 18px;
-    fill: currentColor;        /* ← hereda el mismo #444 que los demás */
+    fill: currentColor;       
     flex-shrink: 0;
     vertical-align: -0.125em;
 }
@@ -163,7 +151,7 @@ main { flex: 1; }
     color: var(--btn-color);
 }
 
-/* ── Botones globales ────────────────────────────────────────── */
+/* Botones globales */
 .btn-accion {
     background-color: var(--btn-color);
     border-color: var(--btn-color);
@@ -179,7 +167,7 @@ main { flex: 1; }
 }
 .btn-accion:active { transform: translateY(0); }
 
-/* ── Footer ──────────────────────────────────────────────────── */
+/*  Footer  */
 .site-footer {
     background-color: var(--footer-bg);
     color: rgba(255,255,255,.6);
@@ -198,7 +186,7 @@ main { flex: 1; }
     margin-top: auto;
 }
 
-/* ── Login card (vista/Cuenta/login.php) ─────────────────────── */
+/*  Login card (vista/Cuenta/login.php)*/
 .login-wrapper {
     flex: 1;
     display: flex;
@@ -301,7 +289,7 @@ main { flex: 1; }
 }
 .toggle-pw:hover { color: var(--btn-color); }
 
-/* ── Registro card (vista/Cuenta/Registro.php) ───────────────── */
+/* Registro card (vista/Cuenta/Registro.php) */
 .register-wrapper {
     flex: 1;
     display: flex;
@@ -423,7 +411,7 @@ main { flex: 1; }
 }
 .pw-toggle:hover { color: var(--btn-color); }
 
-/* ── Carrusel principal (index.php) ──────────────────────────── */
+/* Carrusel principal (index.php)*/
 .hero-carousel {
     border-radius: .5rem;
     overflow: hidden;
@@ -477,7 +465,7 @@ main { flex: 1; }
     background-color: var(--btn-color);
 }
 
-/* ── Sección de productos ────────────────────────────────────── */
+/*  Sección de productos */
 .section-title {
     font-size: 1rem;
     font-weight: 700;
@@ -598,7 +586,7 @@ main { flex: 1; }
     background: #e6f6f8;
 }
 
-/* ── Página Detalle de Producto ──────────────────────────────── */
+/* Página Detalle de Producto*/
 .detail-img-card {
     background: #f5f7fb;
     border-radius: .75rem;
@@ -758,7 +746,7 @@ main { flex: 1; }
 }
 .detail-garantia p { margin: 0; line-height: 1.3; }
 
-/* ── Página Carrito ──────────────────────────────────────────── */
+/* Página Carrito */
 .cart-page-title {
     font-size: 1.35rem;
     font-weight: 700;
@@ -942,7 +930,7 @@ main { flex: 1; }
     align-items: center;
     justify-content: center;
 }
-/* ── Badge del ícono de carrito en navbar ──────────────────── */
+/* Badge del ícono de carrito en navbar  */
 .cart-badge {
     position: absolute;
     top: -6px; right: -8px;
@@ -958,9 +946,7 @@ main { flex: 1; }
 }
 .nav-icon { position: relative; }
 
-/* ============================================================
-   CHECKOUT — Barra de pasos (carrito.php, direccion.php)
-   ============================================================ */
+/*  CHECKOUT — Barra de pasos (carrito.php, direccion.php)*/
 div.checkout-bg {
     background: #f0f4fa;
     
@@ -1030,9 +1016,7 @@ div.checkout-bg {
     .step-line { max-width: 40px; }
 }
 
-/* ============================================================
-   CARRITO.PHP
-   ============================================================ */
+/* CARRITO.PHP */
 .cart-layout {
     max-width: 1100px;
     margin: 0 auto;
@@ -1195,9 +1179,7 @@ div.checkout-bg {
 }
 .btn-realizar-pedido:hover { background: #c7391a; }
 
-/* ============================================================
-   DIRECCION.PHP
-   ============================================================ */
+/* DIRECCION.PHP */
 .dir-layout {
     max-width: 900px;
     margin: 0 auto;
@@ -1332,7 +1314,7 @@ div.checkout-bg {
     font-size: .85rem; cursor: pointer;
 }
 
-/* ── Modal "producto agregado al carrito" (detalle.php) ──────── */
+/* Modal "producto agregado al carrito" (detalle.php) */
 #modal-agregado {
     display: none;
     position: fixed;
@@ -1424,9 +1406,8 @@ div.checkout-bg {
     gap: 6px;
 }
 .btn-seguir-comprando:hover { background: #218838; }
-/* ═══════════════════════════════════════════════════════════════
-   RASTREAR PEDIDO — vista/rastrear_pedido.php
-   ═══════════════════════════════════════════════════════════════ */
+/* 
+   RASTREAR PEDIDO — vista/rastrear_pedido.php */
 
 /* Layout split 50/50 */
 .track-layout {
@@ -1435,7 +1416,7 @@ div.checkout-bg {
     min-height: calc(100vh - 110px);
 }
 
-/* ── Panel izquierdo ──────────────────────────────────────────── */
+/*Panel izquierdo */
 .track-left {
     background: #fff;
     display: flex;
@@ -1653,7 +1634,7 @@ div.checkout-bg {
     margin-top: 1rem;
 }
 
-/* ── Panel derecho ilustración ────────────────────────────────── */
+/* Panel derecho ilustración  */
 .track-right {
     background: linear-gradient(145deg, #e8f4f8 0%, #d0eaf2 50%, #c2e3ef 100%);
     display: flex;
@@ -1729,11 +1710,8 @@ div.checkout-bg {
     .track-left   { padding: 2.5rem 1.75rem; }
     .track-right-caption h3 { font-size: 1.15rem; }
 }
-/* ═══════════════════════════════════════════════════════════════
 
-/* ══════════════════════════════════════════════════════════════
-   MI CUENTA — Perfil del cliente
-   ══════════════════════════════════════════════════════════════ */
+/* MI CUENTA — Perfil del cliente*/
 
 .cuenta-layout {
     display: grid;
@@ -1916,7 +1894,7 @@ div.checkout-bg {
 }
 .btn-dir-add:hover { background: var(--btn-hover); }
 
-/* ── Historial de pedidos ────────────────────────────────────── */
+/*Historial de pedidos*/
 .pedido-tabs {
     display: flex;
     gap: .5rem;
@@ -1993,7 +1971,7 @@ div.checkout-bg {
 .pedido-item-sku  { font-size: .72rem; color: #888; }
 .pedido-item-price { font-size: .88rem; font-weight: 700; color: var(--azul-marino); margin-left: auto; white-space: nowrap; }
 
-/* ── Tracking visual del pedido ─────────────────────────────── */
+/* Tracking visual del pedido*/
 .pedido-tracking {
     background: #f8fafc;
     border-top: 1px solid #eaeff5;
@@ -2080,9 +2058,7 @@ div.checkout-bg {
 }
 
 
-/* ══════════════════════════════════════════════════════════════
-   REPARTIDOR — Panel de entregas
-   ══════════════════════════════════════════════════════════════ */
+/* REPARTIDOR — Panel de entregas*/
 
 /* Reutiliza admin-layout, admin-sidebar, admin-content de panel.css */
 
@@ -2117,7 +2093,7 @@ div.checkout-bg {
     white-space: nowrap; display: inline-block;
 }
 
-/* Tracking editable para repartidor */
+/* JIJIJISE ME OLVIDÓ */
 .rep-tracking {
     display: flex;
     align-items: center;
@@ -2195,7 +2171,7 @@ div.checkout-bg {
     cursor: not-allowed;
     transform: none;
 }
-/* ── Alerta de rastreo (panel Mis Pedidos ← rastrear_pedido) ─── */
+/*  Alerta de rastreo (Nome acuerdo para que era esto sinceramenteXDD)  */
 .ref-alert {
     display: none;
     align-items: center;
@@ -2222,7 +2198,7 @@ div.checkout-bg {
     transition: outline .3s;
 }
 
-/* ── Mensaje de error en rastrear_pedido.php ──────────────────── */
+/*  Mensaje de error en rastrear_pedido.php  */
 .track-error-msg {
     margin-top: 1rem;
     padding: .85rem 1rem;
@@ -2235,8 +2211,6 @@ div.checkout-bg {
     align-items: center;
     gap: .6rem;
 }
-
-/*####################*/
 
 
     #modal-todas-dirs {
@@ -2327,11 +2301,9 @@ div.checkout-bg {
         }
         .sin-dirs-msg i { font-size: 2.5rem; margin-bottom: .8rem; display: block; }
 
-/* ============================================================
-   PAGO.PHP — Vista de pago / checkout final
-   ============================================================ */
+/* AGO.PHP — Vista de pago / checkout final */
 
-/* ── Layout principal ────────────────────────────────────────── */
+/*  Layout principal  */
 .pago-layout {
     max-width: 1000px;
     margin: 2.2rem auto 3rem;
@@ -2346,7 +2318,7 @@ div.checkout-bg {
     .pago-resumen { order: -1; }
 }
 
-/* ── Tarjeta blanca general ──────────────────────────────────── */
+/* Tarjeta blanca general */
 .pago-card {
     background: #fff;
     border-radius: 14px;
@@ -2362,7 +2334,7 @@ div.checkout-bg {
     border-bottom: 1px solid #eef0f6;
 }
 
-/* ── Dirección seleccionada ──────────────────────────────────── */
+/* Dirección seleccionada ─*/
 .pago-dir-box {
     background: #f4f8ff;
     border: 1.5px solid #d0dcf7;
@@ -2385,7 +2357,7 @@ div.checkout-bg {
 }
 .pago-dir-cambiar:hover { text-decoration: underline; }
 
-/* ── Selector de métodos de pago ─────────────────────────────── */
+/*  Selector de métodos de pago */
 .pago-metodos {
     display: flex;
     gap: .6rem;
@@ -2413,11 +2385,11 @@ div.checkout-bg {
     background: rgba(0,180,180,.05);
 }
 
-/* ── Paneles de método (mostrar/ocultar) ─────────────────────── */
+/*  Paneles de método (mostrar/ocultar) */
 .pago-panel        { display: none; }
 .pago-panel.active { display: block; }
 
-/* ── Tarjeta bancaria visual (flip 3-D) ──────────────────────── */
+/*  Tarjeta bancaria visual (flip 3-D)  */
 .card-preview {
     perspective: 1000px;
     width: 100%;
@@ -2490,7 +2462,7 @@ div.checkout-bg {
 }
 .card-cvv-label { font-size: .65rem; opacity: .7; }
 
-/* ── Inputs del formulario de pago ───────────────────────────── */
+/* Inputs del formulario de pago  */
 .pago-group { margin-bottom: 1rem; }
 .pago-group label { font-size: .78rem; font-weight: 600; color: #333; margin-bottom: .35rem; display: block; }
 .pago-input {
@@ -2512,11 +2484,11 @@ div.checkout-bg {
 .pago-input::placeholder { color: #bbb; }
 .pago-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
 
-/* ── Íconos de tarjetas aceptadas ────────────────────────────── */
+/*  Íconos de tarjetas aceptadas */
 .tarjetas-aceptadas { display: flex; gap: .4rem; align-items: center; margin-bottom: .8rem; }
 .tarjeta-icon { font-size: 1.5rem; opacity: .6; }
 
-/* ── Panel OXXO ──────────────────────────────────────────────── */
+/*  Panel OXXO*/
 .oxxo-info {
     background: #fff8e1;
     border: 1.5px solid #ffe082;
@@ -2534,7 +2506,7 @@ div.checkout-bg {
     font-family: monospace;
 }
 
-/* ── Panel Transferencia ─────────────────────────────────────── */
+/* Panel Transferencia */
 .trans-info {
     background: #e8f5e9;
     border: 1.5px solid #a5d6a7;
@@ -2544,7 +2516,7 @@ div.checkout-bg {
 .trans-info p { margin: 0; font-size: .83rem; color: #1b5e20; line-height: 1.7; }
 .trans-data { font-weight: 700; color: #1b5e20; }
 
-/* ── Botón Confirmar y Pagar ─────────────────────────────────── */
+/*  Botón Confirmar y Pagar  */
 .btn-confirmar {
     width: 100%;
     background: var(--btn-color);
@@ -2570,7 +2542,7 @@ div.checkout-bg {
 .btn-confirmar.loading .btn-confirmar-text { display: none; }
 .btn-confirmar.loading .spinner-confirmar  { display: block; }
 
-/* ── Columna de resumen del pedido ───────────────────────────── */
+/*  Columna de resumen del pedido */
 .pago-resumen { position: sticky; top: 1.5rem; }
 
 .resumen-item {
@@ -2612,7 +2584,7 @@ div.checkout-bg {
 .resumen-empty   { text-align: center; color: #bbb; padding: 1.5rem 0; font-size: .85rem; }
 .resumen-empty i { font-size: 2rem; display: block; margin-bottom: .5rem; }
 
-/* ── Badge de pago seguro ────────────────────────────────────── */
+/* Badge de pago seguro  */
 .seguridad-badge {
     display: flex;
     align-items: center;
@@ -2624,7 +2596,7 @@ div.checkout-bg {
 }
 .seguridad-badge i { color: #27ae60; font-size: .85rem; }
 
-/* ── Modal de pedido confirmado ──────────────────────────────── */
+/*  Modal de pedido confirmado  */
 #modal-exito {
     display: none;
     position: fixed;
@@ -2761,10 +2733,7 @@ div.checkout-bg {
     border-left-color: #03a9f4;
 }
 
-/* ══════════════════════════════════════════════════════════
-   COLOR CHIP SELECTOR — Selector de colores tipo círculo
-   Usado en admin_productos.php (registro y edición)
-   ══════════════════════════════════════════════════════════ */
+/* NOTA: LISTA DE COLORES QUE SE USA EN ADMIN_PRODUCTOS.PHP */
 .color-selector-wrap {
     display    : flex;
     flex-wrap  : wrap;
@@ -2832,7 +2801,7 @@ div.checkout-bg {
     max-width   : 52px;
     line-height : 1.2;
 }
-/* ── Tarjetas mini de resumen (admin_logs) ───────────────────── */
+/* Tarjetas mini de resumen (admin_logs) */
 .stat-card-mini {
     display: flex;
     flex-direction: row;
@@ -2873,11 +2842,9 @@ div.checkout-bg {
     .mini-icon      { width: 30px; height: 30px; font-size: 1rem; }
     .mini-num       { font-size: 1rem; }
 }
-/* ============================================================
-   detalle.php — Página de detalle de producto
-   ============================================================ */
+/*  detalle.php — Página de detalle de producto */
 
-/* ── Variables ───────────────────────────────────── */
+/* Variables*/
 :root {
     --det-blue:      #1565c0;
     --det-blue-dark: #0d47a1;
@@ -2886,13 +2853,13 @@ div.checkout-bg {
     --det-border:    #dee2e6;
 }
 
-/* ── Layout principal ────────────────────────────── */
+/*  Layout principal*/
 .det-main { background: var(--fondo, #f8f9fa); }
 
-/* ── Breadcrumb link ─────────────────────────────── */
+/*  Breadcrumb link */
 .det-breadcrumb-link { color: var(--det-blue); }
 
-/* ── Imagen ──────────────────────────────────────── */
+/* Imagen */
 .det-img-wrapper {
     background: #fff;
     border: 1px solid var(--det-border);
@@ -2907,7 +2874,7 @@ div.checkout-bg {
     object-fit: contain;
 }
 
-/* ── Título y SKU ────────────────────────────────── */
+/* Título y SKU  */
 .det-title {
     font-size: 1.75rem;
     font-weight: 700;
@@ -2921,10 +2888,10 @@ div.checkout-bg {
     margin-bottom: 0;
 }
 
-/* ── Divisor ─────────────────────────────────────── */
+/*  Divisor */
 .det-divider { border-color: #e9ecef; }
 
-/* ── Etiquetas ───────────────────────────────────── */
+/*  Etiquetas  */
 .det-label {
     font-size: .88rem;
     font-weight: 600;
@@ -2932,7 +2899,7 @@ div.checkout-bg {
     margin-bottom: .5rem;
 }
 
-/* ── Colores ─────────────────────────────────────── */
+/*  Colores  */
 .det-color-ball {
     width: 34px;
     height: 34px;
@@ -2954,7 +2921,7 @@ div.checkout-bg {
     filter: grayscale(1);
 }
 
-/* ── Control de cantidad ─────────────────────────── */
+/*  Control de cantidad ─*/
 .det-qty-control {
     display: inline-flex;
     align-items: center;
@@ -2985,13 +2952,13 @@ div.checkout-bg {
     padding: 6px 0;
 }
 
-/* ── Stock ───────────────────────────────────────── */
+/*  Stock  */
 .det-stock-box { font-size: .9rem; }
 .det-stock-ok   { color: #2e7d32; font-weight: 700; }
 .det-stock-none { color: #c62828; font-weight: 700; }
 .det-stock-qty  { color: #6c757d; font-size: .82rem; margin-left: .4rem; }
 
-/* ── Enlace manual ───────────────────────────────── */
+/*  Enlace manual */
 .det-manual-link {
     display: inline-flex;
     align-items: center;
@@ -3003,7 +2970,7 @@ div.checkout-bg {
 }
 .det-manual-link:hover { color: var(--det-blue-dark); text-decoration: underline; }
 
-/* ── Buy box ─────────────────────────────────────── */
+/*  NO ME ACUERDO DE QUE ERA**??? */
 .det-buy-box {
     background: #fff;
     border: 1px solid var(--det-border);
@@ -3014,7 +2981,7 @@ div.checkout-bg {
     top: 20px;
 }
 
-/* ── Precio ──────────────────────────────────────── */
+/*  Precio  */
 .det-price-block { margin-bottom: 0; }
 .det-price {
     display: block;
@@ -3029,7 +2996,7 @@ div.checkout-bg {
     margin: .25rem 0 0;
 }
 
-/* ── Envío ───────────────────────────────────────── */
+/* Envío */
 .det-shipping {
     display: flex;
     align-items: center;
@@ -3038,7 +3005,7 @@ div.checkout-bg {
 .det-shipping-icon { color: var(--det-blue); font-size: 1.1rem; }
 .det-shipping-text { font-size: .88rem; font-weight: 600; color: #333; }
 
-/* ── Botón agregar ───────────────────────────────── */
+/* Botón agregar */
 .det-btn-carrito {
     display: block;
     width: 100%;
@@ -3062,7 +3029,7 @@ div.checkout-bg {
     cursor: not-allowed;
 }
 
-/* ── Sección descripción ─────────────────────────── */
+/*  Sección descripción */
 .det-section-header { border-bottom: 1px solid #e9ecef; padding-bottom: 1rem; }
 .det-title-underline {
     width: 80px;
