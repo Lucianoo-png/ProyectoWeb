@@ -98,10 +98,10 @@
             </div>
         </div>
 
-        <div class="row g-4 js-hidden" id="seccionPago">
-          <form action="/proyectoweb/vendedor/ventas" method="POST" id="formFinalizarVenta">
+        <form action="/proyectoweb/vendedor/ventas" method="POST" id="formFinalizarVenta">
             <input type="hidden" name="items_json" id="items_json">
             <input type="hidden" name="nombre_cliente_nuevo" id="nombre_cliente_nuevo">
+        <div class="row g-4 js-hidden" id="seccionPago">
             <div class="col-md-6">
                 <div class="admin-form-card h-100">
                     <div class="admin-form-header">
@@ -194,7 +194,7 @@
                         </div>
                 </div>
             </div>
-        </div>
+        </div><!-- /.row seccionPago -->
         </form>
     </main>
 </div>

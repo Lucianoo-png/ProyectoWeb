@@ -18,6 +18,8 @@
             <?php } ?>
     </div>
 
+    </div><!-- /.topbar -->
+
     <!-- ─── Navbar ──────────────────────────────────────────── -->
     <div class="main-nav">
         <div class="container d-flex align-items-center gap-3">
@@ -153,7 +155,11 @@
         if (data.success) {
             guardarCarrito(data.items);
             renderCarrito();
-            if (data.items.length > 0) {
+            const notice = document.getElementById('empty-cart-notice');
+            if (data.items.length === 0) {
+                if (notice) notice.style.display = 'block';
+            } else {
+                if (notice) notice.style.display = 'none';
                 iniciarTimerCarrito(data.segundos);
             }
         }

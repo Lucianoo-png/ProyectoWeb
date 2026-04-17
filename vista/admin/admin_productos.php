@@ -82,6 +82,21 @@ if (isset($_POST['guardar'])) {
                             <option value="audio">Audio</option>
                             <option value="proyectores">Proyectores</option>
                             <option value="videojuegos">Videojuegos</option>
+                            <option value="led">LED/Smart TV</option>
+                            <option value="65+">65'' o más</option>
+                            <option value="32a43">32'' a 43''</option>
+                            <option value="soundbars">Barras de sonido</option>
+                            <option value="bocinas">Bocinas</option>
+                            <option value="audifonos">Audífonos</option>
+                            <option value="sistemassonido">Sistemas de sonido</option>
+                            <option value="4k">Proyectores 4K</option>
+                            <option value="HD">Proyectores FULL HD</option>
+                            <option value="portatiles">Portátiles</option>
+                            <option value="accesorios">Accesorios</option>
+                            <option value="consolas">Consolas</option>
+                            <option value="controles">Controles</option>
+                            <option value="sillagamer">Sillas gamer</option>
+                            <option value="accesoriosgaming">Accesorios gaming</option>
                             <option value="estufas">Estufas</option>
                             <option value="hornos">Hornos</option>
                             <option value="microondas">Microondas</option>
@@ -91,21 +106,7 @@ if (isset($_POST['guardar'])) {
                             <option value="cuidado-hogar">Cuidado del hogar</option>
                             <option value="cuidado-personal">Cuidado personal</option>
                             <option value="oled/qled">OLED/QLED</option>
-                                    <option value="led">LED/Smart TV</option>
-                                    <option value="65+">65'' o más</option>
-                                    <option value="32a43">32'' a 43''</option>
-                                    <option value="soundbars">Barras de sonido</option>
-                                    <option value="bocinas">Bocinas</option>
-                                    <option value="audifonos">Audífonos</option>
-                                    <option value="sistemassonido">Sistemas de sonido</option>
-                                    <option value="4k">Proyectores 4K</option>
-                                    <option value="HD">Proyectores FULL HD</option>
-                                    <option value="portatiles">Portátiles</option>
-                                    <option value="accesorios">Accesorios</option>
-                                    <option value="consolas">Consolas</option>
-                                    <option value="controles">Controles</option>
-                                    <option value="sillagamer">Sillas gamer</option>
-                                    <option value="accesoriosgaming">Accesorios gaming</option>
+                                   
                         </select>
                     </div>
                     <div class="col-12">

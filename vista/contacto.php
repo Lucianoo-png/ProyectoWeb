@@ -1,4 +1,3 @@
-
 <?php
 /* ─── Topbar ─────────────────────────────────────── */
 ?>
@@ -101,7 +100,7 @@
 <main class="py-2 pb-5">
     <div class="container">
 
-        <div class="row g-3 mb-4">
+        <div class="row g-3 mb-4 justify-content-center">
 
             <!-- Teléfono -->
             <div class="col-6 col-md-3">
@@ -161,15 +160,11 @@
          ═══════════════════════════════════════════
              FORMULARIO + INFO EXTRA
         ════════════════════════════════════════════ -->
-        <div class="row g-4">
+        <div class="row g-4 justify-content-center">
 
-         
-        <!-- INFO EXTRA: Horarios + Redes + Mapa -->
-        <!-- Agregamos 'mx-auto' para centrar toda la columna -->
-        <div class="col-lg-5 d-flex flex-column gap-3 mx-auto">
-
-            <!-- Horarios de atención (Tarjeta separada) -->
-            <div class="contact-info-card text-center">
+            <!-- Horarios de atención -->
+            <div class="col-lg-5">
+            <div class="contact-info-card text-center h-100">
                 <h6><i class="fas fa-clock me-2" style="color:var(--btn-color)"></i>Horarios de Atención</h6>
                 <table class="horario-table w-100 mt-2">
                     <tr>
@@ -194,8 +189,11 @@
                 </p>
             </div>
 
-            <!-- Síguenos en Redes (Tarjeta separada) -->
-            <div class="contact-info-card text-center">
+            </div><!-- /.col horarios -->
+
+            <!-- Síguenos en Redes -->
+            <div class="col-lg-5">
+            <div class="contact-info-card text-center h-100">
                 <h6><i class="fas fa-share-alt me-2" style="color:var(--btn-color)"></i>Síguenos en Redes</h6>
                 <p style="font-size:.83rem;color:#6b7280;margin-bottom:.85rem">
                     Mantente al tanto de ofertas y novedades.
@@ -221,8 +219,10 @@
                     </a>
                 </div>
             </div>
+            </div><!-- /.col redes -->
 
-    </div>
+        </div><!-- /.row -->
+    </div><!-- /.container -->
 </main>
 
 <!-- ═══════════════════════════════════════════════════════

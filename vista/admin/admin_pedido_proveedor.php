@@ -91,7 +91,7 @@
                             </div>
                             
                             <?php if(!empty($msj)){ ?>
-                                <div class="alerta alerta-<?php echo $msj[0]; ?>" style="margin: 15px 15px 0 15px;"><?php echo $msj[1]; ?></div>
+                                <div class="alerta alerta-<?php echo $msj[0]; ?>" style="margin: 15px 15px 15px 15px;"><?php echo $msj[1]; ?></div>
                             <?php } ?>
 
                             <div class="admin-form-body">
