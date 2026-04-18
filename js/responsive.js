@@ -1,9 +1,3 @@
-/* ════════════════════════════════════════════════════════════
-   LuchanosCorp — responsive.js  v3
-   Hamburguesa · Panel lateral · Submenú Categorías ·
-   Proveedor (switchPanel) · Repartidor (switchTab)
-   Cargar DESPUÉS de bootstrap.bundle.js + vendedor.js / scripts.js
-   ════════════════════════════════════════════════════════════ */
 
 'use strict';
 

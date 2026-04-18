@@ -19,7 +19,7 @@
             <p class="page-header-sub">Consulta los clientes registrados en línea o desde tienda física.</p>
         </div>
 
-        <div class="row row-cols-2 row-cols-md-4 g-3 mb-4">
+        <div class="row row-cols-2 row-cols-md-4 g-3 mb-4 justify-content-center">
             <div class="col">
                 <div class="stat-card" style="cursor:default">
                     <div class="stat-icon"><i class="fas fa-users"></i></div>

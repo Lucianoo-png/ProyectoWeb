@@ -1,7 +1,4 @@
-/**
- * LuchanosCorp - Página de Contacto
- * Archivo JavaScript separado para contacto.php
- */
+
 
 /**
  * Función para enviar el formulario de contacto

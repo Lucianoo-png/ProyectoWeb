@@ -3067,3 +3067,94 @@ div.checkout-bg {
 }
 .det-specs-pdf-link:hover { text-decoration: underline; }
 .w-40 { width: 40%; }
+/* ════════════════════════════════════════════════════════
+   Historial de Solicitudes — panel-historial
+════════════════════════════════════════════════════════ */
+
+/* Barra de filtros */
+.hist-filtros {
+    background: #f8fafc;
+    padding: 22px 28px;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Tarjeta contenedor */
+.hist-card-wrap {
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    transition: box-shadow .25s, transform .2s;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+}
+.hist-card-wrap:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,.12);
+    transform: translateY(-2px);
+}
+
+/* Cabecera coloreada de la tarjeta */
+.hist-card-header {
+    padding: 16px 28px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.hist-card-header-folio {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: .03em;
+}
+.hist-card-header-folio i { opacity: .85; }
+.hist-card-badge {
+    background: rgba(255,255,255,.22);
+    border: 1px solid rgba(255,255,255,.35);
+    padding: 4px 16px;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+/* Cuerpo de la tarjeta */
+.hist-card-data {
+    padding: 28px 32px;
+}
+
+/* Celda de dato individual */
+.hist-dato {
+    background: #f8fafc;
+    border: 1px solid #e9eef5;
+    border-radius: 10px;
+    padding: 16px 10px;
+    text-align: center;
+}
+.hist-dato-label {
+    font-size: .68rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.hist-dato-val {
+    font-size: .92rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+.hist-dato-val-muted { color: #cbd5e1; }
+.hist-dato-val-unit {
+    font-weight: 500;
+    font-size: .82rem;
+    color: #64748b;
+}
+
+/* Variante verde para "Suministrado con unidades" */
+.hist-dato-ok {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+.hist-dato-ok .hist-dato-val { color: #16a34a; }

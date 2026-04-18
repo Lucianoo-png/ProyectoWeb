@@ -275,16 +275,16 @@
         <p style="font-size:.8rem;color:#6c757d;margin:0">Registro de todas las solicitudes.</p>
     </div>
 
-    <div class="row g-3 mb-4 align-items-end" style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
-        <div class="col-md-4">
-            <label class="small fw-bold text-muted mb-1">Buscar por folio:</label>
+    <div class="row g-3 mb-4 align-items-end hist-filtros">
+        <div class="col-md-5">
+            <label class="small fw-bold text-muted mb-1"><i class="fas fa-search me-1"></i>Buscar por folio:</label>
             <div class="input-group input-group-sm">
                 <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
                 <input type="text" id="hist-busqueda" class="form-control border-start-0" placeholder="LC-REA-...">
             </div>
         </div>
-        <div class="col-md-3">
-            <label class="small fw-bold text-muted mb-1">Estado:</label>
+        <div class="col-md-4">
+            <label class="small fw-bold text-muted mb-1"><i class="fas fa-filter me-1"></i>Estado:</label>
             <select id="hist-filtro-estado" class="form-select form-select-sm">
                 <option value="todos">Todos</option>
                 <option value="enviada">Enviada</option>
@@ -293,7 +293,7 @@
             </select>
         </div>
         <div class="col-md-3">
-            <label class="small fw-bold text-muted mb-1">Mostrar:</label>
+            <label class="small fw-bold text-muted mb-1"><i class="fas fa-list-ol me-1"></i>Mostrar:</label>
             <select id="hist-filtro-num" class="form-select form-select-sm">
                 <option value="5">5 registros</option>
                 <option value="10">10 registros</option>
@@ -339,13 +339,13 @@
                                     <div class="alerta alerta-<?php echo $msj[0]; ?> mb-3"><?php echo $msj[1]; ?></div>
                                 <?php } ?>
                         <div class="row g-3">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="perfil-campo">
                                     <div class="perfil-label">Nombre</div>
                                     <div class="perfil-valor"><?php echo $info[0]['nombre']; ?></div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="perfil-campo">
                                     <div class="perfil-label">Apellido(s)</div>
                                     <div class="perfil-valor"><?php echo $info[0]['apellidospama']; ?></div>
@@ -369,17 +369,13 @@
                     <div id="formContacto" style="display:none">
                         <form action="/proyectoweb/proveedor/inicio" method="POST">
                         <div class="row g-3">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="form-label fw-semibold small">Nombre <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="nombre" value="<?php echo $info[0]['nombre']; ?>">
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold small">Apellido paterno <span class="text-danger">*</span></label>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Apellido(s) <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="apellidos" value="<?php echo $info[0]['apellidospama']; ?>">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold small">Apellido materno</label>
-                                <input type="text" class="form-control" name="telefono" value="<?php echo $info[0]['telefono']; ?>"
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold small">Teléfono directo</label>
@@ -422,25 +418,27 @@
                                 <div class="alerta alerta-<?php echo $msj[0]; ?> mb-3"><?php echo $msj[1]; ?></div>
                             <?php } ?>
                     <div id="formPass" style="display:none">
-                         
+
                         <div class="row g-3">
-                            <label class="form-label" for="password">Contraseña <span class="text-danger">*</span></label>
-                                    <div class="pw-wrapper">
-                                        <input type="password" id="password" name="password" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
-                                        <span class="pw-toggle" onclick="togglePw('password','eye1')">
-                                            <i class="fas fa-eye" id="eye1"></i>
-                                        </span>
-                                    </div>
-                                    <div id="pw-indicadores" style="margin-top:.5rem"></div>
-                            <div class="col-md-4">
-                                <label class="form-label" for="confirmPassword">Confirmar Contraseña <span class="text-danger">*</span></label>
-                                    <div class="pw-wrapper">
-                                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
-                                        <span class="pw-toggle" onclick="togglePw('confirmPassword','eye2')">
-                                            <i class="fas fa-eye" id="eye2"></i>
-                                        </span>
-                                    </div>
-                                    <div id="pw-confirm-msg" style="font-size:.75rem;margin-top:.35rem;font-weight:600;min-height:1rem"></div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small" for="password">Contraseña <span class="text-danger">*</span></label>
+                                <div class="pw-wrapper">
+                                    <input type="password" id="password" name="password" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
+                                    <span class="pw-toggle" onclick="togglePw('password','eye1')">
+                                        <i class="fas fa-eye" id="eye1"></i>
+                                    </span>
+                                </div>
+                                <div id="pw-indicadores" style="margin-top:.5rem"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small" for="confirmPassword">Confirmar Contraseña <span class="text-danger">*</span></label>
+                                <div class="pw-wrapper">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
+                                    <span class="pw-toggle" onclick="togglePw('confirmPassword','eye2')">
+                                        <i class="fas fa-eye" id="eye2"></i>
+                                    </span>
+                                </div>
+                                <div id="pw-confirm-msg" style="font-size:.75rem;margin-top:.35rem;font-weight:600;min-height:1rem"></div>
                             </div>
                         </div>
                         <div class="d-flex gap-2 mt-3">
@@ -494,31 +492,64 @@ function renderizarHistorial() {
             const config = getEstiloEstado(item.estado);
             const unidades = parseInt(item.unidades_suministradas) || 0;
             return `
-                <div class="hist-card mb-4" style="border-radius:12px; border:1px solid #e2e8f0; background:white; transition: 0.3s;">
-                    <div class="hist-card-head" style="background:${config.color}; padding: 12px 20px; color: white; display:flex; justify-content:space-between; border-radius:11px 11px 0 0;">
-                        <span class="fw-bold"><i class="${config.icon} me-2"></i>${item.folio_solicitud}</span>
-                        <span style="background:rgba(255,255,255,0.2); padding: 2px 12px; border-radius:20px; font-size:0.7rem; font-weight:800; text-transform:uppercase;">${config.texto}</span>
+                <div class="hist-card-wrap">
+
+                    <div class="hist-card-header" style="background:${config.color}">
+                        <span class="hist-card-header-folio">
+                            <i class="${config.icon} me-2"></i>${item.folio_solicitud}
+                        </span>
+                        <span class="hist-card-badge">${config.texto}</span>
                     </div>
-                    <div class="hist-card-body" style="padding: 25px 20px;">
-                        <div class="row text-center g-0">
-                            <div class="col-md-3 border-end">
-                                <div class="perfil-label mb-1" style="font-size:0.65rem; color:#94a3b8; text-transform:uppercase;">Solicitado el</div>
-                                <div class="fw-bold" style="font-size:0.85rem;">${item.fecha_solicitud}</div>
-                            </div>
-                            <div class="col-md-3 border-end">
-                                <div class="perfil-label mb-1" style="font-size:0.65rem; color:#94a3b8; text-transform:uppercase;">Respondido el</div>
-                                <div class="fw-bold" style="font-size:0.85rem;">${item.fecha_respuesta || '---'}</div>
-                            </div>
-                            <div class="col-md-3 border-end">
-                                <div class="perfil-label mb-1" style="font-size:0.65rem; color:#94a3b8; text-transform:uppercase;">Productos</div>
-                                <div class="fw-bold" style="font-size:0.85rem;">${item.total_productos} ítems</div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="perfil-label mb-1" style="font-size:0.65rem; color:#94a3b8; text-transform:uppercase;">Suministrado</div>
-                                <div class="fw-bold" style="font-size:0.85rem; color:${unidades > 0 ? '#10b981' : '#64748b'};">
-                                    ${unidades > 0 ? unidades + ' unidades' : '---'}
+
+                    <div class="hist-card-data">
+                        <div class="row g-3">
+
+                            <div class="col-6 col-md-3">
+                                <div class="hist-dato">
+                                    <div class="hist-dato-label">
+                                        <i class="fas fa-calendar-plus me-1"></i>Solicitado el
+                                    </div>
+                                    <div class="hist-dato-val">${item.fecha_solicitud}</div>
                                 </div>
                             </div>
+
+                            <div class="col-6 col-md-3">
+                                <div class="hist-dato">
+                                    <div class="hist-dato-label">
+                                        <i class="fas fa-reply me-1"></i>Respondido el
+                                    </div>
+                                    <div class="hist-dato-val">
+                                        ${item.fecha_respuesta
+                                            ? item.fecha_respuesta
+                                            : '<span class="hist-dato-val-muted">---</span>'}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-3">
+                                <div class="hist-dato">
+                                    <div class="hist-dato-label">
+                                        <i class="fas fa-boxes me-1"></i>Productos
+                                    </div>
+                                    <div class="hist-dato-val">
+                                        ${item.total_productos} <span class="hist-dato-val-unit">ítems</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-3">
+                                <div class="hist-dato ${unidades > 0 ? 'hist-dato-ok' : ''}">
+                                    <div class="hist-dato-label">
+                                        <i class="fas fa-truck me-1"></i>Suministrado
+                                    </div>
+                                    <div class="hist-dato-val ${unidades === 0 ? 'hist-dato-val-muted' : ''}">
+                                        ${unidades > 0
+                                            ? unidades + ' <span class="hist-dato-val-unit">unidades</span>'
+                                            : '---'}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

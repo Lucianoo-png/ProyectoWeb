@@ -1,9 +1,3 @@
-/* ============================================================
-   LuchanosCorp — nueva_solicitud.js
-   Lógica exclusiva de la página nueva_solicitud.php
-   Campos del ER: Tipo, NoReferencia, Asunto, Descripcion, Evidencia
-                  FechayHora (generada automáticamente al enviar)
-   ============================================================ */
 
 'use strict';
 

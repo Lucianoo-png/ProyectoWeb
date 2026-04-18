@@ -191,27 +191,27 @@
                     </div>
                     <div class="cuenta-card-body">
                         <div class="row g-3">
-                             <div class="col-md-4">
-                        <label class="form-label" for="password">Contraseña <span class="text-danger">*</span></label>
-                        <div class="pw-wrapper">
-                            <input type="password" id="password" name="password" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
-                            <span class="pw-toggle" onclick="togglePw('password','eye1')">
-                                <i class="fas fa-eye" id="eye1"></i>
-                            </span>
-                        </div>
-                        <div id="pw-indicadores" style="margin-top:.5rem"></div>
-                    </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small" for="password">Contraseña <span class="text-danger">*</span></label>
+                                <div class="pw-wrapper">
+                                    <input type="password" id="password" name="password" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
+                                    <span class="pw-toggle" onclick="togglePw('password','eye1')">
+                                        <i class="fas fa-eye" id="eye1"></i>
+                                    </span>
+                                </div>
+                                <div id="pw-indicadores" style="margin-top:.5rem"></div>
+                            </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="confirmPassword">Confirmar Contraseña <span class="text-danger">*</span></label>
-                        <div class="pw-wrapper">
-                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
-                            <span class="pw-toggle" onclick="togglePw('confirmPassword','eye2')">
-                                <i class="fas fa-eye" id="eye2"></i>
-                            </span>
-                        </div>
-                        <div id="pw-confirm-msg" style="font-size:.75rem;margin-top:.35rem;font-weight:600;min-height:1rem"></div>
-                    </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small" for="confirmPassword">Confirmar Contraseña <span class="text-danger">*</span></label>
+                                <div class="pw-wrapper">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control pe-5" placeholder="••••••••" autocomplete="new-password">
+                                    <span class="pw-toggle" onclick="togglePw('confirmPassword','eye2')">
+                                        <i class="fas fa-eye" id="eye2"></i>
+                                    </span>
+                                </div>
+                                <div id="pw-confirm-msg" style="font-size:.75rem;margin-top:.35rem;font-weight:600;min-height:1rem"></div>
+                            </div>
                         </div>
                         <div class="mt-3">
                             <button type="submit" id="btnRegistrar" name="actualizar_contra" class="btn-cuenta-save">
