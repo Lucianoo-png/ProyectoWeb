@@ -383,64 +383,6 @@ const VENTAS_DEMO = [
     { folio: 4, fecha: '19/03/2026', hora: '09:55:00', cliente: 'Claudia Soto', sku: 'LG-WM3500CW', desc: 'Lavadora LG 22kg TurboWash', qty: 1, precio: 11499, pago: 'Transferencia' },
 ];
 
-function renderDetalleVentas(data) {
-    const tbody = document.getElementById('tbodyDetalle');
-    if (!tbody) return;
-    const rows = data || VENTAS_DEMO;
-    if (rows.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4">No se encontraron ventas.</td></tr>`;
-        return;
-    }
-    tbody.innerHTML = rows.map((v, i) => `
-        <tr>
-            <td>${i + 1}</td>
-            <td style="font-weight:700">${v.folio}</td>
-            <td>${v.fecha}</td>
-            <td>${v.hora}</td>
-            <td class="td-name">${v.cliente}</td>
-            <td>
-                <code style="font-size:.75rem">${v.sku}</code><br>
-                <span style="font-size:.75rem;color:#666">${v.desc}</span>
-            </td>
-            <td style="text-align:center">${v.qty} × ${fmt(v.precio)}</td>
-            <td style="font-weight:700;color:var(--azul-marino)">${fmt(v.qty * v.precio)}</td>
-            <td>${v.pago}</td>
-            <td>
-                <button class="btn-ticket" onclick="generarTicket(${v.folio})">
-                    <i class="fas fa-print me-1"></i>Ticket
-                </button>
-            </td>
-        </tr>`).join('');
-}
-
-function filtrarVentas() {
-    const folio = document.getElementById('fFolio')?.value.trim() || '';
-    const desde = document.getElementById('fDesde')?.value || '';
-    const hasta = document.getElementById('fHasta')?.value || '';
-    const cliente = document.getElementById('fCliente')?.value.trim().toLowerCase() || '';
-    let resultado = VENTAS_DEMO;
-    if (folio) resultado = resultado.filter(v => String(v.folio) === folio);
-    if (desde) resultado = resultado.filter(v => convertirFecha(v.fecha) >= desde);
-    if (hasta) resultado = resultado.filter(v => convertirFecha(v.fecha) <= hasta);
-    if (cliente) resultado = resultado.filter(v => v.cliente.toLowerCase().includes(cliente));
-    const el = document.getElementById('totalRegistros');
-    if (el) el.textContent = resultado.length;
-    renderDetalleVentas(resultado);
-}
-
-function convertirFecha(str) {
-    if (!str) return '';
-    if (str.includes('-')) {
-        const [y, m, d] = str.split('-');
-        return `${d}/${m}/${y}`;
-    }
-    const [d, m, y] = str.split('/');
-    return `${y}-${m}-${d}`;
-}
-
-function generarTicket(folio) {
-    alert(`🖨️ Generando ticket para el Folio #${folio}...\n\n(En producción descargará el PDF del ticket de venta.)`);
-}
 
 /* ════════════════════════════════════════════════════════════
    VENDEDOR — Inventario (inventario.php)
@@ -1103,7 +1045,6 @@ document.addEventListener('DOMContentLoaded', () => {
     /* Vendedor */
     initVentas();
     initClienteWidget();
-    renderDetalleVentas();
     renderInventario();
     renderCatalogo();
     initSolicitudesModal();

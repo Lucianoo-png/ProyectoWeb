@@ -101,7 +101,7 @@ $prod_js = json_encode([
             <button class="btn px-4"><i class="fas fa-search"></i></button>
         </div>
         <div class="d-flex align-items-center gap-3 ms-2">
-            <?php if(isset($_SESSION["NoCliente"])){ ?><a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a> <?php } ?>
+            <?php if(isset($_SESSION["NoCliente"])){ ?><a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-badge" id="cart-count" style="display:none">0</span></a> <?php } ?>
             <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?> class="nav-icon" title="Mi Cuenta">
                 <i class="fas fa-user"></i>
             </a>
@@ -133,7 +133,7 @@ $prod_js = json_encode([
                          onerror="this.src='https://placehold.co/500x500?text=Sin+Imagen'">
                 </div>
             </div>
-
+            
             <div class="col-lg-4">
                 <h1 class="detail-title mb-2" style="font-size: 1.75rem; font-weight: 700; color: var(--dark-blue);">
                     <?= htmlspecialchars($p['nombre']) ?>
@@ -154,9 +154,11 @@ $prod_js = json_encode([
                             ?>
                                 <div class="color-item">
                                     <input type="radio" name="color_seleccionado" id="color_<?= $idx ?>" 
-                                           value="<?= $nColor ?>" class="btn-check" 
-                                           <?= $idx === 0 ? 'checked' : '' ?> 
-                                           <?= !$tieneStock ? 'disabled' : '' ?>>
+                                        value="<?= $c['no_color'] ?>" 
+                                        data-nombre="<?= $nColor ?>" 
+                                        class="btn-check" 
+                                        <?= $idx === 0 ? 'checked' : '' ?> 
+                                        <?= !$tieneStock ? 'disabled' : '' ?>>
                                     <label class="color-ball shadow-sm" for="color_<?= $idx ?>" 
                                            style="background-color: <?= $hColor ?>;" 
                                            title="<?= $nColor ?>"></label>
@@ -170,14 +172,14 @@ $prod_js = json_encode([
 
                 <p class="fw-semibold mb-2" style="font-size:.9rem">Cantidad:</p>
                 <div class="qty-control mb-3">
-                    <button class="qty-btn" onclick="cambiarCantidadProd(-1)" <?= !$tieneStock ? 'disabled' : '' ?>>
+                    <button class="qty-btn" onclick="cambiarCantidad(-1)" <?= !$tieneStock ? 'disabled' : '' ?>>
                         <i class="fas fa-minus"></i>
                     </button>
                     <input type="number" id="cantidad" class="qty-input" autocomplete="off"
                            value="<?= $tieneStock ? '1' : '0' ?>" 
                            min="<?= $tieneStock ? '1' : '0' ?>" 
                            max="<?= $stockActual ?>" readonly>
-                    <button class="qty-btn" onclick="cambiarCantidadProd(1)" <?= !$tieneStock ? 'disabled' : '' ?>>
+                    <button class="qty-btn" onclick="cambiarCantidad(1)" <?= !$tieneStock ? 'disabled' : '' ?>>
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
@@ -187,7 +189,7 @@ $prod_js = json_encode([
                         <div class="text-success fw-bold">
                             <i class="fas fa-check-circle me-1"></i> Disponible
                             <span class="text-muted fw-normal ms-1" style="font-size: 0.85rem;">
-                                (<?= $stockActual ?> unidades en existencia)
+                                (<?= $stockActual ?> unidad(es) en existencia)
                             </span>
                         </div>
                     <?php else: ?>
@@ -200,7 +202,7 @@ $prod_js = json_encode([
                 <hr class="my-4">
 
                 <?php if (!empty($p['manual'])): ?>
-                <a href="/proyectoweb/public/uploads/manuales/<?= htmlspecialchars($p['manual']) ?>" 
+                <a href="/proyectoweb/public/uploads/pdf/<?= htmlspecialchars($p['manual']) ?>" 
                    target="_blank" class="manual-link d-inline-flex align-items-center">
                     <i class="fas fa-file-pdf me-2 shadow-sm"></i> 
                     <span>Descargar manual de usuario (.pdf)</span>
@@ -254,9 +256,6 @@ $prod_js = json_encode([
                 <p class="text-muted" style="font-size:.95rem; line-height:1.8; text-align: justify;">
                     <?= nl2br(htmlspecialchars($p['descripción'])) ?>
                 </p>
-                <div class="alert alert-secondary border-0 mt-4 py-2 px-3" style="font-size: 0.75rem; border-left: 4px solid #666 !important;">
-                    * Los abonos quincenales, plazos de crédito y montos de pago inicial son meramente informativos y pueden variar dependiendo del historial crediticio del cliente y su margen de crédito disponible.
-                </div>
             </div>
 
             <div class="col-lg-5">
@@ -280,17 +279,6 @@ $prod_js = json_encode([
                                 <th class="bg-light">Estado de equipo</th>
                                 <td>Nuevo de fábrica</td>
                             </tr>
-                            <?php if (!empty($p['manual'])): ?>
-                            <tr>
-                                <th class="bg-light text-danger">Manual Digital</th>
-                                <td>
-                                    <a href="/proyectoweb/public/uploads/manuales/<?= htmlspecialchars($p['manual']) ?>" 
-                                       target="_blank" class="text-decoration-none fw-bold">
-                                        <i class="fas fa-external-link-alt me-1"></i> Abrir PDF
-                                    </a>
-                                </td>
-                            </tr>
-                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -299,29 +287,7 @@ $prod_js = json_encode([
     </div>
 </main>
 
-<div id="modal-agregado">
-    <div class="modal-agregado-card animate__animated animate__zoomIn">
-        <div class="modal-agregado-header">
-            <span><i class="fas fa-check-circle me-1"></i> ¡Producto agregado con éxito!</span>
-            <button onclick="cerrarModal()" class="close-btn">&times;</button>
-        </div>
-        <div class="modal-agregado-body">
-            <div class="modal-agregado-info">
-                <div class="prod-name fw-bold" id="modal-nombre"></div>
-                <div class="prod-color-select small mb-1" id="modal-color"></div>
-                <div class="prod-price h5 fw-bold text-danger" id="modal-precio"></div>
-            </div>
-        </div>
-        <div class="modal-agregado-footer gap-2">
-            <a href="/proyectoweb/carrito" class="btn-ver-carro w-50 py-2">
-                <i class="fas fa-shopping-cart me-1"></i> IR AL CARRITO
-            </a>
-            <button class="btn-seguir-comprando w-50 py-2" onclick="cerrarModal()">
-                SEGUIR COMPRANDO
-            </button>
-        </div>
-    </div>
-</div>
+
 
 <div class="modal fade" id="modalLoginRequerido" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">

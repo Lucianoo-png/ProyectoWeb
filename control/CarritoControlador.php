@@ -9,9 +9,9 @@ class CarritoControlador {
     public function accionReservar() {
         $no_producto = $_GET['sku'] ?? null;
         $cantidad    = $_GET['cantidad'] ?? 0;
+        $no_color    = $_GET['color_id'] ?? 0;
         $sid         = session_id();
-        
-        $exito = $this->reserva->reservarStock($no_producto, $cantidad, $sid);
+        $exito = $this->reserva->reservarStock($no_producto, $cantidad, $no_color, $sid);
 
         if ($exito) {
             $this->responderConCarrito();
@@ -36,10 +36,13 @@ class CarritoControlador {
         
         $segundos = (count($items) > 0) ? (int)$items[0]['segundos_restantes'] : 900;
 
+        $ventaReciente = isset($_SESSION['venta_finalizada']) ? $_SESSION['venta_finalizada'] : false;
+
         echo json_encode([
             "success" => true,
             "items" => $items,
-            "segundos" => $segundos
+            "segundos" => $segundos,
+            "venta_reciente" => $ventaReciente
         ]);
         exit;
     }

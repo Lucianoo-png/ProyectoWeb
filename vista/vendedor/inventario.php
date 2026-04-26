@@ -87,7 +87,7 @@
                                 <option value="20">20</option>
                                 <option value="all">Todos</option>
                             </select>
-                            <button class="btn-generar-pdf" style="font-size:.78rem; padding:.45rem 1rem">
+                            <button class="btn-generar-pdf" id="btnExportarPDFInv" style="font-size:.78rem; padding:.45rem 1rem">
                                 <i class="fas fa-file-pdf me-1"></i> Exportar PDF
                             </button>
                         </div>
@@ -158,7 +158,10 @@
 
     </main>
 </div>
-
+<form id="formExportarPDFInv" action="/proyectoweb/vendedor/reportes" method="POST" target="_blank" style="display:none;">
+    <input type="hidden" name="termino" id="pdf_termino_inv">
+    <input type="hidden" name="exportar_pdf_inventario" value="1">
+</form>
 <?php include('vista/vendedor/footer_vendedor.php'); ?>
 
 <script>
@@ -176,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let currentPage = 1;
     let rowsPerPage = 5;
-    let filteredRows = [...allRows];
+    let filteredRows = [...allRows]; // <--- Aquí vive filteredRows
 
     function renderTable() {
         const totalRows = filteredRows.length;
@@ -265,6 +268,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // --- LÓGICA DEL BOTÓN EXPORTAR INVENTARIO (AHORA ADENTRO) ---
+    const btnExportarInv = document.getElementById('btnExportarPDFInv');
+    if (btnExportarInv) {
+        btnExportarInv.addEventListener('click', function() {
+            // Ahora sí puede ver filteredRows sin problema
+            if (filteredRows.length === 0) {
+                alert('No hay productos en el inventario con ese criterio de búsqueda.');
+                return;
+            }
+
+            // Pasamos el texto del buscador al input oculto
+            document.getElementById('pdf_termino_inv').value = invBuscar.value.trim();
+            
+            // Enviamos el formulario
+            document.getElementById('formExportarPDFInv').submit();
+        });
+    }
+    // -------------------------------------------------------------
+
     renderTable();
-});
+}); // <--- Fin del DOMContentLoaded
 </script>

@@ -1,44 +1,7 @@
 
 <div class="checkout-bg">
 
-    <!-- Topbar -->
-    <div class="topbar">
-        <div class="container d-flex justify-content-between">
-            <div>
-                <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-                <span class="d-none d-md-inline">
-                    <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
-                </span>
-            </div>
-            <?php if(isset($_SESSION["NoCliente"])){ ?>
-            <div class="d-flex gap-3">
-                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
-                </a>
-            </div>
-            <?php } ?>
-        </div>
-    </div>
-
-    <!-- Navbar -->
-    <div class="main-nav">
-        <div class="container d-flex align-items-center gap-3">
-            <a href="/proyectoweb/?" class="brand-logo me-3">
-                <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
-            </a>
-            <div class="input-group search-bar flex-grow-1 mx-lg-4">
-                <input type="text" class="form-control" placeholder="¿Qué estás buscando?">
-                <button class="btn px-4"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="d-flex align-items-center gap-3 ms-2">
-                <?php if(isset($_SESSION["NoCliente"])){ ?><a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a> <?php } ?>
-                <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?> class="nav-icon" title="Mi Cuenta">
-                    <i class="fas fa-user"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
+    <?php include('vista/header_gral.php'); ?>
     <!-- Pasos del checkout -->
     <div class="checkout-steps">
         <div class="step done">
@@ -58,8 +21,30 @@
     </div>
 
     <!-- ═══ Layout principal ═══════════════════════════════════ -->
-    <div class="pago-layout">
+      <?php if(isset($_REQUEST["pagar"]) && isset($msj)): ?>
+    <div id="contenedor-alertas" style="position: fixed !important; top: 80px !important; left: 50% !important; transform: translateX(-50%) !important; z-index: 999999 !important; display: flex !important; flex-direction: column !important; align-items: center !important; gap: 12px !important; pointer-events: none !important; width: 100% !important; margin: 0 !important;">
+        
+        <div class="alerta alerta-<?php echo $msj[0]; ?> shadow animate__animated animate__fadeInDown" 
+             style="position: relative !important; pointer-events: auto !important; margin: 0 !important; padding: 15px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; border-radius: 8px !important; width: 350px !important; max-width: 90vw !important; box-sizing: border-box !important;">
+            
+            <div style="display: flex; align-items: center; gap: 12px; flex-grow: 1;">
+                <i class="fas <?php echo ($msj[0] === 'exito') ? 'fa-check-circle' : 'fa-times-circle'; ?>" style="font-size: 1.3rem;"></i>
+                
+                <div style="font-weight: 600; font-size: 0.95rem; line-height: 1.3;">
+                    <?php echo $msj[1]; ?>
+                </div>
+            </div>
+            
+            <button type="button" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; opacity: 0.6; padding: 0; line-height: 1; color: inherit;" onclick="this.parentElement.remove()">&times;</button>
+        </div>
+    </div>
 
+<?php endif; ?>
+    <div class="pago-layout">
+       
+    <form action="/proyectoweb/pago" method="POST">
+        <input type="hidden" name="id_direccion" id="form-id-direccion">
+        <input type="hidden" name="items_json" id="form-items-json">
         <!-- ── Columna izquierda: formulario ── -->
         <div>
             <!-- Dirección seleccionada -->
@@ -70,7 +55,7 @@
                     <div>
                         <div class="pago-dir-nombre" id="pago-dir-nombre">—</div>
                         <div class="pago-dir-detalle" id="pago-dir-detalle">—</div>
-                        <a href="proyectoweb/direccion" class="pago-dir-cambiar">
+                        <a href="/proyectoweb/envio" class="pago-dir-cambiar">
                             <i class="fas fa-pencil-alt me-1"></i>Cambiar dirección
                         </a>
                     </div>
@@ -85,15 +70,6 @@
                 <div class="pago-metodos">
                     <button class="pago-metodo-btn active" onclick="setMetodo('tarjeta', this)">
                         <i class="fas fa-credit-card"></i>Tarjeta
-                    </button>
-                    <button class="pago-metodo-btn" onclick="setMetodo('oxxo', this)">
-                        <i class="fas fa-store"></i>OXXO
-                    </button>
-                    <button class="pago-metodo-btn" onclick="setMetodo('transferencia', this)">
-                        <i class="fas fa-university"></i>Transferencia
-                    </button>
-                    <button class="pago-metodo-btn" onclick="setMetodo('efectivo', this)">
-                        <i class="fas fa-money-bill-wave"></i>Efectivo
                     </button>
                 </div>
 
@@ -142,73 +118,33 @@
                         <label>Número de tarjeta</label>
                         <input type="text" id="cardNumber" class="pago-input"
                                placeholder="1234 5678 9012 3456" maxlength="19"
-                               oninput="formatCardNumber(this)" onfocus="flipCard(false)">
+                               oninput="formatCardNumber(this)" name="numero" onfocus="flipCard(false)">
                     </div>
                     <div class="pago-group">
                         <label>Nombre del titular</label>
                         <input type="text" id="cardName" class="pago-input"
                                placeholder="Como aparece en tu tarjeta"
-                               oninput="updateCardName(this)" onfocus="flipCard(false)">
+                               oninput="updateCardName(this)" name="titular" onfocus="flipCard(false)">
                     </div>
                     <div class="pago-row">
                         <div class="pago-group">
                             <label>Fecha de vencimiento</label>
                             <input type="text" id="cardExp" class="pago-input"
-                                   placeholder="MM/AA" maxlength="5"
+                                   placeholder="MM/AA" maxlength="5" name="fecha_vencimiento"
                                    oninput="formatExp(this)" onfocus="flipCard(false)">
                         </div>
                         <div class="pago-group">
                             <label>CVV</label>
                             <input type="text" id="cardCvv" class="pago-input"
-                                   placeholder="•••" maxlength="4"
+                                   placeholder="•••" minlength="3" maxlength="4" name="cvv"
                                    oninput="updateCvv(this)"
                                    onfocus="flipCard(true)" onblur="flipCard(false)">
                         </div>
                     </div>
                 </div>
 
-                <!-- ══ Panel: OXXO ══════════════════════ -->
-                <div class="pago-panel" id="panel-oxxo">
-                    <div class="oxxo-info">
-                        <p>
-                            Al confirmar tu pedido recibirás una referencia de pago.<br>
-                            Acude a cualquier tienda <strong>OXXO</strong> y realiza tu pago en caja.<br>
-                            Tu pedido se procesará en un plazo de <strong>1–2 horas</strong> después de confirmar el pago.
-                        </p>
-                        <div class="oxxo-ref">OXXO-2026-XXXX</div>
-                        <p style="font-size:.75rem;color:#888;text-align:center;margin-top:0">
-                            La referencia se generará al confirmar.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- ══ Panel: Transferencia ════════════ -->
-                <div class="pago-panel" id="panel-transferencia">
-                    <div class="trans-info">
-                        <p>
-                            Realiza una transferencia o depósito a la siguiente cuenta y envía tu comprobante a
-                            <strong>pagos@LuchanosCorp.com</strong><br><br>
-                            Banco: <span class="trans-data">BBVA México</span><br>
-                            Titular: <span class="trans-data">LuchanosCorp S.A. de C.V.</span><br>
-                            CLABE: <span class="trans-data">012 XXX XXXX XXXX XX XX X</span><br>
-                            Número de cuenta: <span class="trans-data">1234 5678 9012</span>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- ══ Panel: Efectivo ═════════════════ -->
-                <div class="pago-panel" id="panel-efectivo">
-                    <div class="oxxo-info" style="background:#e8f5e9;border-color:#a5d6a7;">
-                        <p style="color:#1b5e20;">
-                            Puedes pagar en efectivo al momento de recibir tu pedido.<br>
-                            El repartidor llegará con terminal punto de venta.<br>
-                            <strong>Costo adicional por pago en efectivo: $0.00 MXN</strong>
-                        </p>
-                    </div>
-                </div>
-
                 <!-- Botón confirmar -->
-                <button class="btn-confirmar" id="btnConfirmar" onclick="confirmarPedido()">
+                <button type="submit" name="pagar" class="btn-confirmar" id="btnConfirmar">
                     <span class="btn-confirmar-text">
                         <i class="fas fa-lock me-1"></i>Confirmar y Pagar
                     </span>
@@ -255,6 +191,7 @@
                 </div>
             </div>
         </div>
+    </form>
     </div>
 
     <!-- ═══ Modal de confirmación exitosa ═══ -->
@@ -276,3 +213,56 @@
     </div>
 
     <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
+
+ <script>
+const NOMBRE_REAL_CLIENTE = "<?php echo $nombreReal; ?>";
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof renderResumenPago === 'function') renderResumenPago();
+    const rawDir = localStorage.getItem('direccion_envio_seleccionada');
+    
+    if (rawDir && rawDir !== "undefined") {
+        try {
+            const dir = JSON.parse(rawDir);
+            cargarDir(dir);
+        } catch (e) {
+            console.error("Error al parsear dirección:", e);
+            window.location.href = '/proyectoweb/envio';
+        }
+    } else {
+        window.location.href = '/proyectoweb/envio';
+    }
+});
+
+function cargarDir(dir) {
+    const nombreEl  = document.getElementById('pago-dir-nombre');
+    const detalleEl = document.getElementById('pago-dir-detalle');
+    
+    if (!dir || !nombreEl || !detalleEl) return;
+
+    nombreEl.textContent = NOMBRE_REAL_CLIENTE;
+    detalleEl.innerHTML = `
+        ${dir.calle_numero || 'Calle no especificada'}<br>
+        Col. ${dir.colonia || ''}, C.P. ${dir.cp || ''}<br>
+        ${dir.ciudad || ''}, ${dir.estado || ''}, ${dir.pais || 'México'}
+    `;
+}
+
+document.querySelector('form').onsubmit = function() {
+    const dir = JSON.parse(localStorage.getItem('direccion_envio_seleccionada'));
+    const carrito = obtenerCarrito();
+    
+    if(!dir) {
+        mostrarAlerta('error', 'Por favor selecciona una dirección de envío');
+        return false;
+    }
+    
+    document.getElementById('form-id-direccion').value = dir.no_dirección;
+    document.getElementById('form-items-json').value = JSON.stringify(carrito);
+
+   
+    return true;
+};
+
+</script>

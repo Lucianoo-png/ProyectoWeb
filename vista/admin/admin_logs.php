@@ -94,9 +94,6 @@
                                 <option value="15">15</option>
                                 <option value="all">Todos</option>
                             </select>
-                            <button class="btn-generar-pdf" style="font-size:.78rem; padding:.45rem 1rem">
-                                <i class="fas fa-file-pdf me-1"></i> Exportar PDF
-                            </button>
                         </div>
                     </div>
                 </div>

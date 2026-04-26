@@ -109,6 +109,73 @@ $rutaPrincipal =  mb_strtolower($urlParts[0]);
             include('vista/rastrear_pedido.php');
         break;
 
+        case 'envio':
+            if(isset($_SESSION["NoCliente"])){
+                $cli = new ClienteControlador();
+                $direcciones = $cli->getCliente()->buscar('"Veracruz".clientedireccion', ["where" => "no_cliente=" . $_SESSION["NoCliente"]]);
+                $datos_cli = $cli->getCliente()->buscar('"Veracruz".cliente', ["where" => "no_cliente=" . $_SESSION["NoCliente"]]);
+                $carrito_db = $cli->getCliente()->buscar('"Veracruz".carrito_reserva', ["where" => "no_cliente=" . $_SESSION["NoCliente"]]);
+                if (empty($carrito_db)){
+                    include('vista/header_gral.php');
+                    include('vista/404.php');
+                    include('vista/footer_gral.php');
+                }
+                else{
+                    include('vista/Producto/direccion.php');
+                }
+            }
+            else{
+                include('vista/header_gral.php');
+                include('vista/404.php');
+                include('vista/footer_gral.php');
+            }
+            
+        break;
+
+        case 'pago':
+            if(isset($_SESSION["NoCliente"])){
+                $cli = new ClienteControlador();
+                $direcciones = $cli->getCliente()->buscar('"Veracruz".clientedireccion', ["where" => "no_cliente=" . $_SESSION["NoCliente"]]);
+                $datos_cli = $cli->getCliente()->buscar('"Veracruz".cliente', ["where" => "no_cliente=" . $_SESSION["NoCliente"]]);
+                $carrito_db = $cli->getCliente()->buscar('"Veracruz".carrito_reserva', ["where" => "no_cliente=" . $_SESSION["NoCliente"]]);
+                if (empty($carrito_db)){
+                    include('vista/header_gral.php');
+                    include('vista/404.php');
+                    include('vista/footer_gral.php');
+                }
+                else{
+                    $nombreReal = (count($datos_cli) > 0) ? $datos_cli[0]['nombre']." ".$datos_cli[0]['apellidospama'] : 'Cliente';
+                    if (isset($_REQUEST['pagar'])) {
+                        $ped = new PedidoControlador();
+                        $msj = $ped->procesarVentaWeb($_POST);
+                        if($msj[0] === 'exito'){
+                            $_SESSION['ultimo_pedido'] = $msj[1]; // Guardamos el folio/mensaje
+                            header("Location: /proyectoweb/gracias"); // Redirigimos
+                            exit;
+                        }
+                    }
+                    include('vista/Producto/pago.php');
+                }
+            }
+            else{
+                include('vista/header_gral.php');
+                include('vista/404.php');
+                include('vista/footer_gral.php');
+            }
+        break;
+
+        // NUEVO CASE
+        case 'gracias':
+            if(isset($_SESSION['ultimo_pedido']) && $_SESSION["ultimo_pedido"]!=''){
+                $mensaje_exito = $_SESSION['ultimo_pedido'];
+                // Opcional: borrarlo para que no se vea si refresca después
+                include('vista/Producto/gracias.php');
+                unset($_SESSION['ultimo_pedido']); 
+            } else {
+                header("Location: /proyectoweb/?");
+            }
+        break;
+
         case 'login':
             $msj = array();
             $emp = new EmpleadoControlador();

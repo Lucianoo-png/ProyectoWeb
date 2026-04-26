@@ -50,6 +50,19 @@ if(!isset($_SESSION["NoCliente"])){
 }
 
 
+if (isset($_GET['ajax'])) {
+    $cli = new ClienteControlador();
+    $datos_cli = $cli->getCliente()->buscar('"Veracruz".cliente', ["where" => "no_cliente=" . $_SESSION["NoCliente"]]);
+    $direcciones = $cli->getCliente()->buscar('"Veracruz".clientedireccion', ["where" => "no_cliente=" . $_SESSION["NoCliente"]]);
+                header('Content-Type: application/json');
+                echo json_encode([
+                    "success" => true,
+                    "nombre_cliente" => (count($datos_cli) > 0) ? $datos_cli[0]['nombre']." ".$datos_cli[0]['apellidospama'] : 'Usuario',
+                    "direcciones" => $direcciones
+                ]);
+                exit;
+            }
+
 ?>
 
 
@@ -60,6 +73,7 @@ if(!isset($_SESSION["NoCliente"])){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LuchanosCorp<?php if(isset($_SESSION["RFC"])){echo " | ".$_SESSION["RFC"];}else if(isset($_SESSION["NoCliente"])){echo " | Mi Perfil";} ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
     <link rel="stylesheet" href="/proyectoweb/estilos/styles.css">
     <link rel="stylesheet" href="/proyectoweb/estilos/vendedor.css">
@@ -73,17 +87,32 @@ $pathBase          = '';
 $mostrarCategorias = true;
 $categoriaActiva   = '';
 include 'includes/../control/navbar.php';
-
 ?>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 <script src="/proyectoweb/js/scripts.js"></script>
 <link rel="stylesheet" href="/proyectoweb/estilos/responsive.css">
 <script src="/proyectoweb/js/responsive.js"></script>
 <script src="/proyectoweb/js/vendedor.js"></script>
 <script src="/proyectoweb/js/contacto.js"></script>
 <script src="/proyectoweb/js/proveedor.js"></script>
+
+<?php 
+ if(isset($_SESSION["NoCliente"])): ?>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof sincronizarCarritoConServidor === 'function') {
+                sincronizarCarritoConServidor();
+                setInterval(() => {
+                    sincronizarCarritoConServidor();
+                }, 5000);
+            }
+        });
+    </script>
+<?php endif; ?>
+
 <script>
     window.onpageshow = function(event) {
         if (event.persisted) {
@@ -91,5 +120,4 @@ include 'includes/../control/navbar.php';
         }
     };
 </script>
-</body>
 </html>

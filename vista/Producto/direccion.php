@@ -1,53 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LuchanosCorp | Dirección de Envío</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-    <link rel="stylesheet" href="/proyectoweb/estilos/styles.css">
-</head>
-<div class="checkout-bg">
-
-    <!-- Topbar -->
-    <div class="topbar">
-        <div class="container d-flex justify-content-between">
-            <div>
-                <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-                <span class="d-none d-md-inline">
-                    <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
-                </span>
-            </div>
-            <?php if(isset($_SESSION["NoCliente"])){ ?>
-            <div class="d-flex gap-3">
-                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
-                </a>
-            </div>
-            <?php } ?>
-        </div>
-    </div>
-
-    <!-- Navbar -->
-    <div class="main-nav">
-        <div class="container d-flex align-items-center gap-3">
-            <a href="/proyectoweb/?" class="brand-logo me-3">
-                <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
-            </a>
-            <div class="input-group search-bar flex-grow-1 mx-lg-4">
-                <input type="text" class="form-control" placeholder="¿Qué estás buscando?">
-                <button class="btn px-4"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="d-flex align-items-center gap-3 ms-2">
-                <?php if(isset($_SESSION["NoCliente"])){ ?><a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i></a> <?php } ?>
-                <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?> class="nav-icon" title="Mi Cuenta">
-                    <i class="fas fa-user"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
+<?php include('vista/header_gral.php'); ?>
     <!-- Pasos del checkout -->
     <div class="checkout-steps">
         <div class="step done">
@@ -77,14 +28,11 @@
                 Si es así, haz click en el botón <strong>"ENVIAR AQUÍ"</strong>.
             </div>
 
-            <!-- Tarjeta de dirección principal (poblada por JS desde localStorage) -->
             <div class="dir-address-card" id="dir-card-1">
                 <div class="dir-address-name" id="dir-nombre-display">Cargando...</div>
                 <div class="dir-address-detail" id="dir-detalle-display"></div>
                 <div class="dir-address-actions">
-                    <button class="btn-enviar-aqui" onclick="enviarAqui()">ENVIAR AQUÍ</button>
-                    <button class="btn-dir-sec" onclick="borrarDireccion()">Borrar</button>
-                    <button class="btn-dir-sec" onclick="abrirEditar()">Editar</button>
+                    <button class="btn-enviar-aqui" onclick="seleccionarYEnviar(0)">ENVIAR AQUÍ</button>
                 </div>
             </div>
 
@@ -110,73 +58,4 @@
             </div>
         </div>
     </div>
-
-    <!-- ════════════════════════════════════════════════════════
-         Modal: Editar / Agregar dirección
-    ════════════════════════════════════════════════════════ -->
-    <div id="modal-editar">
-        <div class="modal-editar-card">
-            <div class="modal-editar-header">
-                <h6 id="modal-editar-titulo"><i class="fas fa-edit me-2"></i>Editar dirección</h6>
-                <button onclick="cerrarEditar()">&times;</button>
-            </div>
-            <div class="modal-editar-body">
-                <!-- índice oculto para saber qué dirección se edita -->
-                <input type="hidden" id="edit-idx" value="">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold">Nombre completo</label>
-                        <input type="text" id="edit-nombre" class="form-control form-control-sm">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold">Teléfono</label>
-                        <input type="tel" id="edit-tel" class="form-control form-control-sm">
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label small fw-semibold">Calle y número</label>
-                        <input type="text" id="edit-calle" class="form-control form-control-sm">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold">Colonia</label>
-                        <input type="text" id="edit-colonia" class="form-control form-control-sm">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold">Ciudad</label>
-                        <input type="text" id="edit-ciudad" class="form-control form-control-sm">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label small fw-semibold">C.P.</label>
-                        <input type="text" id="edit-cp" class="form-control form-control-sm">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label small fw-semibold">Estado</label>
-                        <input type="text" id="edit-estado" class="form-control form-control-sm">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label small fw-semibold">País</label>
-                        <input type="text" id="edit-pais" class="form-control form-control-sm"
-                               value="México" readonly>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-editar-footer">
-                <button class="btn-cancelar-dir" onclick="cerrarEditar()">Cancelar</button>
-                <button class="btn-guardar-dir" onclick="guardarEdicion()">
-                    <i class="fas fa-save me-1"></i> Guardar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast -->
-    <div id="dir-toast"><i class="fas fa-check-circle me-1"></i><span id="dir-toast-msg"></span></div>
-
-    <footer class="site-footer-minimal">© 2026 LuchanosCorp S.A. Todos los derechos reservados.</footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/proyectoweb/js/scripts.js"></script>
-    <script src="/proyectoweb/js/pago.js"></script>
-    <link rel="stylesheet" href="/proyectoweb/estilos/responsive.css">
-    <script src="/proyectoweb/js/responsive.js"></script>
-</body>
-</html>
+<?php include('vista/footer_gral.php'); ?>

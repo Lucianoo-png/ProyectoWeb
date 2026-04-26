@@ -43,6 +43,7 @@ switch($rutaPrincipal){
         case 'inicio':
             $msj = array();//1A_22020742
             $cliente = new ClienteControlador();
+            $ped = new PedidoControlador();
             if(isset($_REQUEST["actualizar_datos"])){
                 $msj = $cliente->actualizarDatos($_POST);
             }
@@ -57,6 +58,8 @@ switch($rutaPrincipal){
             }
             $info = $cliente->getCliente()->buscar('"Veracruz".cliente',["where"=>"no_cliente=".$_SESSION["NoCliente"]]);
             $direcciones = $cliente->getCliente()->buscar('"Veracruz".clientedireccion',["where"=>"no_cliente=".$_SESSION["NoCliente"]]);
+
+            $pedidosRaw = $ped->getPedido()->obtenerHistorialPorCliente($_SESSION["NoCliente"]);
             include('vista/cuentausuario/inicio_usuario.php');
 
     break;

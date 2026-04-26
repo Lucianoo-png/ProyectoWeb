@@ -133,21 +133,25 @@
                 <span>Productos</span>
                 <span id="summary-productos">$0.00</span>
             </div>
+            <div class="summary-row text-muted" style="font-size: 0.9rem; margin-top: 8px;">
+                <span>IVA (16%)</span>
+                <span id="summary-iva">$0.00</span>
+            </div>
             <hr class="summary-divider">
             <div class="summary-total">
-                <span>Subtotal</span>
-                <span id="summary-total">$0.00</span>
+                <span>Total a pagar</span>
+                <span id="summary-total-pagar">$0.00</span>
             </div>
             <button class="btn-realizar-pedido" onclick="realizarPedido()">
-                Realizar pedido
+                Continuar con el envío <i class="fas fa-arrow-right ms-1"></i>
             </button>
         </div>
     </div>
 </div>
     <?php include('vista/footer_gral.php'); ?>
 
-    <script>
-       document.addEventListener('DOMContentLoaded', async () => {
+ <script>
+document.addEventListener('DOMContentLoaded', async () => {
     try {
         const response = await fetch('/proyectoweb/carrito-obtener');
         const data = await response.json();
@@ -155,11 +159,7 @@
         if (data.success) {
             guardarCarrito(data.items);
             renderCarrito();
-            const notice = document.getElementById('empty-cart-notice');
-            if (data.items.length === 0) {
-                if (notice) notice.style.display = 'block';
-            } else {
-                if (notice) notice.style.display = 'none';
+            if (data.items.length > 0) {
                 iniciarTimerCarrito(data.segundos);
             }
         }
@@ -167,18 +167,4 @@
         console.error("Error al cargar carrito:", e);
     }
 });
-
-async function eliminarItem(idx) {
-    const carrito = obtenerCarrito();
-    const item = carrito[idx];
-    const exito = await sincronizarReservaServidor(item.sku, 0);
-
-    if (exito) {
-        carrito.splice(idx, 1);
-        guardarCarrito(carrito);
-        renderCarrito();
-    }
-}
-
-document.addEventListener('DOMContentLoaded', cargarCarritoDesdeServidor);
-    </script>
+</script>

@@ -3,6 +3,7 @@
    ============================================================ */
 
 /* ── Toggle contraseña — login.php ───────────────────────────── */
+
 function togglePassword() {
     const input = document.getElementById('password');
     const icon  = document.getElementById('eyeIcon');
@@ -26,7 +27,9 @@ function togglePw(inputId, iconId) {
 function cambiarCantidad(delta) {
     const input = document.getElementById('cantidad');
     if (!input) return;
-    input.value = Math.min(99, Math.max(1, parseInt(input.value) + delta));
+    const maxPermitido = parseInt(input.getAttribute('max')) || 99;
+    const valorActual = parseInt(input.value) || 1;
+    input.value = Math.min(maxPermitido, Math.max(1, valorActual + delta));
 }
 
 /* ============================================================
@@ -66,58 +69,113 @@ function actualizarBadge() {
     badge.style.display = total > 0 ? 'flex' : 'none';
 }
 
-/* ============================================================
-   DETALLE.PHP — agregar al carrito + modal
-   ============================================================ */
 async function agregarAlCarrito() {
     if (typeof PRODUCTO === 'undefined') return;
-
-    const qty = parseInt(document.getElementById('cantidad')?.value) || 1;
-    const exito = await sincronizarReservaServidor(PRODUCTO.id, qty);
-    if (!exito) return; 
-
-    const carrito = obtenerCarrito();
-    const idx = carrito.findIndex(i => i.id=== PRODUCTO.id);
-    
-    if (idx >= 0) {
-        carrito[idx].cantidad += qty;
-    } else {
-        carrito.push({
-            id: PRODUCTO.id,
-            nombre: PRODUCTO.nombre,
-            precio: PRODUCTO.precio,
-            imagen: PRODUCTO.imagen,
-            categoria: PRODUCTO.categoria,
-            cantidad: qty
-        });
+    await sincronizarCarritoConServidor();
+    const qtyInput = parseInt(document.getElementById('cantidad')?.value) || 1;
+    const colorRadio = document.querySelector('input[name="color_seleccionado"]:checked');
+    let colorId = 0;
+    let colorNombre = '';
+    if (colorRadio) {
+        colorId = colorRadio.value;
+        colorNombre = colorRadio.getAttribute('data-nombre');
     }
-    
-    guardarCarrito(carrito);
-    actualizarBadge();
-    mostrarModal();
+    const carrito = obtenerCarrito();
+    const itemExistente = carrito.find(i => (i.sku == PRODUCTO.id || i.id == PRODUCTO.id) && i.no_color == colorId);
+    const qtyActual = itemExistente ? parseInt(itemExistente.cantidad) : 0;
+    const qtyNueva = qtyActual + qtyInput;
+    const response = await fetch(`/proyectoweb/carrito-reservar?sku=${PRODUCTO.id}&cantidad=${qtyNueva}&color_id=${colorId}`);
+    const data = await response.json();
+
+    if (data.success) {
+        guardarCarrito(data.items);
+        actualizarBadge();
+        mostrarAlerta('exito', '¡Producto agregado correctamente a tu carrito!');
+    } else {
+        mostrarAlerta('error', data.message || "No hay stock suficiente para agregar esta variante.");
+    }
 }
 
-function mostrarModal() {
-    const modal = document.getElementById('modal-agregado');
-    if (!modal || typeof PRODUCTO === 'undefined') return;
-    document.getElementById('modal-img').src            = PRODUCTO.imagen;
-    document.getElementById('modal-nombre').textContent = PRODUCTO.nombre;
-    document.getElementById('modal-sku').textContent    = 'SKU: ' + PRODUCTO.sku;
-    document.getElementById('modal-precio').textContent = formatPrecio(PRODUCTO.precio);
-    modal.classList.add('show');
-    document.body.style.overflow = 'hidden';
+
+async function sincronizarCarritoConServidor() {
+    try {
+        const response = await fetch('/proyectoweb/carrito-obtener');
+        const data = await response.json();
+
+        // 1. Extraer datos con valores por defecto
+        const items = data.items || [];
+        const fueVenta = data.venta_reciente || false;
+
+        // 2. Actualizar UI
+        guardarCarrito(items);
+        actualizarBadge();
+
+        // 3. LA LÓGICA DE ORO
+        const enCheckout = window.location.pathname.includes('/envio') || 
+                           window.location.pathname.includes('/pago');
+
+        // Si está vacío Y estamos en checkout Y NO es porque acabamos de vender...
+        if (items.length === 0 && enCheckout && fueVenta === false) {
+            mostrarAlerta('error', 'Tu carrito se ha vaciado por inactividad.');
+            setTimeout(() => { 
+                window.location.href = '/proyectoweb/carrito'; 
+            }, 2000);
+        }
+        
+    } catch (error) {
+        console.error("Error sincronizando el carrito:", error);
+    }
 }
 
-function cerrarModal() {
-    const modal = document.getElementById('modal-agregado');
-    if (!modal) return;
-    modal.classList.remove('show');
-    document.body.style.overflow = '';
+function mostrarAlerta(tipo, mensaje) {
+    let contenedor = document.getElementById('contenedor-alertas');
+    if (!contenedor) {
+        contenedor = document.createElement('div');
+        contenedor.id = 'contenedor-alertas';
+        contenedor.style.cssText = `
+            position: fixed !important; 
+            top: 80px !important; /* Ajusta este valor si tu navbar es más alto */
+            left: 50% !important; 
+            transform: translateX(-50%) !important; /* Lo centra perfectamente */
+            z-index: 999999 !important; 
+            display: flex !important; 
+            flex-direction: column !important; 
+            align-items: center !important; /* Centra las tarjetas hijas */
+            gap: 12px !important; 
+            pointer-events: none !important;
+            width: 100% !important; 
+            margin: 0 !important;
+        `;
+        document.body.appendChild(contenedor);
+    }
+    const alerta = document.createElement('div');
+    alerta.className = `alerta alerta-${tipo} shadow animate__animated animate__fadeInDown`;
+    alerta.style.cssText = `
+        position: relative !important; 
+        pointer-events: auto !important; 
+        margin: 0 !important;
+        padding: 15px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        border-radius: 8px !important;
+        width: 350px !important; 
+        max-width: 90vw !important; /* Por si lo ven en celulares pequeños */
+        box-sizing: border-box !important;
+        left: auto !important;
+        right: auto !important;
+    `;
+    const icono = tipo === 'exito' ? 'fa-check-circle' : 'fa-times-circle';
+    alerta.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 12px; flex-grow: 1;">
+            <i class="fas ${icono}" style="font-size: 1.3rem;"></i>
+            <div style="font-weight: 600; font-size: 0.95rem; line-height: 1.3;">${mensaje}</div>
+        </div>
+        <button type="button" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; opacity: 0.6; padding: 0; line-height: 1;" onclick="this.parentElement.remove()">&times;</button>
+    `;
+    contenedor.appendChild(alerta);
 }
 
-/* ============================================================
-   CARRITO.PHP — renderizado dinámico
-   ============================================================ */
 let _timerInterval = null;
 
 function iniciarTimerCarrito(segundosServidor = 900) {
@@ -142,6 +200,7 @@ function iniciarTimerCarrito(segundosServidor = 900) {
         tiempoRestante--;
     }, 1000);
 }
+
 
 function renderCarrito() {
     const container   = document.getElementById('cart-items-container');
@@ -186,6 +245,7 @@ function renderCarrito() {
             <div class="cart-item-info">
                 <div class="cart-item-name">${item.nombre}</div>
                 <div class="cart-item-sku">No. de Producto: ${item.sku}</div>
+                ${item.nombre_color ? `<div class="cart-item-sku" style="margin-bottom: 5px;">Color: <strong>${item.nombre_color}</strong></div>` : ''}
                 <div class="cart-item-actions">
                     <label style="font-size:.8rem;color:#555">Cantidad:
                         <select class="qty-select ms-1" onchange="cambiarCantidadCarrito(${idx}, this.value)">
@@ -207,20 +267,38 @@ function renderCarrito() {
         subtotalRow.style.display = 'block';
     }
     if (summaryCard) {
+        const iva = totalPrecio * 0.16;
+        const totalAPagar = totalPrecio + iva;
         document.getElementById('summary-productos').textContent = formatPrecio(totalPrecio);
-        document.getElementById('summary-total').textContent     = formatPrecio(totalPrecio);
+        document.getElementById('summary-iva').textContent = formatPrecio(iva);
+        document.getElementById('summary-total-pagar').textContent = formatPrecio(totalAPagar);
         summaryCard.style.display = 'block';
     }
     actualizarBadge();
 }
 
-// Función para cambiar cantidad
+async function realizarPedido() {
+    const btn = document.querySelector('.btn-realizar-pedido');
+    const textoOriginal = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validando...';
+    btn.disabled = true;
+    await sincronizarCarritoConServidor();
+    const carrito = obtenerCarrito();
+    if (carrito.length === 0) {
+        mostrarAlerta('error', 'Tu reserva ha expirado o el carrito está vacío. Agrega productos para continuar.');
+        btn.innerHTML = textoOriginal;
+        btn.disabled = false;
+        return;
+    }
+    window.location.href = '/proyectoweb/envio'; 
+}
+
 async function cambiarCantidadCarrito(idx, nuevaCantidad) {
     const carrito = obtenerCarrito();
     const item = carrito[idx];
-    const response = await fetch(`/proyectoweb/carrito-reservar?sku=${item.sku}&cantidad=${nuevaCantidad}`);
+    const colorId = item.no_color || 0;
+    const response = await fetch(`/proyectoweb/carrito-reservar?sku=${item.sku}&cantidad=${nuevaCantidad}&color_id=${colorId}`);
     const data = await response.json();
-
     if (data.success) {
         guardarCarrito(data.items); 
         renderCarrito();
@@ -234,39 +312,98 @@ async function cambiarCantidadCarrito(idx, nuevaCantidad) {
 async function eliminarItem(idx) {
     const carrito = obtenerCarrito();
     const item = carrito[idx];
-    
-    const response = await fetch(`/proyectoweb/carrito-reservar?sku=${item.sku}&cantidad=0`);
+    const colorId = item.no_color || 0;
+    const response = await fetch(`/proyectoweb/carrito-reservar?sku=${item.sku}&cantidad=0&color_id=${colorId}`);
     const data = await response.json();
-
     if (data.success) {
         guardarCarrito(data.items);
         renderCarrito();
     }
 }
-async function sincronizarReservaServidor(no_producto, cantidad) {
+let MIS_DIRECCIONES = [];
+let NOMBRE_CLIENTE = "";
+
+async function cargarDirecciones() {
+    const displayNombre = document.getElementById('dir-nombre-display');
+    const displayDetalle = document.getElementById('dir-detalle-display');
+    if (!displayNombre || !displayDetalle) return;
+
     try {
-        const response = await fetch('/proyectoweb/carrito-reservar', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ no_producto, cantidad })
-        });
+        const response = await fetch('/proyectoweb/envio?ajax=1');
         const data = await response.json();
-        if (!data.success) {
-            return false;
+
+        if (data.success) {
+            MIS_DIRECCIONES = data.direcciones;
+            NOMBRE_CLIENTE = data.nombre_cliente;
+
+            if (MIS_DIRECCIONES.length > 0) {
+                const dir = MIS_DIRECCIONES[0];
+                displayNombre.textContent = NOMBRE_CLIENTE;
+                displayDetalle.innerHTML = `
+                    ${dir.calle_numero}, Col. ${dir.colonia}<br>
+                    ${dir.ciudad}, ${dir.cp}, ${dir.estado}, ${dir.pais}
+                `;
+            }
         }
-        return true;
-    } catch (e) {
-        return false;
+    } catch (error) {
+        console.error("Error al cargar direcciones:", error);
     }
 }
-function realizarPedido() {
-    const carrito = obtenerCarrito();
-    if (carrito.length === 0) {
-        alert("Tu carrito está vacío.");
+
+function actualizarTarjetaPrincipal() {
+    const displayNombre = document.getElementById('dir-nombre-display');
+    const displayDetalle = document.getElementById('dir-detalle-display');
+    const cardPrincipal = document.getElementById('dir-card-1');
+    if (!MIS_DIRECCIONES || MIS_DIRECCIONES.length === 0) {
+        if (displayNombre) displayNombre.textContent = "No tienes direcciones registradas";
+        if (displayDetalle) displayDetalle.innerHTML = '<p class="text-muted small">Haz clic en el botón para agregar una dirección.</p>';
         return;
     }
-    window.location.href = "/proyectoweb/checkout/envio";
+
+    const dir = MIS_DIRECCIONES[0];
+    if (displayNombre) displayNombre.textContent = NOMBRE_CLIENTE;
+    
+    if (displayDetalle) {
+        displayDetalle.innerHTML = `
+            ${dir.calle_numero}<br>
+            ${dir.colonia}, ${dir.cp}<br>
+            ${dir.ciudad}, ${dir.estado}, ${dir.pais}
+        `;
+    }
+    if (btnEnviarPrincipal) {
+        btnEnviarPrincipal.onclick = () => seleccionarYEnviar(0);
+    }
+    if (cardPrincipal) cardPrincipal.style.display = 'block';
 }
+
+function verTodasDirecciones(event) {
+    event.preventDefault();
+    const lista = document.getElementById('todas-dirs-lista');
+    lista.innerHTML = '';
+
+    if (MIS_DIRECCIONES.length === 0) {
+        lista.innerHTML = '<p class="p-3 text-center">No hay direcciones guardadas.</p>';
+    } else {
+        MIS_DIRECCIONES.forEach((dir, index) => {
+            lista.innerHTML += `
+                <div class="dir-address-card mb-3">
+                    <div class="dir-address-name">${NOMBRE_CLIENTE}</div>
+                    <div class="dir-address-detail">
+                        ${dir.calle_numero}, Col. ${dir.colonia}<br>
+                        ${dir.ciudad}, ${dir.cp}, ${dir.estado}, ${dir.pais}
+                    </div>
+                    <div class="dir-address-actions">
+                        <button class="btn-enviar-aqui" onclick="seleccionarDireccion(${index})">ENVIAR AQUÍ</button>
+                        <button class="btn-dir-sec" onclick="abrirEditar(${index})">Editar</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    document.getElementById('modal-todas-dirs').style.display = 'flex';
+}
+
+document.addEventListener('DOMContentLoaded', cargarDirecciones);
 function iniciarTimerCarrito(segundosServidor = 900) {
     const timerEl = document.getElementById('cart-timer');
     if (!timerEl) return;
@@ -331,101 +468,9 @@ function enviarAqui(dir) {
     if (!destino) { showToast('No hay dirección seleccionada.'); return; }
     setDirSeleccionada(destino);
     cerrarTodasDirs();
-    window.location.href = 'pago.php';
+    window.location.href = '/proyectoweb/pago';
 }
 
-/* ── Borrar dirección ────────────────────────────────────────── */
-function borrarDireccion(idx) {
-    let dirs = getDirs();
-    if (typeof idx === 'number') {
-        dirs.splice(idx, 1);
-    } else {
-        const sel = getDirSeleccionada();
-        if (sel) {
-            dirs = dirs.filter(d =>
-                !(d.nombre === sel.nombre && d.calle === sel.calle && d.cp === sel.cp)
-            );
-        }
-    }
-    saveDirs(dirs);
-    localStorage.removeItem('lc_dir_seleccionada');
-    if (dirs.length > 0) {
-        setDirSeleccionada(dirs[0]);
-        mostrarDir(dirs[0]);
-    } else {
-        mostrarDir(null);
-    }
-    showToast('Dirección eliminada.');
-    cerrarTodasDirs();
-    renderTodasDirs();
-}
-
-/* ── Abrir modal Editar ──────────────────────────────────────── */
-function abrirEditar(idx) {
-    const dirs = getDirs();
-    let dir;
-    if (typeof idx === 'number' && idx >= 0 && idx < dirs.length) {
-        dir = dirs[idx];
-        document.getElementById('edit-idx').value = idx;
-    } else {
-        dir = getDirSeleccionada() || dirs[0] || {};
-        const realIdx = dirs.findIndex(d =>
-            d.nombre === dir.nombre && d.calle === dir.calle && d.cp === dir.cp
-        );
-        document.getElementById('edit-idx').value = realIdx >= 0 ? realIdx : 0;
-    }
-    document.getElementById('edit-nombre').value  = dir.nombre  || '';
-    document.getElementById('edit-tel').value     = dir.tel     || '';
-    document.getElementById('edit-calle').value   = dir.calle   || '';
-    document.getElementById('edit-colonia').value = dir.colonia || '';
-    document.getElementById('edit-ciudad').value  = dir.ciudad  || '';
-    document.getElementById('edit-cp').value      = dir.cp      || '';
-    document.getElementById('edit-estado').value  = dir.estado  || '';
-    document.getElementById('edit-pais').value    = dir.pais    || 'México';
-    document.getElementById('modal-editar-titulo').innerHTML =
-        '<i class="fas fa-edit me-2"></i>Editar dirección';
-    document.getElementById('modal-editar').classList.add('show');
-    document.body.style.overflow = 'hidden';
-}
-
-function cerrarEditar() {
-    document.getElementById('modal-editar')?.classList.remove('show');
-    document.body.style.overflow = '';
-}
-
-/* ── Guardar edición ─────────────────────────────────────────── */
-function guardarEdicion() {
-    const dirs = getDirs();
-    const idx  = parseInt(document.getElementById('edit-idx').value, 10);
-    const dir  = {
-        nombre:  document.getElementById('edit-nombre').value.trim(),
-        tel:     document.getElementById('edit-tel').value.trim(),
-        calle:   document.getElementById('edit-calle').value.trim(),
-        colonia: document.getElementById('edit-colonia').value.trim(),
-        ciudad:  document.getElementById('edit-ciudad').value.trim(),
-        cp:      document.getElementById('edit-cp').value.trim(),
-        estado:  document.getElementById('edit-estado').value.trim(),
-        pais:    document.getElementById('edit-pais').value.trim() || 'México'
-    };
-    if (!dir.nombre) { alert('El nombre es obligatorio.'); return; }
-    if (idx >= 0 && idx < dirs.length) {
-        dirs[idx] = dir;
-    } else {
-        dirs.push(dir);
-    }
-    saveDirs(dirs);
-    const sel       = getDirSeleccionada();
-    const activaIdx = dirs.findIndex(d =>
-        sel && d.nombre === sel.nombre && d.calle === sel.calle && d.cp === sel.cp
-    );
-    if (activaIdx === idx || !sel) {
-        setDirSeleccionada(dir);
-        mostrarDir(dir);
-    }
-    cerrarEditar();
-    showToast('Dirección guardada correctamente.');
-    renderTodasDirs();
-}
 
 /* ── Modal "Ver todas mis direcciones" ───────────────────────── */
 function verTodasDirecciones(e) {
@@ -441,11 +486,11 @@ function cerrarTodasDirs() {
 }
 
 function renderTodasDirs() {
-    const dirs  = getDirs();
+    const dirs = MIS_DIRECCIONES; 
     const lista = document.getElementById('todas-dirs-lista');
     if (!lista) return;
-    const sel = getDirSeleccionada();
-    if (!dirs.length) {
+
+    if (!dirs || !dirs.length) {
         lista.innerHTML = `
             <div style="text-align:center;padding:2rem;color:#aab4c4;grid-column:1/-1;">
                 <i class="fas fa-map-marker-alt" style="font-size:2rem;display:block;margin-bottom:.5rem;"></i>
@@ -453,37 +498,36 @@ function renderTodasDirs() {
             </div>`;
         return;
     }
+
     lista.innerHTML = dirs.map((dir, i) => {
-        const esSeleccionada = sel &&
-            dir.nombre === sel.nombre &&
-            dir.calle  === sel.calle  &&
-            dir.cp     === sel.cp;
         return `
-        <div class="todas-dir-item${esSeleccionada ? ' selected-highlight' : ''}">
-            <div class="todas-dir-nombre">${dir.nombre || '—'}</div>
+        <div class="todas-dir-item">
+            <div class="todas-dir-nombre">${NOMBRE_CLIENTE}</div>
             <div class="todas-dir-detalle">
-                ${dir.calle || ''}<br>
-                ${dir.estado ? dir.estado.toUpperCase() + ' , ' : ''}${dir.colonia || ''}<br>
-                ${dir.ciudad || ''}, ${dir.cp || ''}, ${dir.pais || 'México'}<br>
-                Teléfono: ${dir.tel || ''}
+                ${dir.calle_numero || ''}<br>
+                ${dir.colonia || ''}<br>
+                ${dir.ciudad || ''}, ${dir.cp || ''}, ${dir.estado || ''}, ${dir.pais || 'México'}
             </div>
-            <div class="todas-dir-acciones">
+            <div class="todas-dir-actions" style="margin-top:10px;">
                 <button class="btn-enviar-aqui" onclick="seleccionarYEnviar(${i})">ENVIAR AQUÍ</button>
-                <button class="btn-dir-sec" onclick="abrirEditar(${i})">Editar</button>
-                <button class="btn-dir-sec" onclick="borrarDireccion(${i})">Borrar</button>
             </div>
         </div>`;
     }).join('');
 }
 
-/* ── Seleccionar del modal y redirigir ───────────────────────── */
-function seleccionarYEnviar(idx) {
-    const dirs = getDirs();
-    if (idx < 0 || idx >= dirs.length) return;
-    setDirSeleccionada(dirs[idx]);
-    mostrarDir(dirs[idx]);
-    cerrarTodasDirs();
-    window.location.href = 'pago.php';
+async function seleccionarYEnviar(idx) {
+    const response = await fetch('/proyectoweb/carrito-obtener');
+    const data = await response.json();
+
+    if (!data.success || data.items.length === 0) {
+        mostrarAlerta('error', 'El carrito ha expirado. No puedes proceder al pago.');
+        setTimeout(() => { window.location.href = '/proyectoweb/carrito'; }, 2000);
+        return;
+    }
+    const dir = MIS_DIRECCIONES[idx]; 
+    localStorage.setItem('direccion_envio_seleccionada', JSON.stringify(dir));
+
+    window.location.href = '/proyectoweb/pago';
 }
 
 /* ── Toast de notificación ───────────────────────────────────── */
@@ -499,29 +543,6 @@ function showToast(msg) {
    PAGO.PHP — absorbido desde pago.js
    ============================================================ */
 
-/* ── Cargar dirección seleccionada ─────────────────────────── */
-function cargarDirSeleccionada() {
-    try {
-        const raw = localStorage.getItem('lc_dir_seleccionada');
-        const dir = raw ? JSON.parse(raw) : null;
-        if (!dir) {
-            const dirs = JSON.parse(localStorage.getItem('lc_direcciones') || '[]');
-            if (dirs.length) cargarDir(dirs[0]);
-            return;
-        }
-        cargarDir(dir);
-    } catch (e) {}
-}
-
-function cargarDir(dir) {
-    const nombreEl  = document.getElementById('pago-dir-nombre');
-    const detalleEl = document.getElementById('pago-dir-detalle');
-    if (nombreEl)  nombreEl.textContent = dir.nombre || '—';
-    if (detalleEl) detalleEl.innerHTML  =
-        `${dir.calle || ''}, Col. ${dir.colonia || ''}<br>` +
-        `${dir.ciudad || ''}, ${dir.estado || ''} ${dir.cp || ''}, ${dir.pais || ''}<br>` +
-        `Teléfono: ${dir.tel || ''}`;
-}
 
 /* ── Renderizar resumen del carrito en pago.php ─────────────── */
 function renderResumenPago() {
@@ -541,7 +562,7 @@ function renderResumenPago() {
         subtotal += item.precio * item.cantidad;
         return `
         <div class="resumen-item">
-            <img src="${item.imagen}" alt="${item.nombre}" class="resumen-img"
+            <img src="${"/proyectoweb/public/uploads/img/"+item.imagen}" alt="${item.nombre}" class="resumen-img"
                  onerror="this.src='https://placehold.co/56x56?text=Prod'">
             <div class="resumen-item-info">
                 <div class="resumen-item-name">${item.nombre}</div>
@@ -557,6 +578,8 @@ function renderResumenPago() {
     document.getElementById('res-iva').textContent      = formatPrecio(iva);
     document.getElementById('res-total').textContent    = formatPrecio(total);
     if (totDiv) totDiv.style.display = 'block';
+
+    const resumenCont = document.getElementById('resumen-items');
 }
 
 /* ── Selector de método de pago ────────────────────────────── */
@@ -599,11 +622,20 @@ function updateCardName(input) {
 }
 
 function formatExp(input) {
-    let val = input.value.replace(/\D/g, '').slice(0, 4);
-    if (val.length >= 3) val = val.slice(0, 2) + '/' + val.slice(2);
-    input.value = val;
-    const el = document.getElementById('cardExpDisplay');
-    if (el) el.textContent = val || 'MM/AA';
+    // 1. Quitar todo lo que no sea número
+    let val = input.value.replace(/\D/g, '');
+    
+    // 2. Validar que el mes (primeros dos dígitos) no sea > 12
+    if (val.length >= 2) {
+        let mes = parseInt(val.substring(0, 2));
+        if (mes > 12) val = '12' + val.substring(2);
+        if (mes === 0) val = '01' + val.substring(2);
+        
+        // 3. Insertar el slash
+        input.value = val.substring(0, 2) + '/' + val.substring(2, 4);
+    } else {
+        input.value = val;
+    }
 }
 
 function updateCvv(input) {
@@ -613,38 +645,24 @@ function updateCvv(input) {
     if (el) el.textContent = val ? val.replace(/./g, '•') : '•••';
 }
 
-/* ── Confirmar pedido ───────────────────────────────────────── */
-function confirmarPedido() {
+async function confirmarPedido() {
     const btn = document.getElementById('btnConfirmar');
-
-    if (document.getElementById('panel-tarjeta')?.classList.contains('active')) {
-        const num = document.getElementById('cardNumber').value.replace(/\s/g, '');
-        const exp = document.getElementById('cardExp').value;
-        const cvv = document.getElementById('cardCvv').value;
-        const nom = document.getElementById('cardName').value.trim();
-        if (num.length < 16) { alertPago('Ingresa un número de tarjeta válido (16 dígitos).'); return; }
-        if (!/^\d{2}\/\d{2}$/.test(exp)) { alertPago('Ingresa una fecha de vencimiento válida (MM/AA).'); return; }
-        if (cvv.length < 3)  { alertPago('Ingresa el CVV de tu tarjeta.'); return; }
-        if (!nom)            { alertPago('Ingresa el nombre del titular.'); return; }
-    }
-
-    btn.classList.add('loading');
     btn.disabled = true;
+    await sincronizarCarritoConServidor(); 
+    const response = await fetch('/proyectoweb/carrito-obtener');
+    const data = await response.json();
 
-    setTimeout(() => {
-        btn.classList.remove('loading');
-        btn.disabled = false;
-        const ref = 'LC-' + Date.now().toString(36).toUpperCase().slice(-8);
-        const refEl = document.getElementById('exito-ref-num');
-        if (refEl) refEl.textContent = ref;
-        localStorage.removeItem('lc_carrito');
-        localStorage.removeItem('lc_dir_seleccionada');
-        const modalExito = document.getElementById('modal-exito');
-        if (modalExito) {
-            modalExito.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-    }, 2200);
+    if (!data.success || data.items.length === 0) {
+        mostrarAlerta('error', 'Lo sentimos, tu tiempo de reserva terminó mientras procesabas el pago.');
+        setTimeout(() => { window.location.href = '/proyectoweb/carrito'; }, 2500);
+        return;
+    }
+    const carrito = obtenerCarrito();
+    if (carrito.length === 0) {
+        mostrarAlerta('error', '¡Oh no! Tu tiempo de reserva ha terminado. Debes volver a agregar los productos.');
+        setTimeout(() => window.location.href = '/proyectoweb/carrito', 2000);
+        return;
+    }
 }
 
 /* ── Alerta inline ──────────────────────────────────────────── */
@@ -679,34 +697,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* pago.php */
     if (document.getElementById('resumen-items')) {
-        cargarDirSeleccionada();
         renderResumenPago();
-    }
-
-    /* direccion.php */
-    if (document.getElementById('dir-nombre-display')) {
-        let dirs = getDirs();
-        if (dirs.length === 0) {
-            dirs = [{
-                nombre:  'Carlos Ivan Luciano Cruz',
-                tel:     '2294832504',
-                calle:   'Rafael Murillo Vidal 485 485, Tienda con fachada de Coca Cola',
-                colonia: 'Vías Ferreas',
-                ciudad:  'Veracruz',
-                cp:      '91713',
-                estado:  'VERACRUZ',
-                pais:    'México'
-            }];
-            saveDirs(dirs);
-        }
-        let sel = getDirSeleccionada();
-        if (!sel) { sel = dirs[0]; setDirSeleccionada(sel); }
-        mostrarDir(sel);
-
-        const modalTodas  = document.getElementById('modal-todas-dirs');
-        const modalEditar = document.getElementById('modal-editar');
-        if (modalTodas)  modalTodas.addEventListener('click',  e => { if (e.target === modalTodas)  cerrarTodasDirs(); });
-        if (modalEditar) modalEditar.addEventListener('click', e => { if (e.target === modalEditar) cerrarEditar(); });
     }
 
     /* Cerrar modales al clic en fondo o Escape */
@@ -763,22 +754,6 @@ function initRastrearPedido() {
         btn.classList.add('loading');
         btn.textContent = ' Buscando pedido...';
         resultBox.style.display = 'none';
-
-        /*
-         * ── Reemplazar el setTimeout por fetch real al backend:
-         * fetch(`accion/rastrear_pedido_action.php?ref=${encodeURIComponent(ref)}`)
-         *   .then(r => r.json())
-         *   .then(data => {
-         *       btn.classList.remove('loading');
-         *       btn.innerHTML = '<i class="fas fa-truck"></i> Rastrear pedido';
-         *       if (data.encontrado) {
-         *           mostrarResultadoRastreo('success', `...`);
-         *       } else {
-         *           mostrarResultadoRastreo('error', `...`);
-         *       }
-         *   })
-         *   .catch(() => mostrarResultadoRastreo('error', 'Error de conexión.'));
-         */
 
         /* Simulación demo — eliminar cuando conectes el backend */
         setTimeout(function () {
@@ -851,7 +826,6 @@ function guardarDatos() {
     document.querySelector('.cuenta-avatar').textContent = initials;
 
     cancelarEditDatos();
-    alert('✅ Datos actualizados correctamente.');
 }
 
 /* ── Contraseña ─────────────────────────────────────────────── */

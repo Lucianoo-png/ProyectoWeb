@@ -38,8 +38,8 @@
                     <input type="date" id="filtroHasta" class="form-control">
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label fw-semibold small">Buscar cliente o producto:</label>
-                    <input type="text" id="searchInput" class="form-control" placeholder="Nombre de cliente, SKU o producto...">
+                    <label class="form-label fw-semibold small">Buscar cliente</label>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Nombre de cliente">
                 </div>
             </div>
             <p class="filter-hint mt-3 mb-0">
@@ -67,7 +67,7 @@
                                 <option value="20">20</option>
                                 <option value="all">Todos</option>
                             </select>
-                            <button class="btn-generar-pdf" style="font-size:.78rem; padding:.45rem 1rem" onclick="alert('Exportando a PDF...')">
+                            <button class="btn-generar-pdf" id="btnExportarPDF" style="font-size:.78rem; padding:.45rem 1rem">
                                 <i class="fas fa-file-pdf me-1"></i> Exportar PDF
                             </button>
                         </div>
@@ -82,20 +82,59 @@
                     <table class="admin-table" id="tablaDetalleVentas">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Folio</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
                                 <th>Cliente</th>
-                                <th>Producto (SKU)</th>
-                                <th>Unidades × Precio</th>
-                                <th>Subtotal</th>
+                                <th>Total</th>
                                 <th>Tipo de Pago</th>
                                 <th>Ticket</th>
                                 <th style="display:none;">RawDate</th>
                             </tr>
                         </thead>
-                        <tbody id="tbodyDetalle">
+                        <tbody>
+                            <?php if (empty($ventas)): ?>
+                                <tr>
+                                    <td colspan="8" class="text-center py-4 text-muted">
+                                        No se encontraron ventas registradas.
+                                    </td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach($ventas as $v): 
+                                    // Formateamos fecha y hora
+                                    $fecha = date("d/m/Y", strtotime($v['fechayhora']));
+                                    $hora = date("H:i:s", strtotime($v['fechayhora']));
+                                    if(empty($v['nombre_cliente'])){$datos_cli = $cli->getCliente()->buscar('"Veracruz".cliente',["where"=>"no_cliente=".$v['no_cliente']]);}
+                                    // Lógica para el nombre del cliente
+                                    $cliente = !empty($v['nombre_cliente']) ? $v['nombre_cliente'] : $datos_cli[0]['nombre']." ".$datos_cli[0]['apellidospama'];
+                                    
+                                    // Clase para el badge de pago
+                                    $badgeClass = ($v['tipo_pago'] == 'tarjeta') ? 'bg-info' : 'bg-success';
+                                ?>
+                                    <tr class="fila-venta" data-folio="<?php echo $v['no_referencia']; ?>" 
+    data-cliente="<?php echo mb_strtolower($cliente); ?>" 
+    data-fecha="<?php echo date("Y-m-d", strtotime($v['fechayhora'])); ?>">
+                                        <td><strong>#<?php echo str_pad($v['no_referencia'], 5, "0", STR_PAD_LEFT); ?></strong></td>
+                                        <td><?php echo $fecha; ?></td>
+                                        <td><?php echo $hora; ?></td>
+                                        <td><?php echo $cliente; ?></td>
+                                        <td><strong>$<?php echo number_format($v['total'], 2); ?></strong></td>
+                                        <td>
+                                            <span class="badge <?php echo $badgeClass; ?> text-white">
+                                                <?php echo ucfirst($v['tipo_pago']); ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                <button class="btn btn-sm btn-outline-danger" title="Generar PDF" 
+                                                        onclick="window.open('', '_blank')">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -104,145 +143,77 @@
 
     </main>
 </div>
+<form id="formExportarPDF" action="/proyectoweb/vendedor/reportes" method="POST" target="_blank" style="display:none;">
+    <input type="hidden" name="folio" id="pdf_folio">
+    <input type="hidden" name="desde" id="pdf_desde">
+    <input type="hidden" name="hasta" id="pdf_hasta">
+    <input type="hidden" name="cliente" id="pdf_cliente">
+    <input type="hidden" name="exportar_pdf" value="1">
+</form>
 
 <?php include('vista/vendedor/footer_vendedor.php'); ?>
-
 <script>
+let rowsPerPage = 5; 
+
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const filtroFolio = document.getElementById('filtroFolio');
     const filtroDesde = document.getElementById('filtroDesde');
     const filtroHasta = document.getElementById('filtroHasta');
-    
     const rowsPerPageSelect = document.getElementById('rowsPerPageSelect');
-    const tbody = document.getElementById('tbodyDetalle');
     const paginationControls = document.getElementById('paginationControls');
-
-    const infoRowsPerPage = document.getElementById('info-rows-per-page');
-    const infoCurrentPage = document.getElementById('info-current-page');
-    const infoTotalPages  = document.getElementById('info-total-pages');
-
-    let currentPage = 1;
-    let rowsPerPage = 5;
-    let filteredData = typeof VENTAS_DEMO !== 'undefined' ? [...VENTAS_DEMO] : []; 
     
-    function fmtPrecio(n) {
-        return '$' + parseFloat(n).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-
-    function parseDateToISO(dateStr) {
-        if (!dateStr) return '';
-        const parts = dateStr.split('/');
-        if (parts.length === 3) return `${parts[2]}-${parts[1]}-${parts[0]}`;
-        return dateStr;
-    }
+    // 1. Declaramos las variables principales aquí arriba
+    const todasLasFilas = Array.from(document.querySelectorAll('.fila-venta'));
+    let filasFiltradas = [...todasLasFilas]; 
+    let currentPage = 1;
 
     function renderTable() {
-        const totalRows = filteredData.length;
+        const totalRows = filasFiltradas.length;
         const totalPages = rowsPerPage === 'all' ? 1 : Math.max(1, Math.ceil(totalRows / rowsPerPage));
         
-        if (currentPage < 1) currentPage = 1;
         if (currentPage > totalPages) currentPage = totalPages;
-        
-        if(infoRowsPerPage) infoRowsPerPage.textContent = rowsPerPage === 'all' ? 'Todos' : rowsPerPage;
-        if(infoCurrentPage) infoCurrentPage.textContent = totalPages === 0 ? 0 : currentPage;
-        if(infoTotalPages) infoTotalPages.textContent = totalPages;
+        if (currentPage < 1) currentPage = 1;
 
-        if(!tbody) return;
-        tbody.innerHTML = '';
+        const spanRows = document.getElementById('info-rows-per-page');
+        const spanCurrent = document.getElementById('info-current-page');
+        const spanTotal = document.getElementById('info-total-pages');
 
-        if (totalRows === 0) {
-            tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4">No se encontraron ventas que coincidan con los filtros.</td></tr>`;
-            renderPagination(totalPages);
-            return;
-        }
+        if (spanRows) spanRows.textContent = rowsPerPage === 'all' ? 'Todos' : rowsPerPage;
+        if (spanCurrent) spanCurrent.textContent = totalRows === 0 ? 0 : currentPage;
+        if (spanTotal) spanTotal.textContent = totalPages;
+
+        todasLasFilas.forEach(row => row.style.display = 'none');
 
         let start = 0;
         let end = totalRows;
-
         if (rowsPerPage !== 'all') {
             start = (currentPage - 1) * rowsPerPage;
             end = start + rowsPerPage;
         }
 
-        let htmlRows = '';
-        for (let i = start; i < end && i < totalRows; i++) {
-            const v = filteredData[i];
-            const rawDate = parseDateToISO(v.fecha);
-            
-            htmlRows += `
-            <tr>
-                <td style="color:#999; font-size:.8rem">${i + 1}</td>
-                <td style="font-weight:700">${v.folio}</td>
-                <td>${v.fecha}</td>
-                <td>${v.hora}</td>
-                <td class="td-name">${v.cliente}</td>
-                <td>
-                    <code style="font-size:.75rem; color:#d63384">${v.sku}</code><br>
-                    <span style="font-size:.75rem;color:#666">${v.desc}</span>
-                </td>
-                <td style="text-align:center">${v.qty} × ${fmtPrecio(v.precio)}</td>
-                <td style="font-weight:700;color:var(--azul-marino)">${fmtPrecio(v.qty * v.precio)}</td>
-                <td>${v.pago}</td>
-                <td>
-                    <button class="btn-ticket" onclick="generarTicket(${v.folio})">
-                        <i class="fas fa-print me-1"></i>Ticket
-                    </button>
-                </td>
-                <td style="display:none;">${rawDate}</td>
-            </tr>`;
-        }
-        
-        tbody.innerHTML = htmlRows;
+        filasFiltradas.slice(start, end).forEach(row => {
+            row.style.display = 'table-row';
+        });
+
         renderPagination(totalPages);
     }
 
-    function renderPagination(totalPages) {
-        if (!paginationControls) return;
-        
-        if (totalPages <= 1) {
-            paginationControls.innerHTML = '';
-            return; 
-        }
-
-        let pgHtml = '<span class="page-info">Página:</span>';
-        
-        if (currentPage > 1) {
-            pgHtml += `<button class="pg-btn" data-page="${currentPage - 1}"><i class="fas fa-chevron-left me-1"></i></button>`;
-        }
-
-        pgHtml += `<button class="pg-btn active">${currentPage}</button>`;
-        
-        if (currentPage < totalPages) {
-            pgHtml += `<button class="pg-btn" data-page="${currentPage + 1}"><i class="fas fa-chevron-right ms-1"></i></button>`;
-        }
-        
-        paginationControls.innerHTML = pgHtml;
-        paginationControls.querySelectorAll('.pg-btn:not(.active)').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                currentPage = parseInt(this.getAttribute('data-page'));
-                renderTable();
-            });
-        });
-    }
-
     function applyFilters() {
-        if (typeof VENTAS_DEMO === 'undefined') return;
-
         const term = searchInput ? searchInput.value.toLowerCase().trim() : '';
         const fFolio = filtroFolio ? filtroFolio.value.trim() : '';
         const fDesde = filtroDesde ? filtroDesde.value : ''; 
         const fHasta = filtroHasta ? filtroHasta.value : '';
 
-        filteredData = VENTAS_DEMO.filter(v => {
-            const txtSearch = (v.cliente + " " + v.sku + " " + v.desc).toLowerCase();
-            const rawFechaBD = parseDateToISO(v.fecha);
+        filasFiltradas = todasLasFilas.filter(row => {
+            const cliente = row.dataset.cliente;
+            const folio = row.dataset.folio;
+            const fecha = row.dataset.fecha;
 
-            if (fFolio && String(v.folio) !== fFolio) return false;
-            if (term && !txtSearch.includes(term)) return false;
-            if (fDesde && rawFechaBD < fDesde) return false;
-            if (fHasta && rawFechaBD > fHasta) return false;
+            if (fFolio && !folio.includes(fFolio)) return false;
+            if (term && !cliente.includes(term)) return false;
+            if (fDesde && fecha < fDesde) return false;
+            if (fHasta && fecha > fHasta) return false;
 
             return true;
         });
@@ -251,19 +222,60 @@ document.addEventListener('DOMContentLoaded', function() {
         renderTable();
     }
 
-    if(searchInput) searchInput.addEventListener('input', applyFilters);
-    if(filtroFolio) filtroFolio.addEventListener('input', applyFilters);
-    if(filtroDesde) filtroDesde.addEventListener('change', applyFilters);
-    if(filtroHasta) filtroHasta.addEventListener('change', applyFilters);
+    function renderPagination(totalPages) {
+        if (!paginationControls) return;
+        if (totalPages <= 1) {
+            paginationControls.innerHTML = '';
+            return;
+        }
 
-    if(rowsPerPageSelect) {
-        rowsPerPageSelect.addEventListener('change', function() {
-            rowsPerPage = this.value === 'all' ? 'all' : parseInt(this.value);
-            currentPage = 1;
-            renderTable();
+        let html = `<button class="pg-btn ${currentPage === 1 ? 'disabled' : ''}" id="prevPage">Anterior</button>`;
+        html += `<span class="mx-2">Página ${currentPage} de ${totalPages}</span>`;
+        html += `<button class="pg-btn ${currentPage === totalPages ? 'disabled' : ''}" id="nextPage">Siguiente</button>`;
+        
+        paginationControls.innerHTML = html;
+
+        document.getElementById('prevPage')?.addEventListener('click', () => {
+            if (currentPage > 1) { currentPage--; renderTable(); }
+        });
+        document.getElementById('nextPage')?.addEventListener('click', () => {
+            if (currentPage < totalPages) { currentPage++; renderTable(); }
         });
     }
+
+    // --- LÓGICA DEL BOTÓN EXPORTAR (Dentro del Scope) ---
+    const btnExportar = document.getElementById('btnExportarPDF');
+    if (btnExportar) {
+        btnExportar.addEventListener('click', function() {
+            // Ahora filasFiltradas sí es accesible y está actualizada
+            if (filasFiltradas.length === 0) {
+                alert('No hay datos disponibles para generar el documento con los filtros actuales.');
+                return;
+            }
+
+            // Llenamos el formulario oculto
+            document.getElementById('pdf_folio').value = filtroFolio.value;
+            document.getElementById('pdf_desde').value = filtroDesde.value;
+            document.getElementById('pdf_hasta').value = filtroHasta.value;
+            document.getElementById('pdf_cliente').value = searchInput.value;
+
+            document.getElementById('formExportarPDF').submit();
+        });
+    }
+
+    // Eventos de Filtros
+    searchInput?.addEventListener('input', applyFilters);
+    filtroFolio?.addEventListener('input', applyFilters);
+    filtroDesde?.addEventListener('change', applyFilters);
+    filtroHasta?.addEventListener('change', applyFilters);
     
+    rowsPerPageSelect?.addEventListener('change', function() {
+        rowsPerPage = this.value === 'all' ? 'all' : parseInt(this.value);
+        currentPage = 1;
+        renderTable();
+    });
+
+    // Carga inicial
     renderTable();
 });
 </script>

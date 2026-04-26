@@ -31,27 +31,27 @@
         <div class="stat-cards mb-4">
             <a href="/proyectoweb/vendedor/ventas" class="stat-card">
                 <div class="stat-icon"><i class="fas fa-handshake"></i></div>
-                <div class="stat-num">35</div>
+                <div class="stat-num"><?php echo $totalVentas; ?></div>
                 <div class="stat-label">Ventas realizadas</div>
             </a>
             <div class="stat-card stat-card--info">
                 <div class="stat-icon"><i class="fas fa-coins"></i></div>
-                <div class="stat-num">$99,880</div>
+                <div class="stat-num">$<?php echo number_format($gananciasTotal, 2); ?></div>
                 <div class="stat-label">Ganancias acumuladas</div>
             </div>
             <div class="stat-card stat-card--info">
                 <div class="stat-icon"><i class="fas fa-cash-register"></i></div>
-                <div class="stat-num">$0</div>
+                <div class="stat-num">$<?php echo number_format($gananciasHoy, 2); ?></div>
                 <div class="stat-label">Ventas del día</div>
             </div>
             <a href="/proyectoweb/vendedor/inventario" class="stat-card">
                 <div class="stat-icon"><i class="fas fa-cubes"></i></div>
-                <div class="stat-num">202</div>
+                <div class="stat-num"><?php echo $totalUnidades; ?></div>
                 <div class="stat-label">Unidades vendidas</div>
             </a>
             <div class="stat-card stat-card--info">
                 <div class="stat-icon"><i class="fas fa-tag"></i></div>
-                <div class="stat-num">0</div>
+                <div class="stat-num"><?php echo $unidadesHoy; ?></div>
                 <div class="stat-label">Vendidas hoy</div>
             </div>
             <a href="/proyectoweb/vendedor/solicitudes" class="stat-card">

@@ -27,20 +27,6 @@
                     <div class="stat-label">Total clientes</div>
                 </div>
             </div>
-            <div class="col">
-                <div class="stat-card" style="cursor:default">
-                    <div class="stat-icon" style="color:#1d4ed8"><i class="fas fa-globe"></i></div>
-                    <div class="stat-num"><?php echo $total_clientes_linea; ?></div>
-                    <div class="stat-label">En línea</div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="stat-card" style="cursor:default">
-                    <div class="stat-icon" style="color:#92400e"><i class="fas fa-store"></i></div>
-                    <div class="stat-num"><?php echo $total_clientes_fisico; ?></div>
-                    <div class="stat-label">Tienda física</div>
-                </div>
-            </div>
         </div>
 
         <div class="report-form-card mb-4">
@@ -55,14 +41,6 @@
                 <div class="col-md-3">
                     <label class="form-label">Hasta:</label>
                     <input type="date" id="filtroHasta" class="form-control">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Origen:</label>
-                    <select id="filtroOrigen" class="form-select">
-                        <option value="all">Todos</option>
-                        <option value="En línea">En línea</option>
-                        <option value="Tienda física">Tienda física</option>
-                    </select>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Estado:</label>
@@ -98,9 +76,6 @@
                                 <option value="20">20</option>
                                 <option value="all">Todos</option>
                             </select>
-                            <button class="btn-generar-pdf" style="font-size:.78rem; padding:.45rem 1rem">
-                                <i class="fas fa-file-pdf me-1"></i> Exportar PDF
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -116,7 +91,6 @@
                             <th>Nombre Completo</th>
                             <th>Correo Electrónico</th>
                             <th>Teléfono</th>
-                            <th>Origen</th>
                             <th>Estado</th>
                         </tr>
                     </thead>
@@ -130,8 +104,6 @@
                                     <td><strong><?php echo $clien['nombre']." ".$clien['apellidospama']; ?></strong></td>
                                     <td><?php echo $clien['correo']; ?></td>
                                     <td><?php echo $clien['telefono']; ?></td>
-                                    <?php if($clien['origen']=='L'){ ?><td><span class="badge rounded-pill px-2 py-1" style="background:#eff6ff; color:#1d4ed8; font-size:.72rem"><i class="fas fa-globe me-1"></i>En línea</span></td><?php } ?>
-                                    <?php if($clien['origen']=='F'){ ?> <td><span class="badge rounded-pill px-2 py-1" style="background:#fff7ed; color:#c2410c; font-size:.72rem"><i class="fas fa-store me-1"></i>Tienda física</span></td><?php } ?>
                                     <td><span class="badge-<?php if($clien['estatus']){echo "confirmada";}else{echo "pendiente";} ?>"><?php if($clien['estatus']){echo "Activo";}else{echo "Inactivo";}  ?></span></td>
                                 </tr>
                                 <?php

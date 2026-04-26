@@ -61,12 +61,12 @@
 
         <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Reporte de Ventas</h1>
-            <p class="page-header-sub">Genera un reporte PDF filtrado de las ventas registradas.</p>
+            <p class="page-header-sub">Genera un reporte PDF filtrado de las ventas registradas en tienda física.</p>
         </div>
 
         <div class="report-form-card">
             <h5 class="text-center"><i class="fas fa-chart-bar me-2" style="color:var(--btn-color)"></i>Generar Reporte de Ventas</h5>
-            <form action="/proyectoweb/admin/reportes-ventas" method="POST">
+            <form action="/proyectoweb/admin/reportes" target="_blank" method="POST">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label">Desde:</label>
@@ -80,28 +80,13 @@
                         <label class="form-label">Vendedor:</label>
                         <select name="vendedor" class="form-select">
                             <option value="">Todos</option>
-                            <option>Juan Pérez</option>
-                            <option>María García</option>
-                            <option>Carlos Mendoza</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Producto:</label>
-                        <select name="producto" class="form-select">
-                            <option value="">Todos</option>
-                            <option>Línea Blanca</option>
-                            <option>Línea Marrón</option>
-                            <option>Cocina</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Categoría:</label>
-                        <select name="categoria" class="form-select">
-                            <option value="">Todas las categorías</option>
-                            <option>Línea Blanca</option>
-                            <option>Línea Marrón</option>
-                            <option>Cocina</option>
-                            <option>Refrigeración</option>
+                            <?php
+                                foreach($vendedores as $vend){
+                                    ?>
+                                    <option value="<?php echo $vend['rfc']; ?>"><?php echo $vend['nombre']." ".$vend['apellidospama']; ?></option>
+                                    <?php
+                                }
+                            ?>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -110,16 +95,6 @@
                             <option value="">Todos</option>
                             <option>Efectivo</option>
                             <option>Tarjeta</option>
-                            <option>Transferencia</option>
-                            <option>Crédito</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Cliente:</label>
-                        <select name="cliente" class="form-select">
-                            <option value="">Todos</option>
-                            <option>Ana Torres</option>
-                            <option>Luis Ramírez</option>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -139,6 +114,7 @@
                         <input type="number" name="precio_max" class="form-control" placeholder="$0.00" min="0" step="0.01">
                     </div>
                     <div class="col-12 text-end mt-2">
+                        <input type="hidden" name="exportar_pdf" value="1">
                         <button type="submit" class="btn-generar-pdf">
                             <i class="fas fa-file-pdf"></i> Generar PDF
                         </button>

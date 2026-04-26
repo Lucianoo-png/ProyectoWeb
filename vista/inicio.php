@@ -75,7 +75,6 @@ $destacados = $productoControl->getProducto()->buscar('"Veracruz".producto', [
     <?php 
     if(is_array($destacados) && count($destacados) > 0):
         foreach($destacados as $prod): 
-            // Preparar datos
             $nombre = $prod['nombre'];
             $precio = '$' . number_format($prod['precio_venta'], 2);
             $sku = Helpers::crearSKU($prod['categoria'], $nombre);

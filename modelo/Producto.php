@@ -133,5 +133,34 @@ class Producto {
     public function setPrecio_compra($precio_compra){$this->precio_compra = $precio_compra;}
     public function getEstatus(){return $this->estatus;}
     public function setEstatus($estatus){$this->estatus = $estatus;}
+
+    public function obtenerComprasAdminFiltradas($desde, $hasta, $proveedor, $cantMin, $cantMax, $precioMin, $precioMax) {
+    $query = "SELECT 
+                c.foliocompra, c.fechayhora, c.rfc_empleado, c.rfc_proveedor,
+                e.nombre AS emp_nombre, e.apellidospama AS emp_apellidos,
+                pv.nombre AS prov_nombre, pv.apellidospama AS prov_apellidos,
+                SUM(dc.cantidad) as total_articulos,
+                SUM(dc.total) as total_compra
+              FROM \"Veracruz\".compra c
+              JOIN \"Veracruz\".detallecompra dc ON c.foliocompra = dc.foliocompra
+              LEFT JOIN \"Veracruz\".empleado e ON c.rfc_empleado = e.rfc
+              LEFT JOIN \"Veracruz\".proveedor pv ON c.rfc_proveedor = pv.rfc
+              WHERE 1=1 
+              
+              AND ('{$desde}' = '' OR DATE(c.fechayhora) >= CAST(NULLIF('{$desde}', '') AS DATE))
+              AND ('{$hasta}' = '' OR DATE(c.fechayhora) <= CAST(NULLIF('{$hasta}', '') AS DATE))
+              AND ('{$proveedor}' = '' OR c.rfc_proveedor = '{$proveedor}')
+              
+              GROUP BY c.foliocompra, c.fechayhora, c.rfc_empleado, c.rfc_proveedor, e.nombre, e.apellidospama, pv.nombre, pv.apellidospama
+              
+              HAVING ('{$cantMin}' = '' OR SUM(dc.cantidad) >= CAST(NULLIF('{$cantMin}', '') AS INTEGER))
+                 AND ('{$cantMax}' = '' OR SUM(dc.cantidad) <= CAST(NULLIF('{$cantMax}', '') AS INTEGER))
+                 AND ('{$precioMin}' = '' OR SUM(dc.total) >= CAST(NULLIF('{$precioMin}', '') AS NUMERIC))
+                 AND ('{$precioMax}' = '' OR SUM(dc.total) <= CAST(NULLIF('{$precioMax}', '') AS NUMERIC))
+                 
+              ORDER BY c.fechayhora DESC";
+
+    return $this->conexion->ejecutarConsulta($query)->fetchAll(PDO::FETCH_ASSOC);
+}
 }
 ?>

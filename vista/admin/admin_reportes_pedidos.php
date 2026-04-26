@@ -61,12 +61,12 @@
 
         <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Reporte de Pedidos</h1>
-            <p class="page-header-sub">Genera un reporte PDF filtrado del estado de los pedidos.</p>
+            <p class="page-header-sub">Genera un reporte PDF filtrado del estado de los pedidos realizados en línea.</p>
         </div>
 
         <div class="report-form-card">
             <h5 class="text-center"><i class="fas fa-truck me-2" style="color:var(--btn-color)"></i>Generar Reporte de Pedidos</h5>
-            <form action="/proyectoweb/admin/reportes-pedidos" method="POST">
+            <form action="/proyectoweb/admin/reportes" target="_blank" method="POST">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label">Desde:</label>
@@ -80,36 +80,35 @@
                         <label class="form-label">Cliente:</label>
                         <select name="cliente" class="form-select">
                             <option value="">Todos</option>
-                            <option>Ana Torres</option>
-                            <option>Luis Ramírez</option>
+                            <?php
+                                foreach($clientes as $clien){
+                                    ?>
+                                    <option value="<?php echo $clien['no_cliente'] ?>"><?php echo $clien['nombre']." ".$clien['apellidospama'];?></option>
+                                    <?php
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Repartidor:</label>
+                        <select name="repartidor" class="form-select">
+                            <option value="">Todos</option>
+                            <?php
+                                foreach($repartidores as $prov){
+                                    ?>
+                                    <option value="<?php echo $prov['rfc']; ?>"><?php echo $prov['nombre']." ".$prov['apellidospama']; ?></option>
+                                    <?php
+                                }
+                            ?>
                         </select>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Estado del Pedido:</label>
                         <select name="estado" class="form-select">
                             <option value="">Todos</option>
-                            <option>Pendiente</option>
-                            <option>En camino</option>
-                            <option>Entregado</option>
-                            <option>Cancelado</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Producto:</label>
-                        <select name="producto" class="form-select">
-                            <option value="">Todos</option>
-                            <option>Línea Blanca</option>
-                            <option>Línea Marrón</option>
-                            <option>Cocina</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Método de Pago:</label>
-                        <select name="metodo_pago" class="form-select">
-                            <option value="">Todos</option>
-                            <option>Efectivo</option>
-                            <option>Tarjeta</option>
-                            <option>Transferencia</option>
+                            <option value="P">Preparación</option>
+                            <option value="R">Salió a ruta</option>
+                            <option value="E">Entregado</option>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -121,6 +120,7 @@
                         <input type="number" name="monto_max" class="form-control" placeholder="$0.00" min="0" step="0.01">
                     </div>
                     <div class="col-12 text-end mt-2">
+                        <input type="hidden" name="exportar_pdf_pedidos" value="1">
                         <button type="submit" class="btn-generar-pdf">
                             <i class="fas fa-file-pdf"></i> Generar PDF
                         </button>

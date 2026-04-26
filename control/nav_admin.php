@@ -80,20 +80,69 @@ switch($rutaPrincipal){
         $cli = new ClienteControlador();
         $clientes = $cli->getCliente()->buscar('"Veracruz".cliente',["order" => "no_cliente ASC"]);
         $total_clientes = count($cli->getCliente()->buscar('"Veracruz".cliente'));
-        $total_clientes_linea = count($cli->getCliente()->buscar('"Veracruz".cliente',["where"=>"origen='L'"]));
-        $total_clientes_fisico = count($cli->getCliente()->buscar('"Veracruz".cliente',["where"=>"origen='F'"]));
         include('vista/admin/admin_clientes.php');
     break;
 
+    case 'reportes':
+        if (isset($_POST['exportar_pdf'])) {
+            $cli = new ClienteControlador();
+            $fDesde = $_POST['desde'] ?? '';
+            $fHasta = $_POST['hasta'] ?? '';
+            $fVendedor = $_POST['vendedor'] ?? '';
+            $fPago = $_POST['metodo_pago'] ?? '';
+            $fCantMin = $_POST['cant_min'] ?? '';
+            $fCantMax = $_POST['cant_max'] ?? '';
+            $fPrecioMin = $_POST['precio_min'] ?? '';
+            $fPrecioMax = $_POST['precio_max'] ?? '';
+            include('reportes/admin/ventas.php');
+        }
+        else if (isset($_POST['exportar_pdf_compras'])) {
+            $emp = new EmpleadoControlador();
+            $fDesde     = $_POST['desde'] ?? '';
+            $fHasta     = $_POST['hasta'] ?? '';
+            $fProveedor = $_POST['proveedor'] ?? '';
+            $fCantMin   = $_POST['cant_min'] ?? '';
+            $fCantMax   = $_POST['cant_max'] ?? '';
+            $fPrecioMin = $_POST['precio_min'] ?? '';
+            $fPrecioMax = $_POST['precio_max'] ?? '';
+
+            include('reportes/admin/compras.php');
+        }
+        else if (isset($_POST['exportar_pdf_pedidos'])) {
+            $fDesde      = $_POST['desde'] ?? '';
+            $fHasta      = $_POST['hasta'] ?? '';
+            $fCliente    = $_POST['cliente'] ?? '';
+            $fRepartidor = $_POST['repartidor'] ?? '';
+            $fEstado     = $_POST['estado'] ?? '';
+            $fMontoMin   = $_POST['monto_min'] ?? '';
+            $fMontoMax   = $_POST['monto_max'] ?? '';
+
+            include('reportes/admin/pedidos.php');
+        }
+        else {
+            include('vista/admin/header_admin.php');
+            include('vista/404.php');
+            include('vista/admin/footer_admin.php');
+        }
+    break;
+
     case 'ventas':
+        $emp = new EmpleadoControlador();
+        $vendedores = $emp->getEmpleado()->buscar('"Veracruz".empleado',["where"=>"tipousuario='E'"]);
         include('vista/admin/admin_reportes_ventas.php');
     break;
 
     case 'compras':
+         $emp = new EmpleadoControlador();
+        $proveedores = $emp->getEmpleado()->buscar('"Veracruz".empleado',["where"=>"tipousuario='P'"]);
         include('vista/admin/admin_reportes_compras.php');
     break;
 
     case 'pedidos':
+        $cli = new ClienteControlador();
+        $clientes = $cli->getCliente()->buscar('"Veracruz".cliente');
+        $emp = new EmpleadoControlador();
+        $repartidores= $emp->getEmpleado()->buscar('"Veracruz".empleado',["where"=>"tipousuario='R'"]);
         include('vista/admin/admin_reportes_pedidos.php');
     break;
 

@@ -129,7 +129,7 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="perfil-campo">
-                                    <div class="perfil-label">Nombre completo*</div>
+                                    <div class="perfil-label">Nombre completo</div>
                                     <div class="perfil-valor" id="vNombre"><?php echo $info[0]['nombre']." ".$info[0]["apellidospama"]; ?></div>
                                 </div>
                             </div>
@@ -341,314 +341,131 @@
 
 
         <!-- PANEL PEDIDOS -->
+         <?php 
+// 1. Agrupar los productos por pedido (para evitar el error de variable indefinida)
+$pedidosAgrupados = [];
+if (isset($pedidosRaw) && is_array($pedidosRaw)) {
+    foreach($pedidosRaw as $f) {
+        $ref = $f['no_referencia'];
+        if(!isset($pedidosAgrupados[$ref])) {
+            $pedidosAgrupados[$ref] = [
+                'no_referencia' => $f['no_referencia'],
+                'fechayhora'    => $f['fechayhora'],
+                'total_pedido'  => $f['total_pedido'],
+                'estado_envio'  => $f['estado_envio'],
+                'items'         => []
+            ];
+        }
+        $pedidosAgrupados[$ref]['items'][] = $f;
+    }
+}
+
+// 2. Contadores para los Badges
+$countP = 0; $countR = 0; $countE = 0;
+foreach($pedidosAgrupados as $p) {
+    $est = trim($p['estado_envio']);
+    if($est == 'P') $countP++;
+    if($est == 'R') $countR++;
+    if($est == 'E') $countE++;
+}
+?>
         <div class="cuenta-panel" id="panel-pedidos">
-            <div class="mb-3">
-                <h5 style="color:var(--azul-marino);font-weight:700;margin:0">Mis Pedidos</h5>
-                <p style="font-size:.8rem;color:#6c757d;margin:0">Consulta y da seguimiento a tus compras.</p>
+    <?php 
+        $countP = 0; $countR = 0; $countE = 0;
+        foreach($pedidosAgrupados as $p) {
+            $est = trim($p['estado_envio']);
+            if($est == 'P') $countP++;
+            if($est == 'R') $countR++;
+            if($est == 'E') $countE++;
+        }
+    ?>
+    <div class="pedido-tabs">
+        <button class="pedido-tab-btn active" onclick="filtrarPedidos('P', this)">
+            <i class="fas fa-cog"></i> En Preparación <span class="tab-badge"><?php echo $countP; ?></span>
+        </button>
+        <button class="pedido-tab-btn" onclick="filtrarPedidos('R', this)">
+            <i class="fas fa-truck"></i> En Ruta <span class="tab-badge"><?php echo $countR; ?></span>
+        </button>
+        <button class="pedido-tab-btn" onclick="filtrarPedidos('E', this)">
+            <i class="fas fa-check-double"></i> Entregados <span class="tab-badge"><?php echo $countE; ?></span>
+        </button>
+    </div>
+
+    <div id="contenedor-pedidos">
+        <?php foreach($pedidosAgrupados as $p): 
+            $estado = trim($p['estado_envio']);
+        ?>
+            <div class="pedido-card item-pedido" data-estado="<?php echo $estado; ?>" style="display: none;">
+                <div class="pedido-card-header" <?php echo ($estado == 'E') ? 'style="background:#065f46"' : ''; ?>>
+                    <div>
+                        <div class="pedido-num">Pedido <strong>#<?php echo str_pad($p['no_referencia'], 4, "0", STR_PAD_LEFT); ?></strong></div>
+                        <div class="pedido-fecha">Realizado el <?php echo date("d/m/Y", strtotime($p['fechayhora'])); ?></div>
+                    </div>
+                    <div class="pedido-total">
+                        <?php if($estado == 'E'): ?>
+                            <span style="background:rgba(255,255,255,.2); padding:2px 8px; border-radius:10px; font-size:0.7rem; margin-right:10px;">
+                                <i class="fas fa-check-circle"></i> Entregado
+                            </span>
+                        <?php endif; ?>
+                        $<?php echo number_format($p['total_pedido'], 2); ?>
+                    </div>
+                </div>
+                
+                <div class="pedido-body">
+                    <?php foreach($p['items'] as $item): ?>
+                        <div class="pedido-item">
+                            <div class="pedido-item-img">
+                                <img src="/proyectoweb/public/uploads/img/<?php echo $item['imagen']; ?>" onerror="this.src='https://placehold.co/56x56?text=Prod'">
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="pedido-item-name"><?php echo $item['nombre']; ?></div>
+                                <div class="pedido-item-sku">SKU: <?php echo Helpers::crearSKU($item['categoria'], $item['nombre']); ?> · Cant: <?php echo $item['cantidad']; ?></div>
+                            </div>
+                            <div class="pedido-item-price">$<?php echo number_format($item['precio_venta'] * $item['cantidad'], 2); ?></div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="pedido-tracking">
+                    <div class="tracking-steps">
+                        <?php 
+                            // P=1 (Recibido automático + Preparación), R=2 (Ruta), E=3 (Entregado)
+                            $n = ($estado == 'P') ? 1 : (($estado == 'R') ? 2 : 3);
+                        ?>
+                        <div class="tracking-step done">
+                            <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
+                            <div class="tracking-step-label">Pedido recibido</div>
+                        </div>
+
+                        <div class="tracking-line done"></div>
+
+                        <div class="tracking-step <?php echo ($n == 1) ? 'current' : 'done'; ?>">
+                            <div class="tracking-step-circle"><i class="fas fa-box"></i></div>
+                            <div class="tracking-step-label">En preparación</div>
+                        </div>
+
+                        <div class="tracking-line <?php echo ($n >= 2) ? 'done' : ''; ?>"></div>
+
+                        <div class="tracking-step <?php echo ($n == 2) ? 'current' : (($n > 2) ? 'done' : ''); ?>">
+                            <div class="tracking-step-circle"><i class="fas fa-truck"></i></div>
+                            <div class="tracking-step-label">Salió a ruta</div>
+                        </div>
+
+                        <div class="tracking-line <?php echo ($n >= 3) ? 'done' : ''; ?>"></div>
+
+                        <div class="tracking-step <?php echo ($n == 3) ? 'current done' : ''; ?>">
+                            <div class="tracking-step-circle"><i class="fas fa-home"></i></div>
+                            <div class="tracking-step-label">Entregado</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="pedido-tabs">
-                <button class="pedido-tab-btn active" id="btn-tab-proceso" onclick="switchPedidoTab('tab-proceso',this)">
-                    <i class="fas fa-cog"></i> En Proceso <span class="tab-badge ms-1">1</span>
-                </button>
-                <button class="pedido-tab-btn" id="btn-tab-envio" onclick="switchPedidoTab('tab-envio',this)">
-                    <i class="fas fa-truck"></i> En Envío <span class="tab-badge ms-1">1</span>
-                </button>
-                <button class="pedido-tab-btn" id="btn-tab-historial" onclick="switchPedidoTab('tab-historial',this)">
-                    <i class="fas fa-history"></i> Historial <span class="tab-badge ms-1">3</span>
-                </button>
-            </div>
-
-            <!-- En Proceso -->
-            <div class="pedido-tab-panel active" id="tab-proceso">
-                <div class="pedido-card">
-                    <div class="pedido-card-header">
-                        <div>
-                            <div class="pedido-num">Pedido <strong>#LC-2026-0041</strong></div>
-                            <div class="pedido-fecha">Realizado el 20 de marzo de 2026</div>
-                        </div>
-                        <div class="pedido-total">Total: $9,999.00</div>
-                    </div>
-                    <div class="pedido-body">
-                        <div class="pedido-item">
-                            <div class="pedido-item-img">
-                                <img src="../../multimedia/Imagenes/productos/lavadora-8mwtw2024wjm.jpg"
-                                     onerror="this.src='https://placehold.co/56x56/e8f4fb/002366?text=Prod'" alt="Lavadora">
-                            </div>
-                            <div>
-                                <div class="pedido-item-name">Lavadora 20kg Carga Superior Xpert System</div>
-                                <div class="pedido-item-sku">SKU: 8MWTW2024WJM · Cant: 1</div>
-                            </div>
-                            <div class="pedido-item-price">$9,999.00</div>
-                        </div>
-                    </div>
-                    <div class="pedido-tracking">
-                        <div class="pedido-tracking-title"><i class="fas fa-map-marker-alt me-1"></i> Estado del pedido</div>
-                        <div class="tracking-steps">
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">Pedido recibido</div>
-                                <div class="tracking-step-date">20 mar</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step current">
-                                <div class="tracking-step-circle"><i class="fas fa-box"></i></div>
-                                <div class="tracking-step-label">En preparación</div>
-                                <div class="tracking-step-date">Hoy</div>
-                            </div>
-                            <div class="tracking-line"></div>
-                            <div class="tracking-step">
-                                <div class="tracking-step-circle"><i class="fas fa-truck"></i></div>
-                                <div class="tracking-step-label">Salió a ruta</div>
-                                <div class="tracking-step-date">—</div>
-                            </div>
-                            <div class="tracking-line"></div>
-                            <div class="tracking-step">
-                                <div class="tracking-step-circle"><i class="fas fa-home"></i></div>
-                                <div class="tracking-step-label">Entregado</div>
-                                <div class="tracking-step-date">—</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- /tab-proceso -->
-
-            <!-- En Envío -->
-            <div class="pedido-tab-panel" id="tab-envio">
-                <div class="pedido-card">
-                    <div class="pedido-card-header">
-                        <div>
-                            <div class="pedido-num">Pedido <strong>#LC-2026-0038</strong></div>
-                            <div class="pedido-fecha">Realizado el 17 de marzo de 2026</div>
-                        </div>
-                        <div class="pedido-total">Total: $4,599.00</div>
-                    </div>
-                    <div class="pedido-body">
-                        <div class="pedido-item">
-                            <div class="pedido-item-img">
-                                <img src="https://placehold.co/56x56/e8f4fb/002366?text=WM" alt="Microondas">
-                            </div>
-                            <div>
-                                <div class="pedido-item-name">Microondas AirFry 4 en 1 (1CuFt)</div>
-                                <div class="pedido-item-sku">SKU: WM3911D · Cant: 1</div>
-                            </div>
-                            <div class="pedido-item-price">$4,599.00</div>
-                        </div>
-                    </div>
-                    <div class="pedido-tracking">
-                        <div class="pedido-tracking-title"><i class="fas fa-map-marker-alt me-1"></i> Estado del pedido</div>
-                        <div class="tracking-steps">
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">Pedido recibido</div>
-                                <div class="tracking-step-date">17 mar</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">En preparación</div>
-                                <div class="tracking-step-date">18 mar</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step current">
-                                <div class="tracking-step-circle"><i class="fas fa-truck"></i></div>
-                                <div class="tracking-step-label">Salió a ruta</div>
-                                <div class="tracking-step-date">Hoy</div>
-                            </div>
-                            <div class="tracking-line"></div>
-                            <div class="tracking-step">
-                                <div class="tracking-step-circle"><i class="fas fa-home"></i></div>
-                                <div class="tracking-step-label">Entregado</div>
-                                <div class="tracking-step-date">—</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- /tab-envio -->
-
-            <!-- Historial -->
-            <div class="pedido-tab-panel" id="tab-historial">
-
-                <!-- Alerta de referencia buscada (se muestra solo si viene de rastrear_pedido) -->
-                <div id="refAlert" class="ref-alert">
-                    <i class="fas fa-search"></i>
-                    <span id="refAlertText"></span>
-                </div>
-
-                <!-- Pedido entregado 1 -->
-                <div class="pedido-card" id="hist-LC-2026-0035">
-                    <div class="pedido-card-header" style="background:#065f46">
-                        <div>
-                            <div class="pedido-num">Pedido <strong>#LC-2026-0035</strong></div>
-                            <div class="pedido-fecha">Realizado el 5 de marzo de 2026</div>
-                        </div>
-                        <div class="pedido-total" style="display:flex;align-items:center;gap:.5rem">
-                            <span style="background:rgba(255,255,255,.2);color:#fff;font-size:.72rem;
-                                  padding:.2rem .65rem;border-radius:2rem;font-weight:700">
-                                <i class="fas fa-check-circle me-1"></i>Entregado
-                            </span>
-                            $2,799.00
-                        </div>
-                    </div>
-                    <div class="pedido-body">
-                        <div class="pedido-item">
-                            <div class="pedido-item-img">
-                                <img src="https://placehold.co/56x56/e8f4fb/002366?text=TV" alt="Televisor">
-                            </div>
-                            <div>
-                                <div class="pedido-item-name">Televisor LED Smart 32" HD</div>
-                                <div class="pedido-item-sku">SKU: TV32SMART · Cant: 1</div>
-                            </div>
-                            <div class="pedido-item-price">$2,799.00</div>
-                        </div>
-                    </div>
-                    <div class="pedido-tracking">
-                        <div class="pedido-tracking-title"><i class="fas fa-map-marker-alt me-1"></i> Estado del pedido</div>
-                        <div class="tracking-steps">
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">Pedido recibido</div>
-                                <div class="tracking-step-date">5 mar</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">En preparación</div>
-                                <div class="tracking-step-date">6 mar</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">Salió a ruta</div>
-                                <div class="tracking-step-date">8 mar</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-home"></i></div>
-                                <div class="tracking-step-label">Entregado</div>
-                                <div class="tracking-step-date">9 mar</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pedido entregado 2 -->
-                <div class="pedido-card" id="hist-LC-2026-0021">
-                    <div class="pedido-card-header" style="background:#065f46">
-                        <div>
-                            <div class="pedido-num">Pedido <strong>#LC-2026-0021</strong></div>
-                            <div class="pedido-fecha">Realizado el 12 de febrero de 2026</div>
-                        </div>
-                        <div class="pedido-total" style="display:flex;align-items:center;gap:.5rem">
-                            <span style="background:rgba(255,255,255,.2);color:#fff;font-size:.72rem;
-                                  padding:.2rem .65rem;border-radius:2rem;font-weight:700">
-                                <i class="fas fa-check-circle me-1"></i>Entregado
-                            </span>
-                            $1,349.00
-                        </div>
-                    </div>
-                    <div class="pedido-body">
-                        <div class="pedido-item">
-                            <div class="pedido-item-img">
-                                <img src="https://placehold.co/56x56/e8f4fb/002366?text=LIC" alt="Licuadora">
-                            </div>
-                            <div>
-                                <div class="pedido-item-name">Licuadora de Alto Rendimiento 2L</div>
-                                <div class="pedido-item-sku">SKU: LIC2L900W · Cant: 1</div>
-                            </div>
-                            <div class="pedido-item-price">$1,349.00</div>
-                        </div>
-                    </div>
-                    <div class="pedido-tracking">
-                        <div class="pedido-tracking-title"><i class="fas fa-map-marker-alt me-1"></i> Estado del pedido</div>
-                        <div class="tracking-steps">
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">Pedido recibido</div>
-                                <div class="tracking-step-date">12 feb</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">En preparación</div>
-                                <div class="tracking-step-date">13 feb</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">Salió a ruta</div>
-                                <div class="tracking-step-date">15 feb</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-home"></i></div>
-                                <div class="tracking-step-label">Entregado</div>
-                                <div class="tracking-step-date">16 feb</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pedido entregado 3 -->
-                <div class="pedido-card" id="hist-LC-2025-0198">
-                    <div class="pedido-card-header" style="background:#065f46">
-                        <div>
-                            <div class="pedido-num">Pedido <strong>#LC-2025-0198</strong></div>
-                            <div class="pedido-fecha">Realizado el 3 de diciembre de 2025</div>
-                        </div>
-                        <div class="pedido-total" style="display:flex;align-items:center;gap:.5rem">
-                            <span style="background:rgba(255,255,255,.2);color:#fff;font-size:.72rem;
-                                  padding:.2rem .65rem;border-radius:2rem;font-weight:700">
-                                <i class="fas fa-check-circle me-1"></i>Entregado
-                            </span>
-                            $6,499.00
-                        </div>
-                    </div>
-                    <div class="pedido-body">
-                        <div class="pedido-item">
-                            <div class="pedido-item-img">
-                                <img src="https://placehold.co/56x56/e8f4fb/002366?text=REF" alt="Refrigerador">
-                            </div>
-                            <div>
-                                <div class="pedido-item-name">Refrigerador Top Mount 14 pies³</div>
-                                <div class="pedido-item-sku">SKU: RT14AXMX · Cant: 1</div>
-                            </div>
-                            <div class="pedido-item-price">$6,499.00</div>
-                        </div>
-                    </div>
-                    <div class="pedido-tracking">
-                        <div class="pedido-tracking-title"><i class="fas fa-map-marker-alt me-1"></i> Estado del pedido</div>
-                        <div class="tracking-steps">
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">Pedido recibido</div>
-                                <div class="tracking-step-date">3 dic</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">En preparación</div>
-                                <div class="tracking-step-date">4 dic</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-check"></i></div>
-                                <div class="tracking-step-label">Salió a ruta</div>
-                                <div class="tracking-step-date">6 dic</div>
-                            </div>
-                            <div class="tracking-line done"></div>
-                            <div class="tracking-step done">
-                                <div class="tracking-step-circle"><i class="fas fa-home"></i></div>
-                                <div class="tracking-step-label">Entregado</div>
-                                <div class="tracking-step-date">7 dic</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div><!-- /tab-historial -->
-
-        </div><!-- /panel-pedidos -->
+        <?php endforeach; ?>
+    </div>
+<div id="contenedor-pedidos">
+   </div>
+<div id="paginacion-controles" class="text-center py-4"></div>
+</div>
 
 
         <!-- PANEL SOLICITUDES -->
@@ -731,64 +548,88 @@
 
     </main>
 </div><!-- /cuenta-layout -->
-
 <script>
-    const DIRS = <?php echo json_encode($direcciones); ?>;
-document.addEventListener('DOMContentLoaded', function() {
-    const estadosYCiudades = {
-        "Aguascalientes": ["Aguascalientes", "Jesús María", "Calvillo", "Rincón de Romos"],
-        "Baja California": ["Tijuana", "Mexicali", "Ensenada", "Playas de Rosarito", "Tecate"],
-        "Baja California Sur": ["La Paz", "Los Cabos", "San José del Cabo", "Loreto", "Ciudad Constitución"],
-        "Campeche": ["Campeche", "Ciudad del Carmen", "Champotón", "Escárcega"],
-        "Chiapas": ["Tuxtla Gutiérrez", "Tapachula", "San Cristóbal de las Casas", "Comitán", "Palenque"],
-        "Chihuahua": ["Chihuahua", "Ciudad Juárez", "Delicias", "Cuauhtémoc", "Hidalgo del Parral"],
-        "Ciudad de México": ["Álvaro Obregón", "Azcapotzalco", "Benito Juárez", "Coyoacán", "Cuajimalpa", "Cuauhtémoc", "Gustavo A. Madero", "Iztacalco", "Iztapalapa", "Magdalena Contreras", "Miguel Hidalgo", "Milpa Alta", "Tláhuac", "Tlalpan", "Venustiano Carranza", "Xochimilco"],
-        "Coahuila": ["Saltillo", "Torreón", "Monclova", "Piedras Negras", "Ciudad Acuña"],
-        "Colima": ["Colima", "Manzanillo", "Tecomán", "Villa de Álvarez"],
-        "Durango": ["Durango", "Gómez Palacio", "Lerdo", "Santiago Papasquiaro"],
-        "Estado de México": ["Toluca", "Ecatepec", "Nezahualcóyotl", "Naucalpan", "Tlalnepantla", "Chimalhuacán", "Cuautitlán Izcalli", "Atizapán", "Metepec"],
-        "Guanajuato": ["León", "Irapuato", "Celaya", "Salamanca", "Guanajuato", "San Miguel de Allende"],
-        "Guerrero": ["Acapulco", "Chilpancingo", "Iguala", "Zihuatanejo", "Taxco"],
-        "Hidalgo": ["Pachuca", "Tulancingo", "Tula de Allende", "Tizayuca", "Mineral de la Reforma"],
-        "Jalisco": ["Guadalajara", "Zapopan", "Tlaquepaque", "Tonalá", "Puerto Vallarta", "Tlajomulco de Zúñiga", "Lagos de Moreno"],
-        "Michoacán": ["Morelia", "Uruapan", "Zamora", "Lázaro Cárdenas", "Pátzcuaro"],
-        "Morelos": ["Cuernavaca", "Jiutepec", "Cuautla", "Temixco", "Yautepec"],
-        "Nayarit": ["Tepic", "Bahía de Banderas", "Xalisco", "Compostela"],
-        "Nuevo León": ["Monterrey", "Apodaca", "Guadalupe", "San Nicolás de los Garza", "San Pedro Garza García", "Santa Catarina", "General Escobedo"],
-        "Oaxaca": ["Oaxaca de Juárez", "Salina Cruz", "San Juan Bautista Tuxtepec", "Juchitán de Zaragoza", "Santa María Huatulco"],
-        "Puebla": ["Puebla", "Cholula", "Tehuacán", "Atlixco", "San Martín Texmelucan", "Cuautlancingo"],
-        "Querétaro": ["Querétaro", "San Juan del Río", "Corregidora", "El Marqués", "Tequisquiapan"],
-        "Quintana Roo": ["Cancún", "Playa del Carmen", "Chetumal", "Cozumel", "Tulum"],
-        "San Luis Potosí": ["San Luis Potosí", "Soledad de Graciano Sánchez", "Ciudad Valles", "Matehuala"],
-        "Sinaloa": ["Culiacán", "Mazatlán", "Los Mochis", "Guasave", "Navolato"],
-        "Sonora": ["Hermosillo", "Ciudad Obregón", "Nogales", "San Luis Río Colorado", "Navojoa", "Guaymas"],
-        "Tabasco": ["Villahermosa", "Cárdenas", "Comalcalco", "Macuspana", "Tenosique"],
-        "Tamaulipas": ["Reynosa", "Matamoros", "Nuevo Laredo", "Ciudad Victoria", "Tampico", "Ciudad Madero"],
-        "Tlaxcala": ["Tlaxcala", "Apizaco", "Huamantla", "Chiautempan", "Zacatelco"],
-        "Veracruz": ["Veracruz", "Boca del Río", "Xalapa", "Córdoba", "Orizaba", "Coatzacoalcos", "Minatitlán", "Poza Rica", "Tuxpan"],
-        "Yucatán": ["Mérida", "Valladolid", "Tizimín", "Progreso", "Kanasín"],
-        "Zacatecas": ["Zacatecas", "Guadalupe", "Fresnillo", "Jerez"]
-    };
+    let pedFiltro = 'P';
+    let pedPagina = 1;
+    const pedPorPag = 3;
 
-    const selectEstado = document.getElementById('dEstado');
-    const selectCiudad = document.getElementById('dCiudad');
+    function filtrarPedidos(estado, btn) {
+        // UI Tabs
+        document.querySelectorAll('.pedido-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
-    selectEstado.addEventListener('change', function() {
-        const estadoSeleccionado = this.value;
-        const ciudades = estadosYCiudades[estadoSeleccionado] || [];
-        selectCiudad.innerHTML = '<option value="" selected disabled>Selecciona una ciudad...</option>';
-        
-        if (ciudades.length > 0) {
-            selectCiudad.disabled = false;
-            ciudades.forEach(ciudad => {
-                const option = document.createElement('option');
-                option.value = ciudad;
-                option.textContent = ciudad;
-                selectCiudad.appendChild(option);
-            });
-        } else {
-            selectCiudad.disabled = true;
+        pedFiltro = estado;
+        pedPagina = 1;
+        aplicarLogicaVista();
+    }
+
+    function aplicarLogicaVista() {
+    const contenedor = document.getElementById('contenedor-pedidos');
+    const todos = document.querySelectorAll('.item-pedido');
+    
+    // Filtramos
+    const filtrados = Array.from(todos).filter(el => el.dataset.estado.trim() === pedFiltro);
+    
+    // Ocultar todos
+    todos.forEach(el => el.style.display = 'none');
+
+    // SI NO HAY PEDIDOS EN ESTA PESTAÑA:
+    // Eliminamos cualquier mensaje previo y ponemos el nuevo
+    const mensajeVacio = document.getElementById('mensaje-vacio-pedidos');
+    if (mensajeVacio) mensajeVacio.remove();
+
+    if (filtrados.length === 0) {
+        const divVacio = document.createElement('div');
+        divVacio.id = 'mensaje-vacio-pedidos';
+        divVacio.className = 'text-center py-5';
+        divVacio.innerHTML = `
+            <i class="fas fa-box-open d-block mb-3" style="font-size: 3rem; color: #cbd5e0;"></i>
+            <p style="color: #718096; font-weight: 500;">No tienes pedidos en esta categoría todavía.</p>
+            <a href="/proyectoweb/?" class="btn btn-sm btn-outline-primary" style="border-radius:20px;">Ir a la tienda</a>
+        `;
+        contenedor.appendChild(divVacio);
+        renderizarControles(0);
+        return;
+    }
+
+    // Si hay pedidos, aplicar paginación
+    const inicio = (pedPagina - 1) * pedPorPag;
+    const fin = inicio + pedPorPag;
+    
+    filtrados.forEach((el, index) => {
+        if (index >= inicio && index < fin) {
+            el.style.display = 'block';
         }
     });
-});
+
+    renderizarControles(filtrados.length);
+}
+
+function renderizarControles(total) {
+    const numPags = Math.ceil(total / pedPorPag);
+    const cont = document.getElementById('paginacion-controles');
+    if(!cont) return;
+    
+    cont.innerHTML = '';
+
+    // Si solo hay una página o ninguna, no mostramos botones
+    if (numPags <= 1) return;
+
+    for (let i = 1; i <= numPags; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        btn.className = (i === pedPagina) ? 'btn btn-sm btn-primary mx-1' : 'btn btn-sm btn-outline-primary mx-1';
+        btn.style.borderRadius = "8px";
+        btn.style.minWidth = "35px";
+        
+        btn.onclick = () => {
+            pedPagina = i;
+            aplicarLogicaVista();
+            document.getElementById('panel-pedidos').scrollIntoView({behavior: 'smooth'});
+        };
+        cont.appendChild(btn);
+    }
+}
+    // Iniciar al cargar el DOM
+    document.addEventListener('DOMContentLoaded', () => aplicarLogicaVista());
 </script>

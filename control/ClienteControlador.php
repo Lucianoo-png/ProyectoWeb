@@ -93,7 +93,7 @@ class ClienteControlador {
         $body = '<!DOCTYPE html>
         <html lang="es">
         <head><meta charset="UTF-8"></head>
-        <body style="margin:0; padding:0; background-color:#f4f4f4; font-family:\'Ubuntu Sans\', sans-serif;">
+        <body style="margin:0; padding:0; background-color:#f4f4f4; font-family:\'Segoe UI\',Helvetica,Arial,sans-serif;">
             <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4; padding:40px 0;">
                 <tr>
                     <td align="center">
