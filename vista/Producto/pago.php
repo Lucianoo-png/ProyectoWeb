@@ -1,4 +1,3 @@
-
 <div class="checkout-bg">
 
     <?php include('vista/header_gral.php'); ?>
@@ -41,28 +40,13 @@
 
 <?php endif; ?>
     <div class="pago-layout">
-       
-    <form action="/proyectoweb/pago" method="POST">
-        <input type="hidden" name="id_direccion" id="form-id-direccion">
-        <input type="hidden" name="items_json" id="form-items-json">
-        <!-- ── Columna izquierda: formulario ── -->
-        <div>
-            <!-- Dirección seleccionada -->
-            <div class="pago-card mb-3">
-                <h5><i class="fas fa-map-marker-alt me-2" style="color:var(--btn-color)"></i>Enviando a</h5>
-                <div class="pago-dir-box">
-                    <i class="fas fa-home mt-1"></i>
-                    <div>
-                        <div class="pago-dir-nombre" id="pago-dir-nombre">—</div>
-                        <div class="pago-dir-detalle" id="pago-dir-detalle">—</div>
-                        <a href="/proyectoweb/envio" class="pago-dir-cambiar">
-                            <i class="fas fa-pencil-alt me-1"></i>Cambiar dirección
-                        </a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Método de pago -->
+    <form action="/proyectoweb/pago" method="POST">
+
+        <!-- ── Columna izquierda: Método de pago (el grande) ── -->
+        <div class="pago-col-main">
+            <input type="hidden" name="id_direccion" id="form-id-direccion">
+            <input type="hidden" name="items_json" id="form-items-json">
             <div class="pago-card">
                 <h5><i class="fas fa-lock me-2" style="color:var(--btn-color)"></i>Método de pago</h5>
 
@@ -73,7 +57,7 @@
                     </button>
                 </div>
 
-                <!-- ══ Panel: Tarjeta ══════════════════ -->
+                <!-- Panel: Tarjeta -->
                 <div class="pago-panel active" id="panel-tarjeta">
                     <!-- Vista previa de tarjeta -->
                     <div class="card-preview">
@@ -158,13 +142,29 @@
             </div>
         </div>
 
-        <!-- ── Columna derecha: resumen ── -->
+        <!-- ── Columna derecha: los dos chicos apilados ── -->
         <div class="pago-resumen">
+
+            <!-- Dirección seleccionada -->
+            <div class="pago-card">
+                <h5><i class="fas fa-map-marker-alt me-2" style="color:var(--btn-color)"></i>Enviando a</h5>
+                <div class="pago-dir-box">
+                    <i class="fas fa-home mt-1"></i>
+                    <div>
+                        <div class="pago-dir-nombre" id="pago-dir-nombre">—</div>
+                        <div class="pago-dir-detalle" id="pago-dir-detalle">—</div>
+                        <a href="/proyectoweb/envio" class="pago-dir-cambiar">
+                            <i class="fas fa-pencil-alt me-1"></i>Cambiar dirección
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen del pedido -->
             <div class="pago-card">
                 <h5><i class="fas fa-receipt me-2" style="color:var(--btn-color)"></i>Resumen del pedido</h5>
 
                 <div id="resumen-items">
-                    <!-- Renderizado por JS -->
                     <div class="resumen-empty">
                         <i class="fas fa-shopping-cart"></i>
                         Cargando artículos...
@@ -190,6 +190,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </form>
     </div>

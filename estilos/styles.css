@@ -2258,6 +2258,33 @@ div.checkout-bg {
             flex: 1;
         }
 
+        /* ── Cada dirección en el modal "Todas mis direcciones" ── */
+        .todas-dir-item {
+            border: 2px solid #e5e9f0;
+            border-radius: 12px;
+            padding: 1rem 1.15rem;
+            margin-bottom: 1rem;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .todas-dir-item:last-child { margin-bottom: 0; }
+        .todas-dir-item:hover {
+            border-color: var(--btn-color);
+            box-shadow: 0 4px 16px rgba(0,140,168,.13);
+        }
+        .todas-dir-nombre {
+            font-weight: 700;
+            font-size: .93rem;
+            color: #1a2340;
+            margin-bottom: .3rem;
+        }
+        .todas-dir-detalle {
+            font-size: .82rem;
+            color: #555;
+            line-height: 1.65;
+        }
+
         /* Tarjeta de dirección dentro del modal */
         .modal-dir-card {
             border: 2px solid #e5e9f0;
@@ -2301,21 +2328,54 @@ div.checkout-bg {
         }
         .sin-dirs-msg i { font-size: 2.5rem; margin-bottom: .8rem; display: block; }
 
-/* AGO.PHP — Vista de pago / checkout final */
+/* PAGO.PHP — Vista de pago / checkout final */
 
-/*  Layout principal  */
+/* Layout principal: dos columnas bien separadas */
+/* pago-layout: el form rompe el grid, usamos display:contents para ignorarlo */
 .pago-layout {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 2.2rem auto 3rem;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
+}
+
+/* El <form> es invisible al layout: sus hijos son los grid items reales */
+.pago-layout > form {
     display: grid;
     grid-template-columns: 1fr 360px;
-    gap: 1.6rem;
+    gap: 2.4rem;
     align-items: start;
 }
-@media (max-width: 768px) {
-    .pago-layout { grid-template-columns: 1fr; }
+
+@media (max-width: 860px) {
+    .pago-layout > form {
+        grid-template-columns: 1fr;
+        gap: 1.4rem;
+        padding: 0;
+    }
     .pago-resumen { order: -1; }
+}
+
+/* Columna izquierda: método de pago (el grande) */
+.pago-col-main {
+    min-width: 0;
+}
+
+/* Columna derecha: dirección + resumen apilados en sidebar */
+.pago-resumen {
+    position: sticky;
+    top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    background: #f0f4fb;
+    border-radius: 16px;
+    padding: 1.4rem;
+    border: 1.5px solid #dce6f7;
+}
+.pago-resumen .pago-card {
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,35,102,.08);
+    margin-bottom: 0 !important;
 }
 
 /* Tarjeta blanca general */
@@ -2324,6 +2384,7 @@ div.checkout-bg {
     border-radius: 14px;
     box-shadow: 0 4px 24px rgba(0,0,0,.07);
     padding: 1.6rem 1.8rem;
+    border: 1px solid #eaeef8;
 }
 .pago-card h5 {
     font-size: 1rem;
@@ -2331,7 +2392,7 @@ div.checkout-bg {
     color: #1a2340;
     margin-bottom: 1.2rem;
     padding-bottom: .7rem;
-    border-bottom: 1px solid #eef0f6;
+    border-bottom: 2px solid #eef0f6;
 }
 
 /* Dirección seleccionada ─*/
@@ -2538,12 +2599,26 @@ div.checkout-bg {
     box-shadow: 0 8px 24px rgba(0,180,180,.35);
 }
 .btn-confirmar:active { transform: translateY(0); }
+.btn-confirmar:disabled,
+.btn-confirmar[disabled] {
+    background: #b0bec5;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: .65;
+    transform: none;
+}
+.btn-confirmar:disabled:hover,
+.btn-confirmar[disabled]:hover {
+    background: #b0bec5;
+    transform: none;
+    box-shadow: none;
+}
 .btn-confirmar i { margin-right: .5rem; }
 .btn-confirmar.loading .btn-confirmar-text { display: none; }
 .btn-confirmar.loading .spinner-confirmar  { display: block; }
 
 /*  Columna de resumen del pedido */
-.pago-resumen { position: sticky; top: 1.5rem; }
+/* pago-resumen defined above in layout section */
 
 .resumen-item {
     display: flex;

@@ -24,7 +24,7 @@ class Reserva {
             return true;
         }
 
-        $expira = date('Y-m-d H:i:s', strtotime('+1 minutes'));
+        $expira = date('Y-m-d H:i:s', strtotime('+15 minutes'));
         $prod = $this->conexion->ejecutarConsulta('SELECT stock, stock_reservado FROM "Veracruz".producto WHERE no_producto = ?', [$no_producto])->fetch(PDO::FETCH_ASSOC);
         if (!$prod) return false;
         $sqlResAnt = 'SELECT cantidad FROM "Veracruz".carrito_reserva 

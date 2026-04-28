@@ -581,10 +581,10 @@ foreach($pedidosAgrupados as $p) {
     if (filtrados.length === 0) {
         const divVacio = document.createElement('div');
         divVacio.id = 'mensaje-vacio-pedidos';
-        divVacio.className = 'text-center py-5';
+        divVacio.style.cssText = 'text-align:center; width:100%; padding:3rem 1rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.75rem;';
         divVacio.innerHTML = `
-            <i class="fas fa-box-open d-block mb-3" style="font-size: 3rem; color: #cbd5e0;"></i>
-            <p style="color: #718096; font-weight: 500;">No tienes pedidos en esta categoría todavía.</p>
+            <i class="fas fa-box-open" style="font-size:3rem; color:#cbd5e0;"></i>
+            <p style="color:#718096; font-weight:500; margin:0;">No tienes pedidos en esta categoría todavía.</p>
             <a href="/proyectoweb/?" class="btn btn-sm btn-outline-primary" style="border-radius:20px;">Ir a la tienda</a>
         `;
         contenedor.appendChild(divVacio);

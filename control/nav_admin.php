@@ -169,6 +169,13 @@ switch($rutaPrincipal){
         $nuevoFolio = Helpers::generarFolioReabastecimiento($ultimoFolio);
         include('vista/admin/admin_pedido_proveedor.php');
     break;
+
+    case 'asignar-pedidos':
+        $emp = new EmpleadoControlador();
+
+        
+    
+    break;
     
      case 'logs':
         $usu = new EmpleadoControlador();

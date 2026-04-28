@@ -621,6 +621,22 @@ function updateCardName(input) {
     if (el) el.textContent = (input.value.toUpperCase() || 'NOMBRE APELLIDO').slice(0, 22);
 }
 
+/* ── Comprueba si una fecha MM/AA ya venció ─────────────── */
+function tarjetaVencida(valor) {
+    if (!valor || valor.length < 5) return false; // incompleta, no validar aún
+    const [mmStr, aaStr] = valor.split('/');
+    const mes  = parseInt(mmStr, 10);
+    const anio = 2000 + parseInt(aaStr, 10);
+    if (isNaN(mes) || isNaN(anio)) return false;
+    const hoy   = new Date();
+    const mesHoy  = hoy.getMonth() + 1; // 1-12
+    const anioHoy = hoy.getFullYear();
+    // La tarjeta es válida hasta el último día del mes de vencimiento
+    if (anio < anioHoy) return true;
+    if (anio === anioHoy && mes < mesHoy) return true;
+    return false;
+}
+
 function formatExp(input) {
     // 1. Quitar todo lo que no sea número
     let val = input.value.replace(/\D/g, '');
@@ -635,6 +651,34 @@ function formatExp(input) {
         input.value = val.substring(0, 2) + '/' + val.substring(2, 4);
     } else {
         input.value = val;
+    }
+
+    // 4. Actualizar la tarjeta visual
+    const el = document.getElementById('cardExpDisplay');
+    if (el) el.textContent = input.value || 'MM/AA';
+
+    // 5. Validar si la tarjeta está vencida y mostrar feedback visual
+    let errEl = document.getElementById('exp-error-msg');
+    if (!errEl) {
+        errEl = document.createElement('div');
+        errEl.id = 'exp-error-msg';
+        errEl.style.cssText = 'color:#dc3545;font-size:.76rem;margin-top:.3rem;display:none;';
+        errEl.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>Esta tarjeta ya está vencida.';
+        input.parentNode.appendChild(errEl);
+    }
+    const btnPagar = document.getElementById('btnConfirmar');
+    if (tarjetaVencida(input.value)) {
+        input.style.borderColor = '#dc3545';
+        input.style.boxShadow   = '0 0 0 3px rgba(220,53,69,.15)';
+        if (el) el.style.color  = '#ff6b6b';
+        errEl.style.display = 'block';
+        if (btnPagar) btnPagar.disabled = true;
+    } else {
+        input.style.borderColor = '';
+        input.style.boxShadow   = '';
+        if (el) el.style.color  = '';
+        errEl.style.display = 'none';
+        if (btnPagar) btnPagar.disabled = false;
     }
 }
 
@@ -698,6 +742,21 @@ document.addEventListener('DOMContentLoaded', function () {
     /* pago.php */
     if (document.getElementById('resumen-items')) {
         renderResumenPago();
+
+        // Bloquear submit si la tarjeta está vencida
+        const pagoForm = document.querySelector('.pago-col-main form, form[action*="pago"]');
+        if (pagoForm) {
+            pagoForm.addEventListener('submit', function(e) {
+                const expInput = document.getElementById('cardExp');
+                if (expInput && tarjetaVencida(expInput.value)) {
+                    e.preventDefault();
+                    expInput.focus();
+                    mostrarAlerta('error', 'La tarjeta ingresada está vencida. Por favor usa una tarjeta válida.');
+                    expInput.style.borderColor = '#dc3545';
+                    expInput.style.boxShadow   = '0 0 0 3px rgba(220,53,69,.15)';
+                }
+            });
+        }
     }
 
     /* Cerrar modales al clic en fondo o Escape */
