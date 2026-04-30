@@ -146,6 +146,10 @@ switch($rutaPrincipal){
         include('vista/admin/admin_reportes_pedidos.php');
     break;
 
+    case 'asignar-pedidos':
+        include('vista/admin/admin_asignar_pedidos.php');
+    break;
+
     case 'pedido-proveedor':
         $msj = array();
         $emp = new EmpleadoControlador();
