@@ -200,7 +200,7 @@ $productosOledQled = $productoControl->getProducto()->buscar('"Veracruz".product
             <?php 
 $productoControl = new ProductoControlador();
 $productosLed = $productoControl->getProducto()->buscar('"Veracruz".producto', [
-    "where" => "stock > 0 AND ='true' AND categoria='led'", 
+    "where" => "stock > 0 AND estatus ='true' AND categoria='led'", 
     "order" => "nombre ASC"
 ]);
 ?>

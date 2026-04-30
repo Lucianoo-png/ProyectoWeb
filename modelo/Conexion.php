@@ -92,6 +92,7 @@ class Conexion
             $stmt->execute($params);
             return $stmt;
         } catch (PDOException $e) {
+            echo $e->getMessage();
             return null;
         } catch (Exception $e) {
             return null;

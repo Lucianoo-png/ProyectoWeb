@@ -426,14 +426,15 @@
 
     /* Cada celda = fila dentro de la tarjeta */
     .lc-table-card tbody td {
-        display      : block;
-        padding      : .52rem .9rem;
-        border-bottom: 1px solid #f1f5f9;
-        font-size    : .83rem;
-        color        : #333;
-        text-align   : left !important;
-        vertical-align: middle !important;
-    }
+    display: flex;
+    align-items: center; /* Esto hace el trabajo de vertical-align */
+    padding: .52rem .9rem;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: .83rem;
+    color: #333;
+    text-align: left !important;
+    /* Elimina vertical-align: middle !important; */
+}
     .lc-table-card tbody td:last-child { border-bottom: none; }
 
     /* Etiqueta de columna encima del valor */
@@ -625,6 +626,24 @@
     .step-label     { font-size: .65rem; }
 }
 
+
+    /* ── Carrusel: móvil y tablet ──
+       Usar contain para no recortar ni pixelar imágenes de producto.
+       Cover + zoom en pantallas pequeñas genera borrosidad.        */
+    .hero-carousel { border-radius: .35rem; }
+    .hero-carousel .carousel-item {
+        background: #fff;
+    }
+    .hero-carousel .carousel-item img {
+        width          : 100%   !important;
+        height         : 300px  !important;
+        object-fit     : contain !important;
+        object-position: center center !important;
+        /* Renderizado nítido — evita filtros de suavizado del navegador */
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+
 /* ══════════════════════════════════════════════════════════
    8. PROVEEDOR — Stat cards y contenido  ≤ 991px
    ─────────────────────────────────────────────────────────
@@ -741,5 +760,48 @@
         gap                  : 1.5rem !important;
         margin               : 1.75rem auto !important;
         padding              : 0 1rem 3rem !important;
+    }
+
+    /* ── Carrusel: escritorio — imagen centrada y nítida ──
+       • SIN display:flex — Bootstrap necesita display:block en items
+       • position:absolute + translateZ(0) → GPU rendering, sin blur
+       • height:auto + max-height → imagen a tamaño natural (no upscale) */
+    .hero-carousel .carousel-inner { height: 480px; }
+
+    .hero-carousel .carousel-item {
+        height    : 480px;
+        background: #fff;
+        /* NO overflow:hidden aquí — Bootstrap lo maneja en carousel-inner */
+    }
+
+    .hero-carousel .carousel-item img {
+        position                   : absolute   !important;
+        top                        : 50%        !important;
+        left                       : 50%        !important;
+        /* translateZ(0) fuerza GPU y elimina blur por subpíxeles */
+        -webkit-transform          : translate(-50%, -50%) translateZ(0) !important;
+        transform                  : translate(-50%, -50%) translateZ(0) !important;
+        -webkit-backface-visibility: hidden;
+        backface-visibility        : hidden;
+        will-change                : transform;
+        /* Tamaño natural: no escalar más allá de la resolución original */
+        width                      : auto       !important;
+        height                     : auto       !important;
+        max-width                  : 60%        !important;
+        max-height                 : 420px      !important;
+        object-fit                 : contain;
+        display                    : block      !important;
+        /* Renderizado nítido — desactiva suavizado excesivo */
+        image-rendering            : -webkit-optimize-contrast;
+        image-rendering            : crisp-edges;
+    }
+
+    /* Caption pegado al fondo, full-width */
+    .hero-carousel .carousel-caption {
+        position: absolute;
+        bottom  : 0;
+        left    : 0;
+        right   : 0;
+        width   : 100%;
     }
 }

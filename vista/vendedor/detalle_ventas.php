@@ -222,26 +222,44 @@ document.addEventListener('DOMContentLoaded', function() {
         renderTable();
     }
 
-    function renderPagination(totalPages) {
-        if (!paginationControls) return;
-        if (totalPages <= 1) {
-            paginationControls.innerHTML = '';
-            return;
-        }
-
-        let html = `<button class="pg-btn ${currentPage === 1 ? 'disabled' : ''}" id="prevPage">Anterior</button>`;
-        html += `<span class="mx-2">Página ${currentPage} de ${totalPages}</span>`;
-        html += `<button class="pg-btn ${currentPage === totalPages ? 'disabled' : ''}" id="nextPage">Siguiente</button>`;
-        
-        paginationControls.innerHTML = html;
-
-        document.getElementById('prevPage')?.addEventListener('click', () => {
-            if (currentPage > 1) { currentPage--; renderTable(); }
-        });
-        document.getElementById('nextPage')?.addEventListener('click', () => {
-            if (currentPage < totalPages) { currentPage++; renderTable(); }
-        });
+   function renderPagination(totalPages) {
+    if (!paginationControls) return;
+    if (totalPages <= 1) {
+        paginationControls.innerHTML = '';
+        return;
     }
+
+    paginationControls.innerHTML = '<span class="page-info">Página:</span>';
+
+    if (currentPage > 1) {
+        const btnPrev = document.createElement('button');
+        btnPrev.className = 'pg-btn';
+        btnPrev.innerHTML = '<i class="fas fa-chevron-left me-1"></i>';
+        btnPrev.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentPage--;
+            renderTable();
+        });
+        paginationControls.appendChild(btnPrev);
+    }
+
+    const btnCurrent = document.createElement('button');
+    btnCurrent.className = 'pg-btn active';
+    btnCurrent.textContent = currentPage;
+    paginationControls.appendChild(btnCurrent);
+
+    if (currentPage < totalPages) {
+        const btnNext = document.createElement('button');
+        btnNext.className = 'pg-btn';
+        btnNext.innerHTML = '<i class="fas fa-chevron-right ms-1"></i>';
+        btnNext.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentPage++;
+            renderTable();
+        });
+        paginationControls.appendChild(btnNext);
+    }
+}
 
     // --- LÓGICA DEL BOTÓN EXPORTAR (Dentro del Scope) ---
     const btnExportar = document.getElementById('btnExportarPDF');
