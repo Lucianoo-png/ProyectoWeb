@@ -3233,3 +3233,40 @@ div.checkout-bg {
     border-color: #bbf7d0;
 }
 .hist-dato-ok .hist-dato-val { color: #16a34a; }
+
+/* ════════════════════════════════════════════════════════
+   Botones de alternancia — admin_asignar_pedidos
+════════════════════════════════════════════════════════ */
+.btn-toggle-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .55rem 1.6rem;
+    border-radius: 50px;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .22s ease;
+    border: 2px solid var(--btn-color);
+    min-width: 190px;
+}
+.btn-toggle-outline {
+    background: #fff;
+    color: var(--btn-color);
+}
+.btn-toggle-outline:hover,
+.btn-toggle-outline.active {
+    background: var(--btn-color);
+    color: #fff;
+}
+.btn-toggle-filled {
+    background: var(--btn-color);
+    color: #fff;
+}
+.btn-toggle-filled:hover {
+    opacity: .88;
+}
+.btn-toggle-filled.active-outline {
+    background: #fff;
+    color: var(--btn-color);
+}

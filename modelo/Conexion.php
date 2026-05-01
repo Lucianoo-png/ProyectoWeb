@@ -18,7 +18,7 @@ class Conexion
             //"host" => "db",
             "db" => "ecommerce",
             "user" => "postgres",
-            "password" => "12345", //Recuerda que yo tengo que cambiar la constraseña hasta el 8
+            "password" => "12345678", //Recuerda que yo tengo que cambiar la constraseña hasta el 8
             "port" => "5432",
         ];
         $this->driver = $config["driver"] ?? "mysql";
@@ -63,6 +63,7 @@ class Conexion
             die(
                 "Error al conectar a la base de datos ({$this->driver}): " .
                     $e->getMessage()
+                    
             );
         }
     }
@@ -92,7 +93,7 @@ class Conexion
             $stmt->execute($params);
             return $stmt;
         } catch (PDOException $e) {
-            //echo $e->getMessage();
+            echo $e->getMessage();
             return null;
         } catch (Exception $e) {
             return null;

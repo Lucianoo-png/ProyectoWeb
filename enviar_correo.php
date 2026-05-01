@@ -3,6 +3,7 @@
     function sent_email($corEnv, $usuEnv, $corEnt, $usuEnt, $sub, $msg, $imagenPath = null, $codigoQR = null) {
         $apiKey = '';
         $url = 'https://api.brevo.com/v3/smtp/email';
+        
         $data = [
             "sender" => ["name" => $usuEnv, "email" => "jesusantonio.laralopez@gmail.com"],
             "to" => [["email" => $corEnt, "name" => $usuEnt]],
@@ -38,4 +39,5 @@
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         return $httpCode === 201;
 }
+
 ?>

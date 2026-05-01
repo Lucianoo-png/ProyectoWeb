@@ -1,4 +1,3 @@
-
 'use strict';
 
 (function () {
@@ -64,6 +63,45 @@
     /* ════════════════════════════════════════════════
        INYECTAR ICONOS MÓVILES (usuario / carrito)
     ════════════════════════════════════════════════ */
+    /* ════════════════════════════════════════════════
+       DETECTAR ENLACE DE PERFIL / CUENTA
+       Busca en todo el DOM el href que apunte a la pagina de cuenta.
+    ════════════════════════════════════════════════ */
+    function _findPerfilHref() {
+        const PATRONES = ['mi_cuenta', 'mi-cuenta', 'micuenta', 'perfil', 'profile', 'usuario', 'user'];
+        const EXCLUIR  = ['login', 'logout', 'register', 'registro', 'carrito', 'cart', 'recuperar'];
+
+        function esValido(href) {
+            if (!href || href === '#' || href === 'javascript:void(0)') return false;
+            const h = href.toLowerCase();
+            if (EXCLUIR.some(function(e){ return h.includes(e); })) return false;
+            return PATRONES.some(function(p){ return h.includes(p); });
+        }
+
+        /* 1. Dropdowns del nav desktop */
+        const dropdownLinks = document.querySelectorAll(
+            '.main-nav .dropdown-menu a, .nav-user-dropdown a, .user-menu a'
+        );
+        for (let i = 0; i < dropdownLinks.length; i++) {
+            if (esValido(dropdownLinks[i].getAttribute('href'))) return dropdownLinks[i].href;
+        }
+
+        /* 2. Cualquier <a> en la pagina que coincida con los patrones */
+        for (let pi = 0; pi < PATRONES.length; pi++) {
+            const p   = PATRONES[pi];
+            const all = document.querySelectorAll('a[href*="' + p + '"]');
+            for (let i = 0; i < all.length; i++) {
+                if (esValido(all[i].getAttribute('href'))) return all[i].href;
+            }
+        }
+
+        /* 3. Atributo data puesto manualmente en el nav */
+        const dataEl = document.querySelector('[data-cuenta-href], [data-perfil-href]');
+        if (dataEl) return dataEl.dataset.cuentaHref || dataEl.dataset.perfilHref || null;
+
+        return null;
+    }
+
     function _inyectarIconos() {
         if (document.querySelector('.nav-icons-mobile')) return;
         const nav = document.querySelector('.main-nav .container-fluid, .main-nav .container');
@@ -72,12 +110,17 @@
         const tipo       = _tipo();
         const hayCarrito = !!document.getElementById('cart-count');
         const loginHref  = document.querySelector('a[href*="login"]')?.href || '#';
+
+        /* Detectar enlace al perfil/cuenta para usuarios autenticados.
+           Busca en todos los posibles contenedores del nav desktop. */
+        const cuentaHref = _findPerfilHref() || loginHref;
+
         const div        = document.createElement('div');
         div.className    = 'nav-icons-mobile';
 
         if (tipo === 'publico') {
             div.innerHTML = `
-                <a href="${loginHref}" class="nav-icon-btn" aria-label="Mi cuenta">
+                <a href="${cuentaHref}" class="nav-icon-btn" aria-label="Mi cuenta">
                     <i class="fas fa-user"></i>
                 </a>`;
             if (hayCarrito) {
@@ -89,15 +132,53 @@
                 </a>`;
             }
         } else {
-            const logoutHref = (
-                document.querySelector('.btn-cerrar')?.href ||
-                document.querySelector('a[href*="login.php"]')?.href ||
-                '#'
+            /* Detectar logout: puede ser <a href> o <button> dentro de un <form> */
+            const LOGOUT_PATS = ['logout', 'cerrar_sesion', 'cerrar-sesion', 'signout', 'sign-out', 'salir'];
+            const EXCLUIR_LOG = ['login', 'register', 'registro', 'carrito', 'recuperar'];
+
+            function esLogout(href) {
+                if (!href) return false;
+                const h = href.toLowerCase();
+                if (EXCLUIR_LOG.some(function(e){ return h.includes(e); })) return false;
+                return LOGOUT_PATS.some(function(p){ return h.includes(p); });
+            }
+
+            /* 1. Buscar <a> con href de logout */
+            let logoutAnchor = null;
+            for (let pi = 0; pi < LOGOUT_PATS.length; pi++) {
+                const found = document.querySelector('a[href*="' + LOGOUT_PATS[pi] + '"]');
+                if (found && esLogout(found.getAttribute('href'))) { logoutAnchor = found; break; }
+            }
+
+            /* 2. Buscar <button class="btn-cerrar"> o boton submit en form de logout */
+            const logoutBtn = document.querySelector(
+                '.btn-cerrar, button[onclick*="logout"], button[onclick*="cerrar"], '
+                + 'form[action*="logout"] button[type="submit"], form[action*="cerrar"] button[type="submit"]'
             );
-            div.innerHTML = `
-                <a href="${logoutHref}" class="nav-icon-btn" aria-label="Cerrar sesión">
+
+            if (logoutAnchor) {
+                /* Caso A: hay un <a> -> enlace directo */
+                div.innerHTML = `
+                <a href="${logoutAnchor.href}" class="nav-icon-btn" aria-label="Cerrar sesiÃ³n">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>`;
+            } else if (logoutBtn) {
+                /* Caso B: hay un <button> (form submit) -> clonar click */
+                const btnMov = document.createElement('button');
+                btnMov.type      = 'button';
+                btnMov.className = 'nav-icon-btn';
+                btnMov.setAttribute('aria-label', 'Cerrar sesiÃ³n');
+                btnMov.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+                btnMov.addEventListener('click', function() { logoutBtn.click(); });
+                div.appendChild(btnMov);
+            } else {
+                /* Caso C: fallback hacia login */
+                const fallback = document.querySelector('a[href*="login"]')?.href || 'login.php';
+                div.innerHTML = `
+                <a href="${fallback}" class="nav-icon-btn" aria-label="Cerrar sesiÃ³n">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>`;
+            }
         }
         nav.appendChild(div);
     }
@@ -176,20 +257,43 @@
     ════════════════════════════════════════════════ */
     function _htmlPublico() {
         let html = '';
-        const loginHref = document.querySelector('a[href*="login"]')?.href || '#';
+        const loginHref   = document.querySelector('a[href*="login"]')?.href || '#';
+        const perfilHref  = _findPerfilHref();
+        const estaLogueado = !!perfilHref;
 
-        /* Fila de sesión */
-        html += `
+        /* Detectar nombre e iniciales del usuario logueado desde el nav desktop */
+        const userNameEl = document.querySelector(
+            '.nav-user-name, .user-name, .navbar-user-name, ' +
+            '.dropdown-toggle .user-name, [data-user-name], ' +
+            '.main-nav .d-flex .fw-bold, .main-nav .username'
+        );
+        const nombreUsuario = userNameEl ? userNameEl.textContent.trim() : '';
+        const iniciales = nombreUsuario
+            ? nombreUsuario.split(' ').slice(0, 2).map(function(w){ return w[0] || ''; }).join('').toUpperCase()
+            : '';
+
+        /* Fila de sesión: logueado -> ir al perfil; anónimo -> ir al login */
+        if (estaLogueado) {
+            html += `
+        <a href="${perfilHref}" class="menu-user-row clickable">
+            <div class="menu-user-avatar" style="background:#008CA8">
+                ${iniciales ? `<span style="font-size:.8rem;font-weight:800">${iniciales}</span>` : '<i class="fas fa-user"></i>'}
+            </div>
+            <div>
+                <div class="menu-user-name">${nombreUsuario || 'Mi cuenta'}</div>
+                <div class="menu-user-role">Ver mi perfil</div>
+            </div>
+        </a>`;
+        } else {
+            html += `
         <a href="${loginHref}" class="menu-user-row clickable">
             <div class="menu-user-avatar"><i class="fas fa-user"></i></div>
             <div>
                 <div class="menu-user-name">Iniciar sesión</div>
                 <div class="menu-user-role">Crea tu cuenta o accede</div>
             </div>
-        </a>
-        <span class="menu-group-label">Mi cuenta</span>
-        <a href="#" class="menu-item"><i class="fas fa-shopping-bag"></i> Mis compras</a>
-        <a href="#" class="menu-item"><i class="fas fa-heart"></i> Favoritos</a>`;
+        </a>`;
+        }
 
         /* Categorías principales (sin el mega-dropdown) */
         const catItems = document.querySelectorAll('.nav-categories .nav-item:not(.dropdown)');

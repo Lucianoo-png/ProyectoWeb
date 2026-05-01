@@ -16,9 +16,19 @@
         </nav>
 
         <!-- Encabezado -->
-        <div class="mb-4 text-center">
+        <div class="mb-3 text-center">
             <h1 class="page-header-title mb-0">Asignar Pedidos a Repartidores</h1>
             <p class="page-header-sub">Gestiona y asigna los pedidos pendientes a los repartidores disponibles.</p>
+        </div>
+
+        <!-- ── Botones de alternancia (estilo imagen) ── -->
+        <div class="d-flex justify-content-center gap-3 mb-4">
+            <button id="btnVerPedidos" class="btn-toggle-view btn-toggle-outline" onclick="switchView('pedidos')">
+                <i class="fas fa-user-plus me-2"></i> Asignar Pedido
+            </button>
+            <button id="btnVerRepartidores" class="btn-toggle-view btn-toggle-filled" onclick="switchView('repartidores')">
+                <i class="fas fa-search me-2"></i> Consulta / Repartidores
+            </button>
         </div>
 
         <!-- Tarjetas de resumen -->
@@ -34,6 +44,7 @@
                 <div class="stat-card-mini" style="cursor:default">
                     <div class="mini-icon"><i class="fas fa-motorcycle" style="color:#16a34a"></i></div>
                     <div>
+                        <!-- Solo repartidores con tipousuario = 'R' -->
                         <div class="mini-num"><?php echo count($repartidores ?? []); ?></div>
                         <div class="mini-label">Repartidores activos</div>
                     </div>
@@ -56,176 +67,243 @@
         </div>
         <?php endif; ?>
 
-        <!-- Filtros -->
-        <div class="report-form-card mb-4">
-            <h5 class="text-center">
-                <i class="fas fa-filter me-2" style="color:var(--btn-color)"></i>Filtrar Pedidos
-            </h5>
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label">Desde:</label>
-                    <input type="date" id="filtroDesde" class="form-control">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Hasta:</label>
-                    <input type="date" id="filtroHasta" class="form-control">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Estado:</label>
-                    <select id="filtroEstado" class="form-select">
-                        <option value="all">Todos</option>
-                        <option value="sin_asignar">Sin asignar</option>
-                        <option value="asignado">Asignado</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Buscar:</label>
-                    <input type="text" id="searchInput" class="form-control" placeholder="Folio o cliente...">
-                </div>
-            </div>
-        </div>
+        <!-- ══════════════════════════════════════════════
+             SECCIÓN A: Asignar Pedidos (tabla de pedidos)
+        ══════════════════════════════════════════════ -->
+        <div id="seccionPedidos">
 
-        <!-- Tabla de pedidos pendientes -->
-        <div class="report-form-card mb-4">
-            <div class="admin-form-body pb-0 px-0">
-                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                    <h5 class="mb-0 text-center w-100">
-                        <i class="fas fa-clipboard-list me-2" style="color:var(--btn-color)"></i>Pedidos en Preparación
-                    </h5>
-                    <div class="w-100 d-flex justify-content-between align-items-center">
-                        <div class="table-page-info text-muted small">
-                            Registros por página: <span id="info-rows-per-page">10</span> | Página: <span id="info-current-page">1</span> de <span id="info-total-pages">1</span>
-                        </div>
-                        <select id="rowsPerPageSelect" class="form-select form-select-sm w-auto">
-                            <option value="10" selected>10</option>
-                            <option value="20">20</option>
+            <!-- Filtros -->
+            <div class="report-form-card mb-4">
+                <h5 class="text-center">
+                    <i class="fas fa-filter me-2" style="color:var(--btn-color)"></i>Filtrar Pedidos
+                </h5>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Desde:</label>
+                        <input type="date" id="filtroDesde" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Hasta:</label>
+                        <input type="date" id="filtroHasta" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Estado:</label>
+                        <select id="filtroEstado" class="form-select">
                             <option value="all">Todos</option>
+                            <option value="sin_asignar">Sin asignar</option>
+                            <option value="asignado">Asignado</option>
                         </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Buscar:</label>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Folio o cliente...">
                     </div>
                 </div>
             </div>
 
-            <div class="admin-pagination mt-3" id="paginationControls"></div>
+            <!-- Tabla de pedidos -->
+            <div class="report-form-card mb-4">
+                <div class="admin-form-body pb-0 px-0">
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <h5 class="mb-0 text-center w-100">
+                            <i class="fas fa-clipboard-list me-2" style="color:var(--btn-color)"></i>Pedidos en Preparación
+                        </h5>
+                        <div class="w-100 d-flex justify-content-between align-items-center">
+                            <div class="table-page-info text-muted small">
+                                Registros por página: <span id="info-rows-per-page">10</span> | Página: <span id="info-current-page">1</span> de <span id="info-total-pages">1</span>
+                            </div>
+                            <select id="rowsPerPageSelect" class="form-select form-select-sm w-auto">
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="all">Todos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="admin-table-wrap">
-                <table class="admin-table" id="tablaPedidos">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Folio</th>
-                            <th class="th-left">Cliente</th>
-                            <th class="th-left">Dirección de Entrega</th>
-                            <th>Fecha</th>
-                            <th>Total</th>
-                            <th>Estado</th>
-                            <th>Repartidor</th>
-                            <th>Acción</th>
-                            <!-- Columnas ocultas para filtros -->
-                            <th style="display:none">RawFecha</th>
-                            <th style="display:none">RawAsignado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $i = 1;
-                        $pedidos_todos = array_merge($pedidos_pendientes ?? [], $pedidos_en_ruta ?? []);
-                        foreach($pedidos_todos as $ped):
-                            $asignado = !empty($ped['rfc_repartidor']);
-                        ?>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem"><?php echo $i; ?></td>
-                            <td><strong style="color:var(--btn-color)">#LC-<?php echo str_pad($ped['no_pedido'], 4, '0', STR_PAD_LEFT); ?></strong></td>
-                            <td class="th-left">
-                                <strong><?php echo $ped['nombre_cliente'] ?? '—'; ?></strong><br>
-                                <span style="font-size:.75rem; color:#888"><?php echo $ped['correo_cliente'] ?? ''; ?></span>
-                            </td>
-                            <td class="th-left" style="font-size:.8rem; max-width:200px">
-                                <?php echo $ped['calle_numero'] ?? '—'; ?><br>
-                                <span style="color:#888">Col. <?php echo $ped['colonia'] ?? ''; ?>, <?php echo $ped['ciudad'] ?? ''; ?></span>
-                            </td>
-                            <td><?php echo date('d/m/Y', strtotime($ped['fecha_pedido'])); ?></td>
-                            <td><strong>$<?php echo number_format($ped['total'], 2); ?></strong></td>
-                            <td>
-                                <?php if($asignado): ?>
-                                    <span class="badge-confirmada">Asignado</span>
-                                <?php else: ?>
-                                    <span class="badge-pendiente">Sin asignar</span>
-                                <?php endif; ?>
-                            </td>
-                            <td style="font-size:.8rem">
-                                <?php echo $asignado ? ($ped['nombre_repartidor'] ?? '—') : '<span style="color:#aaa">—</span>'; ?>
-                            </td>
-                            <td>
-                                <button class="btn-admin-primary" style="font-size:.75rem; padding:.35rem .8rem; white-space:nowrap"
-                                        onclick="abrirModalAsignar(
-                                            <?php echo $ped['no_pedido']; ?>,
-                                            '#LC-<?php echo str_pad($ped['no_pedido'], 4, '0', STR_PAD_LEFT); ?>',
-                                            '<?php echo addslashes($ped['nombre_cliente'] ?? '—'); ?>',
-                                            <?php echo $asignado ? "'".$ped['rfc_repartidor']."'" : 'null'; ?>
-                                        )">
-                                    <i class="fas fa-<?php echo $asignado ? 'exchange-alt' : 'user-plus'; ?> me-1"></i>
-                                    <?php echo $asignado ? 'Reasignar' : 'Asignar'; ?>
-                                </button>
-                            </td>
-                            <td style="display:none"><?php echo date('Y-m-d', strtotime($ped['fecha_pedido'])); ?></td>
-                            <td style="display:none"><?php echo $asignado ? 'asignado' : 'sin_asignar'; ?></td>
-                        </tr>
-                        <?php $i++; endforeach; ?>
-                    </tbody>
-                </table>
+                <div class="admin-pagination mt-3" id="paginationControls"></div>
+
+                <div class="admin-table-wrap">
+                    <table class="admin-table" id="tablaPedidos">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Folio</th>
+                                <th class="th-left">Cliente</th>
+                                <th class="th-left">Dirección de Entrega</th>
+                                <th>Fecha</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Repartidor</th>
+                                <th>Acción</th>
+                                <!-- Columnas ocultas para filtros -->
+                                <th style="display:none">RawFecha</th>
+                                <th style="display:none">RawAsignado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $i = 1;
+                            $pedidos_todos = array_merge($pedidos_pendientes ?? [], $pedidos_en_ruta ?? []);
+                            foreach($pedidos_todos as $ped):
+                                $asignado = !empty($ped['rfc_repartidor']);
+                            ?>
+                            <tr>
+                                <td style="color:#999; font-size:.8rem"><?php echo $i; ?></td>
+                                <td><strong style="color:var(--btn-color)">#LC-<?php echo str_pad($ped['no_pedido'], 4, '0', STR_PAD_LEFT); ?></strong></td>
+                                <td class="th-left">
+                                    <strong><?php echo $ped['nombre_cliente'] ?? '—'; ?></strong><br>
+                                    <span style="font-size:.75rem; color:#888"><?php echo $ped['correo_cliente'] ?? ''; ?></span>
+                                </td>
+                                <td class="th-left" style="font-size:.8rem; max-width:200px">
+                                    <?php echo $ped['calle_numero'] ?? '—'; ?><br>
+                                    <span style="color:#888">Col. <?php echo $ped['colonia'] ?? ''; ?>, <?php echo $ped['ciudad'] ?? ''; ?></span>
+                                </td>
+                                <td><?php echo date('d/m/Y', strtotime($ped['fecha_pedido'])); ?></td>
+                                <td><strong>$<?php echo number_format($ped['total'], 2); ?></strong></td>
+                                <td>
+                                    <?php if($asignado): ?>
+                                        <span class="badge-confirmada">Asignado</span>
+                                    <?php else: ?>
+                                        <span class="badge-pendiente">Sin asignar</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td style="font-size:.8rem">
+                                    <?php echo $asignado ? ($ped['nombre_repartidor'] ?? '—') : '<span style="color:#aaa">—</span>'; ?>
+                                </td>
+                                <td>
+                                    <button class="btn-admin-primary" style="font-size:.75rem; padding:.35rem .8rem; white-space:nowrap"
+                                            onclick="abrirModalAsignar(
+                                                <?php echo $ped['no_pedido']; ?>,
+                                                '#LC-<?php echo str_pad($ped['no_pedido'], 4, '0', STR_PAD_LEFT); ?>',
+                                                '<?php echo addslashes($ped['nombre_cliente'] ?? '—'); ?>',
+                                                <?php echo $asignado ? "'".$ped['rfc_repartidor']."'" : 'null'; ?>
+                                            )">
+                                        <i class="fas fa-<?php echo $asignado ? 'exchange-alt' : 'user-plus'; ?> me-1"></i>
+                                        <?php echo $asignado ? 'Reasignar' : 'Asignar'; ?>
+                                    </button>
+                                </td>
+                                <td style="display:none"><?php echo date('Y-m-d', strtotime($ped['fecha_pedido'])); ?></td>
+                                <td style="display:none"><?php echo $asignado ? 'asignado' : 'sin_asignar'; ?></td>
+                            </tr>
+                            <?php $i++; endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </div><!-- /seccionPedidos -->
 
-        <!-- Tabla de repartidores disponibles -->
-        <div class="report-form-card">
-            <h5 class="text-center mb-3">
-                <i class="fas fa-motorcycle me-2" style="color:var(--btn-color)"></i>Repartidores Disponibles
-            </h5>
-            <div class="admin-table-wrap">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            <th>Empresa</th>
-                            <th>Teléfono</th>
-                            <th>Pedidos activos</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $j = 1;
-                        foreach($repartidores ?? [] as $rep):
-                        ?>
-                        <tr>
-                            <td style="color:#999; font-size:.8rem"><?php echo $j; ?></td>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div style="width:32px; height:32px; border-radius:50%; background:var(--btn-color); display:flex; align-items:center; justify-content:center; color:#fff; font-size:.75rem; font-weight:700; flex-shrink:0">
-                                        <?php echo strtoupper(substr($rep['nombre'], 0, 1) . substr($rep['apellidospama'], 0, 1)); ?>
+
+        <!-- ══════════════════════════════════════════════
+             SECCIÓN B: Consulta de Repartidores (tipousuario = 'R')
+        ══════════════════════════════════════════════ -->
+        <div id="seccionRepartidores" style="display:none">
+
+            <!-- Búsqueda rápida -->
+            <div class="report-form-card mb-4">
+                <h5 class="text-center">
+                    <i class="fas fa-filter me-2" style="color:var(--btn-color)"></i>Filtrar Repartidores
+                </h5>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Estado:</label>
+                        <select id="filtroRepEstado" class="form-select">
+                            <option value="all">Todos</option>
+                            <option value="disponible">Disponible (&lt; 3 activos)</option>
+                            <option value="ocupado">Ocupado (≥ 3 activos)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label">Buscar repartidor:</label>
+                        <input type="text" id="searchRep" class="form-control" placeholder="Nombre, RFC o empresa...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de repartidores (solo tipousuario = 'R') -->
+            <div class="report-form-card">
+                <h5 class="text-center mb-3">
+                    <i class="fas fa-motorcycle me-2" style="color:var(--btn-color)"></i>Repartidores Disponibles
+                    <span class="ms-2" style="font-size:.75rem; color:#888; font-weight:400">(tipousuario = R)</span>
+                </h5>
+                <div class="admin-table-wrap">
+                    <table class="admin-table" id="tablaRepartidores">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>RFC</th>
+                                <th>Empresa</th>
+                                <th>Teléfono</th>
+                                <th>Pedidos activos</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $j = 1;
+                            foreach($repartidores ?? [] as $rep):
+                                $activos = $rep['pedidos_activos'] ?? 0;
+                                $disponible = $activos < 3;
+                            ?>
+                            <tr
+                                data-nombre="<?php echo strtolower($rep['nombre'].' '.$rep['apellidospama']); ?>"
+                                data-rfc="<?php echo strtolower($rep['rfc']); ?>"
+                                data-empresa="<?php echo strtolower($rep['empresa'] ?? ''); ?>"
+                                data-estado="<?php echo $disponible ? 'disponible' : 'ocupado'; ?>"
+                            >
+                                <td style="color:#999; font-size:.8rem"><?php echo $j; ?></td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div style="width:34px; height:34px; border-radius:50%; background:var(--btn-color); display:flex; align-items:center; justify-content:center; color:#fff; font-size:.75rem; font-weight:700; flex-shrink:0">
+                                            <?php echo strtoupper(substr($rep['nombre'], 0, 1) . substr($rep['apellidospama'], 0, 1)); ?>
+                                        </div>
+                                        <div>
+                                            <strong><?php echo $rep['nombre'].' '.$rep['apellidospama']; ?></strong>
+                                        </div>
                                     </div>
-                                    <strong><?php echo $rep['nombre'].' '.$rep['apellidospama']; ?></strong>
-                                </div>
-                            </td>
-                            <td><?php echo $rep['empresa'] ?? '—'; ?></td>
-                            <td><?php echo $rep['telefono'] ?? '—'; ?></td>
-                            <td class="text-center">
-                                <span class="badge-confirmada"><?php echo $rep['pedidos_activos'] ?? 0; ?></span>
-                            </td>
-                            <td>
-                                <?php if(($rep['pedidos_activos'] ?? 0) < 3): ?>
-                                    <span style="color:#16a34a; font-weight:600; font-size:.8rem"><i class="fas fa-circle me-1" style="font-size:.5rem"></i>Disponible</span>
-                                <?php else: ?>
-                                    <span style="color:#d97706; font-weight:600; font-size:.8rem"><i class="fas fa-circle me-1" style="font-size:.5rem"></i>Ocupado</span>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                        <?php $j++; endforeach; ?>
-                    </tbody>
-                </table>
+                                </td>
+                                <td style="font-size:.8rem; color:#666"><?php echo $rep['rfc']; ?></td>
+                                <td><?php echo $rep['empresa'] ?? '—'; ?></td>
+                                <td><?php echo $rep['telefono'] ?? '—'; ?></td>
+                                <td class="text-center">
+                                    <span class="badge-<?php echo $disponible ? 'confirmada' : 'pendiente'; ?>">
+                                        <?php echo $activos; ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <?php if($disponible): ?>
+                                        <span style="color:#16a34a; font-weight:600; font-size:.8rem">
+                                            <i class="fas fa-circle me-1" style="font-size:.5rem"></i>Disponible
+                                        </span>
+                                    <?php else: ?>
+                                        <span style="color:#d97706; font-weight:600; font-size:.8rem">
+                                            <i class="fas fa-circle me-1" style="font-size:.5rem"></i>Ocupado
+                                        </span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <!-- Botón para asignar directamente desde vista de repartidores -->
+                                    <button class="btn-admin-secondary" style="font-size:.75rem; padding:.3rem .75rem; white-space:nowrap"
+                                            onclick="switchView('pedidos'); setTimeout(()=>{ document.getElementById('filtroEstado').value='sin_asignar'; document.getElementById('filtroEstado').dispatchEvent(new Event('change')); }, 200)">
+                                        <i class="fas fa-arrow-left me-1"></i> Ver pedidos
+                                    </button>
+                                </td>
+                            </tr>
+                            <?php $j++; endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <?php if(empty($repartidores)): ?>
+                <div class="text-center py-4 text-muted">
+                    <i class="fas fa-motorcycle fa-2x mb-2" style="opacity:.3"></i>
+                    <p class="mb-0 small">No hay repartidores registrados con tipousuario = R</p>
+                </div>
+                <?php endif; ?>
             </div>
-        </div>
+
+        </div><!-- /seccionRepartidores -->
 
     </main>
 </div>
@@ -251,7 +329,9 @@
                 <input type="hidden" name="no_pedido" id="inputNoPedido">
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold small">Seleccionar repartidor</label>
+                    <label class="form-label fw-semibold small">Seleccionar repartidor
+                        <span style="font-size:.72rem; color:#888; font-weight:400">(solo tipousuario = R)</span>
+                    </label>
                     <select class="form-select" name="rfc_repartidor" id="selectRepartidor" required>
                         <option value="">— Elige un repartidor —</option>
                         <?php foreach($repartidores ?? [] as $rep): ?>
@@ -288,11 +368,33 @@
 
 <?php include('vista/admin/footer_admin.php'); ?>
 
+
 <script>
-/* ─── Modal ─────────────────────────────────────────────────── */
+/* ─── Alternancia de secciones ─────────────────────────── */
+function switchView(vista) {
+    const secPed  = document.getElementById('seccionPedidos');
+    const secRep  = document.getElementById('seccionRepartidores');
+    const btnPed  = document.getElementById('btnVerPedidos');
+    const btnRep  = document.getElementById('btnVerRepartidores');
+
+    if (vista === 'pedidos') {
+        secPed.style.display  = '';
+        secRep.style.display  = 'none';
+        // Botón Asignar → relleno, Consulta → outline
+        btnPed.className = 'btn-toggle-view btn-toggle-filled';
+        btnRep.className = 'btn-toggle-view btn-toggle-outline';
+    } else {
+        secPed.style.display  = 'none';
+        secRep.style.display  = '';
+        btnPed.className = 'btn-toggle-view btn-toggle-outline';
+        btnRep.className = 'btn-toggle-view btn-toggle-filled';
+    }
+}
+
+/* ─── Modal ─────────────────────────────────────────────── */
 function abrirModalAsignar(noPedido, folio, cliente, rfcActual) {
-    document.getElementById('inputNoPedido').value  = noPedido;
-    document.getElementById('modalFolioPed').textContent  = folio;
+    document.getElementById('inputNoPedido').value   = noPedido;
+    document.getElementById('modalFolioPed').textContent   = folio;
     document.getElementById('modalClientePed').textContent = cliente;
 
     const sel = document.getElementById('selectRepartidor');
@@ -321,15 +423,33 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Escape') cerrarModalAsignar();
 });
 
-/* ─── Tabla con filtros y paginación ────────────────────────── */
+/* ─── Filtro de tabla de repartidores ───────────────────── */
+document.getElementById('searchRep').addEventListener('input', filtrarRepartidores);
+document.getElementById('filtroRepEstado').addEventListener('change', filtrarRepartidores);
+
+function filtrarRepartidores() {
+    const term   = document.getElementById('searchRep').value.toLowerCase().trim();
+    const estado = document.getElementById('filtroRepEstado').value;
+    document.querySelectorAll('#tablaRepartidores tbody tr').forEach(row => {
+        const nombre  = row.dataset.nombre  || '';
+        const rfc     = row.dataset.rfc     || '';
+        const empresa = row.dataset.empresa || '';
+        const est     = row.dataset.estado  || '';
+        const matchTerm   = !term   || (nombre+rfc+empresa).includes(term);
+        const matchEstado = estado === 'all' || est === estado;
+        row.style.display = (matchTerm && matchEstado) ? '' : 'none';
+    });
+}
+
+/* ─── Tabla de pedidos: filtros y paginación ────────────── */
 document.addEventListener('DOMContentLoaded', function () {
-    const searchInput      = document.getElementById('searchInput');
-    const filtroDesde      = document.getElementById('filtroDesde');
-    const filtroHasta      = document.getElementById('filtroHasta');
-    const filtroEstado     = document.getElementById('filtroEstado');
-    const rowsPerPageSelect= document.getElementById('rowsPerPageSelect');
-    const tbody            = document.querySelector('#tablaPedidos tbody');
-    const allRows          = Array.from(tbody.querySelectorAll('tr'));
+    const searchInput       = document.getElementById('searchInput');
+    const filtroDesde       = document.getElementById('filtroDesde');
+    const filtroHasta       = document.getElementById('filtroHasta');
+    const filtroEstado      = document.getElementById('filtroEstado');
+    const rowsPerPageSelect = document.getElementById('rowsPerPageSelect');
+    const tbody             = document.querySelector('#tablaPedidos tbody');
+    const allRows           = Array.from(tbody.querySelectorAll('tr'));
     const paginationControls = document.getElementById('paginationControls');
     const infoRpp  = document.getElementById('info-rows-per-page');
     const infoCurr = document.getElementById('info-current-page');
@@ -389,10 +509,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const fEstado = filtroEstado.value;
 
         filteredRows = allRows.filter(row => {
-            const cells      = row.querySelectorAll('td');
-            const txtSearch  = (cells[1].textContent + ' ' + cells[2].textContent).toLowerCase();
-            const rawFecha   = cells[9].textContent.trim();
-            const rawAsig    = cells[10].textContent.trim();
+            const cells     = row.querySelectorAll('td');
+            const txtSearch = (cells[1].textContent + ' ' + cells[2].textContent).toLowerCase();
+            const rawFecha  = cells[9].textContent.trim();
+            const rawAsig   = cells[10].textContent.trim();
 
             if (term    && !txtSearch.includes(term))    return false;
             if (fEstado !== 'all' && rawAsig !== fEstado) return false;
@@ -415,5 +535,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     renderTable();
+
+    // Estado inicial de botones: Asignar activo por defecto
+    switchView('pedidos');
 });
 </script>
