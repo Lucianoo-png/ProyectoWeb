@@ -1,4 +1,3 @@
-
 'use strict';
 
 /* ── Contador base para folios locales ──────────────────────── */
@@ -219,9 +218,9 @@ function enviarSolicitud() {
         _setText('solToastFolio', folio);
         mostrarToast();
 
-        /* Redirigir después de 3 segundos */
+        /* Cerrar formulario y volver a la lista después de 3 segundos */
         setTimeout(() => {
-            window.location.href = 'inicio_usuario.php';
+            if (typeof cancelarNuevaSolicitud === 'function') cancelarNuevaSolicitud();
         }, 3000);
 
     }, 1200);

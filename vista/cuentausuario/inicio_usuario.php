@@ -478,6 +478,9 @@ foreach($pedidosAgrupados as $p) {
                         Envía y consulta tus solicitudes de garantía o devolución.
                     </p>
                 </div>
+                <button class="btn-dir-add" onclick="mostrarFormSolicitud()">
+                    <i class="fas fa-plus"></i> Nueva solicitud
+                </button>
             </div>
             <!-- Historial -->
 
@@ -542,6 +545,7 @@ foreach($pedidosAgrupados as $p) {
 
                         </div><!-- /listaSolicitudes -->
 
+                        <div id="formNuevaSolicitudWrapper" style="display:none">
                         <div class="row g-4">
 
             <!-- ══ Columna principal: formulario ══ -->
@@ -672,12 +676,12 @@ foreach($pedidosAgrupados as $p) {
 
                         <!-- Acciones -->
                         <div class="sol-actions">
-                            <button class="btn-sol-enviar" id="btnEnviar" type="submit">
+                            <button class="btn-sol-enviar" id="btnEnviar" type="button" onclick="enviarSolicitud()">
                                 <i class="fas fa-paper-plane"></i> Enviar solicitud
                             </button>
-                            <a href="/proyectoweb/mi-perfil/inicio" class="btn-sol-cancelar">
+                            <button type="button" class="btn-sol-cancelar" onclick="cancelarNuevaSolicitud()">
                                 Cancelar
-                            </a>
+                            </button>
                         </div>
 
                     </div><!-- /cuenta-card-body -->
@@ -685,9 +689,8 @@ foreach($pedidosAgrupados as $p) {
 
             </div><!-- /col formulario -->
 
-            <!-- ══ Columna lateral: resumen ══ -->
+            <!-- ══ Columna lateral: ayuda ══ -->
             <div class="col-lg-4">
-                <!-- Tarjeta de ayuda -->
                 <div class="cuenta-card mt-3">
                     <div class="cuenta-card-body sol-help-card">
                         <p class="sol-help-title">
@@ -703,10 +706,10 @@ foreach($pedidosAgrupados as $p) {
                         </p>
                     </div>
                 </div>
-
-            </div><!-- /col resumen -->
+            </div><!-- /col ayuda -->
 
         </div><!-- /row -->
+        </div><!-- /formNuevaSolicitudWrapper -->
         </div><!-- /panel-solicitudes -->
 
     </main>
@@ -795,4 +798,36 @@ function renderizarControles(total) {
 }
     // Iniciar al cargar el DOM
     document.addEventListener('DOMContentLoaded', () => aplicarLogicaVista());
+
+    /* ── Nueva Solicitud: mostrar/ocultar formulario inline ── */
+    function mostrarFormSolicitud() {
+        const wrapper = document.getElementById('formNuevaSolicitudWrapper');
+        const lista   = document.getElementById('listaSolicitudes');
+        if (!wrapper) return;
+        lista.style.display   = 'none';
+        wrapper.style.display = 'block';
+        wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // reiniciar el botón de envío por si se había deshabilitado
+        const btn = document.getElementById('btnEnviar');
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar solicitud'; }
+    }
+
+    function cancelarNuevaSolicitud() {
+        const wrapper = document.getElementById('formNuevaSolicitudWrapper');
+        const lista   = document.getElementById('listaSolicitudes');
+        if (!wrapper) return;
+        wrapper.style.display = 'none';
+        lista.style.display   = '';
+        // limpiar campos del formulario
+        ['solTipo','solNoReferencia','solAsunto','solDescripcion'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) { el.value = ''; el.classList.remove('is-invalid'); }
+        });
+        ['solAsuntoCount','solDescCount'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = '0';
+        });
+        if (typeof quitarEvidencia === 'function') quitarEvidencia();
+        if (typeof actualizarResumen === 'function') actualizarResumen();
+    }
 </script>
