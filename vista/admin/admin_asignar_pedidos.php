@@ -177,10 +177,134 @@
                                 <td style="display:none"><?php echo $asignado ? 'asignado' : 'sin_asignar'; ?></td>
                             </tr>
                             <?php $i++; endforeach; ?>
+
+                            <!-- ── Fila de EJEMPLO (eliminar cuando haya datos reales) ── -->
+                            <tr style="background:#fffef0">
+                                <td style="color:#999; font-size:.8rem">★</td>
+                                <td><strong style="color:var(--btn-color)">#LC-0042</strong></td>
+                                <td class="th-left">
+                                    <strong>Aranza García de los Angeles</strong><br>
+                                    <span style="font-size:.75rem; color:#888">tosora120@gmail.com</span>
+                                </td>
+                                <td class="th-left" style="font-size:.8rem; max-width:200px">
+                                    Hacienda Mendocinas #134<br>
+                                    <span style="color:#888">Col. Torrentes, Veracruz</span>
+                                </td>
+                                <td>02/05/2026</td>
+                                <td><strong>$4,299.00</strong></td>
+                                <td><span class="badge-pendiente">Sin asignar</span></td>
+                                <td><span style="color:#aaa">—</span></td>
+                                <td>
+                                    <button class="btn-admin-primary" style="font-size:.75rem; padding:.35rem .8rem; white-space:nowrap"
+                                            onclick="abrirModalAsignar(42, '#LC-0042', 'Aranza García de los Angeles', null)">
+                                        <i class="fas fa-user-plus me-1"></i> Asignar
+                                    </button>
+                                </td>
+                                <td style="display:none">2026-05-02</td>
+                                <td style="display:none">sin_asignar</td>
+                            </tr>
+                            <!-- ── Fin fila de ejemplo ── -->
                         </tbody>
                     </table>
                 </div>
             </div>
+            <!-- ── Panel inline de asignación ── -->
+            <div id="formAsignarWrapper" style="display:none">
+                <div class="report-form-card mt-4" style="border-top: 3px solid var(--btn-color)">
+
+                    <!-- Encabezado del panel -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0" style="color:var(--azul-marino); font-weight:700">
+                            <i class="fas fa-user-plus me-2" style="color:var(--btn-color)"></i>
+                            <span id="panelTituloAsignar">Asignar Repartidor</span>
+                        </h5>
+                        <button class="btn-modal-x" onclick="cerrarFormAsignar()" title="Cerrar">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Tarjeta de resumen del pedido -->
+                    <div class="mb-4 p-3" style="background:#f0f4fb; border-radius:.65rem; border:1px solid #dce6f7">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <div style="width:46px; height:46px; border-radius:50%; background:var(--btn-color); display:flex; align-items:center; justify-content:center; color:#fff">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div style="font-size:.72rem; color:#888; text-transform:uppercase; letter-spacing:.07em; margin-bottom:.1rem">Pedido seleccionado</div>
+                                <div style="font-weight:700; color:var(--btn-color); font-size:1.05rem" id="modalFolioPed">—</div>
+                                <div style="font-size:.82rem; color:#555; margin-top:.1rem" id="modalClientePed">—</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="/proyectoweb/admin/asignar-pedido" method="POST">
+                        <input type="hidden" name="no_pedido" id="inputNoPedido">
+
+                        <div class="row g-3">
+
+                            <!-- Selector de repartidor -->
+                            <div class="col-md-7">
+                                <label class="form-label fw-semibold small">
+                                    Repartidor <span class="text-danger">*</span>
+                                    <span style="font-size:.72rem; color:#888; font-weight:400 ">(tipousuario = R)</span>
+                                </label>
+                                <select class="form-select" name="rfc_repartidor" id="selectRepartidor" required
+                                        onchange="verificarCargaRepartidor(this)">
+                                    <option value="">— Selecciona un repartidor —</option>
+                                    <!-- Opción de EJEMPLO (eliminar cuando haya repartidores reales) -->
+                                    <option value="LOGO850101ABC" data-activos="1">Carlos López Gómez — Express Veracruz (1 activo)</option>
+                                    <option value="PERM900312XYZ" data-activos="3">Pedro Ramírez Mena — Envíos Rápidos (3 activos)</option>
+                                    <!-- Fin opciones de ejemplo -->
+                                    <?php foreach($repartidores ?? [] as $rep): ?>
+                                        <?php $act = $rep['pedidos_activos'] ?? 0; ?>
+                                        <option value="<?php echo $rep['rfc']; ?>"
+                                                data-activos="<?php echo $act; ?>">
+                                            <?php echo $rep['nombre'].' '.$rep['apellidospama']; ?>
+                                            — <?php echo $rep['empresa'] ?? 'Sin empresa'; ?>
+                                            (<?php echo $act; ?> activo<?php echo $act != 1 ? 's' : ''; ?>)
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+
+                                <!-- Aviso de carga alta -->
+                                <div id="repWarning" style="display:none; font-size:.76rem; color:#d97706; margin-top:.4rem; padding:.4rem .7rem; background:#fffbeb; border-radius:.4rem; border:1px solid #fde68a">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    Este repartidor ya tiene <strong>3 o más</strong> pedidos activos. Considera elegir otro.
+                                </div>
+
+                                <!-- Tarjeta de info del repartidor seleccionado -->
+                                <div id="repInfoCard" style="display:none; margin-top:.6rem; padding:.6rem .85rem; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:.5rem; font-size:.8rem">
+                                    <i class="fas fa-motorcycle me-1" style="color:#16a34a"></i>
+                                    <span id="repInfoTexto" style="color:#166534"></span>
+                                </div>
+                            </div>
+
+                            <!-- Observaciones -->
+                            <div class="col-md-5">
+                                <label class="form-label fw-semibold small">Observaciones <span style="color:#aaa; font-weight:400">(opcional)</span></label>
+                                <textarea class="form-control" name="observaciones" rows="4"
+                                          style="resize:vertical; font-size:.87rem"
+                                          placeholder="Ej: Llamar antes de llegar, edificio sin elevador, entregar en portería…"></textarea>
+                            </div>
+
+                        </div><!-- /row -->
+
+                        <!-- Acciones -->
+                        <div class="d-flex gap-2 justify-content-end mt-3 pt-3" style="border-top:1px solid #eaeff5">
+                            <button type="button" class="btn-admin-secondary" onclick="cerrarFormAsignar()">
+                                <i class="fas fa-times me-1"></i> Cancelar
+                            </button>
+                            <button type="submit" name="asignar" class="btn-admin-primary">
+                                <i class="fas fa-paper-plane me-1"></i> Confirmar asignación
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div><!-- /formAsignarWrapper -->
+
         </div><!-- /seccionPedidos -->
 
 
@@ -299,62 +423,8 @@
 </div>
 
 <!-- ══════════════════════════════════════════════
-     Modal: Asignar / Reasignar repartidor
+     Panel inline: Asignar / Reasignar repartidor
 ══════════════════════════════════════════════ -->
-<div class="modal-estado-overlay" id="modalAsignarOverlay" style="display:none; align-items:center; justify-content:center">
-    <div class="modal-estado-box" style="max-width:480px; width:95%">
-        <div class="modal-estado-header">
-            <span><i class="fas fa-user-plus me-2"></i>Asignar Repartidor</span>
-            <button class="btn-modal-x" onclick="cerrarModalAsignar()"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="modal-estado-body">
-
-            <div class="mb-3" style="background:#f0f4fb; border-radius:10px; padding:.9rem 1rem; border:1px solid #dce6f7">
-                <div style="font-size:.75rem; color:#888; margin-bottom:.2rem">Pedido</div>
-                <div style="font-weight:700; color:var(--btn-color); font-size:1rem" id="modalFolioPed">—</div>
-                <div style="font-size:.82rem; color:#555; margin-top:.2rem" id="modalClientePed">—</div>
-            </div>
-
-            <form action="/proyectoweb/admin/asignar-pedido" method="POST">
-                <input type="hidden" name="no_pedido" id="inputNoPedido">
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold small">Seleccionar repartidor
-                        <span style="font-size:.72rem; color:#888; font-weight:400">(solo tipousuario = R)</span>
-                    </label>
-                    <select class="form-select" name="rfc_repartidor" id="selectRepartidor" required>
-                        <option value="">— Elige un repartidor —</option>
-                        <?php foreach($repartidores ?? [] as $rep): ?>
-                            <option value="<?php echo $rep['rfc']; ?>"
-                                    data-activos="<?php echo $rep['pedidos_activos'] ?? 0; ?>">
-                                <?php echo $rep['nombre'].' '.$rep['apellidospama']; ?>
-                                (<?php echo $rep['empresa'] ?? 'Sin empresa'; ?> ·
-                                <?php echo $rep['pedidos_activos'] ?? 0; ?> activo<?php echo ($rep['pedidos_activos'] ?? 0) != 1 ? 's' : ''; ?>)
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <div id="repWarning" style="display:none; font-size:.76rem; color:#d97706; margin-top:.35rem">
-                        <i class="fas fa-exclamation-triangle me-1"></i>
-                        Este repartidor tiene 3 o más pedidos activos. Considera otro.
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold small">Observaciones para el repartidor (opcional)</label>
-                    <textarea class="form-control no-resize" name="observaciones" rows="2"
-                              placeholder="Ej: Llamar antes de llegar, edificio sin elevador…"></textarea>
-                </div>
-
-                <div class="d-flex gap-2 justify-content-end">
-                    <button type="button" class="btn-admin-secondary" onclick="cerrarModalAsignar()">Cancelar</button>
-                    <button type="submit" name="asignar" class="btn-admin-primary">
-                        <i class="fas fa-paper-plane me-1"></i> Confirmar asignación
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <?php include('vista/admin/footer_admin.php'); ?>
 
@@ -381,36 +451,54 @@ function switchView(vista) {
     }
 }
 
-/* ─── Modal ─────────────────────────────────────────────── */
+/* ─── Panel inline de asignación ────────────────────── */
 function abrirModalAsignar(noPedido, folio, cliente, rfcActual) {
-    document.getElementById('inputNoPedido').value   = noPedido;
-    document.getElementById('modalFolioPed').textContent   = folio;
-    document.getElementById('modalClientePed').textContent = cliente;
+    document.getElementById('inputNoPedido').value          = noPedido;
+    document.getElementById('modalFolioPed').textContent    = folio;
+    document.getElementById('modalClientePed').textContent  = cliente;
+    document.getElementById('panelTituloAsignar').textContent =
+        rfcActual ? 'Reasignar Repartidor' : 'Asignar Repartidor';
 
     const sel = document.getElementById('selectRepartidor');
     sel.value = rfcActual || '';
+    verificarCargaRepartidor(sel);
 
-    document.getElementById('repWarning').style.display = 'none';
-    document.getElementById('modalAsignarOverlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+    const wrapper = document.getElementById('formAsignarWrapper');
+    wrapper.style.display = '';
+    wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function cerrarModalAsignar() {
-    document.getElementById('modalAsignarOverlay').style.display = 'none';
-    document.body.style.overflow = '';
+function cerrarFormAsignar() {
+    const wrapper = document.getElementById('formAsignarWrapper');
+    wrapper.style.display = 'none';
+    document.getElementById('selectRepartidor').value = '';
+    document.getElementById('repWarning').style.display   = 'none';
+    document.getElementById('repInfoCard').style.display  = 'none';
 }
 
-document.getElementById('modalAsignarOverlay').addEventListener('click', function(e) {
-    if (e.target === this) cerrarModalAsignar();
-});
+function verificarCargaRepartidor(sel) {
+    const opt     = sel.options[sel.selectedIndex];
+    const activos = parseInt(opt?.dataset.activos || 0);
+    const nombre  = opt?.textContent?.split('—')[0]?.trim() || '';
 
-document.getElementById('selectRepartidor').addEventListener('change', function() {
-    const activos = parseInt(this.options[this.selectedIndex]?.dataset.activos || 0);
-    document.getElementById('repWarning').style.display = activos >= 3 ? 'block' : 'none';
-});
+    document.getElementById('repWarning').style.display  = activos >= 3 ? 'block' : 'none';
+
+    const infoCard  = document.getElementById('repInfoCard');
+    const infoTexto = document.getElementById('repInfoTexto');
+    if (sel.value && nombre) {
+        infoTexto.textContent = nombre + ' · ' + activos + ' pedido' + (activos !== 1 ? 's' : '') + ' activo' + (activos !== 1 ? 's' : '');
+        infoCard.style.background = activos >= 3 ? '#fffbeb' : '#f0fdf4';
+        infoCard.style.borderColor = activos >= 3 ? '#fde68a' : '#bbf7d0';
+        infoCard.querySelector('i').style.color = activos >= 3 ? '#d97706' : '#16a34a';
+        infoTexto.style.color = activos >= 3 ? '#92400e' : '#166534';
+        infoCard.style.display = 'block';
+    } else {
+        infoCard.style.display = 'none';
+    }
+}
 
 document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') cerrarModalAsignar();
+    if (e.key === 'Escape') cerrarFormAsignar();
 });
 
 /* ─── Filtro de tabla de repartidores ───────────────────── */
