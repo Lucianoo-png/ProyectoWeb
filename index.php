@@ -63,6 +63,28 @@ if (isset($_GET['ajax'])) {
                 exit;
             }
 
+if(isset($_GET["q"])){
+     header('Content-Type: application/json');
+            
+            $termino = isset($_GET['q']) ? trim($_GET['q']) : '';
+            
+            if(strlen($termino) < 1) {
+                echo json_encode([]);
+                exit;
+            }
+
+            $productoControlador = new ProductoControlador();
+            
+            $productos = $productoControlador->getProducto()->buscar('"Veracruz".producto', [
+                "select" => "no_producto, nombre, precio_venta",
+                "where" => "nombre ILIKE '%$termino%' AND stock > 0",
+                "limit" => "8"
+            ]);
+
+            echo json_encode($productos ?: []);
+        exit;
+}
+
 ?>
 
 
@@ -72,6 +94,7 @@ if (isset($_GET['ajax'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LuchanosCorp<?php if(isset($_SESSION["RFC"])){echo " | ".$_SESSION["RFC"];}else if(isset($_SESSION["NoCliente"])){echo " | Mi Perfil";} ?></title>
+    <link rel="icon" href="data:,">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
@@ -79,6 +102,7 @@ if (isset($_GET['ajax'])) {
     <link rel="stylesheet" href="/proyectoweb/estilos/vendedor.css">
     <link rel="stylesheet" href="/proyectoweb/estilos/proveedor.css">
     <link rel="stylesheet" href="/proyectoweb/estilos/contacto.css">
+    <link rel="stylesheet" href="/proyectoweb/estilos/solicitud.css">
 </head>
 <body>
 
@@ -91,12 +115,16 @@ include 'includes/../control/navbar.php';
 
 
 </body>
+<script>var EXISTE_CLIENTE = <?php echo isset($_SESSION["NoCliente"])?'1':'0'; ?></script>
+<?php if(isset($_SESSION["RFC"]) || isset($_SESSION["NoCliente"])){ ?><script src="/proyectoweb/js/sesion.js"></script><?php } ?>
+<script src="/proyectoweb/js/buscador.js"></script>
 <script src="/proyectoweb/js/scripts.js"></script>
 <link rel="stylesheet" href="/proyectoweb/estilos/responsive.css">
 <script src="/proyectoweb/js/responsive.js"></script>
 <script src="/proyectoweb/js/vendedor.js"></script>
 <script src="/proyectoweb/js/contacto.js"></script>
 <script src="/proyectoweb/js/proveedor.js"></script>
+<script src="/proyectoweb/js/solicitud.js"></script>
 
 <?php 
  if(isset($_SESSION["NoCliente"])): ?>

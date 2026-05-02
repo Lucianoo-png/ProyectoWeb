@@ -1,41 +1,5 @@
+<?php include('vista/header_gral.php'); ?>
 
-    <!-- ─── Topbar ──────────────────────────────────────────── -->
-    <div class="topbar">
-    <div class="container d-flex justify-content-between">
-        <div>
-            <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
-            <span class="d-none d-md-inline">
-                <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
-            </span>
-        </div>
-        <?php if(isset($_SESSION["NoCliente"])){ ?>
-        <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
-        <?php } ?>
-    </div>
-</div>
-
-    <!-- ─── Navbar ──────────────────────────────────────────── -->
-    <div class="main-nav">
-        <div class="container-fluid d-flex align-items-center gap-3 px-3">
-            <a href="/proyectoweb/?" class="brand-logo me-3">
-                <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
-            </a>
-            <div class="input-group search-bar flex-grow-1 mx-lg-4">
-                <input type="text" class="form-control" placeholder="¿Qué estás buscando?">
-                <button class="btn px-4"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="d-flex align-items-center gap-3 ms-2">
-                 <?php if(isset($_SESSION["NoCliente"])){ ?><a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-badge" id="cart-count" style="display:none">0</span></a> <?php } ?>
-                <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?> class="nav-icon" title="Mi Cuenta">
-                    <i class="fas fa-user"></i>
-                </a>
-            </div>
-        </div>
-    </div>
 
     <!-- ─── Layout split 50/50 ──────────────────────────────── -->
     <div class="track-layout">
@@ -195,7 +159,4 @@
 
         </div>
     </div>
-
-    <footer class="site-footer-minimal">
-        © <?= date('Y') ?> LuchanosCorp S.A. Todos los derechos reservados.
-    </footer>
+<?php include('vista/footer_gral.php') ?>

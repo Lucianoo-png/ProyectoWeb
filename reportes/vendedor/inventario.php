@@ -112,6 +112,7 @@ ob_start();
 
 $pdf = new PDF();
 $pdf->AliasNbPages();
+
 // Texto para el banner
 $pdf->filtrosText = !empty($fTermino) ? $fTermino : "MOSTRANDO TODO EL CATÁLOGO";
 
@@ -121,6 +122,13 @@ $pdf->SetMargins(10, 20, 10);
 $pdf->SetFont('Arial', '', 8);
 $fill = false;
 
+if (empty($productosFiltrados)) {
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->SetTextColor(100, 100, 100);
+            $pdf->Cell(0, 50, mb_convert_encoding("No se encontraron productos con los filtros seleccionados.", 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
+            $pdf->Output('I', 'Reporte_Inventario_LuchanosCorp.pdf');
+            exit;
+        }
 // CUERPO DE LA TABLA (Lista continua)
 foreach ($productosFiltrados as $p) {
     $pdf->SetFillColor(248, 249, 252); // Fondo cebra

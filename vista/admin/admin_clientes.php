@@ -5,14 +5,6 @@
 
     <main class="admin-content">
 
-        <nav aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item">
-                    <a href="/proyectoweb/admin/inicio" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
-                </li>
-                <li class="breadcrumb-item active text-muted">Clientes</li>
-            </ol>
-        </nav>
 
         <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Clientes Registrados</h1>

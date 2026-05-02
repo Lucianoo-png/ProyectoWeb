@@ -74,7 +74,11 @@ switch($rutaPrincipal){
                     }
         header('location:/proyectoweb/?');
     break;
-            //pendiente solicitud
+   /* 
+    case 'solicitud':
+        include('vista/cuentausuario/nueva_solicitud.php');
+    break;
+*/
     default:
     include('vista/cuentausuario/header_usuario.php');
     include('vista/404.php');

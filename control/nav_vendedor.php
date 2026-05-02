@@ -97,6 +97,17 @@ switch($rutaPrincipal){
         }
     break;
 
+    case 'tickets':
+        if (isset($_POST['exportar_ticket'])) {
+            $folio_ticket = $_POST['folio_ticket'];
+            include('reportes/vendedor/ticket.php');
+        } else {
+            include('vista/vendedor/header_vendedor.php');
+            include('vista/404.php');
+            include('vista/vendedor/footer_vendedor.php');
+        }
+    break;
+
     case 'ventas':
         $producto = new ProductoControlador();
         $cliente = new ClienteControlador();

@@ -82,6 +82,15 @@ $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->filtrosText = "Folio: ".($fFolio ?: 'TODOS')." | Rango: ".($fDesde ?: 'INICIO')." a ".($fHasta ?: 'HOY')." | Cliente: ".($fCliente ?: 'TODOS');
 
+if (empty($ventasFiltradas)) {
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 14);
+    $pdf->SetTextColor(100, 100, 100);
+    $pdf->Cell(0, 50, mb_convert_encoding("No se encontraron ventas con los filtros seleccionados.", 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
+    $pdf->Output('I', 'Reporte_Ventas_Admin.pdf');
+    exit;
+}
+
 foreach ($ventasFiltradas as $v) {
     $pdf->AddPage();
     $pdf->SetMargins(15, 20, 15);
@@ -183,7 +192,7 @@ foreach ($ventasFiltradas as $v) {
     $pdf->SetFont('Arial', '', 7);
     $pdf->SetTextColor(150, 150, 150);
     $hash = strtoupper(sha1($v['no_referencia'] . $v['fechayhora']));
-    $pdf->Cell(0, 4, "CERT: " . substr($hash, 0, 8) . "-" . substr($hash, 8, 8) . "-" . substr($hash, 16, 8), 0, 1, 'C');
+    $pdf->Cell(0, 4, substr($hash, 0, 8) . "-" . substr($hash, 8, 8) . "-" . substr($hash, 16, 8), 0, 1, 'C');
 }
 
 $pdf->Output('I', 'Reporte_Ventas_Luchanos_Corp.pdf');

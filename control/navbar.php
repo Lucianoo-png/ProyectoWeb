@@ -164,18 +164,16 @@ $rutaPrincipal =  mb_strtolower($urlParts[0]);
             }
         break;
 
-        // NUEVO CASE
         case 'gracias':
             if(isset($_SESSION['ultimo_pedido']) && $_SESSION["ultimo_pedido"]!=''){
                 $mensaje_exito = $_SESSION['ultimo_pedido'];
-                // Opcional: borrarlo para que no se vea si refresca después
                 include('vista/Producto/gracias.php');
                 unset($_SESSION['ultimo_pedido']); 
             } else {
                 header("Location: /proyectoweb/?");
             }
         break;
-
+        
         case 'login':
             $msj = array();
             $emp = new EmpleadoControlador();

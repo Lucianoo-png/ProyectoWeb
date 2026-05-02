@@ -52,7 +52,7 @@ switch($rutaPrincipal){
         $emp = new EmpleadoControlador();
         $emp->getEmpleado()->actualizarUltimaVez(false);
         $log = new BitacoraControlador();
-        $log->registrarLog($_SESSION['RFC'], "Cierre de sesión exitoso (repartidor)", "C");
+        $log->registrarLog($_SESSION['RFC'], "Cierre de sesión exitoso (Repartidor)", "C");
         session_destroy();
         if (ini_get("session.use_cookies")) {
                         $p = session_get_cookie_params();

@@ -21,10 +21,15 @@
             <a href="/proyectoweb/?" class="brand-logo me-3">
                 <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
             </a>
-            <div class="input-group search-bar flex-grow-1 mx-lg-4">
-                <input type="text" class="form-control" placeholder="¿Qué estás buscando?">
-                <button class="btn px-4"><i class="fas fa-search"></i></button>
-            </div>
+            <div class="input-group search-bar flex-grow-1 mx-lg-4 position-relative">
+    <!-- Le agregamos el id="buscadorEnVivo" y autocomplete="off" para que el navegador no estorbe -->
+    <input type="text" id="buscadorEnVivo" class="form-control" placeholder="¿Qué estás buscando?" autocomplete="off">
+    
+    <!-- Contenedor flotante para los resultados (oculto por defecto) -->
+    <div id="resultadosBuscador" class="dropdown-menu w-100 shadow-lg" style="display: none; position: absolute; top: 100%; left: 0; z-index: 1050; max-height: 300px; overflow-y: auto; border-radius: 0 0 8px 8px;">
+        <!-- Aquí entrarán las sugerencias por JS -->
+    </div>
+</div>
             <div class="d-flex align-items-center gap-3 ms-2">
                 <?php if(isset($_SESSION["NoCliente"])){ ?><a href="/proyectoweb/carrito" class="nav-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-badge" id="cart-count" style="display:none">0</span></a> <?php } ?>
                 <a <?php if(!isset($_SESSION["NoCliente"])){ ?>href="/proyectoweb/login" <?php }else{ ?> href="/proyectoweb/mi-perfil/inicio" <?php } ?>class="nav-icon" title="Mi Cuenta"><i class="fas fa-user"></i></a>

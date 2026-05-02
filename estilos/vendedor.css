@@ -1,68 +1,4 @@
-/* ══════════════════════════════════════════════════════════════
-   LuchanosCorp — Panel Admin + Panel Vendedor
-   Ruta: estilos/panel.css
-   Extiende: estilos/styles.css  (debe cargarse DESPUÉS)
 
-   ESTRUCTURA:
-     [1] Panel Administrador  (extraído de styles.css)
-     [2] Panel Vendedor       (extraído de vendedor.css, deduplicado)
-
-   Selectores omitidos de vendedor por ya existir en admin:
-     • .admin-layout
-     • .admin-sidebar
-     • .admin-sidebar .nav-link
-     • .admin-sidebar .nav-link i
-     • .admin-sidebar .nav-link:hover, .admin-sidebar .nav-link.active
-     • .admin-content
-     • .page-header-title
-     • .page-header-sub
-     • .admin-form-card
-     • .admin-form-header
-     • .admin-form-body
-     • .btn-admin-primary
-     • .btn-admin-primary:hover
-     • .btn-admin-primary:active
-     • .btn-admin-secondary
-     • .btn-admin-secondary:hover
-     • .admin-table-wrap
-     • .admin-table
-     • .btn-tbl-edit
-     • .btn-tbl-edit:hover
-     • .badge-activo
-     • .badge-inactivo
-     • .badge-proceso
-     • .tab-badge
-     • .admin-tabs
-     • .admin-tabs-left
-     • .admin-tab-btn
-     • .admin-tab-btn.active
-     • .admin-tab-panel
-     • .admin-tab-panel.active
-     • .admin-search-bar
-     • .stat-card
-     • .stat-card:hover
-     • .confirm-overlay
-     • .confirm-overlay.show
-     • .modal-sol-box
-     • .modal-sol-header
-     • .modal-sol-header h5
-     • .modal-sol-header h5 i
-     • .modal-sol-label
-     • .modal-sol-value
-     • .modal-sol-value.mono
-     • .modal-sol-divider
-     • .btn-confirm-yes
-     • .btn-confirm-yes:hover
-     • .btn-confirm-no
-     • .btn-confirm-no:hover
-     • @media (max-width: 768px)
-   ══════════════════════════════════════════════════════════════ */
-
-/* ═══════════════════════════════════════════════════════════════
-   PANEL ADMINISTRADOR — vista/Admin/
-   ═══════════════════════════════════════════════════════════════ */
-
-/* ── Layout ─────────────────────────────────────────────────── */
 .admin-layout {
     display: flex;
     min-height: calc(100vh - 104px);
@@ -1037,18 +973,11 @@ body {
 
 .brand-logo .pendejo  { color: #111; }
 
-
-.search-bar .form-control { border-right: none; border-color: #ced4da; }
-
 .search-bar .btn {
     background: var(--azul-marino);
     border-color: var(--azul-marino);
     color: #fff;
-    transition: background .2s;
 }
-
-.search-bar .btn:hover { background: var(--azul-claro); border-color: var(--azul-claro); }
-
 
 /* ════════════════════════════════════════════════════
    LAYOUT (sidebar + content)
@@ -1241,8 +1170,6 @@ body {
     align-items: center;
     gap: .3rem;
 }
-
-.btn-buscar:hover { background: var(--azul-claro); }
 
 
 /* ════════════════════════════════════════════════════
@@ -2062,8 +1989,6 @@ body {
     align-items: center;
     gap: .3rem;
 }
-.btn-buscar:hover { background: var(--azul-claro); }
-
 /* ═══════════════════════════════════════════════════════════════
    TABLAS
    ═══════════════════════════════════════════════════════════════ */

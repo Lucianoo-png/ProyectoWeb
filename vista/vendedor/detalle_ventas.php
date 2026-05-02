@@ -5,16 +5,6 @@
     <?php include('vista/vendedor/menu_vendedor.php'); ?>
 
     <main class="admin-content">
-
-        <nav aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item">
-                    <a href="/proyectoweb/vendedor/inicio/" class="breadcrumb-link">Inicio</a>
-                </li>
-                <li class="breadcrumb-item active text-muted">Detalle de Ventas</li>
-            </ol>
-        </nav>
-
         <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Detalle de Ventas</h1>
             <p class="page-header-sub">Consulta el historial de ventas realizadas. Filtra por folio o rango de fechas.</p>
@@ -126,12 +116,13 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group" role="group">
-                                                <button class="btn btn-sm btn-outline-danger" title="Generar PDF" 
-                                                        onclick="window.open('', '_blank')">
+                                                <button class="btn btn-sm btn-outline-danger" title="Generar Ticket PDF" 
+                                                        onclick="generarTicket(<?php echo $v['no_referencia']; ?>)">
                                                     <i class="fas fa-file-pdf"></i>
                                                 </button>
                                             </div>
                                         </td>
+                                        
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -151,8 +142,19 @@
     <input type="hidden" name="exportar_pdf" value="1">
 </form>
 
+<form id="formGenerarTicket" action="/proyectoweb/vendedor/tickets" method="POST" target="_blank" style="display:none;">
+    <input type="hidden" name="exportar_ticket" value="1">
+    <input type="hidden" name="folio_ticket" id="inputFolioTicket">
+</form>
+
 <?php include('vista/vendedor/footer_vendedor.php'); ?>
 <script>
+
+function generarTicket(folio) {
+    document.getElementById('inputFolioTicket').value = folio;
+    document.getElementById('formGenerarTicket').submit();
+}
+
 let rowsPerPage = 5; 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -180,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const spanTotal = document.getElementById('info-total-pages');
 
         if (spanRows) spanRows.textContent = rowsPerPage === 'all' ? 'Todos' : rowsPerPage;
-        if (spanCurrent) spanCurrent.textContent = totalRows === 0 ? 0 : currentPage;
+        if (spanCurrent) spanCurrent.textContent = totalRows === 0 ? 1 : currentPage;
         if (spanTotal) spanTotal.textContent = totalPages;
 
         todasLasFilas.forEach(row => row.style.display = 'none');
@@ -265,11 +267,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnExportar = document.getElementById('btnExportarPDF');
     if (btnExportar) {
         btnExportar.addEventListener('click', function() {
-            // Ahora filasFiltradas sí es accesible y está actualizada
-            if (filasFiltradas.length === 0) {
-                alert('No hay datos disponibles para generar el documento con los filtros actuales.');
-                return;
-            }
 
             // Llenamos el formulario oculto
             document.getElementById('pdf_folio').value = filtroFolio.value;

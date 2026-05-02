@@ -478,9 +478,6 @@ foreach($pedidosAgrupados as $p) {
                         Envía y consulta tus solicitudes de garantía o devolución.
                     </p>
                 </div>
-                <a href="/proyectoweb/mi-perfil/solicitud" class="btn-dir-add">
-                    <i class="fas fa-plus"></i> Nueva solicitud
-                </a>
             </div>
             <!-- Historial -->
 
@@ -544,6 +541,172 @@ foreach($pedidosAgrupados as $p) {
                 </div>
 
                         </div><!-- /listaSolicitudes -->
+
+                        <div class="row g-4">
+
+            <!-- ══ Columna principal: formulario ══ -->
+            <div class="col-lg-8">
+
+                <h1 class="sol-page-title">
+                    <i class="fas fa-plus-circle me-2" style="color:var(--btn-color)"></i>
+                    Nueva Solicitud
+                </h1>
+                <p class="sol-page-sub">
+                    Completa los campos para registrar tu solicitud de garantía o devolución.
+                </p>
+
+                <div class="cuenta-card">
+                    <div class="cuenta-card-body">
+
+                        <p class="sol-required-note">
+                            Los campos marcados con <span>*</span> son obligatorios.
+                        </p>
+
+                        <!-- ── Sección 1: Datos generales (CreaSolicitud) ── -->
+                        <p class="sol-section-title">
+                            <i class="fas fa-file-alt me-1"></i> Datos de la solicitud
+                        </p>
+
+                        <div class="row g-3">
+
+                            <!-- Tipo — DetalleSolicitud.Tipo -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small" for="solTipo">
+                                    Tipo de solicitud <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="solTipo"
+                                        onchange="actualizarResumen()">
+                                    <option value="">— Seleccionar tipo —</option>
+                                    <option value="Garantía">Garantía</option>
+                                    <option value="Devolución">Devolución</option>
+                                </select>
+                                <div class="invalid-feedback">Selecciona el tipo de solicitud.</div>
+                            </div>
+
+                            <!-- No. Referencia — CreaSolicitud.NoReferencia -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small" for="solNoReferencia">
+                                    No. de referencia de compra <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="solNoReferencia"
+                                       placeholder="Ej: LC-2026-0041"
+                                       oninput="actualizarResumen()">
+                                <div class="form-text">Número de orden asociado al producto.</div>
+                                <div class="invalid-feedback">Ingresa el número de referencia.</div>
+                            </div>
+
+                        </div><!-- /row datos generales -->
+
+                        <!-- ── Sección 2: Detalle (DetalleSolicitud) ── -->
+                        <p class="sol-section-title">
+                            <i class="fas fa-clipboard-list me-1"></i> Detalle del problema
+                        </p>
+
+                        <div class="row g-3">
+
+                            <!-- Asunto — DetalleSolicitud.Asunto -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small" for="solAsunto">
+                                    Asunto <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="solAsunto"
+                                       maxlength="120"
+                                       placeholder="Resumen breve del problema…"
+                                       oninput="actualizarResumen(); contarCaracteres(this,'solAsuntoCount',120)">
+                                <div class="d-flex justify-content-between mt-1">
+                                    <div class="invalid-feedback">El asunto es obligatorio.</div>
+                                    <small class="text-muted ms-auto" style="font-size:.7rem">
+                                        <span id="solAsuntoCount">0</span>/120
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Descripción — DetalleSolicitud.Descripcion -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small" for="solDescripcion">
+                                    Descripción <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="solDescripcion"
+                                          rows="5" style="resize:vertical" maxlength="1000"
+                                          placeholder="Describe el problema con detalle: cuándo ocurrió, qué síntomas presenta, si ya intentaste alguna solución, etc."
+                                          oninput="contarCaracteres(this,'solDescCount',1000)"></textarea>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <div class="invalid-feedback">La descripción es obligatoria.</div>
+                                    <small class="text-muted ms-auto" style="font-size:.7rem">
+                                        <span id="solDescCount">0</span>/1000
+                                    </small>
+                                </div>
+                            </div>
+
+                        </div><!-- /row detalle -->
+
+                        <!-- ── Sección 3: Evidencia — DetalleSolicitud.Evidencia ── -->
+                        <p class="sol-section-title">
+                            <i class="fas fa-paperclip me-1"></i> Evidencia
+                        </p>
+
+                        <!-- Zona de arrastre -->
+                        <div class="sol-dropzone" id="solDropzone">
+                            <input type="file" id="solEvidencia"
+                                   accept="image/*,.pdf"
+                                   onchange="manejarEvidencia(this)">
+                            <i class="fas fa-cloud-upload-alt sol-dropzone-icon"></i>
+                            <div class="sol-dropzone-label">
+                                <strong>Haz clic</strong> o arrastra tu archivo aquí
+                            </div>
+                            <p class="sol-dropzone-hint">
+                                Imagen (JPG, PNG) o PDF · Máx. 5 MB ·
+                                Requerida si la falla es física o visible
+                            </p>
+                        </div>
+
+                        <!-- Preview del archivo seleccionado -->
+                        <div class="sol-file-preview" id="solFilePreview">
+                            <i id="solFileIcon" class="fas fa-file-image sol-file-img"></i>
+                            <span id="solFileName"></span>
+                            <span id="solFileSize" class="text-muted" style="font-size:.75rem"></span>
+                            <button class="sol-file-remove" type="button" onclick="quitarEvidencia()">
+                                <i class="fas fa-times-circle"></i> Quitar
+                            </button>
+                        </div>
+
+                        <!-- Acciones -->
+                        <div class="sol-actions">
+                            <button class="btn-sol-enviar" id="btnEnviar" type="submit">
+                                <i class="fas fa-paper-plane"></i> Enviar solicitud
+                            </button>
+                            <a href="/proyectoweb/mi-perfil/inicio" class="btn-sol-cancelar">
+                                Cancelar
+                            </a>
+                        </div>
+
+                    </div><!-- /cuenta-card-body -->
+                </div><!-- /cuenta-card -->
+
+            </div><!-- /col formulario -->
+
+            <!-- ══ Columna lateral: resumen ══ -->
+            <div class="col-lg-4">
+                <!-- Tarjeta de ayuda -->
+                <div class="cuenta-card mt-3">
+                    <div class="cuenta-card-body sol-help-card">
+                        <p class="sol-help-title">
+                            <i class="fas fa-shield-alt"></i> ¿Cuándo usar cada tipo?
+                        </p>
+                        <p class="mb-2">
+                            <strong>Garantía:</strong> cuando el producto presenta fallas de
+                            funcionamiento dentro del período de garantía del fabricante.
+                        </p>
+                        <p class="mb-0">
+                            <strong>Devolución:</strong> cuando deseas regresar el producto
+                            por daño involuntario, error en el pedido o insatisfacción.
+                        </p>
+                    </div>
+                </div>
+
+            </div><!-- /col resumen -->
+
+        </div><!-- /row -->
         </div><!-- /panel-solicitudes -->
 
     </main>

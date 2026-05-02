@@ -73,15 +73,6 @@
     <!-- Contenido -->
     <main class="admin-content">
 
-        <nav aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item">
-                    <a href="/proyectoweb/vendedor/inicio" class="breadcrumb-link">Inicio</a>
-                </li>
-                <li class="breadcrumb-item active text-muted">Solicitudes</li>
-            </ol>
-        </nav>
-
         <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Solicitudes de Clientes</h1>
             <p class="page-header-sub">

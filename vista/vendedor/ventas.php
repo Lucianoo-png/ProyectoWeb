@@ -4,16 +4,6 @@
     <?php include('vista/vendedor/menu_vendedor.php'); ?>
 
     <main class="admin-content">
-
-        <nav aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item">
-                    <a href="/proyectoweb/vendedor/inicio" class="breadcrumb-link">Inicio</a>
-                </li>
-                <li class="breadcrumb-item active text-muted">Ventas</li>
-            </ol>
-        </nav>
-
         <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Venta de Electrodomésticos</h1>
             <p class="page-header-sub">Registra una nueva venta seleccionando los productos del catálogo.</p>

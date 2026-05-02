@@ -5,16 +5,6 @@
 
     <main class="admin-content">
 
-        <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item">
-                    <a href="/proyectoweb/admin/inicio" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
-                </li>
-                <li class="breadcrumb-item active text-muted">Asignar Pedidos</li>
-            </ol>
-        </nav>
-
         <!-- Encabezado -->
         <div class="mb-3 text-center">
             <h1 class="page-header-title mb-0">Asignar Pedidos a Repartidores</h1>

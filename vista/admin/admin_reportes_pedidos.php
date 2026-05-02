@@ -4,7 +4,6 @@
             <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
             <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com</span>
         </div>
-        <div><span><i class="fas fa-user-shield me-1"></i> Panel Administrador</span></div>
     </div>
 </div>
 
@@ -13,15 +12,6 @@
         <a href="/proyectoweb/admin/inicio" class="brand-logo me-3">
             <span class="electro">Luchanos</span><span class="pendejo">Corp</span>
         </a>
-        <div class="input-group search-bar flex-grow-1 mx-lg-4">
-            <input type="text" class="form-control" placeholder="Buscar usuarios, productos...">
-            <button class="btn px-4"><i class="fas fa-search"></i></button>
-        </div>
-        <div class="d-flex align-items-center gap-3 ms-2">
-            <span class="nav-icon" style="font-size:.82rem; color:#555">
-                <i class="fas fa-user-circle me-1" style="color:var(--btn-color)"></i> Admin
-            </span>
-        </div>
     </div>
 </div>
 
@@ -51,15 +41,6 @@
     </nav>
 
     <main class="admin-content">
-        <nav aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item">
-                    <a href="/proyectoweb/admin/inicio" class="text-decoration-none" style="color:var(--btn-color)">Inicio</a>
-                </li>
-                <li class="breadcrumb-item active text-muted">Pedidos</li>
-            </ol>
-        </nav>
-
         <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Reporte de Pedidos</h1>
             <p class="page-header-sub">Genera un reporte PDF filtrado del estado de los pedidos realizados en línea.</p>

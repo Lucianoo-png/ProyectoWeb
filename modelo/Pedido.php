@@ -244,27 +244,33 @@ class Pedido {
     }
 
    public function generarReporteVentasEmpleado($fFolio, $fDesde, $fHasta, $fCliente) {
-    // Usamos comillas dobles externas para el query de PHP
-    // Corregimos la comparación de fechas para evitar el cast de strings vacíos
     $query = "SELECT 
                 p.no_referencia, 
                 p.fechayhora, 
                 p.tipo_pago, 
                 p.total, 
                 p.nombre_cliente, 
-                p.no_cliente, 
+                p.no_cliente,
+                c.nombre AS cli_nombre,
+                c.apellidospama AS cli_apellidos,
                 SUM(dp.cantidad) as total_articulos
               FROM \"Veracruz\".pedido p
               JOIN \"Veracruz\".detallepedido dp ON p.no_referencia = dp.no_referencia
+              /* Unimos la tabla cliente para tener acceso a sus nombres reales */
+              LEFT JOIN \"Veracruz\".cliente c ON p.no_cliente = c.no_cliente
+              
               WHERE p.rfc = '{$_SESSION["RFC"]}'
               AND (p.no_referencia::text = '{$fFolio}' OR '{$fFolio}' = '')
               
-              /* Cambiamos el orden: primero evaluamos si el string está vacío */
               AND ('{$fDesde}' = '' OR DATE(p.fechayhora) >= CAST(NULLIF('{$fDesde}', '') AS DATE))
               AND ('{$fHasta}' = '' OR DATE(p.fechayhora) <= CAST(NULLIF('{$fHasta}', '') AS DATE))
               
-              AND (p.nombre_cliente ILIKE '%{$fCliente}%' OR '{$fCliente}' = '')
-              GROUP BY p.no_referencia, p.fechayhora, p.tipo_pago, p.total, p.nombre_cliente, p.no_cliente
+              /* REGLA DE BÚSQUEDA DUAL: Busca en el nombre capturado a mano O en el nombre del cliente registrado */
+              AND ('{$fCliente}' = '' 
+                   OR p.nombre_cliente ILIKE '%{$fCliente}%' 
+                   OR CONCAT(c.nombre, ' ', c.apellidospama) ILIKE '%{$fCliente}%')
+                   
+              GROUP BY p.no_referencia, p.fechayhora, p.tipo_pago, p.total, p.nombre_cliente, p.no_cliente, c.nombre, c.apellidospama
               ORDER BY p.fechayhora DESC";
 
     return $this->conexion->ejecutarConsulta($query)->fetchAll(PDO::FETCH_ASSOC);
@@ -323,6 +329,18 @@ public function obtenerPedidosAdminFiltradas($desde, $hasta, $cliente, $repartid
               AND ('{$montoMax}' = '' OR p.total <= CAST(NULLIF('{$montoMax}', '') AS NUMERIC))
               
               ORDER BY p.fechayhora DESC";
+
+    return $this->conexion->ejecutarConsulta($query)->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function obtenerDatosTicket($folio) {
+    $query = "SELECT 
+                p.no_referencia, p.fechayhora, p.tipo_pago, p.total, p.pagado, 
+                p.nombre_cliente, p.no_cliente,
+                c.nombre AS cli_nombre, c.apellidospama AS cli_apellidos
+              FROM \"Veracruz\".pedido p
+              LEFT JOIN \"Veracruz\".cliente c ON p.no_cliente = c.no_cliente
+              WHERE p.no_referencia = " . intval($folio);
 
     return $this->conexion->ejecutarConsulta($query)->fetchAll(PDO::FETCH_ASSOC);
 }

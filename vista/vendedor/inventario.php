@@ -6,15 +6,6 @@
 
     <main class="admin-content">
 
-        <nav aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb mb-0 small">
-                <li class="breadcrumb-item">
-                    <a href="/proyectoweb/vendedor/inicio" class="breadcrumb-link">Inicio</a>
-                </li>
-                <li class="breadcrumb-item active text-muted">Inventario</li>
-            </ol>
-        </nav>
-
         <div class="mb-4 text-center">
             <h1 class="page-header-title mb-0">Inventario de Electrodomésticos</h1>
             <p class="page-header-sub">Consulta el estado actual del stock por producto.</p>
@@ -272,12 +263,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnExportarInv = document.getElementById('btnExportarPDFInv');
     if (btnExportarInv) {
         btnExportarInv.addEventListener('click', function() {
-            // Ahora sí puede ver filteredRows sin problema
-            if (filteredRows.length === 0) {
-                alert('No hay productos en el inventario con ese criterio de búsqueda.');
-                return;
-            }
-
             // Pasamos el texto del buscador al input oculto
             document.getElementById('pdf_termino_inv').value = invBuscar.value.trim();
             
