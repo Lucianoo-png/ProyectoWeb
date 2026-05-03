@@ -1,8 +1,8 @@
 
 (function() {
     // CONFIGURACIÓN
-    const MAX_IDLE_TIME = 2 * 60; // 15 minutos en segundos
-    const WARNING_TIME = 1 * 60;  // Alerta al minuto 14
+    const MAX_IDLE_TIME = 15 * 60; // 15 minutos en segundos
+    const WARNING_TIME = 14 * 60;  // Alerta al minuto 14
     
     let idleSecondsCounter = 0;
     let isModalOpen = false;

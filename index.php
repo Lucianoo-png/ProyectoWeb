@@ -103,6 +103,19 @@ if(isset($_GET["q"])){
     <link rel="stylesheet" href="/proyectoweb/estilos/proveedor.css">
     <link rel="stylesheet" href="/proyectoweb/estilos/contacto.css">
     <link rel="stylesheet" href="/proyectoweb/estilos/solicitud.css">
+
+    <noscript>
+    <div class="noscript-overlay">
+        <div class="noscript-box">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h2>JavaScript Desactivado</h2>
+            <p>Para uso del sistema, es necesario que JavaScript esté habilitado en tu navegador.</p>
+            <a href="https://www.enable-javascript.com/es/" target="_blank" class="btn-confirm-yes">
+                ¿Cómo activar JavaScript?
+            </a>
+        </div>
+    </div>
+</noscript>
 </head>
 <body>
 

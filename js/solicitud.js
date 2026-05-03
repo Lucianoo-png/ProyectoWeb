@@ -108,19 +108,15 @@ function manejarEvidencia(input) {
     const archivo = input.files?.[0];
     if (!archivo) { quitarEvidencia(); return; }
 
-    if (archivo.size > 5 * 1024 * 1024) {
-        alert('El archivo supera los 5 MB permitidos. Por favor selecciona uno más pequeño.');
-        input.value = '';
-        return;
-    }
-
-    /* Determinar icono según tipo MIME */
+    /* Determinar icono según tipo MIME (CON EL PARCHE PARA SVG) */
     const esPDF   = archivo.type === 'application/pdf';
     const iconEl  = document.getElementById('solFileIcon');
     if (iconEl) {
-        iconEl.className = esPDF
-            ? 'fas fa-file-pdf sol-file-pdf'
+        const nuevaClase = esPDF 
+            ? 'fas fa-file-pdf sol-file-pdf' 
             : 'fas fa-file-image sol-file-img';
+        // Usamos setAttribute para que FontAwesome no explote
+        iconEl.setAttribute('class', nuevaClase);
     }
 
     /* Mostrar nombre y peso */
@@ -157,74 +153,6 @@ function quitarEvidencia() {
     }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   VALIDACIÓN Y ENVÍO
-═══════════════════════════════════════════════════════════════ */
-
-/**
- * Valida el formulario, genera el folio y la fecha, muestra el
- * toast de confirmación y redirige a inicio_usuario.php.
- */
-function enviarSolicitud() {
-    const tipo        = document.getElementById('solTipo')?.value.trim()        || '';
-    const noRef       = document.getElementById('solNoReferencia')?.value.trim() || '';
-    const asunto      = document.getElementById('solAsunto')?.value.trim()       || '';
-    const descripcion = document.getElementById('solDescripcion')?.value.trim()  || '';
-    const evidencia   = document.getElementById('solEvidencia');
-
-    /* Marcar campos inválidos */
-    _marcarCampo('solTipo',         !tipo);
-    _marcarCampo('solNoReferencia', !noRef);
-    _marcarCampo('solAsunto',       !asunto);
-    _marcarCampo('solDescripcion',  !descripcion);
-
-    if (!tipo || !noRef || !asunto || !descripcion) {
-        document.querySelector('.is-invalid')
-            ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-    }
-
-    /* Validar tamaño de evidencia si existe */
-    const archivo = evidencia?.files?.[0];
-    if (archivo && archivo.size > 5 * 1024 * 1024) {
-        alert('El archivo de evidencia supera los 5 MB permitidos.');
-        return;
-    }
-
-    /* Deshabilitar botón y mostrar spinner */
-    const btn = document.getElementById('btnEnviar');
-    if (btn) {
-        btn.disabled   = true;
-        btn.innerHTML  = '<i class="fas fa-spinner fa-spin"></i> Enviando…';
-    }
-
-    /* Simular envío al backend (en producción: fetch/AJAX) */
-    setTimeout(() => {
-        /* Generar fecha y folio */
-        const ahora   = new Date();
-        const fecha   = _formatearFecha(ahora);
-        _solFolioBase++;
-        const folio   = 'LC-SOL-' + String(_solFolioBase).padStart(6, '0');
-
-        /* Actualizar fecha en resumen lateral */
-        const rF = document.getElementById('resumenFecha');
-        if (rF) {
-            rF.textContent    = fecha;
-            rF.style.color    = '#222';
-            rF.style.fontStyle = 'normal';
-        }
-
-        /* Mostrar toast de éxito */
-        _setText('solToastFolio', folio);
-        mostrarToast();
-
-        /* Cerrar formulario y volver a la lista después de 3 segundos */
-        setTimeout(() => {
-            if (typeof cancelarNuevaSolicitud === 'function') cancelarNuevaSolicitud();
-        }, 3000);
-
-    }, 1200);
-}
 
 /* ─── Helpers de validación ─────────────────────────────────── */
 

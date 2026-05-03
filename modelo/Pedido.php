@@ -225,6 +225,20 @@ class Pedido {
         }
     }
 
+    public function verificarPedidos($rfc){
+        $query = 'SELECT COUNT(e.no_orden) AS pedidos_activos
+            FROM "Veracruz".envio e
+            JOIN "Veracruz".detalleenvio de ON e.no_orden = de.no_orden
+            WHERE e.rfc_repartidor = :rfc
+            AND de.estado = :estado;';
+            $res = $this->conexion->ejecutarConsulta($query, [":rfc"=>$rfc,":estado"=>"P"]);
+            return $res->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function asignarPedido($rfc, $observaciones, $no_orden){
+        $query = 'UPDATE "Veracruz".envio SET rfc_repartidor=?,observaciones=?,fechayhora_asignacion=? WHERE no_orden=?';
+        return $this->conexion->ejecutarConsulta($query, [$rfc, $observaciones,date('Y-m-d H:i:s') ,$no_orden])->rowCount()==1;
+    }
    public function obtenerHistorialPorCliente($no_cliente) {
         $query = 'SELECT p.no_referencia, p.fechayhora, p.total as total_pedido, 
                         de.estado as estado_envio,
@@ -307,7 +321,7 @@ public function obtenerVentasAdminFiltradas($desde, $hasta, $vendedor, $pago, $c
 public function obtenerPedidosAdminFiltradas($desde, $hasta, $cliente, $repartidor, $estado, $montoMin, $montoMax) {
     $query = "SELECT 
                 p.no_referencia, p.fechayhora, p.tipo_pago, p.total, p.nombre_cliente, p.no_cliente, p.rfc,
-                de.estado, de.no_orden_detalle,
+                de.estado, de.no_orden_detalle, env.rfc_repartidor, CONCAT(em.nombre,' ',em.apellidospama) as nombre_repartidor,
                 c.nombre AS cli_nombre, c.apellidospama AS cli_apellidos
               FROM \"Veracruz\".pedido p
               
@@ -315,6 +329,8 @@ public function obtenerPedidosAdminFiltradas($desde, $hasta, $cliente, $repartid
               JOIN \"Veracruz\".envio env ON p.no_referencia = env.no_referencia
               JOIN \"Veracruz\".detalleenvio de ON env.no_orden = de.no_orden
               
+              
+              LEFT JOIN \"Veracruz\".empleado em ON env.rfc_repartidor = em.rfc
               LEFT JOIN \"Veracruz\".cliente c ON p.no_cliente = c.no_cliente
               
               /* Regla estricta de venta en línea */
@@ -324,6 +340,7 @@ public function obtenerPedidosAdminFiltradas($desde, $hasta, $cliente, $repartid
               AND ('{$desde}' = '' OR DATE(p.fechayhora) >= CAST(NULLIF('{$desde}', '') AS DATE))
               AND ('{$hasta}' = '' OR DATE(p.fechayhora) <= CAST(NULLIF('{$hasta}', '') AS DATE))
               AND ('{$cliente}' = '' OR p.no_cliente = CAST(NULLIF('{$cliente}', '') AS INTEGER))
+              AND ('{$repartidor}' = '' OR env.rfc_repartidor = '{$repartidor}')
               AND ('{$estado}' = '' OR de.estado = '{$estado}')
               AND ('{$montoMin}' = '' OR p.total >= CAST(NULLIF('{$montoMin}', '') AS NUMERIC))
               AND ('{$montoMax}' = '' OR p.total <= CAST(NULLIF('{$montoMax}', '') AS NUMERIC))
@@ -333,16 +350,35 @@ public function obtenerPedidosAdminFiltradas($desde, $hasta, $cliente, $repartid
     return $this->conexion->ejecutarConsulta($query)->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function obtenerDatosTicket($folio) {
-    $query = "SELECT 
-                p.no_referencia, p.fechayhora, p.tipo_pago, p.total, p.pagado, 
-                p.nombre_cliente, p.no_cliente,
-                c.nombre AS cli_nombre, c.apellidospama AS cli_apellidos
-              FROM \"Veracruz\".pedido p
-              LEFT JOIN \"Veracruz\".cliente c ON p.no_cliente = c.no_cliente
-              WHERE p.no_referencia = " . intval($folio);
+    public function obtenerDatosTicket($folio) {
+        $query = "SELECT 
+                    p.no_referencia, p.fechayhora, p.tipo_pago, p.total, p.pagado, 
+                    p.nombre_cliente, p.no_cliente,
+                    c.nombre AS cli_nombre, c.apellidospama AS cli_apellidos
+                FROM \"Veracruz\".pedido p
+                LEFT JOIN \"Veracruz\".cliente c ON p.no_cliente = c.no_cliente
+                WHERE p.no_referencia = " . intval($folio);
 
-    return $this->conexion->ejecutarConsulta($query)->fetchAll(PDO::FETCH_ASSOC);
-}
+        return $this->conexion->ejecutarConsulta($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+        public function sumarVentasMes() {
+            $query = "
+                SELECT COALESCE(SUM(total), 0) AS suma_ventas 
+                FROM \"Veracruz\".pedido 
+                WHERE EXTRACT(MONTH FROM fechayhora) = EXTRACT(MONTH FROM CURRENT_DATE)
+                AND EXTRACT(YEAR FROM fechayhora) = EXTRACT(YEAR FROM CURRENT_DATE)
+            ";
+            $res = $this->conexion->ejecutarConsulta($query);
+            $fila = $res->fetch(PDO::FETCH_ASSOC);
+            return $fila['suma_ventas'];
+        }
+
+        public function contarTotalSolicitudes() {
+            $query = 'SELECT COUNT(no_referencia) AS total FROM "Veracruz".solicitud WHERE estado=:estado';
+            $res = $this->conexion->ejecutarConsulta($query,[":estado"=>"P"]);
+            $fila = $res->fetch(PDO::FETCH_ASSOC);
+            return $fila ? $fila['total'] : 0;
+        }
 }
 ?>

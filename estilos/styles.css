@@ -3295,3 +3295,44 @@ div.checkout-bg {
     font-weight: bold;
     margin-left: auto;
 }
+
+.noscript-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.95); /* Un color oscuro como tu layout */
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.noscript-box {
+    background: #1e293b;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    max-width: 450px;
+    border: 1px solid #334155;
+}
+
+.noscript-box i {
+    font-size: 3.5rem;
+    color: #f59e0b; /* Color naranja de advertencia */
+    margin-bottom: 1.5rem;
+}
+
+.noscript-box h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.noscript-box p {
+    color: #94a3b8;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}

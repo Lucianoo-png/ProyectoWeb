@@ -26,22 +26,6 @@
                 <i class="fas fa-filter me-2" style="color:var(--btn-color)"></i>Filtrar Clientes
             </h5>
             <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label">Desde:</label>
-                    <input type="date" id="filtroDesde" class="form-control">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Hasta:</label>
-                    <input type="date" id="filtroHasta" class="form-control">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Estado:</label>
-                    <select id="filtroEstado" class="form-select">
-                        <option value="all">Todos</option>
-                        <option value="Activo">Activo</option>
-                        <option value="Inactivo">Inactivo</option>
-                    </select>
-                </div>
                 <div class="col-md-12">
                     <label class="form-label">Buscar cliente:</label>
                     <input type="text" id="searchInput" class="form-control" placeholder="Nombre, correo o teléfono...">
@@ -115,12 +99,13 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
-    const filtroDesde = document.getElementById('filtroDesde');
-    const filtroHasta = document.getElementById('filtroHasta');
-    const filtroOrigen = document.getElementById('filtroOrigen');
-    const filtroEstado = document.getElementById('filtroEstado');
     const rowsPerPageSelect = document.getElementById('rowsPerPageSelect');
     const tbody = document.querySelector('#tablaClientes tbody');
+    
+    if (!searchInput || !rowsPerPageSelect || !tbody) {
+        return; // Salida segura si no encuentra la tabla
+    }
+
     const allRows = Array.from(tbody.querySelectorAll('tr'));
     const paginationControls = document.getElementById('paginationControls');
 
@@ -199,25 +184,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function applyFilters() {
         const term = searchInput.value.toLowerCase();
-        const fDesde = filtroDesde.value; 
-        const fHasta = filtroHasta.value;
-        const fOrigen = filtroOrigen.value;
-        const fEstado = filtroEstado.value;
 
         filteredRows = allRows.filter(row => {
             const cells = row.querySelectorAll('td');
+            // Busca solo en Nombre (índice 1), Correo (índice 2) y Teléfono (índice 3)
             const txtSearch = (cells[1].textContent + " " + cells[2].textContent + " " + cells[3].textContent).toLowerCase();
             
-            // Textos exactos para selects
-            const txtOrigen = cells[4].textContent.trim();
-            const txtEstado = cells[6].textContent.trim();
-            const rawFechaBD = cells[7].textContent.trim();
-
             if (term && !txtSearch.includes(term)) return false;
-            if (fOrigen !== 'all' && txtOrigen !== fOrigen) return false;
-            if (fEstado !== 'all' && txtEstado !== fEstado) return false;
-            if (fDesde && rawFechaBD < fDesde) return false;
-            if (fHasta && rawFechaBD > fHasta) return false;
 
             return true;
         });
@@ -226,12 +199,8 @@ document.addEventListener('DOMContentLoaded', function() {
         renderTable();
     }
 
+    // Solo dejamos los eventListeners que sí existen en tu HTML
     searchInput.addEventListener('input', applyFilters);
-    filtroDesde.addEventListener('change', applyFilters);
-    filtroHasta.addEventListener('change', applyFilters);
-    filtroOrigen.addEventListener('change', applyFilters);
-    filtroEstado.addEventListener('change', applyFilters);
-
 
     rowsPerPageSelect.addEventListener('change', function() {
         rowsPerPage = this.value === 'all' ? 'all' : parseInt(this.value);

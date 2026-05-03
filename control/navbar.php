@@ -104,11 +104,7 @@ $rutaPrincipal =  mb_strtolower($urlParts[0]);
             $controlador = new CarritoControlador();
             $controlador->accionObtenerCarrito();
         break;
-
-        case 'rastrear-pedido':
-            include('vista/rastrear_pedido.php');
-        break;
-
+        
         case 'envio':
             if(isset($_SESSION["NoCliente"])){
                 $cli = new ClienteControlador();

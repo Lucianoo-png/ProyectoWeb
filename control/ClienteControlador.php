@@ -186,5 +186,60 @@ class ClienteControlador {
         $this->cliente->eliminarDireccion($datos['no_direccion']);
         return ["exito","Dirección eliminada correctamente"];
     }
+
+    public function solicitud($datos = array()) {
+        if($datos['tipo']=='' || trim($datos['no_orden'])=='' || trim($datos['asunto'])=='' || trim($datos['descripcion'])==''){
+             return ["error", "Debes llenar los campos obligatorios de la solicitud."];
+        }
+        $no_cliente = $_SESSION['NoCliente']; 
+        $no_orden_limpio = trim($datos['no_orden']);
+        $estado_orden = $this->cliente->verificarOrdenEntregada($no_orden_limpio, $no_cliente);
+
+        if ($estado_orden === "NO_EXISTE") {
+            return ["error", "El número de orden no existe."];
+        }
+
+        if ($estado_orden !== 'E') {
+            return ["error", "Solo puedes generar solicitudes para pedidos que ya han sido entregados."];
+        }
+
+        $evidencia_path = "";
+        if (isset($_FILES['evidencia']) && $_FILES['evidencia']['error'] === UPLOAD_ERR_OK) {
+            if ($_FILES['evidencia']['size'] > 5242880) {
+                return ["error", "El archivo supera los 5 MB permitidos. Por favor selecciona uno más pequeño."];
+            }
+            $directorio = "public/evidencias/"; 
+            
+            if (!is_dir($directorio)) { 
+                mkdir($directorio, 0777, true); 
+            }
+
+            $nombre_archivo = time() . "_" . basename($_FILES['evidencia']['name']);
+            $ruta_destino = $directorio . $nombre_archivo;
+
+            if (move_uploaded_file($_FILES['evidencia']['tmp_name'], $ruta_destino)) {
+                $evidencia_path = $ruta_destino;
+            } else {
+                return ["error", "Hubo un problema al guardar el archivo de evidencia."];
+            }
+        } else {
+            return ["error", "El archivo de evidencia es obligatorio para reportar un problema."];
+        }
+
+        $datosSolicitud = [
+            'no_orden'    => $no_orden_limpio,
+            'no_cliente'  => $no_cliente,
+            'asunto'      => mb_strtoupper(trim($datos['asunto'])),
+            'descripcion' => mb_strtoupper(trim($datos['descripcion'])),
+            'evidencia'   => $evidencia_path,
+            'tipo'        => trim($datos['tipo'])
+        ];
+
+        if ($this->cliente->registrarSolicitud($datosSolicitud)) {
+            return ["exito", "¡Tu solicitud ha sido enviada con éxito! Un administrador te responderá pronto."];
+        } else {
+            return ["error", "Ocurrió un error al registrar tu solicitud."];
+        }
+    }
 }
 ?>

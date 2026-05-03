@@ -5,13 +5,6 @@
                 <span class="me-3"><i class="fas fa-phone-alt me-1"></i> 800-123-4567</span>
                 <span class="d-none d-md-inline"><i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com</span>
             </div>
-            <?php if(isset($_SESSION["NoCliente"])){ ?>
-            <div class="d-flex gap-3">
-                <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                    <i class="fas fa-truck me-1"></i> Rastrear Pedido
-                </a>
-            </div>
-            <?php } ?>
         </div>
         </div>
     </div>

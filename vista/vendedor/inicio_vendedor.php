@@ -54,11 +54,6 @@
                 <div class="stat-num"><?php echo $unidadesHoy; ?></div>
                 <div class="stat-label">Vendidas hoy</div>
             </div>
-            <a href="/proyectoweb/vendedor/solicitudes" class="stat-card">
-                <div class="stat-icon stat-icon--danger"><i class="fas fa-headset"></i></div>
-                <div class="stat-num stat-num--danger">4</div>
-                <div class="stat-label">Solicitudes pendientes</div>
-            </a>
         </div>
 
     </main>

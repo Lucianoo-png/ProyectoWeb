@@ -16,29 +16,8 @@
 </div>
 
 <div class="admin-layout">
-    <nav class="admin-sidebar">
-        <p class="sidebar-title">Menú Admin</p>
-        <a href="/proyectoweb/admin/inicio"    class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</a>
-        <a href="/proyectoweb/admin/personal"  class="nav-link"><i class="fas fa-users"></i> Personal</a>
-        <a href="/proyectoweb/admin/productos" class="nav-link"><i class="fas fa-box"></i> Productos</a>
-            <a href="/proyectoweb/admin/clientes"  class="nav-link"><i class="fas fa-user-friends"></i> Clientes</a>
-        <hr class="sidebar-divider">
-        <p class="sidebar-title">Reportes</p>
-        <a href="/proyectoweb/admin/ventas"   class="nav-link"><i class="fas fa-chart-bar"></i> Ventas</a>
-        <a href="/proyectoweb/admin/compras"  class="nav-link active"><i class="fas fa-shopping-bag"></i> Compras</a>
-        <a href="/proyectoweb/admin/pedidos"  class="nav-link"><i class="fas fa-truck"></i> Pedidos</a>
-        <a href="/proyectoweb/admin/asignar-pedidos" class="nav-link"><i class="fas fa-user-plus"></i> Asignar Pedidos</a>
-        <hr class="sidebar-divider">
-        <p class="sidebar-title">Proveedores</p>
-        <a href="/proyectoweb/admin/pedido-proveedor" class="nav-link"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
-        <hr class="sidebar-divider">
-        <p class="sidebar-title">Sistema</p>
-        <a href="/proyectoweb/admin/logs" class="nav-link"><i class="fas fa-history"></i> Historial (Logs)</a>
-        <hr class="sidebar-divider">
-        <a href="/proyectoweb/?" class="btn-cerrar" style="margin-top:.5rem">
-            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-        </a>
-    </nav>
+    <?php include('vista/admin/menu_admin.php'); ?>
+
 
     <main class="admin-content">
 

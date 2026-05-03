@@ -140,9 +140,14 @@ foreach ($pedidosFiltrados as $p) {
     }
     $pdf->Cell(90, 6, mb_convert_encoding("  Estado: " . $estadoTexto, 'ISO-8859-1', 'UTF-8'), 0, 0);
     
-    // REPARTIDOR ASIGNADO (Estático por ahora)
+    // REPARTIDOR ASIGNADO
     $pdf->SetTextColor(0, 100, 0); 
-    $pdf->Cell(90, 6, mb_convert_encoding("Repartidor: POR ASIGNAR  ", 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
+    if($p['rfc_repartidor']==null){
+        $pdf->Cell(90, 6, mb_convert_encoding("Repartidor: POR ASIGNAR", 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
+    }
+    else{
+        $pdf->Cell(90, 6, mb_convert_encoding("Repartidor: ".$p['nombre_repartidor']." (".$p['rfc_repartidor'].")", 'ISO-8859-1', 'UTF-8'), 0, 1, 'R');
+    }
     
     $pdf->Ln(15);
 

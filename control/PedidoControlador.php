@@ -199,6 +199,25 @@ class PedidoControlador {
         return ["error", "No se pudo procesar el pago. Intente más tarde."];
     }
 
+    public function asignarPedidos($log, $datos = array()){
+        if($datos['rfc_repartidor']==''){
+            return ["error","Debe seleccionar un repartidor"];
+        }
+
+        $total = $this->pedido->verificarPedidos($datos['rfc_repartidor']);
+
+        if($total[0]['pedidos_activos'] >= 5){
+            return ["error","El repartidor ya cuenta con 5 pedidos, asigne este pedido a otro repartidor para evitar saturación"];
+        }
+
+        if(!$this->pedido->asignarPedido($datos['rfc_repartidor'],$datos['observaciones']==''?null:$datos['observaciones'],intval($datos['no_pedido']))){
+            return ["error","Ocurrió un error al asignar el pedido, intente más tarde"];
+        }
+
+         $log->registrarLog($_SESSION["RFC"], "Pedido #".$datos['no_pedido']." asignado correctamente", "C");
+        return array("exito","Pedido asignado correctamente");
+    }
+
     public function accionListarPedidos() {
         if (ob_get_length()) ob_clean();
         header('Content-Type: application/json');

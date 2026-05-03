@@ -175,5 +175,107 @@ class Cliente {
         
         return $this->conexion->ejecutarConsulta($query, $params)->rowCount() > 0;
     }
+
+        public function registrarSolicitud($datos) {
+            try {
+                $querySol = 'INSERT INTO "Veracruz".solicitud (fechayhora, no_cliente, rfc, no_orden) 
+                            VALUES (CURRENT_TIMESTAMP, :no_cliente, NULL, :no_orden) 
+                            RETURNING no_referencia';
+                            
+                $stmt = $this->conexion->ejecutarConsulta($querySol, [
+                    ":no_cliente" => $datos['no_cliente'],
+                    ":no_orden"   => $datos['no_orden']
+                ]);
+                $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+                $nuevo_no_referencia = $fila['no_referencia'];
+                $queryDetalle = 'INSERT INTO "Veracruz".detallesolicitud (asunto, descripción, evidencia, tipo, no_referencia) 
+                                VALUES (:asunto, :descripcion, :evidencia, :tipo, :no_referencia)';
+                                
+                $this->conexion->ejecutarConsulta($queryDetalle, [
+                    ":asunto"        => $datos['asunto'],
+                    ":descripcion"   => $datos['descripcion'],
+                    ":evidencia"     => $datos['evidencia'],
+                    ":tipo"          => $datos['tipo'],
+                    ":no_referencia" => $nuevo_no_referencia
+                ]);
+                
+                return true; 
+
+            } catch (PDOException $e) {
+                return false; 
+            }
+        }
+
+        public function verificarOrdenEntregada($no_orden, $no_cliente) {
+            $query = 'SELECT de.estado 
+                    FROM "Veracruz".pedido p
+                    JOIN "Veracruz".envio e ON p.no_referencia = e.no_referencia
+                    JOIN "Veracruz".detalleenvio de ON e.no_orden = de.no_orden
+                    WHERE p.no_referencia = :no_orden AND p.no_cliente = :no_cliente';
+            
+            $res = $this->conexion->ejecutarConsulta($query, [
+                ":no_orden"   => $no_orden,
+                ":no_cliente" => $no_cliente
+            ]);
+            
+            $fila = $res->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$fila) {
+                return "NO_EXISTE";
+            }
+            
+            return $fila['estado'];
+        }
+
+        public function obtenerSolicitudesCliente($no_cliente) {
+            $query = "
+                SELECT 
+                    s.no_referencia AS folio_solicitud,
+                    s.fechayhora,
+                    s.estado,
+                    s.respuesta,
+                    ds.tipo,
+                    ds.asunto,
+                    STRING_AGG(pr.nombre, ', ') AS nombre_producto
+                FROM \"Veracruz\".solicitud s
+                JOIN \"Veracruz\".detallesolicitud ds ON s.no_referencia = ds.no_referencia
+                LEFT JOIN \"Veracruz\".detallepedido dp ON s.no_orden = dp.no_referencia
+                LEFT JOIN \"Veracruz\".producto_detalle_pedido pdp ON dp.no_referencia_detalle = pdp.no_referencia_detalle
+                LEFT JOIN \"Veracruz\".producto pr ON pdp.no_producto = pr.no_producto
+                WHERE s.no_cliente = :no_cliente
+                GROUP BY 
+                    s.no_referencia,
+                    s.fechayhora,
+                    s.estado,
+                    s.respuesta,
+                    ds.tipo,
+                    ds.asunto
+                ORDER BY s.fechayhora DESC
+            ";
+
+            $res = $this->conexion->ejecutarConsulta($query, [":no_cliente" => $no_cliente]);
+            return $res->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function obtenerSolicitudesAdmin() {
+            $query = "
+                SELECT 
+                    s.no_referencia,
+                    s.fechayhora,
+                    s.estado,
+                    s.respuesta,
+                    ds.asunto,
+                    ds.descripción,
+                    ds.evidencia,
+                    ds.tipo,
+                    CONCAT(c.nombre, ' ', c.apellidospama) AS nombre_cliente
+                FROM \"Veracruz\".solicitud s
+                JOIN \"Veracruz\".detallesolicitud ds ON s.no_referencia = ds.no_referencia
+                JOIN \"Veracruz\".cliente c ON s.no_cliente = c.no_cliente
+                ORDER BY s.fechayhora DESC
+            ";
+            $res = $this->conexion->ejecutarConsulta($query);
+            return $res->fetchAll(PDO::FETCH_ASSOC);
+        }
 }
 ?>

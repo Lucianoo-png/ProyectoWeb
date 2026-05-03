@@ -37,13 +37,34 @@ switch($rutaPrincipal){
     case '':
         case 'inicio':
             $emp = new EmpleadoControlador();
+            $pedido = new PedidoControlador();
+            $log = new BitacoraControlador();
+            $cli = new ClienteControlador();
             if (isset($_REQUEST['guardar'])) {
                 $msj = $emp->actualizarPerfilPersonal($_POST);
             }
             else if(isset($_REQUEST["actualizar_contra"])){
                  $msj = $emp->actualizarContra($_POST);
             }
+            else if(isset($_REQUEST["actualizar_estado"])){
+                $msj = $emp->actualizarEstado($log, $_POST);
+            }
             $info = $emp->getEmpleado()->buscar('"Veracruz".empleado',["where"=>"rfc='".$_SESSION["RFC"]."'"]);
+           $pedidos = $pedido->getPedido()->buscar('"Veracruz".envio e', [
+                "select" => "e.*, de.estado",
+                "join"   => 'JOIN "Veracruz".detalleenvio de ON e.no_orden = de.no_orden',
+                "where"  => "e.rfc_repartidor = :rfc AND de.estado IN ('P', 'R')",
+                "order"  => "e.no_orden DESC",
+                "params" => [":rfc" => $_SESSION["RFC"]]
+            ]);
+
+            $historial = $pedido->getPedido()->buscar('"Veracruz".envio e', [
+                "select" => "e.*, de.estado",
+                "join"   => 'JOIN "Veracruz".detalleenvio de ON e.no_orden = de.no_orden',
+                "where"  => "e.rfc_repartidor = :rfc",
+                "order"  => "e.no_orden DESC",
+                "params" => [":rfc" => $_SESSION["RFC"]]
+            ]);
             include('vista/vendedor/repartidor.php');
 
     break;

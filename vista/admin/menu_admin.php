@@ -9,6 +9,9 @@ function _activo(string $clave): string {
     global $_sec;
     return $_sec === $clave ? ' active' : '';
 }
+
+$ped = new PedidoControlador();
+$total_soli = $ped->getPedido()->contarTotalSolicitudes();
 ?>
 <nav class="admin-sidebar">
     <p class="sidebar-title">Menú Admin</p>
@@ -26,9 +29,15 @@ function _activo(string $clave): string {
     <p class="sidebar-title">Proveedores</p>
     <a href="/proyectoweb/admin/pedido-proveedor" class="nav-link<?= _activo('pedido-proveedor') ?>"><i class="fas fa-clipboard-list"></i> Pedir a Proveedor</a>
     <hr class="sidebar-divider">
+    <p class="sidebar-title">Atención</p>
+    <a href="/proyectoweb/admin/solicitudes" class="nav-link<?= _activo('solicitudes') ?>">
+        <i class="fas fa-headset"></i> Solicitudes
+        <span class="tab-badge"><?php echo $total_soli; ?></span>
+    </a>
+    <hr class="sidebar-divider">
     <p class="sidebar-title">Sistema</p>
     <a href="/proyectoweb/admin/logs"             class="nav-link<?= _activo('logs') ?>"><i class="fas fa-history"></i> Historial (Logs)</a>
-    <hr class="sidebar-divider">
+     <hr class="sidebar-divider">
     <a href="/proyectoweb/admin/logout" class="btn-cerrar" style="margin-top:.5rem">
         <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
     </a>

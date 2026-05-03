@@ -503,9 +503,7 @@ function initSolicitudesModal() {
             document.getElementById('modal-fecha').textContent = sol.fecha || '—';
             document.getElementById('modal-asunto').textContent = sol.asunto || '—';
             document.getElementById('modal-desc').textContent = sol.desc || '—';
-            document.getElementById('modal-evidencia').textContent = sol.evidencia || 'Sin adjunto';
             document.getElementById('modal-respuesta').value = '';
-            document.getElementById('modal-estado').value = 'en_proceso';
             overlay.classList.add('show');
         });
     });
@@ -514,19 +512,6 @@ function initSolicitudesModal() {
     if (btnCerrar) btnCerrar.addEventListener('click', cerrar);
     if (btnCancelar) btnCancelar.addEventListener('click', cerrar);
     overlay.addEventListener('click', e => { if (e.target === overlay) cerrar(); });
-
-    if (btnGuardar) {
-        btnGuardar.addEventListener('click', function () {
-            const respuesta = document.getElementById('modal-respuesta').value.trim();
-            if (!respuesta) {
-                alert('Por favor escribe una respuesta o resolución.');
-                return;
-            }
-            const estado = document.getElementById('modal-estado').value;
-            alert(`✅ Solicitud actualizada.\nEstado: ${estado}\n\n(En producción se guardará en la base de datos.)`);
-            cerrar();
-        });
-    }
 }
 
 function filtrarSolicitudes() {
@@ -755,50 +740,6 @@ function badgeEstadoHtml(estado) {
     return `<span class="badge-estado ${cls}">${estado}</span>`;
 }
 
-function renderHistorialRepartidor() {
-    const tbody = document.getElementById('historialTbody');
-    const pag = document.getElementById('histPaginacion');
-    if (!tbody) return;
-
-    const inicio = (histPagina - 1) * HIST_POR_PAG;
-    const items = histFiltrado.slice(inicio, inicio + HIST_POR_PAG);
-    const total = histFiltrado.length;
-    const paginas = Math.ceil(total / HIST_POR_PAG);
-
-    if (items.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted py-4">
-            <i class="fas fa-search me-2"></i>No se encontraron pedidos con esos filtros.
-        </td></tr>`;
-        if(pag) pag.innerHTML = '';
-        return;
-    }
-
-    tbody.innerHTML = items.map((p, idx) => `
-        <tr>
-            <td>${inicio + idx + 1}</td>
-            <td class="hist-folio">${p.folio}</td>
-            <td class="td-name" style="text-align:left">${p.cliente}</td>
-            <td style="text-align:left;font-size:.8rem">${p.producto}</td>
-            <td class="td-fecha">${p.asignado}</td>
-            <td class="td-fecha">${p.entrega}</td>
-            <td style="font-weight:700;color:var(--btn-color)">${p.total}</td>
-            <td>${badgeEstadoHtml(p.estado)}</td>
-            <td>
-                <button class="btn-tbl-edit" title="Cambiar estado"
-                        onclick="abrirModalEstado('${p.folio}', ${obtenerIndexEstadoRep(p.estado)})">
-                    <i class="fas fa-exchange-alt"></i>
-                </button>
-            </td>
-        </tr>`).join('');
-
-    if(!pag) return;
-    let pgHtml = '';
-    for (let i = 1; i <= paginas; i++) {
-        pgHtml += `<button class="page-btn ${i === histPagina ? 'active' : ''}"
-                           onclick="cambiarPagHistRep(${i})">${i}</button>`;
-    }
-    pag.innerHTML = pgHtml;
-}
 
 function obtenerIndexEstadoRep(label) {
     return ESTADOS_REPARTIDOR.findIndex(e => e.label === label) ?? 0;
@@ -816,7 +757,6 @@ function filtrarHistorial() {
         return okFolio && okEstado && okMes;
     });
     histPagina = 1;
-    renderHistorialRepartidor();
 }
 
 function limpiarFiltros() {
@@ -826,12 +766,10 @@ function limpiarFiltros() {
     
     histFiltrado = [...HISTORIAL_REPARTIDOR];
     histPagina = 1;
-    renderHistorialRepartidor();
 }
 
 function cambiarPagHistRep(n) {
     histPagina = n;
-    renderHistorialRepartidor();
 }
 
 /* Modal de estado */
@@ -865,7 +803,6 @@ function guardarEstadoModal() {
         HISTORIAL_REPARTIDOR[idxEnEdicion].entrega = hoy.toLocaleDateString('es-MX', { day:'2-digit', month:'2-digit', year:'numeric' });
     }
     histFiltrado = [...HISTORIAL_REPARTIDOR];
-    renderHistorialRepartidor();
     cerrarModalEstado();
     mostrarToastRepartidor(`Estado de ${folioEnEdicion} actualizado a "${ESTADOS_REPARTIDOR[nuevo].label}"`);
 }
@@ -929,73 +866,9 @@ function cambiarContrasena() {
     if(document.getElementById('pwNueva')) document.getElementById('pwNueva').value = '';
     if(document.getElementById('pwConfirmar')) document.getElementById('pwConfirmar').value = '';
     
-    mostrarToastRepartidor('✅ Contraseña actualizada correctamente.');
 }
 
-/* ════════════════════════════════════════════════════════════
-   RASTREO DE PEDIDOS (Cliente)
-   ════════════════════════════════════════════════════════════ */
 
-function initRastrearPedido() {
-    const form = document.getElementById('trackForm');
-    if (!form) return;
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const ref = document.getElementById('noReferencia').value.trim();
-        const result = document.getElementById('trackResult');
-        if (!ref) {
-            if(result) result.innerHTML = '<div class="track-error-msg">' +
-                '<i class="fas fa-exclamation-triangle"></i> Por favor ingresa tu número de referencia.</div>';
-            return;
-        }
-        if(result) result.innerHTML = '';
-        const destino = 'Cuenta/inicio_usuario.php?panel=pedidos&ref=' + encodeURIComponent(ref);
-        window.location.href = destino;
-    });
-}
-
-function initRastreoDesdeURL() {
-    const params = new URLSearchParams(window.location.search);
-    const panel = params.get('panel');
-    const ref = params.get('ref');
-    if (panel !== 'pedidos') return;
-
-    document.querySelectorAll('.cuenta-nav-link').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.cuenta-panel').forEach(p => p.classList.remove('active'));
-
-    const btnPedidos = document.querySelector('[onclick="switchPanel(\'panel-pedidos\',this)"]');
-    const panelPedidos = document.getElementById('panel-pedidos');
-    if (btnPedidos) btnPedidos.classList.add('active');
-    if (panelPedidos) panelPedidos.classList.add('active');
-
-    if (!ref) return;
-
-    const refUpper = ref.toUpperCase();
-    const pedidoProceso = 'LC-2026-0041';
-    const pedidoEnvio = 'LC-2026-0038';
-    const enProceso = refUpper.includes(pedidoProceso);
-    const enEnvio = refUpper.includes(pedidoEnvio);
-    const histCard = document.getElementById('hist-' + refUpper.replace('#', ''));
-
-    if (enProceso) {
-        activarTabPedido('btn-tab-proceso', 'tab-proceso');
-        mostrarAlertaRastreo(ref, 'proceso');
-    } else if (enEnvio) {
-        activarTabPedido('btn-tab-envio', 'tab-envio');
-        mostrarAlertaRastreo(ref, 'envio');
-    } else if (histCard) {
-        activarTabPedido('btn-tab-historial', 'tab-historial');
-        mostrarAlertaRastreo(ref, 'historial');
-        setTimeout(() => {
-            histCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            histCard.classList.add('pedido-card--highlight');
-            setTimeout(() => histCard.classList.remove('pedido-card--highlight'), 2500);
-        }, 350);
-    } else {
-        activarTabPedido('btn-tab-proceso', 'tab-proceso');
-        mostrarAlertaRastreo(ref, 'notfound');
-    }
-}
 
 function activarTabPedido(btnId, tabId) {
     document.querySelectorAll('.pedido-tab-btn').forEach(b => b.classList.remove('active'));
@@ -1052,11 +925,6 @@ document.addEventListener('DOMContentLoaded', () => {
     /* Repartidor */
     histFiltrado = [...HISTORIAL_REPARTIDOR];
     renderTrackingRepartidor();
-    renderHistorialRepartidor();
-
-    /* Rastreo */
-    initRastrearPedido();
-    initRastreoDesdeURL();
 });
 
 /* ══════════════════════════════════════════════════════════════

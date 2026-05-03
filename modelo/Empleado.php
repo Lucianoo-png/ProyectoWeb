@@ -231,6 +231,22 @@ class Empleado{
         return $this->conexion->ejecutarConsulta($query, $params)->rowCount()>0;
     }
 
+    public function actualizarEstado($estado,$no_orden){
+        $query = 'UPDATE "Veracruz".detalleenvio SET estado=:estado WHERE no_orden=:no_orden';
+        $params = [":estado"=>$estado,":no_orden"=>$no_orden];
+        return $this->conexion->ejecutarConsulta($query, $params)->rowCount()>0;
+    }
+
+    public function responderSolicitud($no_referencia, $respuesta){
+         $query = 'UPDATE "Veracruz".solicitud SET rfc=:rfc, estado=:estado, respuesta=:respuesta WHERE no_referencia=:ref';
+        $params = [
+        ":rfc"=>$_SESSION["RFC"], 
+        ":estado"=>"A", 
+        ":respuesta"=>$respuesta, 
+        ":ref"=>$no_referencia
+        ];
+        return $this->conexion->ejecutarConsulta($query, $params)->rowCount()>0;
+    }
 }
 
 ?>

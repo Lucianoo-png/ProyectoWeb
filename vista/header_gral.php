@@ -14,13 +14,6 @@ $mostrarCategorias = $mostrarCategorias ?? true;
                 <i class="fas fa-envelope me-1"></i> soporte@LuchanosCorp.com
             </span>
         </div>
-        <?php if(isset($_SESSION["NoCliente"])){ ?>
-        <div class="d-flex gap-3">
-            <a href="/proyectoweb/rastrear-pedido" class="topbar-link-track">
-                <i class="fas fa-truck me-1"></i> Rastrear Pedido
-            </a>
-        </div>
-        <?php } ?>
     </div>
 </div>
 

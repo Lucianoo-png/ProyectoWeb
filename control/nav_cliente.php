@@ -56,9 +56,12 @@ switch($rutaPrincipal){
             else if(isset($_REQUEST["eliminar_direccion"])){
                 $msj = $cliente->eliminarDireccion($_POST);
             }
+            else if(isset($_REQUEST["solicitar"])){
+                $msj = $cliente->solicitud($_POST);
+            }
             $info = $cliente->getCliente()->buscar('"Veracruz".cliente',["where"=>"no_cliente=".$_SESSION["NoCliente"]]);
             $direcciones = $cliente->getCliente()->buscar('"Veracruz".clientedireccion',["where"=>"no_cliente=".$_SESSION["NoCliente"]]);
-
+            $historialSolicitudes = $cliente->getCliente()->obtenerSolicitudesCliente($_SESSION['NoCliente']);
             $pedidosRaw = $ped->getPedido()->obtenerHistorialPorCliente($_SESSION["NoCliente"]);
             include('vista/cuentausuario/inicio_usuario.php');
 
@@ -74,11 +77,7 @@ switch($rutaPrincipal){
                     }
         header('location:/proyectoweb/?');
     break;
-   /* 
-    case 'solicitud':
-        include('vista/cuentausuario/nueva_solicitud.php');
-    break;
-*/
+
     default:
     include('vista/cuentausuario/header_usuario.php');
     include('vista/404.php');

@@ -154,10 +154,6 @@ switch($rutaPrincipal){
         include('vista/vendedor/inventario.php');
     break;
 
-    case 'solicitudes':
-        include('vista/vendedor/solicitudes.php');
-    break;
-
     case 'logout':
         $emp = new EmpleadoControlador();
         $emp->getEmpleado()->actualizarUltimaVez(false);

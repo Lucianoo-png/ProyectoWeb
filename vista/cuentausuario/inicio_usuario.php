@@ -92,7 +92,7 @@
             <p class="cuenta-sidebar-email"><i class="fas fa-envelope me-1"></i><?php echo $info[0]['correo']; ?>
         </div>
         <nav class="cuenta-nav">
-            <button class="cuenta-nav-link <?php echo (!(isset($_POST['guardar_direccion']) || isset($_POST['eliminar_direccion'])) ? 'active' : ''); ?>" onclick="switchPanel('panel-datos',this)">
+            <button class="cuenta-nav-link <?php echo (!(isset($_POST['guardar_direccion']) || isset($_POST['eliminar_direccion']) || isset($_POST['solicitar'])) ? 'active' : ''); ?>" onclick="switchPanel('panel-datos',this)">
                 <i class="fas fa-user-edit"></i> Mis Datos
             </button>
             <button class="cuenta-nav-link <?php echo ((isset($_POST['guardar_direccion']) || isset($_POST['eliminar_direccion'])) ? 'active' : ''); ?>" onclick="switchPanel('panel-direcciones',this)">
@@ -102,7 +102,7 @@
             <button class="cuenta-nav-link" onclick="switchPanel('panel-pedidos',this)">
                 <i class="fas fa-box-open"></i> Mis Pedidos
             </button>
-            <button class="cuenta-nav-link" onclick="switchPanel('panel-solicitudes',this)">
+            <button class="cuenta-nav-link <?php echo (isset($_POST['solicitar']) ? 'active' : ''); ?>" onclick="switchPanel('panel-solicitudes',this)">
                 <i class="fas fa-headset"></i> Mis Solicitudes
             </button>
             <hr class="cuenta-nav-divider">
@@ -115,7 +115,7 @@
     <main>
 
         <!-- PANEL DATOS -->
-        <div class="cuenta-panel <?php echo (!(isset($_POST['guardar_direccion']) || isset($_POST['eliminar_direccion'])) ? 'active' : ''); ?>" id="panel-datos">
+        <div class="cuenta-panel <?php echo (!(isset($_POST['guardar_direccion']) || isset($_POST['eliminar_direccion']) || isset($_POST['solicitar'])) ? 'active' : ''); ?>" id="panel-datos">
             <div class="cuenta-card">
                 <div class="cuenta-card-header">
                     <span><i class="fas fa-id-card"></i> Información Personal</span>
@@ -248,12 +248,6 @@
                                 <button class="btn-dir-sec" onclick="editarDireccion(<?php echo intval($dir['no_dirección']); ?>)">
                                     <i class="fas fa-edit me-1"></i>Editar
                                 </button>
-                                <form action="/proyectoweb/mi-perfil/inicio" method="POST">
-                                    <input type="hidden" name="no_direccion" value="<?php echo intval($dir['no_dirección']); ?>">
-                                    <button type="submit" name="eliminar_direccion" class="btn-dir-sec" style="color:#dc3545;border-color:#f5c2c2">
-                                        <i class="fas fa-trash me-1"></i>Eliminar
-                                    </button>
-                                </form>
                             </div>
                         </div>
                         <?php } ?>
@@ -469,7 +463,7 @@ foreach($pedidosAgrupados as $p) {
 
 
         <!-- PANEL SOLICITUDES -->
-        <div class="cuenta-panel" id="panel-solicitudes">
+        <div class="cuenta-panel <?php echo (isset($_POST['solicitar']) ? 'active' : ''); ?>" id="panel-solicitudes">
 
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                 <div>
@@ -485,65 +479,78 @@ foreach($pedidosAgrupados as $p) {
             <!-- Historial -->
 
             <div id="listaSolicitudes">
+    <?php if(isset($_POST["solicitar"])){ if(count($msj)>0){ ?>
+        <div class="alerta alerta-<?php echo $msj[0]; ?> mb-3"><?php echo $msj[1]; ?></div>
+    <?php } } ?>
 
-                <div class="cuenta-card mb-3">
-                    <div class="cuenta-card-header" style="background:#065f46">
-                        <span><i class="fas fa-check-double me-1"></i> LC-SOL-230050 — Devolución</span>
-                        <span style="background:rgba(255,255,255,.2);color:#fff;font-size:.72rem;padding:.2rem .65rem;border-radius:2rem;font-weight:700">
-                            Resuelto
-                        </span>
-                    </div>
-                    <div class="cuenta-card-body">
-                        <div class="row g-2 mb-2">
-                            <div class="col-md-4">
-                                <div class="perfil-label">Fecha</div>
-                                <div class="perfil-valor" style="font-size:.84rem">10/03/2026 11:20</div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="perfil-label">Producto</div>
-                                <div class="perfil-valor" style="font-size:.84rem">WM3911D — Microondas AirFry</div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="perfil-label">Asunto</div>
-                                <div class="perfil-valor" style="font-size:.84rem">Cambio por unidad defectuosa</div>
-                            </div>
+    <?php 
+    if (isset($historialSolicitudes) && count($historialSolicitudes) > 0) {
+        foreach ($historialSolicitudes as $sol) { 
+            // Preparamos variables para la UI según el tipo y estado
+            $esAtendido = ($sol['estado'] === 'A');
+            $tipoTexto = ($sol['tipo'] === 'G') ? 'Garantía' : 'Devolución';
+            
+            // Colores y textos dinámicos
+            $bgHeader = $esAtendido ? 'background:#065f46;' : ''; // Verde si está atendido, azul marino por defecto (clase cuenta-card-header)
+            $iconoHeader = $esAtendido ? 'fa-check-double' : 'fa-clock';
+            $badgeColor = $esAtendido ? 'rgba(255,255,255,.2)' : 'rgba(255,255,255,.15)';
+            $badgeTexto = $esAtendido ? 'Atendido' : 'Pendiente';
+            
+            // Formatear la fecha
+            $fechaFormato = date("d/m/Y H:i", strtotime($sol['fechayhora']));
+            
+            // Prevenir null en el producto si algo falló en la consulta
+            $nombreProd = $sol['nombre_producto'] ? $sol['nombre_producto'] : 'Producto no especificado';
+    ?>
+            <div class="cuenta-card mb-3">
+                <div class="cuenta-card-header" style="<?php echo $bgHeader; ?>">
+                    <span><i class="fas <?php echo $iconoHeader; ?> me-1"></i> #<?php echo str_pad($sol['folio_solicitud'], 5, "0", STR_PAD_LEFT); ?> — <?php echo $tipoTexto; ?></span>
+                    <span style="background:<?php echo $badgeColor; ?>;color:#fff;font-size:.72rem;padding:.2rem .65rem;border-radius:2rem;font-weight:700">
+                        <?php echo $badgeTexto; ?>
+                    </span>
+                </div>
+                <div class="cuenta-card-body">
+                    <div class="row g-2 mb-2">
+                        <div class="col-md-4">
+                            <div class="perfil-label">Fecha</div>
+                            <div class="perfil-valor" style="font-size:.84rem"><?php echo $fechaFormato; ?></div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="perfil-label">Producto(s)</div>
+                            <div class="perfil-valor" style="font-size:.84rem"><?php echo htmlspecialchars($nombreProd); ?></div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="perfil-label">Asunto</div>
+                            <div class="perfil-valor" style="font-size:.84rem"><?php echo htmlspecialchars($sol['asunto']); ?></div>
+                        </div>
+                    </div>
+
+                    <?php if ($esAtendido) { ?>
+                        <!-- Mensaje de resuelto -->
                         <div class="p-2 rounded" style="background:#f0fdf4;border-left:3px solid #065f46;font-size:.8rem;color:#333">
                             <strong style="color:#065f46"><i class="fas fa-comment-dots me-1"></i> Respuesta del vendedor:</strong><br>
-                            Se realizó el cambio de la unidad por una nueva. El cliente confirmó recibir el producto en buen estado.
+                            <?php echo nl2br(htmlspecialchars($sol['respuesta'])); ?>
                         </div>
-                    </div>
-                </div>
-
-                <div class="cuenta-card mb-3">
-                    <div class="cuenta-card-header">
-                        <span><i class="fas fa-clock me-1"></i> LC-SOL-240001 — Garantía</span>
-                        <span style="background:rgba(255,255,255,.15);color:#fff;font-size:.72rem;padding:.2rem .65rem;border-radius:2rem;font-weight:700">
-                            Pendiente
-                        </span>
-                    </div>
-                    <div class="cuenta-card-body">
-                        <div class="row g-2 mb-2">
-                            <div class="col-md-4">
-                                <div class="perfil-label">Fecha</div>
-                                <div class="perfil-valor" style="font-size:.84rem">21/03/2026 09:15</div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="perfil-label">Producto</div>
-                                <div class="perfil-valor" style="font-size:.84rem">8MWTW2024WJM — Lavadora 20kg</div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="perfil-label">Asunto</div>
-                                <div class="perfil-valor" style="font-size:.84rem">Lavadora no enciende tras instalación</div>
-                            </div>
-                        </div>
+                    <?php } else { ?>
+                        <!-- Mensaje de pendiente -->
                         <div class="p-2 rounded" style="background:#f8fafc;border-left:3px solid #d0dae8;font-size:.8rem;color:#888">
                             <i class="fas fa-hourglass-half me-1"></i> En espera de atención por parte del vendedor.
                         </div>
-                    </div>
-                </div>
+                    <?php } ?>
 
-                        </div><!-- /listaSolicitudes -->
+                </div>
+            </div>
+    <?php 
+        } 
+    } else { 
+    ?>
+        <!-- Mensaje si no hay solicitudes -->
+        <div style="text-align:center; padding: 2rem; color: #6c757d;">
+            <i class="fas fa-inbox fa-3x mb-3" style="color: #dee2e6;"></i>
+            <p>No tienes solicitudes registradas.</p>
+        </div>
+    <?php } ?>
+</div><!-- /listaSolicitudes -->
 
                         <div id="formNuevaSolicitudWrapper" style="display:none">
                         <div class="row g-4">
@@ -558,10 +565,10 @@ foreach($pedidosAgrupados as $p) {
                 <p class="sol-page-sub">
                     Completa los campos para registrar tu solicitud de garantía o devolución.
                 </p>
-
                 <div class="cuenta-card">
+                    <form action="/proyectoweb/mi-perfil/inicio" method="POST" enctype="multipart/form-data">
                     <div class="cuenta-card-body">
-
+                       
                         <p class="sol-required-note">
                             Los campos marcados con <span>*</span> son obligatorios.
                         </p>
@@ -578,13 +585,12 @@ foreach($pedidosAgrupados as $p) {
                                 <label class="form-label fw-semibold small" for="solTipo">
                                     Tipo de solicitud <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-select" id="solTipo"
+                                <select class="form-select" id="solTipo" name="tipo"
                                         onchange="actualizarResumen()">
-                                    <option value="">— Seleccionar tipo —</option>
-                                    <option value="Garantía">Garantía</option>
-                                    <option value="Devolución">Devolución</option>
+                                    <option value="" disabled>— Seleccionar tipo —</option>
+                                    <option value="G">Garantía</option>
+                                    <option value="S">Devolución</option>
                                 </select>
-                                <div class="invalid-feedback">Selecciona el tipo de solicitud.</div>
                             </div>
 
                             <!-- No. Referencia — CreaSolicitud.NoReferencia -->
@@ -592,11 +598,10 @@ foreach($pedidosAgrupados as $p) {
                                 <label class="form-label fw-semibold small" for="solNoReferencia">
                                     No. de referencia de compra <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="solNoReferencia"
-                                       placeholder="Ej: LC-2026-0041"
+                                <input type="text" class="form-control" name="no_orden" id="solNoReferencia"
+                                       placeholder="Ej: 1"
                                        oninput="actualizarResumen()">
                                 <div class="form-text">Número de orden asociado al producto.</div>
-                                <div class="invalid-feedback">Ingresa el número de referencia.</div>
                             </div>
 
                         </div><!-- /row datos generales -->
@@ -613,12 +618,11 @@ foreach($pedidosAgrupados as $p) {
                                 <label class="form-label fw-semibold small" for="solAsunto">
                                     Asunto <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="solAsunto"
+                                <input type="text" class="form-control" name="asunto" id="solAsunto"
                                        maxlength="120"
                                        placeholder="Resumen breve del problema…"
                                        oninput="actualizarResumen(); contarCaracteres(this,'solAsuntoCount',120)">
                                 <div class="d-flex justify-content-between mt-1">
-                                    <div class="invalid-feedback">El asunto es obligatorio.</div>
                                     <small class="text-muted ms-auto" style="font-size:.7rem">
                                         <span id="solAsuntoCount">0</span>/120
                                     </small>
@@ -630,12 +634,11 @@ foreach($pedidosAgrupados as $p) {
                                 <label class="form-label fw-semibold small" for="solDescripcion">
                                     Descripción <span class="text-danger">*</span>
                                 </label>
-                                <textarea class="form-control" id="solDescripcion"
+                                <textarea  name="descripcion" class="form-control" id="solDescripcion"
                                           rows="5" style="resize:vertical" maxlength="1000"
                                           placeholder="Describe el problema con detalle: cuándo ocurrió, qué síntomas presenta, si ya intentaste alguna solución, etc."
                                           oninput="contarCaracteres(this,'solDescCount',1000)"></textarea>
                                 <div class="d-flex justify-content-between mt-1">
-                                    <div class="invalid-feedback">La descripción es obligatoria.</div>
                                     <small class="text-muted ms-auto" style="font-size:.7rem">
                                         <span id="solDescCount">0</span>/1000
                                     </small>
@@ -651,7 +654,7 @@ foreach($pedidosAgrupados as $p) {
 
                         <!-- Zona de arrastre -->
                         <div class="sol-dropzone" id="solDropzone">
-                            <input type="file" id="solEvidencia"
+                            <input type="file" name="evidencia" id="solEvidencia"
                                    accept="image/*,.pdf"
                                    onchange="manejarEvidencia(this)">
                             <i class="fas fa-cloud-upload-alt sol-dropzone-icon"></i>
@@ -676,7 +679,7 @@ foreach($pedidosAgrupados as $p) {
 
                         <!-- Acciones -->
                         <div class="sol-actions">
-                            <button class="btn-sol-enviar" id="btnEnviar" type="button" onclick="enviarSolicitud()">
+                            <button type="submit" name="solicitar" class="btn-sol-enviar" id="btnEnviar">
                                 <i class="fas fa-paper-plane"></i> Enviar solicitud
                             </button>
                             <button type="button" class="btn-sol-cancelar" onclick="cancelarNuevaSolicitud()">
@@ -685,6 +688,7 @@ foreach($pedidosAgrupados as $p) {
                         </div>
 
                     </div><!-- /cuenta-card-body -->
+                    </form>
                 </div><!-- /cuenta-card -->
 
             </div><!-- /col formulario -->
@@ -714,7 +718,68 @@ foreach($pedidosAgrupados as $p) {
 
     </main>
 </div><!-- /cuenta-layout -->
+<?php include('vista/footer_gral.php'); ?>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const estadosYCiudades = {
+        "Aguascalientes": ["Aguascalientes", "Jesús María", "Calvillo", "Rincón de Romos"],
+        "Baja California": ["Tijuana", "Mexicali", "Ensenada", "Playas de Rosarito", "Tecate"],
+        "Baja California Sur": ["La Paz", "Los Cabos", "San José del Cabo", "Loreto", "Ciudad Constitución"],
+        "Campeche": ["Campeche", "Ciudad del Carmen", "Champotón", "Escárcega"],
+        "Chiapas": ["Tuxtla Gutiérrez", "Tapachula", "San Cristóbal de las Casas", "Comitán", "Palenque"],
+        "Chihuahua": ["Chihuahua", "Ciudad Juárez", "Delicias", "Cuauhtémoc", "Hidalgo del Parral"],
+        "Ciudad de México": ["Álvaro Obregón", "Azcapotzalco", "Benito Juárez", "Coyoacán", "Cuajimalpa", "Cuauhtémoc", "Gustavo A. Madero", "Iztacalco", "Iztapalapa", "Magdalena Contreras", "Miguel Hidalgo", "Milpa Alta", "Tláhuac", "Tlalpan", "Venustiano Carranza", "Xochimilco"],
+        "Coahuila": ["Saltillo", "Torreón", "Monclova", "Piedras Negras", "Ciudad Acuña"],
+        "Colima": ["Colima", "Manzanillo", "Tecomán", "Villa de Álvarez"],
+        "Durango": ["Durango", "Gómez Palacio", "Lerdo", "Santiago Papasquiaro"],
+        "Estado de México": ["Toluca", "Ecatepec", "Nezahualcóyotl", "Naucalpan", "Tlalnepantla", "Chimalhuacán", "Cuautitlán Izcalli", "Atizapán", "Metepec"],
+        "Guanajuato": ["León", "Irapuato", "Celaya", "Salamanca", "Guanajuato", "San Miguel de Allende"],
+        "Guerrero": ["Acapulco", "Chilpancingo", "Iguala", "Zihuatanejo", "Taxco"],
+        "Hidalgo": ["Pachuca", "Tulancingo", "Tula de Allende", "Tizayuca", "Mineral de la Reforma"],
+        "Jalisco": ["Guadalajara", "Zapopan", "Tlaquepaque", "Tonalá", "Puerto Vallarta", "Tlajomulco de Zúñiga", "Lagos de Moreno"],
+        "Michoacán": ["Morelia", "Uruapan", "Zamora", "Lázaro Cárdenas", "Pátzcuaro"],
+        "Morelos": ["Cuernavaca", "Jiutepec", "Cuautla", "Temixco", "Yautepec"],
+        "Nayarit": ["Tepic", "Bahía de Banderas", "Xalisco", "Compostela"],
+        "Nuevo León": ["Monterrey", "Apodaca", "Guadalupe", "San Nicolás de los Garza", "San Pedro Garza García", "Santa Catarina", "General Escobedo"],
+        "Oaxaca": ["Oaxaca de Juárez", "Salina Cruz", "San Juan Bautista Tuxtepec", "Juchitán de Zaragoza", "Santa María Huatulco"],
+        "Puebla": ["Puebla", "Cholula", "Tehuacán", "Atlixco", "San Martín Texmelucan", "Cuautlancingo"],
+        "Querétaro": ["Querétaro", "San Juan del Río", "Corregidora", "El Marqués", "Tequisquiapan"],
+        "Quintana Roo": ["Cancún", "Playa del Carmen", "Chetumal", "Cozumel", "Tulum"],
+        "San Luis Potosí": ["San Luis Potosí", "Soledad de Graciano Sánchez", "Ciudad Valles", "Matehuala"],
+        "Sinaloa": ["Culiacán", "Mazatlán", "Los Mochis", "Guasave", "Navolato"],
+        "Sonora": ["Hermosillo", "Ciudad Obregón", "Nogales", "San Luis Río Colorado", "Navojoa", "Guaymas"],
+        "Tabasco": ["Villahermosa", "Cárdenas", "Comalcalco", "Macuspana", "Tenosique"],
+        "Tamaulipas": ["Reynosa", "Matamoros", "Nuevo Laredo", "Ciudad Victoria", "Tampico", "Ciudad Madero"],
+        "Tlaxcala": ["Tlaxcala", "Apizaco", "Huamantla", "Chiautempan", "Zacatelco"],
+        "Veracruz": ["Veracruz", "Boca del Río", "Xalapa", "Córdoba", "Orizaba", "Coatzacoalcos", "Minatitlán", "Poza Rica", "Tuxpan"],
+        "Yucatán": ["Mérida", "Valladolid", "Tizimín", "Progreso", "Kanasín"],
+        "Zacatecas": ["Zacatecas", "Guadalupe", "Fresnillo", "Jerez"]
+    };
+
+    const selectEstado = document.getElementById('dEstado');
+    const selectCiudad = document.getElementById('dCiudad');
+
+    selectEstado.addEventListener('change', function() {
+        const estadoSeleccionado = this.value;
+        const ciudades = estadosYCiudades[estadoSeleccionado] || [];
+        selectCiudad.innerHTML = '<option value="" selected disabled>Selecciona una ciudad...</option>';
+        
+        if (ciudades.length > 0) {
+            selectCiudad.disabled = false;
+            ciudades.forEach(ciudad => {
+                const option = document.createElement('option');
+                option.value = ciudad;
+                option.textContent = ciudad;
+                selectCiudad.appendChild(option);
+            });
+        } else {
+            selectCiudad.disabled = true;
+        }
+    });
+});
+</script>
+<script>
+    DIRS = <?php echo json_encode($direcciones); ?>;
     let pedFiltro = 'P';
     let pedPagina = 1;
     const pedPorPag = 3;

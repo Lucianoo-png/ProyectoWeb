@@ -37,9 +37,11 @@ switch($rutaPrincipal){
         case 'inicio':
             $emp = new EmpleadoControlador();
             $prod = new ProductoControlador();
-
+            $ped = new PedidoControlador();
             $total_empleados = count($emp->getEmpleado()->buscar('"Veracruz".empleado',["where"=>"estatus='true'"]));
             $total_productos = count($prod->getProducto()->buscar('"Veracruz".producto',["where"=>"estatus='true'"]));
+            $total_pedidos = count($ped->getPedido()->buscar('"Veracruz".envio'));
+            $ventas_mes = $ped->getPedido()->sumarVentasMes();
             include('vista/admin/vistaadmin.php');
     break;
 
@@ -147,7 +149,30 @@ switch($rutaPrincipal){
     break;
 
     case 'asignar-pedidos':
+        $msj = array();
+        $pedido = new PedidoControlador();
+        $log = new BitacoraControlador();
+        if(isset($_REQUEST["asignar"])){
+            $msj = $pedido->asignarPedidos($log, $_POST);
+        }
+        $cli = new ClienteControlador();
+        $emp = new EmpleadoControlador();
+        $pedidos = $pedido->getPedido()->buscar('"Veracruz".envio',["order"=>"no_orden DESC"]);
+        $total_pedidos_sin_asignar = count($pedido->getPedido()->buscar('"Veracruz".envio',["where rfc_repartidor IS NULL AND fechayhora_asignacion IS NULL"]));
+        $repartidores = $cli->getCliente()->buscar('"Veracruz".empleado',["where"=>"tipousuario='R'","order"=>"rfc DESC"]);
         include('vista/admin/admin_asignar_pedidos.php');
+    break;
+
+    case 'solicitudes':
+        $msj = array();
+        $cli = new ClienteControlador();
+        $emp = new EmpleadoControlador();
+        $log = new BitacoraControlador();
+        if(isset($_REQUEST["guardar"])){
+            $msj = $emp->validarRespuesta($log, $_POST);
+        }
+        $solicitudes = $cli->getCliente()->obtenerSolicitudesAdmin();
+        include('vista/admin/solicitudes.php');
     break;
 
     case 'pedido-proveedor':

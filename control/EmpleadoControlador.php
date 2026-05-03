@@ -546,6 +546,29 @@ class EmpleadoControlador{
         $this->empleado->actualizarContra();
         return ["exito","Contraseña actualizada correctamente"];
     }
+
+    public function actualizarEstado($log, $datos = array()){
+        if($datos['estado_actual']=='P' && $datos['nuevo_estado']=='E'){
+          return ["error","No puede entregar un envío que está en preparación"];
+        }
+
+        if($datos['estado_actual']=='E' && $datos['nuevo_estado']=='R'){
+          return ["error","No puede enviar a ruta un pedido ya entregado."];
+        }
+
+        $this->empleado->actualizarEstado($datos["nuevo_estado"], intval($datos['no_orden']));
+        $log->registrarLog($_SESSION["RFC"], "Estado del pedido #".$datos['no_orden']." actualizado correctamente", "C");
+        return ["exito","Estado del pedido actualizado correctamente"];
+    }
+
+    public function validarRespuesta($log, $datos=array()){
+        if(trim($datos['respuesta'])==''){
+            return ["error","Debe agregar una respuesta para el cliente"];
+        }
+        $this->empleado->responderSolicitud(intval($datos['no_referencia']),mb_strtoupper(trim($datos['respuesta'])));
+        $log->registrarLog($_SESSION["RFC"], "Solicitud # ".$datos['no_referencia']." atendida correctamente", "C");
+        return ["exito","Solicitud respondida correctamente"];
+    }
 }
 
 ?>

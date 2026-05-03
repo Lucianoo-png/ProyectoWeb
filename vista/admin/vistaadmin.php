@@ -41,14 +41,14 @@
                 <div class="col">
                     <a href="/proyectoweb/admin/pedidos" class="stat-card">
                         <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
-                        <div class="stat-num">0</div>
+                        <div class="stat-num"><?php echo $total_pedidos ?></div>
                         <div class="stat-label">Pedido(s)</div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="/proyectoweb/admin/ventas" class="stat-card">
                         <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-                        <div class="stat-num">$0.0</div>
+                        <div class="stat-num">$<?php echo number_format($ventas_mes, 2); ?></div>
                         <div class="stat-label">Ventas del mes</div>
                     </a>
                 </div>
