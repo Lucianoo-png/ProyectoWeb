@@ -27,31 +27,39 @@
                 <div class="col">
                     <a href="/proyectoweb/admin/personal" class="stat-card">
                         <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
                         <div class="stat-num"><?php echo $total_empleados; ?></div>
                         <div class="stat-label">Empleado(s)</div>
+                        </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="/proyectoweb/admin/productos" class="stat-card">
                         <div class="stat-icon"><i class="fas fa-box-open"></i></div>
+                        <div class="stat-info">
                         <div class="stat-num"><?php echo $total_productos; ?></div>
                         <div class="stat-label">Producto(s)</div>
+                        </div>
                     </a>
                 </div>
                 <div class="col">
                     <a href="/proyectoweb/admin/pedidos" class="stat-card">
                         <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="stat-info">
                         <div class="stat-num"><?php echo $total_pedidos ?></div>
                         <div class="stat-label">Pedido(s)</div>
+                        </div>
                     </a>
                 </div>
                 <div class="col">
-                    <a href="/proyectoweb/admin/ventas" class="stat-card">
+                  <a href="/proyectoweb/admin/ventas" class="stat-card">
                         <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="stat-info">
                         <div class="stat-num">$<?php echo number_format($ventas_mes, 2); ?></div>
-                        <div class="stat-label">Ventas del mes</div>
-                    </a>
-                </div>
+                        <div class="stat-label stat-label-ventas ">Ventas del mes</div>
+                        </div>
+    </a>
+</div>
             </div>
         </main>
     </div>

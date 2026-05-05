@@ -424,27 +424,28 @@
 
     /* Cada celda = fila dentro de la tarjeta */
     .lc-table-card tbody td {
-    display: flex;
-    align-items: center; /* Esto hace el trabajo de vertical-align */
-    padding: .52rem .9rem;
-    border-bottom: 1px solid #f1f5f9;
-    font-size: .83rem;
-    color: #333;
-    text-align: left !important;
-    /* Elimina vertical-align: middle !important; */
-}
+        display       : flex;
+        flex-direction: column;      /* label arriba, valor abajo — no al lado */
+        align-items   : flex-start;
+        padding       : .45rem .9rem;
+        border-bottom : 1px solid #f1f5f9;
+        font-size     : .83rem;
+        color         : #333;
+        text-align    : left !important;
+    }
     .lc-table-card tbody td:last-child { border-bottom: none; }
 
     /* Etiqueta de columna encima del valor */
     .lc-table-card tbody td[data-label]::before {
-        content      : attr(data-label);
-        display      : block;
-        font-size    : .62rem;
-        font-weight  : 700;
+        content       : attr(data-label);
+        display       : block;
+        font-size     : .58rem;
+        font-weight   : 700;
         text-transform: uppercase;
         letter-spacing: .07em;
-        color        : #8a9bb5;
-        margin-bottom: .18rem;
+        color         : #8a9bb5;
+        margin-bottom : .1rem;
+        line-height   : 1.2;
     }
 
     /* Primera celda (folio/SKU) destacada */
@@ -801,5 +802,28 @@
         left    : 0;
         right   : 0;
         width   : 100%;
+    }
+}
+/* ══════════════════════════════════════════════════════════
+   CARRITO — responsive (centrado en móvil)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .cart-layout {
+        flex-direction: column;
+        align-items: center;
+        padding: 0 16px 32px;
+        gap: 16px;
+    }
+    .cart-card {
+        width: 100%;
+        max-width: 480px;
+        flex: 1 1 auto;
+    }
+    .cart-summary-box {
+        width: 100%;
+        max-width: 480px;
+        flex: 1 1 auto;
+        min-width: 0;
+        position: static;
     }
 }

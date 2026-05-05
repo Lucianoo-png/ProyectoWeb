@@ -1,69 +1,76 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const inputBuscador = document.getElementById('buscadorEnVivo');
-    const contenedorResultados = document.getElementById('resultadosBuscador');
-    if (!inputBuscador || !contenedorResultados) {
-        return; 
-    }
-    let timeoutId;
+    const inputDesktop  = document.getElementById('buscadorEnVivo');
+    const dropDesktop   = document.getElementById('resultadosBuscador');
+    const inputMovil    = document.getElementById('buscadorMovil');
+    const dropMovil     = document.getElementById('resultadosBuscadorMovil');
 
-    inputBuscador.addEventListener('input', function() {
-        const query = this.value.trim();
+    /* ── Función central de búsqueda ──────────────────────────────
+       Recibe el query, llama al API y rellena el dropdown indicado.
+    ─────────────────────────────────────────────────────────────── */
+    function buscar(query, contenedor) {
+        contenedor.innerHTML = '';
 
-        // Limpiamos el temporizador anterior
-        clearTimeout(timeoutId);
-
-        // Si borró el texto o tiene menos de 1 caracteres, ocultamos
         if (query.length < 1) {
-            contenedorResultados.style.display = 'none';
-            contenedorResultados.innerHTML = '';
+            contenedor.style.display = 'none';
             return;
         }
 
-        // Esperamos 300ms después de que el usuario deja de escribir para hacer la petición
-        timeoutId = setTimeout(() => {
-            // Hacemos la petición a tu endpoint PHP
-            fetch(`/proyectoweb/api_buscar_productos?q=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(data => {
-                    contenedorResultados.innerHTML = ''; // Limpiamos resultados anteriores
+        fetch(`/proyectoweb/api_buscar_productos?q=${encodeURIComponent(query)}`)
+            .then(r => r.json())
+            .then(data => {
+                contenedor.innerHTML = '';
 
-                    if (data.length > 0) {
-                        data.forEach(prod => {
-                            // Creamos la opción para cada producto
-                            const item = document.createElement('a');
-                            item.className = 'dropdown-item';
-                            // URL dinámica a la que mandará al hacer clic
-                            item.href = `/proyectoweb/producto/${prod.no_producto}`;
-                            
-                            item.innerHTML = `
-                                <span class="producto-sugerencia-nombre">${prod.nombre}</span>
-                                <span class="producto-sugerencia-precio">$${parseFloat(prod.precio_venta).toFixed(2)}</span>
-                            `;
-                            
-                            contenedorResultados.appendChild(item);
-                        });
-                        contenedorResultados.style.display = 'block'; // Mostramos la caja
-                    } else {
-                        // Si no hay resultados (o no hay con stock)
-                        contenedorResultados.innerHTML = '<div class="p-3 text-muted text-center small">No se encontraron productos disponibles.</div>';
-                        contenedorResultados.style.display = 'block';
-                    }
-                })
-                .catch(error => console.error('Error en la búsqueda:', error));
-        }, 300); // 300 milisegundos de espera
-    });
+                if (data.length > 0) {
+                    data.forEach(prod => {
+                        const item = document.createElement('a');
+                        item.className = 'dropdown-item';
+                        item.href = `/proyectoweb/producto/${prod.no_producto}`;
+                        item.innerHTML = `
+                            <span class="producto-sugerencia-nombre">${prod.nombre}</span>
+                            <span class="producto-sugerencia-precio">$${parseFloat(prod.precio_venta).toFixed(2)}</span>
+                        `;
+                        contenedor.appendChild(item);
+                    });
+                } else {
+                    contenedor.innerHTML = '<div class="p-3 text-muted text-center small">No se encontraron productos disponibles.</div>';
+                }
 
-    // Ocultar la caja si el usuario da clic afuera del buscador
-    document.addEventListener('click', function(e) {
-        if (!inputBuscador.contains(e.target) && !contenedorResultados.contains(e.target)) {
-            contenedorResultados.style.display = 'none';
-        }
-    });
+                contenedor.style.display = 'block';
+            })
+            .catch(err => console.error('Error en la búsqueda:', err));
+    }
 
-    // Volver a mostrar si le da clic al input y ya hay texto
-    inputBuscador.addEventListener('focus', function() {
-        if (this.value.trim().length >= 1 && contenedorResultados.innerHTML !== '') {
-            contenedorResultados.style.display = 'block';
-        }
-    });
+    /* ── Conectar un input a su dropdown ──────────────────────── */
+    function conectar(input, contenedor) {
+        if (!input || !contenedor) return;
+
+        let timeoutId;
+
+        input.addEventListener('input', function () {
+            clearTimeout(timeoutId);
+            const query = this.value.trim();
+            if (query.length < 1) {
+                contenedor.style.display = 'none';
+                contenedor.innerHTML = '';
+                return;
+            }
+            timeoutId = setTimeout(() => buscar(query, contenedor), 300);
+        });
+
+        input.addEventListener('focus', function () {
+            if (this.value.trim().length >= 1 && contenedor.innerHTML !== '') {
+                contenedor.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!input.contains(e.target) && !contenedor.contains(e.target)) {
+                contenedor.style.display = 'none';
+            }
+        });
+    }
+
+    /* ── Inicializar desktop y móvil ──────────────────────────── */
+    conectar(inputDesktop, dropDesktop);
+    conectar(inputMovil,   dropMovil);
 });
