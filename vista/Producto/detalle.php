@@ -3,7 +3,8 @@
 $productoControl = new ProductoControlador();
 
 $resProd = $productoControl->getProducto()->buscar('"Veracruz".producto', [
-    "where" => "no_producto = $id_producto AND stock > 0 AND estatus = 'true'"
+    "select" => "*, GREATEST(stock - stock_reservado, 0) AS stock_disponible",
+    "where" => "no_producto = $id_producto AND (stock - stock_reservado) > 0 AND estatus = 'true'"
 ]);
 
 if(!isset($resProd[0])){
@@ -36,7 +37,7 @@ $coloresHex = [
     'Verde Pizarra'    => '#4a6741',
 ];
 
-$stockActual = intval($p['stock']);
+$stockActual = intval($p['stock_disponible']);
 $tieneStock  = ($stockActual > 0);
 $maxStock    = $stockActual;
 

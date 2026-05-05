@@ -1,20 +1,16 @@
-
 (function() {
     // CONFIGURACIÓN
-    const MAX_IDLE_TIME = 15 * 60; // 15 minutos en segundos
-    const WARNING_TIME = 14 * 60;  // Alerta al minuto 14
-    
-    let idleSecondsCounter = 0;
+    const MAX_IDLE_TIME = 15 * 60;
+    const WARNING_TIME = 14 * 60;
+    let lastActivityTime = Date.now(); 
     let isModalOpen = false;
-
-    // 1. CREAR EL MODAL DE CERO (HTML Y CSS INYECTADO)
     const style = document.createElement('style');
     style.innerHTML = `
         #luchanos-session-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 35, 102, 0.85); /* Azul Marino con transparencia */
+            background: rgba(0, 35, 102, 0.85);
             z-index: 999999; display: none; align-items: center; justify-content: center;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
         .luchanos-modal {
             background: #fff; padding: 30px; border-radius: 12px; width: 90%; max-width: 400px;
@@ -48,7 +44,6 @@
     `;
     document.body.appendChild(overlay);
 
-    // 2. DETECCIÓN DE RUTA DE LOGOUT
     function getLogoutUrl() {
         const path = window.location.pathname;
         if (path.includes('/admin/')) return '/proyectoweb/admin/logout';
@@ -56,57 +51,50 @@
         if (path.includes('/proveedor/')) return '/proyectoweb/proveedor/logout';
         if (path.includes('/repartidor/')) return '/proyectoweb/repartidor/logout';
         if (path.includes('/mi-perfil/')) return '/proyectoweb/mi-perfil/logout';
-        return '/proyectoweb/logout'; // Default
+        return '/proyectoweb/logout';
     }
 
-    function resetLocalTimer() {
+    function updateLastActivity() {
         if (!isModalOpen) {
-            idleSecondsCounter = 0;
+            lastActivityTime = Date.now();
         }
     }
 
-    // Eventos que resetean la inactividad
-    window.onload = resetLocalTimer;
-    window.onmousemove = resetLocalTimer;
-    window.onmousedown = resetLocalTimer;
-    window.ontouchstart = resetLocalTimer;
-    window.onclick = resetLocalTimer;
-    window.onkeydown = resetLocalTimer;
-    window.addEventListener('scroll', resetLocalTimer, true);
+    window.addEventListener('load', updateLastActivity);
+    window.addEventListener('mousemove', updateLastActivity);
+    window.addEventListener('mousedown', updateLastActivity);
+    window.addEventListener('touchstart', updateLastActivity);
+    window.addEventListener('click', updateLastActivity);
+    window.addEventListener('keydown', updateLastActivity);
+    window.addEventListener('scroll', updateLastActivity, true);
+    
+    window.addEventListener('focus', updateLastActivity);
 
-    // 3. RELOJ MAESTRO (Corre cada segundo)
     setInterval(function() {
-        idleSecondsCounter++;
+        const currentTime = Date.now();
+        const idleSeconds = Math.floor((currentTime - lastActivityTime) / 1000);
         
-        // Si llegamos al minuto 14, mostramos alerta
-        if (idleSecondsCounter === WARNING_TIME) {
-            showWarning();
-        }
-
-        // Si llegamos a los 15 minutos, logout automático
-        if (idleSecondsCounter >= MAX_IDLE_TIME) {
+        if (idleSeconds >= MAX_IDLE_TIME) {
             window.location.href = getLogoutUrl();
+            return;
         }
 
-        // Actualizar contador visual si el modal está abierto
+        if (idleSeconds >= WARNING_TIME && !isModalOpen) {
+            isModalOpen = true;
+            overlay.style.display = 'flex';
+        }
+
         if (isModalOpen) {
-            const remaining = MAX_IDLE_TIME - idleSecondsCounter;
+            const remaining = MAX_IDLE_TIME - idleSeconds;
             document.getElementById('session-countdown').innerText = remaining > 0 ? remaining : 0;
         }
     }, 1000);
 
-    function showWarning() {
-        isModalOpen = true;
-        overlay.style.display = 'flex';
-    }
-
-    // 4. ACCIONES DEL MODAL
     document.getElementById('btn-extend-session').onclick = function() {
-        // Llamada silenciosa al servidor para refrescar la sesión PHP
         fetch('/proyectoweb/sesion_activa.php')
             .then(() => {
                 isModalOpen = false;
-                idleSecondsCounter = 0;
+                lastActivityTime = Date.now();
                 overlay.style.display = 'none';
                 console.log("Sesión extendida correctamente.");
             });

@@ -76,7 +76,7 @@ class Pedido {
         if ($idPedido) {
             foreach ($productos as $item) {
                 $pData = $this->conexion->ejecutarConsulta(
-                    'SELECT no_producto, stock, stockminimo FROM "Veracruz".producto WHERE no_producto = ?', 
+                    'SELECT no_producto, stock, stockminimo, stock_reservado FROM "Veracruz".producto WHERE no_producto = ?', 
                     [$item['id_producto']]
                 )->fetchAll(PDO::FETCH_ASSOC);
 
@@ -88,8 +88,16 @@ class Pedido {
                 $idProd = $pData[0]['no_producto'];
                 $stockActual = $pData[0]['stock'];
                 $stockMinimo = $pData[0]['stockminimo'];
+                $stockReservado = $pData[0]['stock_reservado'];
                 $cantidad = $item['qty'];
-                $precioSinIva = $item['precio'];
+               
+
+                if ($stockActual < $cantidad) {
+                    $this->conexion->cancelarTransaccion();
+                    return false; // El controlador ya maneja un mensaje de error si esto retorna false
+                }
+
+                 $precioSinIva = $item['precio'];
                 $subtotalProducto = $precioSinIva * $cantidad;
                 $totalConIva = $subtotalProducto * 1.16;
 
@@ -117,9 +125,19 @@ class Pedido {
                 $this->conexion->ejecutarConsulta($queryPDC, [$idProd, $idDetalle]);
 
                 $nuevoStock = $stockActual - $cantidad;
+                $nuevoReservado = $stockReservado;
+
+                if ($nuevoStock < $stockReservado) {
+                    $nuevoReservado = $nuevoStock;
+                    $this->conexion->ejecutarConsulta(
+                        'DELETE FROM "Veracruz".carrito_reserva WHERE no_producto = ?', 
+                        [$idProd]
+                    );
+                }
+
                 $this->conexion->ejecutarConsulta(
-                    'UPDATE "Veracruz".producto SET stock = ? WHERE no_producto = ?', 
-                    [$nuevoStock, $idProd]
+                    'UPDATE "Veracruz".producto SET stock = ?, stock_reservado = ? WHERE no_producto = ?', 
+                    [$nuevoStock, $nuevoReservado, $idProd]
                 );
 
                 $nuevoEstado = 'S';
