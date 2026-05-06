@@ -625,6 +625,27 @@
     .step-label     { font-size: .65rem; }
 }
 
+/* ── Checkout steps: iPhone SE y pantallas ≤ 400px ─────────────
+   El texto "Información de Envío" se corta en 375px.
+   Reducimos tamaño del círculo, fuente y líneas conectoras.      */
+@media (max-width: 400px) {
+    .checkout-steps { padding: .65rem .2rem; gap: 0; }
+    .step-circle    { width: 34px; height: 34px; font-size: .8rem; }
+    .step-label     { font-size: .56rem; max-width: 58px; line-height: 1.2;
+                      word-break: break-word; hyphens: auto; white-space: normal; }
+    .step-line      { min-width: 12px; max-width: 24px; }
+}
+
+/* ── Carrito: centrado y ancho completo en tablet (769–991px) ─── */
+@media (min-width: 769px) and (max-width: 991px) {
+    .cart-layout {
+        justify-content: center;
+        padding: 0 24px 40px;
+    }
+    .cart-card   { max-width: 620px; }
+    .summary-card { flex: 0 0 260px; width: 260px; min-width: 220px; }
+}
+
 
     /* ── Carrusel: móvil y tablet ──
        Usar contain para no recortar ni pixelar imágenes de producto.

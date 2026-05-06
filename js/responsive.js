@@ -653,6 +653,85 @@
     }
 
     /* ════════════════════════════════════════════════
+       DROPDOWN DE FILTRO DE PEDIDOS (Mis Pedidos)
+       En móvil (≤768px) los 3 botones de tab desbordan.
+       Se inyecta un <select> que llama a filtrarPedidos()
+       y se mantiene sincronizado cuando los botones
+       originales son pulsados desde desktop.
+    ════════════════════════════════════════════════ */
+    function _inyectarSelectPedidos() {
+        if (window.innerWidth > 768) return;
+
+        var tabsEl = document.querySelector('.pedido-tabs');
+        if (!tabsEl || document.querySelector('.ped-select-wrap')) return;
+
+        var buttons = Array.from(tabsEl.querySelectorAll('.pedido-tab-btn'));
+        if (!buttons.length) return;
+
+        var wrap = document.createElement('div');
+        wrap.className = 'ped-select-wrap';
+
+        var select = document.createElement('select');
+        select.className = 'ped-select';
+        select.setAttribute('aria-label', 'Filtrar mis pedidos');
+
+        buttons.forEach(function (btn) {
+            var m = (btn.getAttribute('onclick') || '')
+                        .match(/filtrarPedidos\s*\(\s*['"]([^'"]+)['"]/);
+            if (!m) return;
+            var estado = m[1];
+
+            /* Texto sin el badge numérico */
+            var clone = btn.cloneNode(true);
+            clone.querySelectorAll('.tab-badge, i').forEach(function (n) { n.remove(); });
+            var texto = clone.textContent.trim().replace(/\s+/g, ' ');
+
+            var badge = btn.querySelector('.tab-badge');
+            var count = badge ? badge.textContent.trim() : '0';
+
+            var opt = document.createElement('option');
+            opt.value = estado;
+            opt.textContent = count !== '0' ? texto + ' (' + count + ')' : texto;
+            if (btn.classList.contains('active')) opt.selected = true;
+            select.appendChild(opt);
+        });
+
+        var icon = document.createElement('i');
+        icon.className = 'fas fa-chevron-down ped-select-icon';
+
+        wrap.appendChild(select);
+        wrap.appendChild(icon);
+        tabsEl.parentNode.insertBefore(wrap, tabsEl);
+
+        /* Evento change → filtrarPedidos */
+        select.addEventListener('change', function () {
+            var estado = this.value;
+            var btnOrig = tabsEl.querySelector(
+                '.pedido-tab-btn[onclick*="\'' + estado + '\'"]'
+            );
+            if (typeof window.filtrarPedidos === 'function') {
+                window.filtrarPedidos(estado, btnOrig || select);
+            }
+        });
+
+        /* Parchear filtrarPedidos para mantener select en sync */
+        var intentos = 0;
+        var poll = setInterval(function () {
+            intentos++;
+            if (typeof window.filtrarPedidos !== 'function') {
+                if (intentos > 40) clearInterval(poll);
+                return;
+            }
+            clearInterval(poll);
+            var _orig = window.filtrarPedidos;
+            window.filtrarPedidos = function (estado, btn) {
+                _orig.call(this, estado, btn);
+                if (select.value !== estado) select.value = estado;
+            };
+        }, 50);
+    }
+
+    /* ════════════════════════════════════════════════
        ARREGLAR FOOTER EN MÓVIL (respaldo JS)
        body es flex-column min-height:100dvh,
        cuenta-layout tiene flex:1 → footer al fondo.
@@ -712,6 +791,7 @@
         _fixTablasMobile();     // Arregla overflow en cuenta-card
         _fixFooterMobile();     // Pega el footer al fondo del viewport
         _patchSwitchPanel();    // Re-aplica fixes al cambiar de panel
+        _inyectarSelectPedidos(); // Dropdown para filtro de pedidos en móvil
 
         btnHamb = document.querySelector('.btn-hamburguesa');
     }

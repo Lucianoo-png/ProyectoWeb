@@ -30,6 +30,25 @@
         </div>
     </div>
 
+<!-- BUSCADOR MÓVIL (visible solo en ≤768px via responsive.css) -->
+<div class="search-bar-mobile">
+    <div class="input-group">
+        <input type="text"
+               id="buscadorMovil"
+               class="form-control"
+               placeholder="¿Qué estás buscando?"
+               autocomplete="off">
+        <button class="btn-buscar-movil" type="button" aria-label="Buscar">
+            <i class="fas fa-search"></i>
+        </button>
+        <div id="resultadosBuscadorMovil"
+             class="dropdown-menu w-100 shadow-lg"
+             style="display:none; position:absolute; top:100%; left:0; z-index:1050; max-height:60vh; overflow-y:auto; border-radius:0 0 8px 8px;">
+        </div>
+    </div>
+</div>
+
+
       <div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
         <div class="container">
             <ul class="nav nav-categories justify-content-center">
