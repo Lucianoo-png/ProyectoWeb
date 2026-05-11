@@ -108,6 +108,66 @@ $prod_js = json_encode([
     </div>
 </div>
 
+<!-- BUSCADOR MÓVIL (visible solo en ≤991px via responsive.css) -->
+<div class="search-bar-mobile">
+    <div class="input-group">
+        <input type="text"
+               id="buscadorMovil"
+               class="form-control"
+               placeholder="¿Qué estás buscando?"
+               autocomplete="off">
+        <button class="btn-buscar-movil" type="button" aria-label="Buscar">
+            <i class="fas fa-search"></i>
+        </button>
+        <div id="resultadosBuscadorMovil"
+             class="dropdown-menu w-100 shadow-lg"
+             style="display:none; position:absolute; top:100%; left:0; z-index:1050; max-height:60vh; overflow-y:auto; border-radius:0 0 8px 8px;">
+        </div>
+    </div>
+</div>
+
+<!-- BARRA DE CATEGORÍAS (oculta en móvil por CSS, leída por el menú lateral JS) -->
+<div class="bg-white border-bottom shadow-sm sticky-top" style="overflow:visible; z-index:1020">
+    <div class="container">
+        <ul class="nav nav-categories justify-content-center">
+            <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-blanca">Línea Blanca</a></li>
+            <li class="nav-item"><a class="nav-link" href="/proyectoweb/linea-marron">Línea Marrón</a></li>
+            <li class="nav-item"><a class="nav-link" href="/proyectoweb/cocina">Cocina</a></li>
+            <li class="nav-item dropdown mega-dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
+                   href="#" id="megaDropdown" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-th-large me-1 small"></i> Categorías Específicas
+                </a>
+                <div class="dropdown-menu mega-menu" aria-labelledby="megaDropdown">
+                    <div class="row g-3">
+                        <div class="col-6 category-col">
+                            <h6>Lavado</h6>
+                            <a class="dropdown-item" href="/proyectoweb/lavadoras"><i class="fas fa-tshirt"></i> Lavadoras</a>
+                            <a class="dropdown-item" href="/proyectoweb/secadoras"><i class="fas fa-wind"></i> Secadoras</a>
+                            <a class="dropdown-item" href="/proyectoweb/lavasecadoras"><i class="fas fa-sync-alt"></i> Lavasecadoras</a>
+                            <h6 class="mt-3">Refrigeración</h6>
+                            <a class="dropdown-item" href="/proyectoweb/refrigeradores"><i class="fas fa-snowflake"></i> Refrigeradores</a>
+                            <a class="dropdown-item" href="/proyectoweb/congeladores"><i class="fas fa-cube"></i> Congeladores</a>
+                            <a class="dropdown-item" href="/proyectoweb/frigobar"><i class="fas fa-wine-bottle"></i> Frigobar / Cava de Vinos</a>
+                        </div>
+                        <div class="col-6 category-col">
+                            <h6>Cocina</h6>
+                            <a class="dropdown-item" href="/proyectoweb/hornos"><i class="fas fa-fire"></i> Hornos</a>
+                            <a class="dropdown-item" href="/proyectoweb/estufas"><i class="fas fa-burn"></i> Estufas</a>
+                            <a class="dropdown-item" href="/proyectoweb/microondas"><i class="fas fa-border-all"></i> Microondas</a>
+                            <a class="dropdown-item" href="/proyectoweb/lavavajillas"><i class="fas fa-utensils"></i> Lavavajillas</a>
+                            <h6 class="mt-3">Bienestar</h6>
+                            <a class="dropdown-item" href="/proyectoweb/cuidado-hogar"><i class="fas fa-home"></i> Cuidado del Hogar</a>
+                            <a class="dropdown-item" href="/proyectoweb/cuidado-personal"><i class="fas fa-spa"></i> Cuidado Personal</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <div class="bg-white border-bottom py-2">
     <div class="container">
         <nav aria-label="breadcrumb">
