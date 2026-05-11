@@ -92,7 +92,41 @@ async function agregarAlCarrito() {
         actualizarBadge();
         mostrarAlerta('exito', '¡Producto agregado correctamente a tu carrito!');
     } else {
-        mostrarAlerta('error', data.message || "No hay stock suficiente para agregar esta variante.");
+        // 1. Mostramos el mensaje de error que manda el servidor
+        mostrarAlerta('error', data.message || "No hay stock suficiente.");
+
+        // 2. ACTUALIZACIÓN VISUAL EN TIEMPO REAL
+        // Buscamos el contenedor del estatus de stock
+        const stockStatusBox = document.querySelector('.stock-status-box');
+        const btnCarrito = document.querySelector('button[onclick="agregarAlCarrito()"]');
+        const qtyControl = document.querySelector('.qty-control');
+
+        if (stockStatusBox) {
+            // Cambiamos el mensaje a "Agotado" y el color a rojo
+            stockStatusBox.innerHTML = `
+                <div class="text-danger fw-bold">
+                    <i class="fas fa-times-circle me-1"></i> Producto Agotado
+                    <span class="text-muted fw-normal ms-1" style="font-size: 0.85rem;">
+                        (0 unidad(es) en existencia)
+                    </span>
+                </div>`;
+        }
+
+        // 3. BLOQUEO DE CONTROLES
+        // Desactivamos el botón de compra para que no siga intentando
+        if (btnCarrito) {
+            btnCarrito.disabled = true;
+            btnCarrito.innerHTML = '<i class="fas fa-ban"></i> Agotado';
+            btnCarrito.classList.replace('btn-primary', 'btn-secondary');
+        }
+
+        // Desactivamos selectores de cantidad si existen
+        if (qtyControl) {
+            qtyControl.style.opacity = "0.5";
+            qtyControl.style.pointerEvents = "none";
+            const inputQty = document.getElementById('cantidad');
+            if (inputQty) inputQty.value = 0;
+        }
     }
 }
 
